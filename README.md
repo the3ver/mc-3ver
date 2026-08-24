@@ -42,7 +42,7 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.2
 
 #### Schritt 3: MC 3ver Mod herunterladen
 1. Gehe zu den [GitHub Releases von MC 3ver](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.1.0.jar` herunter.
+2. Lade die Datei `mc-3ver-0.1.1.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -50,7 +50,7 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.2
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.1.0.jar`** in diesen `mods`-Ordner.
+3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.1.1.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
@@ -66,7 +66,7 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.2
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.1.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Ziehe die heruntergeladene `mc-3ver-0.1.1.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
@@ -74,7 +74,7 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.2
 ### Variante C: Dedizierter Server (Multiplayer)
 
 1. Richte einen Minecraft 26.2 Fabric-Server ein.
-2. Platziere `fabric-api-...jar` und `mc-3ver-0.1.0.jar` im `mods/`-Ordner auf dem Server.
+2. Platziere `fabric-api-...jar` und `mc-3ver-0.1.1.jar` im `mods/`-Ordner auf dem Server.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
@@ -122,13 +122,13 @@ Dank des GitHub Actions Release-Workflows wird bei jedem Git-Tag automatisch ein
 
 ```bash
 # 1. Neuen Tag erstellen
-git tag v0.1.0
+git tag v0.1.1
 
 # 2. Tag zu GitHub pushen
-git push origin v0.1.0
+git push origin v0.1.1
 ```
 
-GitHub Actions baut die Mod automatisch und hängt die `mc-3ver-0.1.0.jar` als Download an das Release an.
+GitHub Actions baut die Mod automatisch und hängt die `mc-3ver-0.1.1.jar` als Download an das Release an.
 
 ---
 

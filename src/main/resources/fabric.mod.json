@@ -3,12 +3,12 @@
 	"id": "mc3ver",
 	"version": "${version}",
 	"name": "MC 3ver",
-	"description": "Minecraft Java Edition Mod built for 1.21.4 on Fabric.",
+	"description": "Minecraft Java Edition Mod built for 26.2 on Fabric.",
 	"authors": [
 		"frank"
 	],
 	"contact": {
-		"sources": "https://github.com/frank/mc-3ver"
+		"sources": "https://github.com/the3ver/mc-3ver"
 	},
 	"license": "MIT",
 	"icon": "assets/mc3ver/icon.png",
@@ -31,7 +31,7 @@
 	"depends": {
 		"fabricloader": ">=0.19.0",
 		"minecraft": "~26.2",
-		"java": ">=21",
+		"java": ">=25",
 		"fabric-api": "*"
 	}
 }
