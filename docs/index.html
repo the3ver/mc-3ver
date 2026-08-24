@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MC 3ver — Minecraft 1.21.4 Fabric Mod</title>
+  <meta name="description" content="Offizielle Website und Dokumentation für die Minecraft Java Mod MC 3ver (Fabric 1.21.4, Java 21).">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+</head>
+<body>
+  <!-- Background Glows -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#hero" class="nav-logo">
+        <img src="assets/icon.png" alt="MC 3ver Logo" class="logo-img">
+        <span class="logo-text">MC <span>3ver</span></span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#install" class="nav-link">Installation</a>
+        <a href="#specs" class="nav-link">Anforderungen</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="https://github.com/the3ver/mc-3ver" target="_blank" rel="noopener noreferrer" class="btn btn-secondary nav-gh-btn" id="navGithubLink">
+          <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://github.com/the3ver/mc-3ver/releases/latest" class="btn btn-primary nav-dl-btn" id="navDownloadBtn">
+          <span>Download</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section" id="hero">
+    <div class="container hero-container">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span class="badge-text" id="heroBadgeText">Minecraft 1.21.4 • Fabric • Java 21</span>
+      </div>
+
+      <h1 class="hero-title">
+        Modulares Minecraft-Erlebnis mit <span class="gradient-text">MC 3ver</span>
+      </h1>
+
+      <p class="hero-description">
+        Eine blitzschnelle, moderne Mod für Minecraft Java Edition 1.21.4, entwickelt auf Basis des Fabric Mod Loaders mit voller Java 21 Unterstützung.
+      </p>
+
+      <div class="hero-cta">
+        <a href="https://github.com/the3ver/mc-3ver/releases/latest" class="btn btn-primary btn-lg" id="heroDownloadBtn">
+          <svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>Neueste Version laden</span>
+          <span class="version-tag" id="releaseVersionTag">v1.0.0</span>
+        </a>
+
+        <a href="#install" class="btn btn-secondary btn-lg" id="heroInstallBtn">
+          <svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="10 8 16 12 10 16 10 8"/>
+          </svg>
+          <span>Anleitung ansehen</span>
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-value">1.21.4</span>
+          <span class="stat-label">Minecraft Version</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">Fabric</span>
+          <span class="stat-label">Mod Loader</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">Java 21</span>
+          <span class="stat-label">LTS Runtime</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-value">MIT</span>
+          <span class="stat-label">Open Source</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section class="section features-section" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Highlights & Architektur</h2>
+        <p class="section-subtitle">Modernste Standards für maximale Performance und Erweiterbarkeit.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">High Performance</h3>
+          <p class="feature-text">
+            Dank des leichtgewichtigen Fabric-Frameworks startet Minecraft ohne spürbare Ladezeit-Einbußen und läuft ressourcenschonend.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+              <line x1="6" y1="6" x2="6.01" y2="6"/>
+              <line x1="6" y1="18" x2="6.01" y2="18"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Client & Server kompatibel</h3>
+          <p class="feature-text">
+            Volle Unterstützung für Singleplayer-Welten, LAN-Multiplayer und dedizierte Fabric-Server.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Mojang Mappings</h3>
+          <p class="feature-text">
+            Entwickelt mit den offiziellen Mojang Mappings für sauberen, gut verständlichen und zukunftssicheren Quellcode.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4"/>
+              <path d="M12 16h.01"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Java 21 Power</h3>
+          <p class="feature-text">
+            Nutzt die neuesten Features der Java 21 LTS Plattform für verbesserte Speicherverwaltung und Ausführungsgeschwindigkeit.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Installation Section -->
+  <section class="section install-section" id="install">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Einfache Installation</h2>
+        <p class="section-subtitle">In nur 3 einfachen Schritten startklar für dein nächstes Abenteuer.</p>
+      </div>
+
+      <div class="install-steps">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3 class="step-title">Fabric Loader & API installieren</h3>
+            <p class="step-text">
+              Lade den offiziellen Fabric Installer für Minecraft 1.21.4 herunter und installiere die passende <strong>Fabric API</strong>.
+            </p>
+            <a href="https://fabricmc.net/use/installer/" target="_blank" rel="noopener noreferrer" class="link-btn">
+              Fabric Installer herunterladen &rarr;
+            </a>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3 class="step-title">MC 3ver Mod herunterladen</h3>
+            <p class="step-text">
+              Lade die fertige <code class="code-badge">mc-3ver-1.0.0.jar</code> aus den GitHub Releases herunter.
+            </p>
+            <a href="https://github.com/the3ver/mc-3ver/releases/latest" target="_blank" rel="noopener noreferrer" class="link-btn">
+              Zu den Releases &rarr;
+            </a>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3 class="step-title">In den Mods-Ordner verschieben</h3>
+            <p class="step-text">
+              Platziere die <code class="code-badge">.jar</code>-Datei im Minecraft <code class="code-badge">mods</code>-Ordner deines Systems:
+            </p>
+
+            <!-- OS Tabs -->
+            <div class="os-tabs">
+              <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="windows">Windows</button>
+                <button class="tab-btn" data-tab="macos">macOS</button>
+                <button class="tab-btn" data-tab="linux">Linux</button>
+              </div>
+
+              <div class="tab-pane active" id="tab-windows">
+                <div class="code-box">
+                  <code>%appdata%\.minecraft\mods</code>
+                  <button class="copy-btn" data-clipboard="%appdata%\.minecraft\mods" aria-label="Pfad kopieren">Kopieren</button>
+                </div>
+              </div>
+
+              <div class="tab-pane" id="tab-macos">
+                <div class="code-box">
+                  <code>~/Library/Application Support/minecraft/mods</code>
+                  <button class="copy-btn" data-clipboard="~/Library/Application Support/minecraft/mods" aria-label="Pfad kopieren">Kopieren</button>
+                </div>
+              </div>
+
+              <div class="tab-pane" id="tab-linux">
+                <div class="code-box">
+                  <code>~/.minecraft/mods</code>
+                  <button class="copy-btn" data-clipboard="~/.minecraft/mods" aria-label="Pfad kopieren">Kopieren</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Specs / Requirements -->
+  <section class="section specs-section" id="specs">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Technische Spezifikationen</h2>
+        <p class="section-subtitle">Alles auf einen Blick für Modpack-Ersteller und Entwickler.</p>
+      </div>
+
+      <div class="specs-table-wrapper">
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th>Komponente</th>
+              <th>Version / Anforderung</th>
+              <th>Hinweis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Minecraft Version</strong></td>
+              <td><code>1.21.4</code></td>
+              <td>Java Edition</td>
+            </tr>
+            <tr>
+              <td><strong>Mod Loader</strong></td>
+              <td><code>Fabric Loader >= 0.16.0</code></td>
+              <td>Empfohlen: 0.16.10+</td>
+            </tr>
+            <tr>
+              <td><strong>Fabric API</strong></td>
+              <td><code>0.115.1+1.21.4</code></td>
+              <td>Erforderliche Basis-Bibliothek</td>
+            </tr>
+            <tr>
+              <td><strong>Java Runtime</strong></td>
+              <td><code>Java 21 (LTS)</code></td>
+              <td>z. B. Temurin / Microsoft OpenJDK</td>
+            </tr>
+            <tr>
+              <td><strong>Mod ID</strong></td>
+              <td><code>mc3ver</code></td>
+              <td>Eindeutiger Namespace</td>
+            </tr>
+            <tr>
+              <td><strong>Lizenz</strong></td>
+              <td><code>MIT License</code></td>
+              <td>Frei für Modpacks & Weiterentwicklung</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Häufig gestellte Fragen (FAQ)</h2>
+        <p class="section-subtitle">Antworten auf die wichtigsten Fragen rund um MC 3ver.</p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">Funktioniert die Mod mit Forge oder NeoForge?</summary>
+          <div class="faq-answer">
+            <p>MC 3ver ist nativ für den <strong>Fabric Mod Loader</strong> gebaut. Mit Kompatibilitätslayern wie Sinytra Connector kann sie in bestimmten Setups laufen, empfohlen wird jedoch die Verwendung von Fabric.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Darf ich MC 3ver in meinem Modpack verwenden?</summary>
+          <div class="faq-answer">
+            <p>Ja! MC 3ver steht unter der <strong>MIT Lizenz</strong> und kann frei in öffentlichen oder privaten Modpacks auf Modrinth, CurseForge und GitHub eingebunden werden.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">Wie kompiliere ich die Mod aus dem Quellcode selbst?</summary>
+          <div class="faq-answer">
+            <p>Klone das Repository und führe im Terminal einfach <code>./gradlew build</code> (bzw. <code>.\gradlew.bat build</code> auf Windows) aus. Das fertige JAR findest du anschließend im Verzeichnis <code>build/libs/</code>.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <img src="assets/icon.png" alt="MC 3ver Logo" class="footer-logo">
+        <span class="footer-title">MC 3ver</span>
+        <p class="footer-tagline">Open-Source Minecraft Java Mod</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="https://github.com/the3ver/mc-3ver" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+        <a href="https://github.com/the3ver/mc-3ver/releases" target="_blank" rel="noopener noreferrer">Releases</a>
+        <a href="https://github.com/the3ver/mc-3ver/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a>
+        <a href="https://github.com/the3ver/mc-3ver/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT Lizenz</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 MC 3ver. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
