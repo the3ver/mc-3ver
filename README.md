@@ -2,12 +2,12 @@
 
 [![Build Mod](https://github.com/the3ver/mc-3ver/actions/workflows/build.yml/badge.svg)](https://github.com/the3ver/mc-3ver/actions/workflows/build.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/the3ver/mc-3ver?color=emerald)](https://github.com/the3ver/mc-3ver/releases)
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.21.4-blue)](https://fabricmc.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-26.2-blue)](https://fabricmc.net/)
 [![Fabric](https://img.shields.io/badge/Loader-Fabric-lightgrey)](https://fabricmc.net/)
-[![Java](https://img.shields.io/badge/Java-21-orange)](https://adoptium.net/)
+[![Java](https://img.shields.io/badge/Java-25-orange)](https://adoptium.net/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **1.21.4**, basierend auf dem **Fabric Mod Loader** und **Java 21**.
+Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.2**, basierend auf dem **Fabric Mod Loader** und **Java 25**.
 
 🌐 **Website & Dokumentation:** [the3ver.github.io/mc-3ver](https://the3ver.github.io/mc-3ver/)
 
@@ -15,11 +15,11 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **1.21
 
 ## 📋 Übersicht & Voraussetzungen
 
-- **Minecraft Version:** `1.21.4` (Java Edition)
-- **Mod Loader:** `Fabric Loader` (>= 0.16.0)
-- **Erforderliche Abhängigkeit:** `Fabric API` (für 1.21.4)
-- **Java Runtime:** `Java 21`
-- **Mapping:** Official Mojang Mappings
+- **Minecraft Version:** `26.2` (Java Edition)
+- **Mod Loader:** `Fabric Loader` (>= 0.19.0)
+- **Erforderliche Abhängigkeit:** `Fabric API` (für 26.2)
+- **Java Runtime:** `Java 25 (LTS)`
+- **Mapping:** Unobfuscated (Native Identifiers)
 - **Lizenziert unter:** MIT License
 
 ---
@@ -31,14 +31,14 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **1.21
 #### Schritt 1: Fabric Loader installieren
 1. Öffne die Website [fabricmc.net/use/installer](https://fabricmc.net/use/installer/) und lade den **Universal (.jar)** oder **Windows (.exe)** Installer herunter.
 2. Starte den Installer:
-   - Wähle **Minecraft Version:** `1.21.4`
-   - Wähle **Loader Version:** die neueste empfohlene Version (z. B. `0.16.10` oder höher)
+   - Wähle **Minecraft Version:** `26.2`
+   - Wähle **Loader Version:** `0.19.3` oder höher
    - Klicke auf **Installieren**.
-3. Es wird automatisch ein neues Profil namens `fabric-loader-1.21.4` im Minecraft Launcher angelegt.
+3. Es wird automatisch ein neues Profil namens `fabric-loader-26.2` im Minecraft Launcher angelegt.
 
 #### Schritt 2: Fabric API herunterladen
-1. Besuche [Modrinth Fabric API](https://modrinth.com/mod/fabric-api/versions?g=1.21.4) oder [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files).
-2. Lade die passende `.jar`-Datei für **Minecraft 1.21.4** herunter (z. B. `fabric-api-0.115.1+1.21.4.jar`).
+1. Besuche [Modrinth Fabric API](https://modrinth.com/mod/fabric-api/versions?g=26.2) oder [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files).
+2. Lade die passende `.jar`-Datei für **Minecraft 26.2** herunter (z. B. `fabric-api-0.158.0+26.2.jar`).
 
 #### Schritt 3: MC 3ver Mod herunterladen
 1. Gehe zu den [GitHub Releases von MC 3ver](https://github.com/the3ver/mc-3ver/releases/latest).
@@ -54,7 +54,7 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **1.21
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
-2. Wähle unten links das Profil **fabric-loader-1.21.4** aus.
+2. Wähle unten links das Profil **fabric-loader-26.2** aus.
 3. Klicke auf **Spielen** – fertig!
 
 ---
@@ -62,7 +62,7 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **1.21
 ### Variante B: Custom Launcher (Prism Launcher, Modrinth App, CurseForge)
 
 1. **Neue Instanz erstellen:**
-   - Wähle Minecraft Version: `1.21.4`
+   - Wähle Minecraft Version: `26.2`
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** über den integrierten Mod-Download-Manager des Launchers.
@@ -73,7 +73,7 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **1.21
 
 ### Variante C: Dedizierter Server (Multiplayer)
 
-1. Richte einen Minecraft 1.21.4 Fabric-Server ein.
+1. Richte einen Minecraft 26.2 Fabric-Server ein.
 2. Platziere `fabric-api-...jar` und `mc-3ver-0.1.0.jar` im `mods/`-Ordner auf dem Server.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
@@ -92,7 +92,7 @@ cd mc-3ver
 #### IntelliJ IDEA (Empfohlen)
 1. Öffne IntelliJ IDEA und wähle **Open**.
 2. Wähle die Datei `build.gradle` oder das Hauptverzeichnis `mc-3ver` aus und öffne es als Gradle-Projekt.
-3. Stelle sicher, dass in den Project Settings (`Ctrl + Alt + Shift + S`) das Project SDK auf **Java 21** eingestellt ist.
+3. Stelle sicher, dass in den Project Settings (`Ctrl + Alt + Shift + S`) das Project SDK auf **Java 25** eingestellt ist.
 4. Führe den Gradle-Task `genSources` aus:
    ```bash
    ./gradlew genSources
@@ -112,7 +112,7 @@ cd mc-3ver
 | `.\gradlew.bat runClient` | `./gradlew runClient` | Startet den Minecraft-Client mit geladener Mod |
 | `.\gradlew.bat runServer` | `./gradlew runServer` | Startet einen lokalen dedizierten Minecraft-Testserver |
 | `.\gradlew.bat build` | `./gradlew build` | Kompiliert das Projekt und erstellt die `.jar` in `build/libs/` |
-| `.\gradlew.bat genSources` | `./gradlew genSources` | Dekompiliert und generiert lesbare Minecraft-Quellcodes |
+| `.\gradlew.bat test` | `./gradlew test` | Führt alle Unit-Tests aus |
 
 ---
 
@@ -138,7 +138,7 @@ GitHub Actions baut die Mod automatisch und hängt die `mc-3ver-0.1.0.jar` als D
 mc-3ver/
 ├── .github/
 │   └── workflows/
-│       ├── build.yml               # CI-Pipeline (Build & Tests bei Push)
+│       ├── build.yml               # CI-Pipeline (Build & Tests bei Push mit Java 25)
 │       ├── release.yml             # Automatischer GitHub Release bei Tags (v*)
 │       └── pages.yml               # Automatisches Deployment der Showcase-Website
 ├── docs/                           # GitHub Pages Website (HTML/CSS/JS)
@@ -149,18 +149,21 @@ mc-3ver/
 │   │   ├── java/
 │   │   │   └── net/frank/mc3ver/
 │   │   │       ├── Mc3verMod.java  # Hauptinitialisierung (Common/Server)
-│   │   │       └── mixin/          # Mixins für Server & Game Logic
+│   │   │       ├── WelcomeMessageHandler.java # Willkommens-Text Generator
+│   │   │       └── DoubleJumpLogic.java       # Doppelsprung-Logik
 │   │   └── resources/
 │   │       ├── fabric.mod.json     # Fabric Mod Manifest
 │   │       ├── mc3ver.mixins.json  # Mixin Konfiguration
 │   │       └── assets/mc3ver/      # Texturen, Models, Icons, Sounds
-│   └── client/
-│       ├── java/
-│       │   └── net/frank/mc3ver/client/
-│       │       ├── Mc3verClient.java # Client-seitige Initialisierung
-│       │       └── mixin/          # Client Mixins (Rendering, UI)
-│       └── resources/
-│           └── mc3ver.client.mixins.json
+│   ├── client/
+│   │   ├── java/
+│   │   │   └── net/frank/mc3ver/client/
+│   │   │       └── Mc3verClient.java # Client-seitige Initialisierung & Doppelsprung-Handler
+│   │   └── resources/
+│   │       └── mc3ver.client.mixins.json
+│   └── test/
+│       └── java/
+│           └── net/frank/mc3ver/   # Unit-Tests (TDD)
 ├── build.gradle                    # Fabric Loom Build-Skript
 ├── gradle.properties               # Versions- und Mod-Eigenschaften
 ├── settings.gradle                 # Repository & Projektnamen
