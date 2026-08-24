@@ -28,6 +28,11 @@ replay_*.log
 *.hprof
 *.jfr
 
+# Environment variables and secrets
+.env
+.env.*
+
 # OS specific files
 .DS_Store
 Thumbs.db
+
