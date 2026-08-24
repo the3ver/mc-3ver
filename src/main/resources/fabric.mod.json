@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "mc3ver",
+	"version": "${version}",
+	"name": "MC 3ver",
+	"description": "Minecraft Java Edition Mod built for 1.21.4 on Fabric.",
+	"authors": [
+		"frank"
+	],
+	"contact": {
+		"sources": "https://github.com/frank/mc-3ver"
+	},
+	"license": "MIT",
+	"icon": "assets/mc3ver/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.frank.mc3ver.Mc3verMod"
+		],
+		"client": [
+			"net.frank.mc3ver.client.Mc3verClient"
+		]
+	},
+	"mixins": [
+		"mc3ver.mixins.json",
+		{
+			"config": "mc3ver.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

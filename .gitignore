@@ -1,0 +1,33 @@
+# Gradle
+.gradle/
+build/
+out/
+classes/
+.gradletasknamecache
+
+# IDE - Eclipse
+*.launch
+.settings/
+.classpath
+.project
+bin/
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# IDE - VS Code
+.vscode/
+
+# Minecraft Fabric Run Directories & Logs
+run/
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr
+
+# OS specific files
+.DS_Store
+Thumbs.db
