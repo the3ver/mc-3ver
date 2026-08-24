@@ -4,6 +4,7 @@ public class DoubleJumpLogic {
 
 	public static class DoubleJumpState {
 		private boolean primed = false;
+		private boolean canDoubleJump = true;
 
 		public boolean update(
 			boolean onGround,
@@ -17,26 +18,29 @@ public class DoubleJumpLogic {
 			boolean isJumpKeyDown,
 			boolean jumpWasDown
 		) {
-			// Wenn der Spieler den Boden berührt, schwimmt, klettert oder reitet, wird der Doppelsprung entladen
+			// Wenn der Spieler den Boden berührt, schwimmt, klettert oder reitet, wird der Doppelsprung aufgeladen/zurückgesetzt
 			if (onGround || inWater || inLava || isPassenger || onClimbable) {
 				primed = false;
+				canDoubleJump = true;
 				return false;
 			}
 
 			// In besonderen Bewegungsmodi kein Doppelsprung
 			if (isFlying || isFallFlying || isSpectator) {
 				primed = false;
+				canDoubleJump = false;
 				return false;
 			}
 
-			// Wenn der Spieler in der Luft die Sprungtaste loslässt, wird der Doppelsprung scharfgeschaltet
-			if (!isJumpKeyDown) {
+			// Wenn der Doppelsprung verfügbar ist und der Spieler in der Luft die Sprungtaste loslässt: scharfschalten
+			if (canDoubleJump && !isJumpKeyDown) {
 				primed = true;
 			}
 
-			// Wenn scharfgeschaltet und die Sprungtaste in der Luft neu gedrückt wird: Auslösen!
-			if (primed && isJumpKeyDown && !jumpWasDown) {
+			// Wenn scharfgeschaltet und die Sprungtaste in der Luft neu gedrückt wird: Auslösen und verbrauchen!
+			if (canDoubleJump && primed && isJumpKeyDown && !jumpWasDown) {
 				primed = false;
+				canDoubleJump = false;
 				return true;
 			}
 
@@ -45,6 +49,10 @@ public class DoubleJumpLogic {
 
 		public boolean isPrimed() {
 			return primed;
+		}
+
+		public boolean canDoubleJump() {
+			return canDoubleJump;
 		}
 	}
 
