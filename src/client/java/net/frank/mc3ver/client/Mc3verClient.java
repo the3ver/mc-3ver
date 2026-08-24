@@ -10,7 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.phys.Vec3;
 
 public class Mc3verClient implements ClientModInitializer {
-	private static boolean canDoubleJump = false;
+	private static final DoubleJumpLogic.DoubleJumpState doubleJumpState = new DoubleJumpLogic.DoubleJumpState();
 	private static boolean jumpWasDown = false;
 
 	@Override
@@ -26,25 +26,22 @@ public class Mc3verClient implements ClientModInitializer {
 
 			boolean isJumpKeyDown = client.options.keyJump.isDown();
 
-			// Prüfen, ob der Doppelsprung aufgeladen werden soll
-			if (DoubleJumpLogic.shouldResetDoubleJump(
+			// State Machine Update
+			boolean shouldTrigger = doubleJumpState.update(
 				player.onGround(),
 				player.isInWater(),
 				player.isInLava(),
 				player.isPassenger(),
-				player.onClimbable()
-			)) {
-				canDoubleJump = true;
-			} else if (DoubleJumpLogic.shouldAllowDoubleJump(
-				canDoubleJump,
-				isJumpKeyDown,
-				jumpWasDown,
+				player.onClimbable(),
 				player.getAbilities().flying,
 				player.isFallFlying(),
-				player.isSpectator()
-			)) {
+				player.isSpectator(),
+				isJumpKeyDown,
+				jumpWasDown
+			);
+
+			if (shouldTrigger) {
 				performDoubleJump(player);
-				canDoubleJump = false;
 			}
 
 			jumpWasDown = isJumpKeyDown;

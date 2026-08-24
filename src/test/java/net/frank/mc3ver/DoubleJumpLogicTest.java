@@ -65,4 +65,33 @@ public class DoubleJumpLogicTest {
 		assertEquals(0.52, newVelocity[1], 0.0001, "Y-Geschwindigkeit sollte Sprungkraft sein");
 		assertEquals(0.0, newVelocity[2], 0.0001, "Z-Geschwindigkeit sollte unverändert bleiben");
 	}
+
+	@Test
+	void testDoubleJumpState_OnlyTriggersOnSecondPressInAir() {
+		DoubleJumpLogic.DoubleJumpState state = new DoubleJumpLogic.DoubleJumpState();
+
+		// Tick 1: Spieler steht am Boden und drückt Leertaste für normalen Sprung
+		boolean jump1 = state.update(true, false, false, false, false, false, false, false, true, false);
+		assertFalse(jump1, "Erster Sprung am Boden darf keinen Doppelsprung auslösen");
+
+		// Tick 2: Spieler verlässt Boden, hält Leertaste noch gedrückt
+		boolean jump2 = state.update(false, false, false, false, false, false, false, false, true, true);
+		assertFalse(jump2, "Halten der Leertaste in der Luft darf keinen Doppelsprung auslösen");
+
+		// Tick 3: Spieler lässt Leertaste in der Luft los
+		boolean jump3 = state.update(false, false, false, false, false, false, false, false, false, true);
+		assertFalse(jump3, "Loslassen der Leertaste löst keinen Sprung aus, lädt ihn aber scharf");
+
+		// Tick 4: Spieler drückt Leertaste zum 2. Mal in der Luft
+		boolean jump4 = state.update(false, false, false, false, false, false, false, false, true, false);
+		assertTrue(jump4, "Zweites Drücken in der Luft MUSS Doppelsprung auslösen");
+
+		// Tick 5: Spieler hält Leertaste nach Doppelsprung weiter gedrückt
+		boolean jump5 = state.update(false, false, false, false, false, false, false, false, true, true);
+		assertFalse(jump5, "Weiteres Halten darf keinen weiteren Doppelsprung auslösen");
+
+		// Tick 6: Spieler landet wieder am Boden
+		state.update(true, false, false, false, false, false, false, false, false, false);
+		assertFalse(state.isPrimed(), "Nach Landung darf der Sprung nicht mehr scharf sein");
+	}
 }
