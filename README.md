@@ -15,24 +15,67 @@ Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **1.21
 
 ## 📋 Übersicht & Voraussetzungen
 
-- **Minecraft Version:** `1.21.4`
-- **Mod Loader:** `Fabric` (>= 0.16.0)
-- **Java Version:** `Java 21` (z. B. Temurin / Microsoft OpenJDK 21)
+- **Minecraft Version:** `1.21.4` (Java Edition)
+- **Mod Loader:** `Fabric Loader` (>= 0.16.0)
+- **Erforderliche Abhängigkeit:** `Fabric API` (für 1.21.4)
+- **Java Runtime:** `Java 21`
 - **Mapping:** Official Mojang Mappings
 - **Lizenziert unter:** MIT License
 
 ---
 
-## 📦 Installation (für Spieler)
+## 📦 Schritt-für-Schritt Installationsanleitung
 
-1. Installiere den [Fabric Loader für 1.21.4](https://fabricmc.net/use/installer/).
-2. Lade die [Fabric API](https://modrinth.com/mod/fabric-api) für Minecraft 1.21.4 herunter.
-3. Lade die neueste `mc-3ver-1.0.0.jar` aus den [GitHub Releases](https://github.com/the3ver/mc-3ver/releases/latest) herunter.
-4. Lege beide `.jar`-Dateien in deinen Minecraft-Ordner:
-   - **Windows:** `%appdata%\.minecraft\mods\`
-   - **macOS:** `~/Library/Application Support/minecraft/mods/`
-   - **Linux:** `~/.minecraft/mods/`
-5. Starte Minecraft mit dem Fabric-Profil.
+### Variante A: Standard Minecraft Launcher (Offiziell)
+
+#### Schritt 1: Fabric Loader installieren
+1. Öffne die Website [fabricmc.net/use/installer](https://fabricmc.net/use/installer/) und lade den **Universal (.jar)** oder **Windows (.exe)** Installer herunter.
+2. Starte den Installer:
+   - Wähle **Minecraft Version:** `1.21.4`
+   - Wähle **Loader Version:** die neueste empfohlene Version (z. B. `0.16.10` oder höher)
+   - Klicke auf **Installieren**.
+3. Es wird automatisch ein neues Profil namens `fabric-loader-1.21.4` im Minecraft Launcher angelegt.
+
+#### Schritt 2: Fabric API herunterladen
+1. Besuche [Modrinth Fabric API](https://modrinth.com/mod/fabric-api/versions?g=1.21.4) oder [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files).
+2. Lade die passende `.jar`-Datei für **Minecraft 1.21.4** herunter (z. B. `fabric-api-0.115.1+1.21.4.jar`).
+
+#### Schritt 3: MC 3ver Mod herunterladen
+1. Gehe zu den [GitHub Releases von MC 3ver](https://github.com/the3ver/mc-3ver/releases/latest).
+2. Lade die Datei `mc-3ver-0.1.0.jar` herunter.
+
+#### Schritt 4: Dateien in den Mods-Ordner legen
+1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
+   - **Windows:** Drücke `Win + R`, tippe `%appdata%\.minecraft` ein und drücke Enter.
+   - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
+   - **Linux:** Navigiere zu `~/.minecraft`.
+2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
+3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.1.0.jar`** in diesen `mods`-Ordner.
+
+#### Schritt 5: Spiel starten
+1. Starte den offiziellen **Minecraft Launcher**.
+2. Wähle unten links das Profil **fabric-loader-1.21.4** aus.
+3. Klicke auf **Spielen** – fertig!
+
+---
+
+### Variante B: Custom Launcher (Prism Launcher, Modrinth App, CurseForge)
+
+1. **Neue Instanz erstellen:**
+   - Wähle Minecraft Version: `1.21.4`
+   - Wähle Modloader: `Fabric` (aktuelle Version)
+2. **Mods hinzufügen:**
+   - Installiere **Fabric API** über den integrierten Mod-Download-Manager des Launchers.
+   - Ziehe die heruntergeladene `mc-3ver-0.1.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+3. **Instanz starten.**
+
+---
+
+### Variante C: Dedizierter Server (Multiplayer)
+
+1. Richte einen Minecraft 1.21.4 Fabric-Server ein.
+2. Platziere `fabric-api-...jar` und `mc-3ver-0.1.0.jar` im `mods/`-Ordner auf dem Server.
+3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
 
@@ -79,13 +122,13 @@ Dank des GitHub Actions Release-Workflows wird bei jedem Git-Tag automatisch ein
 
 ```bash
 # 1. Neuen Tag erstellen
-git tag v1.0.0
+git tag v0.1.0
 
 # 2. Tag zu GitHub pushen
-git push origin v1.0.0
+git push origin v0.1.0
 ```
 
-GitHub Actions baut die Mod automatisch und hängt die `mc-3ver-1.0.0.jar` als Download an das Release an.
+GitHub Actions baut die Mod automatisch und hängt die `mc-3ver-0.1.0.jar` als Download an das Release an.
 
 ---
 
