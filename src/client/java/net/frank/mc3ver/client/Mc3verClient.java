@@ -4,6 +4,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.frank.mc3ver.DoubleJumpLogic;
 import net.frank.mc3ver.Mc3verMod;
+import net.frank.mc3ver.transport.ModDataComponents;
+import net.frank.mc3ver.transport.ModItems;
+import net.frank.mc3ver.transport.TransportFlameLogic;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -15,7 +18,7 @@ public class Mc3verClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		Mc3verMod.LOGGER.info("MC 3ver Client-Features aktiviert (Doppelsprung aktiv)!");
+		Mc3verMod.LOGGER.info("MC 3ver Client-Features aktiviert (Doppelsprung & Transportflammen aktiv)!");
 
 		// Client-Tick Event für den Doppelsprung
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {

@@ -1,0 +1,12 @@
+{
+  "block.mc3ver.transport_flame": "Transport Flame",
+  "item.mc3ver.transport_flame": "Transport Flame",
+  "item.mc3ver.transport_map": "Transport Map",
+  "tooltip.mc3ver.destination": "Destination: %s",
+  "tooltip.mc3ver.coordinates": "Coordinates: %s",
+  "tooltip.mc3ver.unlinked": "Unlinked",
+  "message.mc3ver.no_target": "This map is not linked to any transport flame!",
+  "message.mc3ver.flame_extinguished": "The transport flame has been extinguished or destroyed!",
+  "message.mc3ver.already_at_target": "You are already at the transport flame's location.",
+  "message.mc3ver.teleport_success": "Teleported to the transport flame!"
+}

@@ -1,0 +1,12 @@
+{
+  "block.mc3ver.transport_flame": "Transportflamme",
+  "item.mc3ver.transport_flame": "Transportflamme",
+  "item.mc3ver.transport_map": "Transportkarte",
+  "tooltip.mc3ver.destination": "Ziel-Dimension: %s",
+  "tooltip.mc3ver.coordinates": "Koordinaten: %s",
+  "tooltip.mc3ver.unlinked": "Nicht verknüpft",
+  "message.mc3ver.no_target": "Diese Karte ist an keine Transportflamme gebunden!",
+  "message.mc3ver.flame_extinguished": "Die Transportflamme ist erloschen oder wurde abgebaut!",
+  "message.mc3ver.already_at_target": "Du befindest dich bereits am Zielort der Transportflamme.",
+  "message.mc3ver.teleport_success": "Du wurdest zur Transportflamme teleportiert!"
+}

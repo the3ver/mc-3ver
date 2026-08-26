@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "CTC",
+    " C "
+  ],
+  "key": {
+    "C": "minecraft:cobblestone",
+    "T": "minecraft:torch"
+  },
+  "result": {
+    "id": "mc3ver:transport_flame",
+    "count": 1
+  }
+}
