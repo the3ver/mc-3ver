@@ -45,17 +45,19 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Publish to Mod Platforms (Modrinth & CurseForge)
-        uses: Kirigami/mod-publish@v2
+      - name: Publish to Modrinth
+        if: env.MODRINTH_TOKEN != ''
+        uses: modrinth/minotaur@v2
         continue-on-error: true
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
         with:
-          modrinth-id: worldexplorermod
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          curseforge-id: ${{ secrets.CURSEFORGE_PROJECT_ID || '1673253' }}
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project-id: worldexplorermod
           files: |
-            build/libs/*.jar
+            build/libs/mc-3ver-*.jar
             !build/libs/*-sources.jar
-          loaders: fabric
-          game-versions: 26.2
-          dependencies: fabric-api:required
+          game-versions: |
+            26.2
+          loaders: |
+            fabric
