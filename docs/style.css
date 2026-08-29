@@ -442,12 +442,182 @@ h1, h2, h3, h4 {
   line-height: 1.6;
 }
 
+/* Platform Download Cards */
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto 48px;
+}
+
+.platform-card {
+  background: var(--bg-glass-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.platform-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.platform-card.platform-modrinth::before {
+  background: linear-gradient(90deg, #00AF5C, #00E676);
+}
+
+.platform-card.platform-curseforge::before {
+  background: linear-gradient(90deg, #F16436, #FF8A65);
+}
+
+.platform-card.platform-github::before {
+  background: linear-gradient(90deg, #8B5CF6, #A78BFA);
+}
+
+.platform-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.platform-card:hover::before {
+  opacity: 1;
+}
+
+.platform-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.platform-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.platform-modrinth .platform-icon {
+  background: rgba(0, 175, 92, 0.15);
+  color: #00AF5C;
+  border: 1px solid rgba(0, 175, 92, 0.3);
+}
+
+.platform-curseforge .platform-icon {
+  background: rgba(241, 100, 54, 0.15);
+  color: #F16436;
+  border: 1px solid rgba(241, 100, 54, 0.3);
+}
+
+.platform-github .platform-icon {
+  background: rgba(139, 92, 246, 0.15);
+  color: #A78BFA;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.platform-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.platform-badge-recommended {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.platform-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.platform-btn {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.platform-modrinth .platform-btn {
+  background: rgba(0, 175, 92, 0.15);
+  color: #00AF5C;
+  border: 1px solid rgba(0, 175, 92, 0.35);
+}
+
+.platform-modrinth .platform-btn:hover {
+  background: #00AF5C;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 175, 92, 0.4);
+}
+
+.platform-curseforge .platform-btn {
+  background: rgba(241, 100, 54, 0.15);
+  color: #F16436;
+  border: 1px solid rgba(241, 100, 54, 0.35);
+}
+
+.platform-curseforge .platform-btn:hover {
+  background: #F16436;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(241, 100, 54, 0.4);
+}
+
+.platform-github .platform-btn {
+  background: rgba(139, 92, 246, 0.15);
+  color: #A78BFA;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+}
+
+.platform-github .platform-btn:hover {
+  background: #8B5CF6;
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
 /* Installation Steps */
 .install-steps {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-width: 800px;
+  max-width: 860px;
   margin: 0 auto;
 }
 

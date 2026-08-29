@@ -37,13 +37,29 @@ const TRANSLATIONS = {
     "features.tech.title": "⚡ Java 25 & Mojang Mappings",
     "features.tech.desc": "Natives Java 25 mit offiziellen Mappings und solider, 100% testgetriebener (TDD) Codebasis.",
 
-    "install.title": "Einfache Installation",
-    "install.subtitle": "In nur 3 einfachen Schritten startklar für dein nächstes Abenteuer.",
+    "install.title": "Download & Installation",
+    "install.subtitle": "Finde WorldExplorerMod auf deiner bevorzugten Plattform oder installiere sie mit 1 Klick in deinem Launcher.",
+    
+    "platform.modrinth.desc": "Direkt in der Modrinth App mit 1 Klick installieren oder die .jar-Datei herunterladen.",
+    "platform.modrinth.btn": "Auf Modrinth ansehen &rarr;",
+    "platform.curseforge.desc": "Über die CurseForge App für 1-Klick-Profile oder direkter manueller Download.",
+    "platform.curseforge.btn": "Auf CurseForge ansehen &rarr;",
+    "platform.github.desc": "Direkter Zugriff auf den Quellcode, alle GitHub Releases und den Issue Tracker.",
+    "platform.github.btn": "GitHub Releases &rarr;",
+    "platform.recommended": "Empfohlen",
+
+    "install.launcher.title": "Methode A: 1-Klick-Installation via Launcher (Empfohlen)",
+    "install.launcher.desc": "Die einfachste Methode ohne manuelles Verschieben von Dateien. Moderne Launcher laden alle Abhängigkeiten (wie Fabric API) automatisch mit herunter:",
+    "install.launcher.step1": "<strong>Modrinth App / CurseForge App:</strong> Erstelle ein neues Profil für <strong>Minecraft 26.2</strong> mit dem <strong>Fabric Loader</strong>.",
+    "install.launcher.step2": "Klicke im Profil auf <em>„Content hinzufügen / Mods suchen“</em> und tippe <code>WorldExplorerMod</code> ein.",
+    "install.launcher.step3": "Klicke auf <strong>Installieren</strong> — fertig! Die benötigte <em>Fabric API</em> wird automatisch im Hintergrund installiert.",
+
+    "install.manual.title": "Methode B: Manueller Download (Standard Minecraft Launcher)",
     "install.step1.title": "Fabric Loader & API installieren",
     "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.2 herunter und installiere die passende <strong>Fabric API</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die fertige <code class=\"code-badge\">mc-3ver-0.2.1.jar</code> aus den GitHub Releases herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.2.1.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -118,13 +134,29 @@ const TRANSLATIONS = {
     "features.tech.title": "⚡ Java 25 & Mojang Mappings",
     "features.tech.desc": "Native Java 25 with official mappings and a solid, 100% test-driven (TDD) codebase.",
 
-    "install.title": "Simple Installation",
-    "install.subtitle": "Ready for your next adventure in just 3 easy steps.",
+    "install.title": "Download & Installation",
+    "install.subtitle": "Get WorldExplorerMod on your favorite modding platform or install with 1-click in your launcher.",
+
+    "platform.modrinth.desc": "Install with 1-click using the Modrinth App or download the compiled .jar file.",
+    "platform.modrinth.btn": "View on Modrinth &rarr;",
+    "platform.curseforge.desc": "Install directly via the CurseForge App or download for manual profile setups.",
+    "platform.curseforge.btn": "View on CurseForge &rarr;",
+    "platform.github.desc": "Full access to open-source repository, compiled release binaries and issue tracker.",
+    "platform.github.btn": "GitHub Releases &rarr;",
+    "platform.recommended": "Recommended",
+
+    "install.launcher.title": "Method A: 1-Click Installation via Launcher (Recommended)",
+    "install.launcher.desc": "The easiest way without moving files manually. Modern launchers automatically download all dependencies like Fabric API:",
+    "install.launcher.step1": "<strong>Modrinth App / CurseForge App:</strong> Create a new profile for <strong>Minecraft 26.2</strong> using <strong>Fabric Loader</strong>.",
+    "install.launcher.step2": "Click on <em>„Add Content / Search Mods“</em> and search for <code>WorldExplorerMod</code>.",
+    "install.launcher.step3": "Click <strong>Install</strong> — done! Required <em>Fabric API</em> will be installed automatically in the background.",
+
+    "install.manual.title": "Method B: Manual Download (Default Minecraft Launcher)",
     "install.step1.title": "Install Fabric Loader & API",
     "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.2 and install the matching <strong>Fabric API</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the release <code class=\"code-badge\">mc-3ver-0.2.1.jar</code> from GitHub Releases or via Modrinth / CurseForge.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.2.1.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -302,7 +334,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.2.0
+    // Graceful fallback to v0.2.1
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }
