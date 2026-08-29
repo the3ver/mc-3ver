@@ -8,5 +8,22 @@
   "message.mc3ver.no_target": "This map is not linked to any transport flame!",
   "message.mc3ver.flame_extinguished": "The transport flame has been extinguished or destroyed!",
   "message.mc3ver.already_at_target": "You are already at the transport flame's location.",
-  "message.mc3ver.teleport_success": "Teleported to the transport flame!"
+  "item.mc3ver.wind_wand": "Wind Wand",
+  "item.mc3ver.pear": "Pear",
+  "block.mc3ver.pear_log": "Pear Log",
+  "item.mc3ver.pear_log": "Pear Log",
+  "block.mc3ver.stripped_pear_log": "Stripped Pear Log",
+  "item.mc3ver.stripped_pear_log": "Stripped Pear Log",
+  "block.mc3ver.pear_wood": "Pear Wood",
+  "item.mc3ver.pear_wood": "Pear Wood",
+  "block.mc3ver.stripped_pear_wood": "Stripped Pear Wood",
+  "item.mc3ver.stripped_pear_wood": "Stripped Pear Wood",
+  "block.mc3ver.pear_planks": "Pear Planks",
+  "item.mc3ver.pear_planks": "Pear Planks",
+  "block.mc3ver.pear_leaves": "Pear Leaves",
+  "item.mc3ver.pear_leaves": "Pear Leaves",
+  "block.mc3ver.pear_sapling": "Pear Sapling",
+  "item.mc3ver.pear_sapling": "Pear Sapling",
+  "message.mc3ver.teleport_success": "Teleported to Transport Flame!",
+  "message.mc3ver.welcome": "§8[§a%s§8] §fWelcome to the world! Mod §av%s§f is active. §7(Double jump enabled: Press Jump in mid-air)"
 }

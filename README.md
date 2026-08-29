@@ -1,4 +1,4 @@
-# MC 3ver 🎮
+# WorldExplorerMod (MC 3ver) 🎮
 
 [![Build Mod](https://github.com/the3ver/mc-3ver/actions/workflows/build.yml/badge.svg)](https://github.com/the3ver/mc-3ver/actions/workflows/build.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/the3ver/mc-3ver?color=emerald)](https://github.com/the3ver/mc-3ver/releases)
@@ -7,7 +7,7 @@
 [![Java](https://img.shields.io/badge/Java-25-orange)](https://adoptium.net/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.2**, basierend auf dem **Fabric Mod Loader** und **Java 25**.
+**WorldExplorerMod** ist eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.2**, basierend auf dem **Fabric Mod Loader** und **Java 25**.
 
 🌐 **Website & Dokumentation:** [the3ver.github.io/mc-3ver](https://the3ver.github.io/mc-3ver/)
 
@@ -182,6 +182,16 @@ mc-3ver/
 ├── settings.gradle                 # Repository & Projektnamen
 └── LICENSE                         # MIT Lizenz
 ```
+
+---
+
+## 💬 Feedback & Issue Tracker
+
+Hast du einen Fehler gefunden oder einen Vorschlag für ein neues Feature?
+
+* 🐛 **Fehler melden (Bug Report):** Bitte erstelle ein Issue auf unserem [GitHub Issue Tracker](https://github.com/the3ver/mc-3ver/issues/new?template=bug_report.yml).
+* ✨ **Ideen & Feature-Requests:** Reiche deine Vorschläge gerne über das [Feature Request Formular](https://github.com/the3ver/mc-3ver/issues/new?template=feature_request.yml) ein.
+* 💬 **Community & Diskussionen:** Tausche dich in den [GitHub Discussions](https://github.com/the3ver/mc-3ver/discussions) mit anderen Spielern aus.
 
 ---
 

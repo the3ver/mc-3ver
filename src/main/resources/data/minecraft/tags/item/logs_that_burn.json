@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "mc3ver:pear_log",
+    "mc3ver:stripped_pear_log",
+    "mc3ver:pear_wood",
+    "mc3ver:stripped_pear_wood"
+  ]
+}

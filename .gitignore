@@ -32,7 +32,6 @@ replay_*.log
 .env
 .env.*
 
-# OS specific files
-.DS_Store
-Thumbs.db
-
+# Local temp and logs
+scratch/
+logs/

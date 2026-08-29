@@ -20,6 +20,22 @@ public class ModItems {
         new TransportMapItem(new Item.Properties().setId(TRANSPORT_MAP_KEY).stacksTo(1))
     );
 
+    public static final ResourceKey<Item> WIND_WAND_KEY = ResourceKey.create(
+        Registries.ITEM,
+        Mc3verMod.id("wind_wand")
+    );
+
+    public static final Item WIND_WAND = Registry.register(
+        BuiltInRegistries.ITEM,
+        WIND_WAND_KEY,
+        new net.frank.mc3ver.wand.WindWandItem(
+            new Item.Properties()
+                .setId(WIND_WAND_KEY)
+                .stacksTo(1)
+                .durability(net.frank.mc3ver.wand.WindWandLogic.MAX_DURABILITY)
+        )
+    );
+
     public static void register() {
         // Triggers static initialization
     }

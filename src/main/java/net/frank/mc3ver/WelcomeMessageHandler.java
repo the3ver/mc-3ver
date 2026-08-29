@@ -4,11 +4,9 @@ import net.minecraft.network.chat.Component;
 
 public class WelcomeMessageHandler {
 
-	public static String getWelcomeText(String modName, String version) {
-		return "§8[§a" + modName + "§8] §fWillkommen in der Welt! Mod §av" + version + "§f ist aktiv. §7(Doppelsprung aktiv: Drücke Leertaste in der Luft)";
-	}
+	public static final String TRANSLATION_KEY = "message.mc3ver.welcome";
 
 	public static Component createWelcomeComponent(String modName, String version) {
-		return Component.literal(getWelcomeText(modName, version));
+		return Component.translatable(TRANSLATION_KEY, modName, version);
 	}
 }

@@ -1,16 +1,25 @@
 package net.frank.mc3ver;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WelcomeMessageTest {
 
 	@Test
-	void testFormatWelcomeMessage_ContainsModNameAndVersion() {
-		String message = WelcomeMessageHandler.getWelcomeText("MC 3ver", "0.1.1");
-		assertNotNull(message);
-		assertTrue(message.contains("MC 3ver"), "Nachricht sollte den Mod-Namen enthalten");
-		assertTrue(message.contains("v0.1.1"), "Nachricht sollte die Versionsnummer enthalten");
-		assertTrue(message.contains("Doppelsprung"), "Nachricht sollte Hinweis auf Doppelsprung enthalten");
+	void testModNameIsWorldExplorerMod() {
+		assertEquals("WorldExplorerMod", Mc3verMod.MOD_NAME);
+	}
+
+	@Test
+	void testCreateWelcomeComponent_ReturnsTranslatableComponentWithKeyAndArgs() {
+		Component component = WelcomeMessageHandler.createWelcomeComponent(Mc3verMod.MOD_NAME, Mc3verMod.MOD_VERSION);
+		assertNotNull(component);
+		assertInstanceOf(TranslatableContents.class, component.getContents());
+		
+		TranslatableContents contents = (TranslatableContents) component.getContents();
+		assertEquals("message.mc3ver.welcome", contents.getKey());
+		assertArrayEquals(new Object[]{"WorldExplorerMod", "0.2.0"}, contents.getArgs());
 	}
 }

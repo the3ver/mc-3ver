@@ -1,0 +1,58 @@
+name: 🐛 Bug Report
+description: Melde einen Fehler oder Absturz in WorldExplorerMod
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vielen Dank für deine Fehlermeldung! Bitte fülle die folgenden Felder so genau wie möglich aus, damit wir das Problem schnell beheben können.
+  - type: input
+    id: version_mod
+    attributes:
+      label: Mod-Version
+      description: Welche Version von WorldExplorerMod verwendest du?
+      placeholder: z. B. 0.2.0
+    validations:
+      required: true
+  - type: input
+    id: version_mc
+    attributes:
+      label: Minecraft-Version & Loader
+      description: Welche Version von Minecraft und Fabric Loader nutzt du?
+      placeholder: z. B. Minecraft 26.2 (Fabric Loader 0.19.3)
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Fehlerbeschreibung
+      description: Was genau passiert und was hast du erwartet?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Schritte zur Reproduktion
+      description: Wie kann der Fehler Schritt für Schritt nachgestellt werden?
+      placeholder: |
+        1. Setze eine Transportflamme...
+        2. Nutze den Windstab...
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: logs
+    attributes:
+      label: Crash-Report / Logdatei-Link
+      description: Bitte lade lange Logs oder Crash-Reports auf https://mclo.gs/ oder https://pastebin.com/ hoch und füge den Link hier ein.
+      placeholder: https://mclo.gs/...
+    validations:
+      required: false
+  - type: textarea
+    id: additional
+    attributes:
+      label: Zusätzliche Informationen / Andere Mods
+      description: Tritt der Fehler auch in einer reinen Vanilla/Fabric-Instanz auf? Screenshots oder Videos sind ebenfalls hilfreich.
+    validations:
+      required: false

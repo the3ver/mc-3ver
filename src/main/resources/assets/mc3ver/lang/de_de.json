@@ -8,5 +8,22 @@
   "message.mc3ver.no_target": "Diese Karte ist an keine Transportflamme gebunden!",
   "message.mc3ver.flame_extinguished": "Die Transportflamme ist erloschen oder wurde abgebaut!",
   "message.mc3ver.already_at_target": "Du befindest dich bereits am Zielort der Transportflamme.",
-  "message.mc3ver.teleport_success": "Du wurdest zur Transportflamme teleportiert!"
+  "item.mc3ver.wind_wand": "Windstab",
+  "item.mc3ver.pear": "Birne",
+  "block.mc3ver.pear_log": "Birnenstamm",
+  "item.mc3ver.pear_log": "Birnenstamm",
+  "block.mc3ver.stripped_pear_log": "Entrindeter Birnenstamm",
+  "item.mc3ver.stripped_pear_log": "Entrindeter Birnenstamm",
+  "block.mc3ver.pear_wood": "Birnenholz",
+  "item.mc3ver.pear_wood": "Birnenholz",
+  "block.mc3ver.stripped_pear_wood": "Entrindetes Birnenholz",
+  "item.mc3ver.stripped_pear_wood": "Entrindetes Birnenholz",
+  "block.mc3ver.pear_planks": "Birnenholzbretter",
+  "item.mc3ver.pear_planks": "Birnenholzbretter",
+  "block.mc3ver.pear_leaves": "Birnenlaub",
+  "item.mc3ver.pear_leaves": "Birnenlaub",
+  "block.mc3ver.pear_sapling": "Birnensetzling",
+  "item.mc3ver.pear_sapling": "Birnensetzling",
+  "message.mc3ver.teleport_success": "Zur Transportflamme teleportiert!",
+  "message.mc3ver.welcome": "§8[§a%s§8] §fWillkommen in der Welt! Mod §av%s§f ist aktiv. §7(Doppelsprung aktiv: Drücke Leertaste in der Luft)"
 }

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "mc3ver:block/pear_wood"
+    },
+    "axis=z": {
+      "model": "mc3ver:block/pear_wood",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "mc3ver:block/pear_wood",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "mc3ver",
 	"version": "${version}",
-	"name": "MC 3ver",
+	"name": "WorldExplorerMod",
 	"description": "Minecraft Java Edition Mod built for 26.2 on Fabric.",
 	"authors": [
 		"frank"

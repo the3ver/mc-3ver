@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "mc3ver:block/pear_log"
+    },
+    "axis=z": {
+      "model": "mc3ver:block/pear_log_horizontal",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "mc3ver:block/pear_log_horizontal",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

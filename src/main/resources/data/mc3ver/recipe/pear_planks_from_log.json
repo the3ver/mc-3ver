@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    "mc3ver:pear_log"
+  ],
+  "result": {
+    "count": 4,
+    "id": "mc3ver:pear_planks"
+  }
+}

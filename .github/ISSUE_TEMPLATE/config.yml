@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 GitHub Discussions & Community
+    url: https://github.com/the3ver/mc-3ver/discussions
+    about: Stelle Fragen, teile Ideen oder tausche dich mit anderen Spielern aus.
+  - name: 🌐 Website & Dokumentation
+    url: https://the3ver.github.io/mc-3ver/
+    about: Lies die offizielle Installationsanleitung, Changelogs und Features nach.

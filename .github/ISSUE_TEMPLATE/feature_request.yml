@@ -1,0 +1,32 @@
+name: ✨ Feature Request
+description: Schlage eine neue Idee oder Verbesserung für WorldExplorerMod vor
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vielen Dank für dein Feedback! Teile uns deine Ideen für neue Features, Items oder Mechaniken in WorldExplorerMod mit.
+  - type: textarea
+    id: feature_description
+    attributes:
+      label: Beschreibung der Idee
+      description: Welches neue Feature oder welche Änderung wünschst du dir?
+      placeholder: Beschreibe das gewünschte Verhalten möglichst detailliert...
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Warum wäre dieses Feature nützlich?
+      description: Wie bereichert es das Gameplay oder die Erkundung in Minecraft?
+      placeholder: Erkläre den spielerischen Nutzen oder Einsatzzweck...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Mögliche Alternativen
+      description: Hast du alternative Ansätze oder ähnliche Mod-Mechaniken im Kopf?
+    validations:
+      required: false
