@@ -2,6 +2,7 @@
 
 [![Build Mod](https://github.com/the3ver/mc-3ver/actions/workflows/build.yml/badge.svg)](https://github.com/the3ver/mc-3ver/actions/workflows/build.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/the3ver/mc-3ver?color=emerald)](https://github.com/the3ver/mc-3ver/releases)
+[![Modrinth](https://img.shields.io/badge/Modrinth-worldexplorermod-00AF5C?logo=modrinth)](https://modrinth.com/mod/worldexplorermod)
 [![Minecraft](https://img.shields.io/badge/Minecraft-26.2-blue)](https://fabricmc.net/)
 [![Fabric](https://img.shields.io/badge/Loader-Fabric-lightgrey)](https://fabricmc.net/)
 [![Java](https://img.shields.io/badge/Java-25-orange)](https://adoptium.net/)
@@ -9,7 +10,8 @@
 
 **WorldExplorerMod** ist eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.2**, basierend auf dem **Fabric Mod Loader** und **Java 25**.
 
-🌐 **Website & Dokumentation:** [the3ver.github.io/mc-3ver](https://the3ver.github.io/mc-3ver/)
+🌐 **Website & Dokumentation:** [the3ver.github.io/mc-3ver](https://the3ver.github.io/mc-3ver/)  
+🟢 **Modrinth:** [modrinth.com/mod/worldexplorermod](https://modrinth.com/mod/worldexplorermod)
 
 ---
 
