@@ -44,20 +44,3 @@ jobs:
           generate_release_notes: true
           draft: false
           prerelease: false
-
-      - name: Publish to Modrinth
-        if: env.MODRINTH_TOKEN != ''
-        uses: modrinth/minotaur@v2.9.0
-        continue-on-error: true
-        env:
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-        with:
-          token: ${{ secrets.MODRINTH_TOKEN }}
-          project-id: worldexplorermod
-          files: |
-            build/libs/mc-3ver-*.jar
-            !build/libs/*-sources.jar
-          game-versions: |
-            26.2
-          loaders: |
-            fabric
