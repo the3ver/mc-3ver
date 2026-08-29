@@ -43,14 +43,13 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Publish to Modrinth
-        if: env.MODRINTH_TOKEN != ''
+      - name: Publish to Mod Platforms (Modrinth & CurseForge)
         uses: Kirigami/mod-publish@v2
-        env:
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
         with:
           modrinth-id: worldexplorermod
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: ${{ secrets.CURSEFORGE_PROJECT_ID || '1673253' }}
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           files: build/libs/!(*-sources).jar
           loaders: fabric
           game-versions: 26.2
