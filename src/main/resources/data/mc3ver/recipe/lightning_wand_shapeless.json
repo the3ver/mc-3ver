@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:lightning_rod",
+    "minecraft:copper_ingot",
+    "minecraft:stick",
+    "minecraft:amethyst_shard",
+    "minecraft:amethyst_shard"
+  ],
+  "result": {
+    "id": "mc3ver:lightning_wand",
+    "count": 1
+  }
+}

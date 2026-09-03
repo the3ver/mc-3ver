@@ -59,7 +59,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.2 herunter und installiere die passende <strong>Fabric API</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.2.1.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.3.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -156,7 +156,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.2 and install the matching <strong>Fabric API</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.2.1.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.3.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -334,7 +334,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.2.1
+    // Graceful fallback to v0.3.0
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }

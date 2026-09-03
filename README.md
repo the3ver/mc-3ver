@@ -46,7 +46,7 @@
 
 #### Schritt 3: WorldExplorerMod herunterladen
 1. Gehe zu den [GitHub Releases von WorldExplorerMod](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.2.1.jar` herunter.
+2. Lade die Datei `mc-3ver-0.3.0.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -54,7 +54,7 @@
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.2.1.jar`** in diesen `mods`-Ordner.
+3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.3.0.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
@@ -70,7 +70,7 @@
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.2.1.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Ziehe die heruntergeladene `mc-3ver-0.3.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
@@ -78,7 +78,7 @@
 ### Variante C: Dedizierter Server (Multiplayer)
 
 1. Richte einen Minecraft 26.2 Fabric-Server ein.
-2. Platziere `fabric-api-...jar` und `mc-3ver-0.2.1.jar` im `mods/`-Ordner auf dem Server.
+2. Platziere `fabric-api-...jar` und `mc-3ver-0.3.0.jar` im `mods/`-Ordner auf dem Server.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
@@ -92,7 +92,17 @@
   * **Platzieren:** Beim Aufstellen einer Transportflamme erhält der Spieler eine verknüpfte, zufällig gefärbte **Transportkarte** ins Inventar.
   * **Teleportation:** Halte die Karte mit Rechtsklick gedrückt (2.5s Channeling mit Portal-Sounds und Partikeln) $\rightarrow$ sicherer Teleport zurück zur Flamme mit 30s Cooldown.
   * **Dimensionsübergreifend:** Funktioniert nahtlos aus der Overworld, dem Nether und dem End.
-  * **Sicher:** Prüft, ob die Flamme noch existiert und droppt die Flamme beim Abbauen sauber als Item.
+* **⚡ Kettenblitzstab (Lightning Wand):**
+  * **Kettenblitz:** Visiert Mobs an und springt kettenartig auf bis zu 4 weitere Ziele über.
+  * **Hold-to-Charge:** Halte Rechtsklick bis zu 5 Sekunden gedrückt für bis zu **24,0 Schaden (12 Herzen, 3x Schaden)** mit ansteigendem Knistern und Funken. Haltbarkeitskosten: 1 bis 5 Punkte.
+  * **Mob-Interaktionen:** Blitze verwandeln Creeper in **geladene Creeper**, Schweine in Zombified Piglins, Villager in Hexen etc.
+  * **Block-Zündung:** Zielen auf brennbare Blöcke setzt diese in Brand; entzündet Lagerfeuer/Kerzen und zündet TNT (`prime`), ohne weiterzuspringen.
+  * **Crafting:** 1 Blitzableiter, 2 Amethyst-Scherben, 1 Kupferbarren, 1 Stock (geformt oder formlos).
+* **🌪️ Windstab (Wind Wand):**
+  * Verschiesst Windstöße, die feindliche Mobs und Projektile mit starkem Rückstoß zurückschleudern.
+  * Geformt oder formlos in der Werkbank craftbar.
+* **🌳 Birnbaum (Pear Tree):**
+  * Neuer Baumtyp mit eigenen Holzblöcken, Brettern, Blättern und Setzlingen.
 
 ---
 

@@ -34,6 +34,7 @@ public class LanguageFilesTest {
             "item.mc3ver.transport_flame",
             "item.mc3ver.transport_map",
             "item.mc3ver.wind_wand",
+            "item.mc3ver.lightning_wand",
             "item.mc3ver.pear",
             "block.mc3ver.pear_log",
             "item.mc3ver.pear_log",

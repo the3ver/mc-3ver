@@ -36,6 +36,22 @@ public class ModItems {
         )
     );
 
+    public static final ResourceKey<Item> LIGHTNING_WAND_KEY = ResourceKey.create(
+        Registries.ITEM,
+        Mc3verMod.id("lightning_wand")
+    );
+
+    public static final Item LIGHTNING_WAND = Registry.register(
+        BuiltInRegistries.ITEM,
+        LIGHTNING_WAND_KEY,
+        new net.frank.mc3ver.wand.LightningWandItem(
+            new Item.Properties()
+                .setId(LIGHTNING_WAND_KEY)
+                .stacksTo(1)
+                .durability(net.frank.mc3ver.wand.LightningWandLogic.MAX_DURABILITY)
+        )
+    );
+
     public static void register() {
         // Triggers static initialization
     }
