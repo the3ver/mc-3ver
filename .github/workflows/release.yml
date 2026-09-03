@@ -49,10 +49,14 @@ jobs:
         uses: Kira-NT/mc-publish@v3.3
         continue-on-error: true
         with:
-          modrinth-id: worldexplorermod
+          modrinth-id: '6Gr0fyD8'
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-id: '1673253'
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          version: '0.3.0'
+          name: 'WorldExplorerMod 0.3.0 (MC 26.2)'
+          version-type: release
+          changelog-file: CHANGELOG.md
           files: |
             build/libs/*.jar
             !build/libs/*-sources.jar
