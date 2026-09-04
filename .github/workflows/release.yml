@@ -37,9 +37,11 @@ jobs:
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'v0.3.0' }}
           files: build/libs/*.jar
           generate_release_notes: true
           draft: false
