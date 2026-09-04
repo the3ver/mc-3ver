@@ -54,13 +54,14 @@ jobs:
           curseforge-id: '1673253'
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           version: '0.3.0'
-          name: 'WorldExplorerMod 0.3.0 (MC 26.2)'
+          name: 'mc-3ver-0.3.0.jar'
           version-type: release
-          changelog-file: CHANGELOG.md
+          changelog-file: CHANGELOG_EN.md
           files: |
-            build/libs/*.jar
-            !build/libs/*-sources.jar
+            build/libs/!(*-sources).jar
+            build/libs/*-sources.jar
           loaders: fabric
           game-versions: 26.2
+          java: Java 25
           dependencies: fabric-api:required
 
