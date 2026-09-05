@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.4.0] - 2026-09-05
+
+### ✨ Added
+* **Complete Pear Wood Set (Swiss Pear Wood Aesthetic):**
+  * **8 New Blocks & Items:**
+    * **Pear Stairs (`mc3ver:pear_stairs`)**
+    * **Pear Slab (`mc3ver:pear_slab`)**
+    * **Pear Fence (`mc3ver:pear_fence`)**
+    * **Pear Fence Gate (`mc3ver:pear_fence_gate`)**
+    * **Pear Door (`mc3ver:pear_door`)** with stylish window cutout
+    * **Pear Trapdoor (`mc3ver:pear_trapdoor`)**
+    * **Pear Pressure Plate (`mc3ver:pear_pressure_plate`)**
+    * **Pear Button (`mc3ver:pear_button`)**
+  * **9 Bespoke 16x16 Pixel-Art Textures:**
+    * Refined, warm Swiss pear wood color palette for planks, logs, stripped logs, doors, and trapdoors.
+  * **Full Wood System Integration:**
+    * Crafting recipes for all blocks and items.
+    * Integrated into all standard Minecraft block and item tags (`wooden_doors`, `wooden_stairs`, `wooden_slabs`, `wooden_fences`, `fence_gates`, etc.).
+    * Accurate loot tables and acoustic block sound types.
+* **Visually Distinct Pear Sapling (`mc3ver:pear_sapling`):**
+  * Dedicated 16x16 pixel-art texture featuring the distinct foliage shade of mature pear trees and unique pear-shaped crown to easily tell them apart from oak saplings.
+* **Website & Crafting Documentation:**
+  * Added visual workbench crafting recipe grids for Transport Flame, Wind Wand, and Chain Lightning Wand on GitHub Pages.
+
+---
+
 ## [0.3.0] - 2026-09-03
 
 ### ✨ Added

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "mc3ver:block/pear_slab"
+    },
+    "type=double": {
+      "model": "mc3ver:block/pear_planks"
+    },
+    "type=top": {
+      "model": "mc3ver:block/pear_slab_top"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "minecraft:block/stripped_oak_log",
-    "side": "minecraft:block/stripped_oak_log"
+    "end": "mc3ver:block/stripped_pear_log",
+    "side": "mc3ver:block/stripped_pear_log"
   }
 }

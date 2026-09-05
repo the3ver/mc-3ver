@@ -29,6 +29,7 @@
 
       <div class="nav-links">
         <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
+        <a href="#recipes" class="nav-link" data-i18n="nav.recipes">Rezepte</a>
         <a href="#install" class="nav-link" data-i18n="nav.install">Installation</a>
         <a href="#specs" class="nav-link" data-i18n="nav.specs">Anforderungen</a>
         <a href="#faq" class="nav-link" data-i18n="nav.faq">FAQ</a>
@@ -84,7 +85,7 @@
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
           <span data-i18n="hero.btn.download">Neueste Version laden</span>
-          <span class="version-tag" id="releaseVersionTag">v0.3.0</span>
+          <span class="version-tag" id="releaseVersionTag">v0.4.0</span>
         </a>
 
         <a href="#features" class="btn btn-secondary btn-lg" id="heroInstallBtn">
@@ -144,12 +145,12 @@
         <div class="feature-card">
           <div class="feature-icon-wrapper">
             <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
             </svg>
           </div>
-          <h3 class="feature-title" data-i18n="features.jump.title">💨 Doppelsprung (Double Jump)</h3>
-          <p class="feature-text" data-i18n="features.jump.desc">
-            Erneutes Drücken der Sprungtaste in der Luft gewährt einen kraftvollen zweiten Sprung nach vorn mit Wind-Burst-Effekten.
+          <h3 class="feature-title" data-i18n="features.lightning.title">⚡ Kettenblitzstab</h3>
+          <p class="feature-text" data-i18n="features.lightning.desc">
+            Hold-to-Charge für bis zu 24 Schaden, springt auf bis zu 4 weitere Ziele über, lädt Creeper mit elektrischem Schild auf und setzt brennbare Blöcke in Brand.
           </p>
         </div>
 
@@ -172,9 +173,21 @@
               <circle cx="12" cy="12" r="9"/>
             </svg>
           </div>
-          <h3 class="feature-title" data-i18n="features.peartree.title">🍐 Birnenbäume & Früchte</h3>
+          <h3 class="feature-title" data-i18n="features.peartree.title">🍐 Schweizer Birnenholz &amp; Früchte</h3>
           <p class="feature-text" data-i18n="features.peartree.desc">
-            Finde Birnenbäume in Wäldern und Ebenen, baue Birnenholz, Blätter und Setzlinge an und ernte saftige, nahrhafte Birnen.
+            Vollwertiges Bauset im warmen Schweizer Birnbaum-Design (Treppen, Stufen, Zäune, Tore, Glastüren, Falltüren, Platten, Knöpfe), optisch eigene Setzlinge und Birnen.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <h3 class="feature-title" data-i18n="features.jump.title">💨 Doppelsprung (Double Jump)</h3>
+          <p class="feature-text" data-i18n="features.jump.desc">
+            Erneutes Drücken der Sprungtaste in der Luft gewährt einen kraftvollen zweiten Sprung nach vorn mit Wind-Burst-Effekten.
           </p>
         </div>
 
@@ -187,23 +200,171 @@
               <line x1="6" y1="18" x2="6.01" y2="18"/>
             </svg>
           </div>
-          <h3 class="feature-title" data-i18n="features.multiplayer.title">🌐 Client & Server</h3>
+          <h3 class="feature-title" data-i18n="features.multiplayer.title">🌐 Client &amp; Server</h3>
           <p class="feature-text" data-i18n="features.multiplayer.desc">
             Volle Unterstützung für Singleplayer-Welten, LAN-Multiplayer und dedizierte Fabric-Server.
           </p>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="16 18 22 12 16 6"/>
-              <polyline points="8 6 2 12 8 18"/>
-            </svg>
+  <!-- Recipes & Crafting Section -->
+  <section class="section recipes-section" id="recipes">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" data-i18n="recipes.title">Rezepte &amp; Crafting</h2>
+        <p class="section-subtitle" data-i18n="recipes.subtitle">Offizielle Herstellungsrezepte für Werkbank und Inventar im praktischen Überblick.</p>
+      </div>
+
+      <div class="recipes-grid">
+        <!-- Recipe 1: Transport Flame -->
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <div class="recipe-title-group">
+              <h3 class="recipe-name" data-i18n="recipes.flame.name">🔥 Transportflamme</h3>
+              <span class="recipe-badge" data-i18n="recipes.badge.both">Geformt &amp; Formlos</span>
+            </div>
+            <p class="recipe-desc" data-i18n="recipes.flame.desc">Errichtet einen Teleport-Anker und generiert automatisch eine verknüpfte Teleport-Karte ins Inventar.</p>
           </div>
-          <h3 class="feature-title" data-i18n="features.tech.title">⚡ Java 25 & Mojang Mappings</h3>
-          <p class="feature-text" data-i18n="features.tech.desc">
-            Natives Java 25 mit offiziellen Mappings und solider, 100% testgetriebener (TDD) Codebasis.
-          </p>
+
+          <div class="crafting-table-ui">
+            <div class="crafting-grid-3x3">
+              <div class="grid-slot empty"></div>
+              <div class="grid-slot filled" title="Bruchstein / Cobblestone"><span class="item-emoji">🪨</span></div>
+              <div class="grid-slot empty"></div>
+
+              <div class="grid-slot filled" title="Bruchstein / Cobblestone"><span class="item-emoji">🪨</span></div>
+              <div class="grid-slot filled highlight" title="Fackel / Torch"><span class="item-emoji">🕯️</span></div>
+              <div class="grid-slot filled" title="Bruchstein / Cobblestone"><span class="item-emoji">🪨</span></div>
+
+              <div class="grid-slot empty"></div>
+              <div class="grid-slot filled" title="Bruchstein / Cobblestone"><span class="item-emoji">🪨</span></div>
+              <div class="grid-slot empty"></div>
+            </div>
+
+            <div class="crafting-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <div class="crafting-result-slot">
+              <div class="grid-slot result-slot" title="Transportflamme">
+                <span class="item-emoji">🔥</span>
+                <span class="result-count">1</span>
+              </div>
+              <span class="result-label" data-i18n="recipes.flame.result">Transportflamme</span>
+            </div>
+          </div>
+
+          <div class="recipe-ingredients-summary">
+            <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
+            <span data-i18n="recipes.flame.ingredients">4x Bruchstein, 1x Fackel (im Zentrum oder formlos)</span>
+          </div>
+        </div>
+
+        <!-- Recipe 2: Wind Wand -->
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <div class="recipe-title-group">
+              <h3 class="recipe-name" data-i18n="recipes.wind.name">🌪️ Windzauberstab</h3>
+              <span class="recipe-badge" data-i18n="recipes.badge.both">Geformt &amp; Formlos</span>
+            </div>
+            <p class="recipe-desc" data-i18n="recipes.wind.desc">Verschießt gezielte Druckluft-Stöße gegen Mobs mit starkem Rückstoß und Wind-Partikeln.</p>
+          </div>
+
+          <div class="crafting-table-ui">
+            <div class="crafting-grid-3x3">
+              <div class="grid-slot filled" title="Diamant / Diamond"><span class="item-emoji">💎</span></div>
+              <div class="grid-slot filled" title="Diamant / Diamond"><span class="item-emoji">💎</span></div>
+              <div class="grid-slot filled" title="Diamant / Diamond"><span class="item-emoji">💎</span></div>
+
+              <div class="grid-slot filled" title="Diamant / Diamond"><span class="item-emoji">💎</span></div>
+              <div class="grid-slot filled highlight" title="Feder / Feather"><span class="item-emoji">🪶</span></div>
+              <div class="grid-slot filled" title="Diamant / Diamond"><span class="item-emoji">💎</span></div>
+
+              <div class="grid-slot filled" title="Diamant / Diamond"><span class="item-emoji">💎</span></div>
+              <div class="grid-slot filled highlight" title="Stock / Stick"><span class="item-emoji">🥢</span></div>
+              <div class="grid-slot filled" title="Diamant / Diamond"><span class="item-emoji">💎</span></div>
+            </div>
+
+            <div class="crafting-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <div class="crafting-result-slot">
+              <div class="grid-slot result-slot" title="Windzauberstab">
+                <span class="item-emoji">🌪️</span>
+                <span class="result-count">1</span>
+              </div>
+              <span class="result-label" data-i18n="recipes.wind.result">Windzauberstab</span>
+            </div>
+          </div>
+
+          <div class="recipe-ingredients-summary">
+            <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
+            <span data-i18n="recipes.wind.ingredients">7x Diamant, 1x Feder (Mitte), 1x Stock (Mitte unten)</span>
+          </div>
+        </div>
+
+        <!-- Recipe 3: Chain Lightning Wand -->
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <div class="recipe-title-group">
+              <h3 class="recipe-name" data-i18n="recipes.lightning.name">⚡ Blitzzauberstab</h3>
+              <span class="recipe-badge" data-i18n="recipes.badge.both">Geformt &amp; Formlos</span>
+            </div>
+            <p class="recipe-desc" data-i18n="recipes.lightning.desc">Entfesselt Kettenblitze auf bis zu 5 Ziele, aufladbar (Hold-to-Charge) bis 24 Schaden, transformiert Mobs &amp; zündet Blöcke an.</p>
+          </div>
+
+          <div class="crafting-table-ui">
+            <div class="crafting-grid-3x3">
+              <div class="grid-slot filled" title="Amethyst-Scherbe / Amethyst Shard"><span class="item-emoji">🔮</span></div>
+              <div class="grid-slot filled highlight" title="Blitzableiter / Lightning Rod"><span class="item-emoji">⚡</span></div>
+              <div class="grid-slot filled" title="Amethyst-Scherbe / Amethyst Shard"><span class="item-emoji">🔮</span></div>
+
+              <div class="grid-slot empty"></div>
+              <div class="grid-slot filled highlight" title="Kupferbarren / Copper Ingot"><span class="item-emoji">🧱</span></div>
+              <div class="grid-slot empty"></div>
+
+              <div class="grid-slot empty"></div>
+              <div class="grid-slot filled highlight" title="Stock / Stick"><span class="item-emoji">🥢</span></div>
+              <div class="grid-slot empty"></div>
+            </div>
+
+            <div class="crafting-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <div class="crafting-result-slot">
+              <div class="grid-slot result-slot" title="Kettenblitzstab">
+                <img src="assets/lightning_wand.png" class="item-img" alt="Kettenblitzstab">
+                <span class="result-count">1</span>
+              </div>
+              <span class="result-label" data-i18n="recipes.lightning.result">Kettenblitzstab</span>
+            </div>
+          </div>
+
+          <div class="recipe-ingredients-summary">
+            <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
+            <span data-i18n="recipes.lightning.ingredients">1x Blitzableiter, 2x Amethyst-Scherbe, 1x Kupferbarren, 1x Stock</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pear Wood Bauset Info Banner -->
+      <div class="recipe-wood-banner">
+        <img src="assets/pear_planks.png" class="wood-banner-icon" alt="Birnenholz Planken">
+        <div class="wood-banner-text" data-i18n-html="recipes.pear_note">
+          🪵 <strong>Birnenholz-Bauset:</strong> Birnenholzstämme lassen sich wie gewohnt zu 4x Birnenholzbrettern verarbeiten. Daraus können Treppen, Stufen, Zäune, Tore, Türen mit Glaseinsatz, Falltüren, Druckplatten und Knöpfe gecraftet werden.
         </div>
       </div>
     </div>
@@ -325,7 +486,7 @@
           <div class="step-content">
             <h3 class="step-title" data-i18n="install.step2.title">WorldExplorerMod herunterladen</h3>
             <p class="step-text" data-i18n-html="install.step2.desc">
-              Lade die Datei <code class="code-badge">mc-3ver-0.3.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
+              Lade die Datei <code class="code-badge">mc-3ver-0.4.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
             </p>
             <a href="https://modrinth.com/mod/worldexplorermod" target="_blank" rel="noopener noreferrer" class="link-btn" data-i18n-html="install.step2.btn">
               Zu den Releases &rarr;

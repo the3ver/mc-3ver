@@ -6,6 +6,32 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) 
 
 ---
 
+## [0.4.0] - 2026-09-05
+
+### ✨ Neu hinzugefügt
+* **Vollständiges Birnenholz-Set (Schweizer Birnbaumholz-Design):**
+  * **8 neue Blöcke & Gegenstände:**
+    * **Birnenholztreppe (`mc3ver:pear_stairs`)**
+    * **Birnenholzstufe (`mc3ver:pear_slab`)**
+    * **Birnenholzzaun (`mc3ver:pear_fence`)**
+    * **Birnenholzzauntor (`mc3ver:pear_fence_gate`)**
+    * **Birnenholztür (`mc3ver:pear_door`)** mit stilvollem Fensterausschnitt
+    * **Birnenholzfalltür (`mc3ver:pear_trapdoor`)**
+    * **Birnenholzdruckplatte (`mc3ver:pear_pressure_plate`)**
+    * **Birnenholzknopf (`mc3ver:pear_button`)**
+  * **9 maßgeschneiderte 16x16 Pixel-Art-Texturen:**
+    * Edle, warme Schweizer Birnbaum-Farbgebung für Planken, Stämme, entrindete Stämme, Türen und Falltüren.
+  * **Vollwertige Holz-Integration:**
+    * Alle Standard-Rezepte zum Craften (Werkbank & Steinsäge-kompatible Tags).
+    * Integration in alle relevanten Minecraft Block- & Item-Tags (`wooden_doors`, `wooden_stairs`, `wooden_slabs`, `wooden_fences`, `fence_gates`, etc.).
+    * Korrekte Loot-Tables und Sound-Eigenschaften.
+* **Optisch differenzierter Birnbaum-Setzling (`mc3ver:pear_sapling`):**
+  * Eigenständige 16x16 Pixel-Art-Textur mit der charakteristischen Blattfarbe des Birnbaums und birnenförmigem Wuchs zur eindeutigen Unterscheidung von Eichensetzlingen.
+* **Website & Rezept-Dokumentation:**
+  * GitHub Pages um interaktive Crafting-Grid-Rezepte für Transportflamme, Windzauberstab und Kettenblitzstab erweitert.
+
+---
+
 ## [0.3.0] - 2026-09-03
 
 ### ✨ Neu hinzugefügt

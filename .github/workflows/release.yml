@@ -35,13 +35,26 @@ jobs:
       - name: Build Mod
         run: ./gradlew build
 
+      - name: Determine Version
+        id: get_version
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            TAG="${{ github.ref_name }}"
+            VER="${TAG#v}"
+            echo "version=$VER" >> $GITHUB_OUTPUT
+            echo "tag=$TAG" >> $GITHUB_OUTPUT
+          else
+            echo "version=0.4.0" >> $GITHUB_OUTPUT
+            echo "tag=v0.4.0" >> $GITHUB_OUTPUT
+          fi
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'v0.3.0' }}
+          tag_name: ${{ steps.get_version.outputs.tag }}
           files: build/libs/*.jar
           generate_release_notes: true
           draft: false
@@ -55,8 +68,8 @@ jobs:
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           curseforge-id: '1673253'
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          version: '0.3.0'
-          name: 'mc-3ver-0.3.0.jar'
+          version: ${{ steps.get_version.outputs.version }}
+          name: 'mc-3ver-${{ steps.get_version.outputs.version }}.jar'
           version-type: release
           changelog-file: CHANGELOG_EN.md
           files: |

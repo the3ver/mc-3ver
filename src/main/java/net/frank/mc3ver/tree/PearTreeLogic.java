@@ -36,9 +36,15 @@ public class PearTreeLogic {
     public static int getFuelDurationTicks(String itemName) {
         if ("pear_log".equals(itemName) || "stripped_pear_log".equals(itemName)
                 || "pear_wood".equals(itemName) || "stripped_pear_wood".equals(itemName)
-                || "pear_planks".equals(itemName)) {
+                || "pear_planks".equals(itemName) || "pear_stairs".equals(itemName)
+                || "pear_fence".equals(itemName) || "pear_fence_gate".equals(itemName)
+                || "pear_trapdoor".equals(itemName) || "pear_pressure_plate".equals(itemName)) {
             return 300;
-        } else if ("pear_sapling".equals(itemName)) {
+        } else if ("pear_door".equals(itemName)) {
+            return 200;
+        } else if ("pear_slab".equals(itemName)) {
+            return 150;
+        } else if ("pear_sapling".equals(itemName) || "pear_button".equals(itemName)) {
             return 100;
         }
         return 0;
