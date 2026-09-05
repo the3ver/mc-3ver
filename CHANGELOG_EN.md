@@ -4,6 +4,24 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-09-05
+
+### ✨ Added
+* **Golden Pear / Explorer's Pear (`mc3ver:golden_pear`):**
+  * **Consumption Effects:**
+    * **Jump Boost II** for 60 seconds &rarr; enables **Triple Jump**!
+    * **Speed II** for 60 seconds for high mobility.
+    * **Slow Falling I** for 45 seconds to prevent fall damage.
+  * **Food Properties:** 4 nutrition (2 hunger shanks), 1.2 saturation modifier, edible even when full (`alwaysEdible`).
+  * **Item Rarity:** `RARE` (aqua item name).
+  * **Crafting Recipes:**
+    * Shaped recipe: 1x Pear in center surrounded by 8x Gold Ingots.
+    * Shapeless recipe: 1x Pear + 8x Gold Ingots anywhere in the crafting grid.
+* **Expanded Mobility Mechanics (Triple Jump):**
+  * Players with Jump Boost (`MobEffects.JUMP_BOOST`) can perform up to 2 extra mid-air jumps (Double Jump & Triple Jump).
+* **Website & Recipe Documentation:**
+  * Added Golden Pear crafting table recipe visualization to GitHub Pages.
+
 ---
 
 ## [0.4.0] - 2026-09-05

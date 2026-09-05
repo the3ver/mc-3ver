@@ -7,6 +7,7 @@ import net.frank.mc3ver.Mc3verMod;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.phys.Vec3;
 
 public class Mc3verClient implements ClientModInitializer {
@@ -25,8 +26,9 @@ public class Mc3verClient implements ClientModInitializer {
 			}
 
 			boolean isJumpKeyDown = client.options.keyJump.isDown();
+			int maxExtraJumps = player.hasEffect(MobEffects.JUMP_BOOST) ? 2 : 1;
 
-			// State Machine Update für Doppelsprung
+			// State Machine Update für Doppelsprung & Dreifachsprung
 			boolean shouldTrigger = doubleJumpState.update(
 				player.onGround(),
 				player.isInWater(),
@@ -37,7 +39,8 @@ public class Mc3verClient implements ClientModInitializer {
 				player.isFallFlying(),
 				player.isSpectator(),
 				isJumpKeyDown,
-				jumpWasDown
+				jumpWasDown,
+				maxExtraJumps
 			);
 
 			if (shouldTrigger) {

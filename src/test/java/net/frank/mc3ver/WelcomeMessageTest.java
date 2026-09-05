@@ -10,7 +10,7 @@ public class WelcomeMessageTest {
 	@Test
 	void testModNameAndVersion() {
 		assertEquals("WorldExplorerMod", Mc3verMod.MOD_NAME);
-		assertEquals("0.4.0", Mc3verMod.MOD_VERSION);
+		assertEquals("0.4.1", Mc3verMod.MOD_VERSION);
 	}
 
 	@Test
@@ -21,6 +21,6 @@ public class WelcomeMessageTest {
 		
 		TranslatableContents contents = (TranslatableContents) component.getContents();
 		assertEquals("message.mc3ver.welcome", contents.getKey());
-		assertArrayEquals(new Object[]{"WorldExplorerMod", "0.4.0"}, contents.getArgs());
+		assertArrayEquals(new Object[]{"WorldExplorerMod", "0.4.1"}, contents.getArgs());
 	}
 }

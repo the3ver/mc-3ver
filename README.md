@@ -46,7 +46,7 @@
 
 #### Schritt 3: WorldExplorerMod herunterladen
 1. Gehe zu den [GitHub Releases von WorldExplorerMod](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.4.0.jar` herunter.
+2. Lade die Datei `mc-3ver-0.4.1.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -54,7 +54,7 @@
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.4.0.jar`** in diesen `mods`-Ordner.
+3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.4.1.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
@@ -70,7 +70,7 @@
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.4.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Ziehe die heruntergeladene `mc-3ver-0.4.1.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
@@ -78,15 +78,20 @@
 ### Variante C: Dedizierter Server (Multiplayer)
 
 1. Richte einen Minecraft 26.2 Fabric-Server ein.
-2. Platziere `fabric-api-...jar` und `mc-3ver-0.4.0.jar` im `mods/`-Ordner auf dem Server.
+2. Platziere `fabric-api-...jar` und `mc-3ver-0.4.1.jar` im `mods/`-Ordner auf dem Server.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
 
 ## ✨ Features
 
-* **💨 Doppelsprung (Double Jump):**
+* **💨 Doppelsprung & Dreifachsprung (Air Jumps):**
   * Drücke die Leertaste (Jump) erneut mitten im Sprung / in der Luft, um einen zweiten Sprung mit Schwung nach vorne und Wind-Burst-Partikeln auszuführen.
+  * Unter Einfluss des **Sprungkraft-Effekts** (z. B. durch die Entdeckerbirne) ist sogar ein kraftvoller **Dreifachsprung** möglich!
+* **🍐 Goldene Birne (Entdeckerbirne):**
+  * **Verzehreffekte:** Sprungkraft II (ermöglicht Dreifachsprung!), Tempo II (60s) und Sanfter Fall I (45s).
+  * **Eigenschaften:** Sättigung 1.2, 4 Hungerpunkte, immer essbar (`alwaysEdible`).
+  * **Crafting:** 8x Goldbarren + 1x Birne (geformt oder formlos).
 * **🔥 Transportflammen & Teleport-Karten:**
   * **Rezept:** 1 Fackel + 4 Bruchstein in der Werkbank (oder formlos).
   * **Platzieren:** Beim Aufstellen einer Transportflamme erhält der Spieler eine verknüpfte, zufällig gefärbte **Transportkarte** ins Inventar.

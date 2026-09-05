@@ -152,4 +152,37 @@ public class DoubleJumpLogicTest {
 		boolean jump2 = state.update(false, false, false, false, false, false, false, false, true, false);
 		assertFalse(jump2, "Kein weiterer Sprung in der Luft nach Kantensturz erlaubt");
 	}
+
+	@Test
+	void testDoubleJumpState_WhenMaxExtraJumpsIsTwo_AllowsTripleJump() {
+		DoubleJumpLogic.DoubleJumpState state = new DoubleJumpLogic.DoubleJumpState();
+
+		// Am Boden: Leertaste losgelassen
+		state.update(true, false, false, false, false, false, false, false, false, false, 2);
+
+		// Spieler springt vom Boden ab in die Luft (Taste gedrückt gehalten)
+		state.update(false, false, false, false, false, false, false, false, true, true, 2);
+
+		// Taste in der Luft loslassen -> primed
+		state.update(false, false, false, false, false, false, false, false, false, true, 2);
+		assertTrue(state.isPrimed(), "Muss scharf sein nach Loslassen in der Luft");
+
+		// 1. Luftsprung (Doppelsprung)
+		boolean jump1 = state.update(false, false, false, false, false, false, false, false, true, false, 2);
+		assertTrue(jump1, "Erster Luftsprung (Doppelsprung) muss auslösen");
+
+		// Erneut loslassen in der Luft -> erneut primed
+		state.update(false, false, false, false, false, false, false, false, false, true, 2);
+		assertTrue(state.isPrimed(), "Muss für Dreifachsprung erneut scharf geschaltet werden");
+
+		// 2. Luftsprung (Dreifachsprung)
+		boolean jump2 = state.update(false, false, false, false, false, false, false, false, true, false, 2);
+		assertTrue(jump2, "Zweiter Luftsprung (Dreifachsprung) muss bei maxExtraJumps=2 auslösen");
+
+		// Erneut loslassen und nochmals drücken -> darf NICHT mehr auslösen
+		state.update(false, false, false, false, false, false, false, false, false, true, 2);
+		boolean jump3 = state.update(false, false, false, false, false, false, false, false, true, false, 2);
+		assertFalse(jump3, "Vierter Sprung / 3. Luftsprung darf NICHT auslösen");
+	}
 }
+

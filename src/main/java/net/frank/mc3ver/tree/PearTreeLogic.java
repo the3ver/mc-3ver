@@ -5,6 +5,12 @@ public class PearTreeLogic {
     public static final int PEAR_NUTRITION = 4;
     public static final float PEAR_SATURATION_MODIFIER = 0.3f;
 
+    public static final int GOLDEN_PEAR_NUTRITION = 4;
+    public static final float GOLDEN_PEAR_SATURATION_MODIFIER = 1.2f;
+    public static final int JUMP_BOOST_DURATION_TICKS = 1200;
+    public static final int SPEED_DURATION_TICKS = 1200;
+    public static final int SLOW_FALLING_DURATION_TICKS = 900;
+
     public static float getCompostChance(String itemName) {
         if ("pear".equals(itemName)) {
             return 0.65f;

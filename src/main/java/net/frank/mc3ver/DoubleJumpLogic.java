@@ -4,7 +4,7 @@ public class DoubleJumpLogic {
 
 	public static class DoubleJumpState {
 		private boolean primed = false;
-		private boolean canDoubleJump = true;
+		private int extraJumpsRemaining = 1;
 
 		public boolean update(
 			boolean onGround,
@@ -18,29 +18,47 @@ public class DoubleJumpLogic {
 			boolean isJumpKeyDown,
 			boolean jumpWasDown
 		) {
+			return update(onGround, inWater, inLava, isPassenger, onClimbable, isFlying, isFallFlying, isSpectator, isJumpKeyDown, jumpWasDown, 1);
+		}
+
+		public boolean update(
+			boolean onGround,
+			boolean inWater,
+			boolean inLava,
+			boolean isPassenger,
+			boolean onClimbable,
+			boolean isFlying,
+			boolean isFallFlying,
+			boolean isSpectator,
+			boolean isJumpKeyDown,
+			boolean jumpWasDown,
+			int maxExtraJumps
+		) {
+			int maxJumps = Math.max(1, maxExtraJumps);
+
 			// Wenn der Spieler den Boden berührt, schwimmt, klettert oder reitet, wird der Doppelsprung aufgeladen/zurückgesetzt
 			if (onGround || inWater || inLava || isPassenger || onClimbable) {
 				primed = false;
-				canDoubleJump = true;
+				extraJumpsRemaining = maxJumps;
 				return false;
 			}
 
 			// In besonderen Bewegungsmodi kein Doppelsprung
 			if (isFlying || isFallFlying || isSpectator) {
 				primed = false;
-				canDoubleJump = false;
+				extraJumpsRemaining = 0;
 				return false;
 			}
 
-			// Wenn der Doppelsprung verfügbar ist und der Spieler in der Luft die Sprungtaste loslässt: scharfschalten
-			if (canDoubleJump && !isJumpKeyDown) {
+			// Wenn noch Luftsprünge verfügbar sind und der Spieler in der Luft die Sprungtaste loslässt: scharfschalten
+			if (extraJumpsRemaining > 0 && !isJumpKeyDown) {
 				primed = true;
 			}
 
-			// Wenn scharfgeschaltet und die Sprungtaste in der Luft neu gedrückt wird: Auslösen und verbrauchen!
-			if (canDoubleJump && primed && isJumpKeyDown && !jumpWasDown) {
+			// Wenn scharfgeschaltet und die Sprungtaste in der Luft neu gedrückt wird: Auslösen und 1 Luftsprung verbrauchen!
+			if (extraJumpsRemaining > 0 && primed && isJumpKeyDown && !jumpWasDown) {
 				primed = false;
-				canDoubleJump = false;
+				extraJumpsRemaining--;
 				return true;
 			}
 
@@ -52,7 +70,11 @@ public class DoubleJumpLogic {
 		}
 
 		public boolean canDoubleJump() {
-			return canDoubleJump;
+			return extraJumpsRemaining > 0;
+		}
+
+		public int getExtraJumpsRemaining() {
+			return extraJumpsRemaining;
 		}
 	}
 

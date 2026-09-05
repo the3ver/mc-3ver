@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GGG",
+    "GPG",
+    "GGG"
+  ],
+  "key": {
+    "G": "minecraft:gold_ingot",
+    "P": "mc3ver:pear"
+  },
+  "result": {
+    "id": "mc3ver:golden_pear",
+    "count": 1
+  }
+}

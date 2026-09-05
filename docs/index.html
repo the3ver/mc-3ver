@@ -85,7 +85,7 @@
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
           <span data-i18n="hero.btn.download">Neueste Version laden</span>
-          <span class="version-tag" id="releaseVersionTag">v0.4.0</span>
+          <span class="version-tag" id="releaseVersionTag">v0.4.1</span>
         </a>
 
         <a href="#features" class="btn btn-secondary btn-lg" id="heroInstallBtn">
@@ -175,7 +175,7 @@
           </div>
           <h3 class="feature-title" data-i18n="features.peartree.title">🍐 Schweizer Birnenholz &amp; Früchte</h3>
           <p class="feature-text" data-i18n="features.peartree.desc">
-            Vollwertiges Bauset im warmen Schweizer Birnbaum-Design (Treppen, Stufen, Zäune, Tore, Glastüren, Falltüren, Platten, Knöpfe), optisch eigene Setzlinge und Birnen.
+            Vollwertiges Bauset im warmen Schweizer Birnbaum-Design, optisch eigene Setzlinge, saftige Birnen und die mächtige Goldene Birne (Entdeckerbirne).
           </p>
         </div>
 
@@ -185,9 +185,9 @@
               <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
             </svg>
           </div>
-          <h3 class="feature-title" data-i18n="features.jump.title">💨 Doppelsprung (Double Jump)</h3>
+          <h3 class="feature-title" data-i18n="features.jump.title">💨 Doppelsprung &amp; Dreifachsprung</h3>
           <p class="feature-text" data-i18n="features.jump.desc">
-            Erneutes Drücken der Sprungtaste in der Luft gewährt einen kraftvollen zweiten Sprung nach vorn mit Wind-Burst-Effekten.
+            Erneutes Drücken der Sprungtaste in der Luft gewährt einen zweiten Sprung nach vorn. Mit Sprungkraft (z. B. durch die Entdeckerbirne) sogar einen Dreifachsprung!
           </p>
         </div>
 
@@ -358,6 +358,53 @@
             <span data-i18n="recipes.lightning.ingredients">1x Blitzableiter, 2x Amethyst-Scherbe, 1x Kupferbarren, 1x Stock</span>
           </div>
         </div>
+
+        <!-- Recipe 4: Golden Pear -->
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <div class="recipe-title-group">
+              <h3 class="recipe-name" data-i18n="recipes.golden_pear.name">🍐 Goldene Birne (Entdeckerbirne)</h3>
+              <span class="recipe-badge" data-i18n="recipes.badge.both">Geformt &amp; Formlos</span>
+            </div>
+            <p class="recipe-desc" data-i18n="recipes.golden_pear.desc">Verleiht Sprungkraft II (ermöglicht Dreifachsprung!), Tempo II für 60 Sekunden und Sanften Fall für 45 Sekunden.</p>
+          </div>
+
+          <div class="crafting-table-ui">
+            <div class="crafting-grid-3x3">
+              <div class="grid-slot filled" title="Goldbarren / Gold Ingot"><span class="item-emoji">🪙</span></div>
+              <div class="grid-slot filled" title="Goldbarren / Gold Ingot"><span class="item-emoji">🪙</span></div>
+              <div class="grid-slot filled" title="Goldbarren / Gold Ingot"><span class="item-emoji">🪙</span></div>
+
+              <div class="grid-slot filled" title="Goldbarren / Gold Ingot"><span class="item-emoji">🪙</span></div>
+              <div class="grid-slot filled highlight" title="Birne / Pear"><span class="item-emoji">🍐</span></div>
+              <div class="grid-slot filled" title="Goldbarren / Gold Ingot"><span class="item-emoji">🪙</span></div>
+
+              <div class="grid-slot filled" title="Goldbarren / Gold Ingot"><span class="item-emoji">🪙</span></div>
+              <div class="grid-slot filled" title="Goldbarren / Gold Ingot"><span class="item-emoji">🪙</span></div>
+              <div class="grid-slot filled" title="Goldbarren / Gold Ingot"><span class="item-emoji">🪙</span></div>
+            </div>
+
+            <div class="crafting-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <div class="crafting-result-slot">
+              <div class="grid-slot result-slot" title="Goldene Birne">
+                <img src="assets/golden_pear.png" class="item-img" alt="Goldene Birne">
+                <span class="result-count">1</span>
+              </div>
+              <span class="result-label" data-i18n="recipes.golden_pear.result">Goldene Birne</span>
+            </div>
+          </div>
+
+          <div class="recipe-ingredients-summary">
+            <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
+            <span data-i18n="recipes.golden_pear.ingredients">8x Goldbarren, 1x Birne (im Zentrum oder formlos)</span>
+          </div>
+        </div>
       </div>
 
       <!-- Pear Wood Bauset Info Banner -->
@@ -486,7 +533,7 @@
           <div class="step-content">
             <h3 class="step-title" data-i18n="install.step2.title">WorldExplorerMod herunterladen</h3>
             <p class="step-text" data-i18n-html="install.step2.desc">
-              Lade die Datei <code class="code-badge">mc-3ver-0.4.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
+              Lade die Datei <code class="code-badge">mc-3ver-0.4.1.jar</code> von Modrinth, CurseForge oder GitHub herunter.
             </p>
             <a href="https://modrinth.com/mod/worldexplorermod" target="_blank" rel="noopener noreferrer" class="link-btn" data-i18n-html="install.step2.btn">
               Zu den Releases &rarr;

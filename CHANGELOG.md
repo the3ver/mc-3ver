@@ -4,6 +4,24 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.4.1] - 2026-09-05
+
+### ✨ Neu hinzugefügt
+* **Goldene Birne / Entdeckerbirne (`mc3ver:golden_pear`):**
+  * **Verzehreffekte:**
+    * **Sprungkraft II** für 60 Sekunden &rarr; schaltet den **Dreifachsprung** frei!
+    * **Tempo II** für 60 Sekunden für schnelles Erkunden.
+    * **Sanfter Fall I** für 45 Sekunden als Schutz vor Fallschaden.
+  * **Nahrungswerte:** 4 Hungerpunkte (2 Keulen), 1.2 Sättigungs-Modifikator, auch bei vollem Hungerbalken essbar (`alwaysEdible`).
+  * **Item-Seltenheit:** `RARE` (türkiser Gegenstandsname).
+  * **Herstellung:**
+    * Geformtes Rezept: 1x Birne im Zentrum, umgeben von 8x Goldbarren.
+    * Formloses Rezept: 1x Birne + 8x Goldbarren beliebig in der Werkbank.
+* **Erweiterte Sprungmechanik (Dreifachsprung):**
+  * Spieler unter dem Einfluss von Sprungkraft (`MobEffects.JUMP_BOOST`) können nach dem Absprung vom Boden bis zu 2 Sprünge in der Luft ausführen (Doppelsprung & Dreifachsprung).
+* **Website & Rezept-Dokumentation:**
+  * Neues interaktives Crafting-Grid-Rezept für die Goldene Birne auf GitHub Pages.
+
 ---
 
 ## [0.4.0] - 2026-09-05
