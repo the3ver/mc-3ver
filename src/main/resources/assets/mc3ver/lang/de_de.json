@@ -43,5 +43,7 @@
   "block.mc3ver.pear_button": "Birnenholzknopf",
   "item.mc3ver.pear_button": "Birnenholzknopf",
   "message.mc3ver.teleport_success": "Zur Transportflamme teleportiert!",
+  "message.mc3ver.map_relinked": "Bestehende Transportkarte wurde mit dieser Transportflamme verknüpft!",
+  "message.mc3ver.map_already_linked": "Du besitzt bereits eine Transportkarte für diesen Ort.",
   "message.mc3ver.welcome": "§8[§a%s§8] §fWillkommen in der Welt! Mod §av%s§f ist aktiv. §7(Doppelsprung aktiv: Drücke Leertaste in der Luft)"
 }

@@ -74,6 +74,8 @@ public class LanguageFilesTest {
             "message.mc3ver.flame_extinguished",
             "message.mc3ver.already_at_target",
             "message.mc3ver.teleport_success",
+            "message.mc3ver.map_relinked",
+            "message.mc3ver.map_already_linked",
             "message.mc3ver.welcome"
         );
 

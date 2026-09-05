@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class Mc3verMod implements ModInitializer {
 	public static final String MOD_ID = "mc3ver";
 	public static final String MOD_NAME = "WorldExplorerMod";
-	public static final String MOD_VERSION = "0.4.1";
+	public static final String MOD_VERSION = "0.4.2";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 

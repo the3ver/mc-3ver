@@ -1,8 +1,11 @@
 package net.frank.mc3ver.transport;
 
+import net.minecraft.core.BlockPos;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class TransportFlameLogic {
 
@@ -27,6 +30,7 @@ public class TransportFlameLogic {
 
     public static final int CHANNELING_TICKS = 50; // 2.5 seconds at 20 ticks/sec
     public static final int COOLDOWN_TICKS = 600;  // 30 seconds at 20 ticks/sec
+    public static final int TRANSPORT_MAP_MAX_STACK_SIZE = 64; // Allows multiple (up to 64) maps to fit in a bundle
 
     public enum TeleportOutcome {
         SUCCESS,
@@ -109,6 +113,63 @@ public class TransportFlameLogic {
 
     public static boolean isValidFlameColorRgb(int colorRgb) {
         return ALL_FLAME_COLORS.contains(colorRgb);
+    }
+
+    public enum PlacementActionType {
+        KEEP_EXISTING_MAP,
+        RELINK_OLD_MAP,
+        CREATE_NEW_MAP
+    }
+
+    public record PlacementDecision(
+        PlacementActionType actionType,
+        FlameTarget targetToRelink,
+        FlameTarget newTarget
+    ) {}
+
+    @FunctionalInterface
+    public interface FlameChecker {
+        boolean flameExists(String dimension, BlockPos pos);
+    }
+
+    public static PlacementDecision decidePlacementAction(
+        int placedX, int placedY, int placedZ, String placedDimension,
+        List<FlameTarget> playerMapTargets,
+        FlameChecker flameChecker,
+        Random random
+    ) {
+        // 1. Check if player already has a map pointing to this exact position
+        for (FlameTarget target : playerMapTargets) {
+            if (target != null &&
+                target.x() == placedX &&
+                target.y() == placedY &&
+                target.z() == placedZ &&
+                placedDimension.equals(target.dimension())) {
+                return new PlacementDecision(PlacementActionType.KEEP_EXISTING_MAP, target, target);
+            }
+        }
+
+        // 2. Check if player has an extinguished old map (its flame is gone in the world)
+        for (FlameTarget target : playerMapTargets) {
+            if (target != null) {
+                boolean exists = flameChecker.flameExists(target.dimension(), new BlockPos(target.x(), target.y(), target.z()));
+                if (!exists) {
+                    // Relink this old map! Preserve original color & flameId
+                    FlameTarget relinkedTarget = new FlameTarget(
+                        placedX, placedY, placedZ, placedDimension, target.colorRgb(), target.flameId()
+                    );
+                    return new PlacementDecision(PlacementActionType.RELINK_OLD_MAP, target, relinkedTarget);
+                }
+            }
+        }
+
+        // 3. No existing or extinguished map found -> create brand new map
+        int newColor = getRandomFlameColorRgb(random);
+        UUID newFlameId = UUID.randomUUID();
+        FlameTarget freshTarget = new FlameTarget(
+            placedX, placedY, placedZ, placedDimension, newColor, newFlameId
+        );
+        return new PlacementDecision(PlacementActionType.CREATE_NEW_MAP, null, freshTarget);
     }
 
     public record FlameTarget(

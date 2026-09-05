@@ -17,7 +17,7 @@ public class ModItems {
     public static final Item TRANSPORT_MAP = Registry.register(
         BuiltInRegistries.ITEM,
         TRANSPORT_MAP_KEY,
-        new TransportMapItem(new Item.Properties().setId(TRANSPORT_MAP_KEY).stacksTo(1))
+        new TransportMapItem(new Item.Properties().setId(TRANSPORT_MAP_KEY).stacksTo(TransportFlameLogic.TRANSPORT_MAP_MAX_STACK_SIZE))
     );
 
     public static final ResourceKey<Item> WIND_WAND_KEY = ResourceKey.create(

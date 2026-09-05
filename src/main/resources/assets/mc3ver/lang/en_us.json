@@ -43,5 +43,7 @@
   "block.mc3ver.pear_button": "Pear Button",
   "item.mc3ver.pear_button": "Pear Button",
   "message.mc3ver.teleport_success": "Teleported to Transport Flame!",
+  "message.mc3ver.map_relinked": "Existing Transport Map re-linked to this Transport Flame!",
+  "message.mc3ver.map_already_linked": "You already possess a Transport Map for this location.",
   "message.mc3ver.welcome": "§8[§a%s§8] §fWelcome to the world! Mod §av%s§f is active. §7(Double jump enabled: Press Jump in mid-air)"
 }

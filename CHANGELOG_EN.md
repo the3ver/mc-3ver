@@ -4,6 +4,19 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.2] - 2026-09-05
+
+### ✨ Improvements & Bug Fixes
+* **Bundle Support for Transport Maps:**
+  * Transport Maps now have a max stack size of 64 (consistent with vanilla maps).
+  * Each Transport Map now occupies only 1/64 of a bundle, allowing up to 64 maps to be stored together inside a single bundle.
+* **Smart Re-linking of Transport Maps:**
+  * Breaking and placing a Transport Flame no longer creates redundant or useless duplicate maps.
+  * Any extinguished Transport Map in the player's inventory (including inside Bundles) automatically re-links to the newly placed flame while preserving its original color and ID.
+  * A new map is only granted if the player no longer has the old map in their possession.
+
+---
+
 ## [0.4.1] - 2026-09-05
 
 ### ✨ Added

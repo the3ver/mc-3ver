@@ -4,6 +4,19 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.4.2] - 2026-09-05
+
+### ✨ Verbesserungen & Fehlerbehebungen
+* **Beutel-Unterstützung für Transportkarten (Bundles):**
+  * Transportkarten besitzen nun eine maximale Stapelgröße von 64 (analog zu Vanilla-Karten).
+  * Dadurch belegt eine Transportkarte nur noch 1/64 eines Beutels, sodass bis zu 64 Transportkarten in einem Beutel platzsparend transportiert werden können.
+* **Intelligente Wiederverwendung & Relinking von Transportkarten:**
+  * Beim Abbauen und erneuten Platzieren einer Transportflamme wird keine überflüssige Zweitkarte mehr erzeugt.
+  * Eine im Inventar (oder in einem Beutel) vorhandene, erloschene Transportkarte wird automatisch mit der neu platzierten Flamme verknüpft (Farbe und ID bleiben erhalten).
+  * Eine neue Transportkarte wird nur dann ausgegeben, wenn der Spieler noch keine oder keine erloschene Karte mehr besitzt.
+
+---
+
 ## [0.4.1] - 2026-09-05
 
 ### ✨ Neu hinzugefügt
