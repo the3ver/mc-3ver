@@ -63,7 +63,35 @@ public class PearTreeItems {
         )
     );
 
+    public static final ResourceKey<Item> PEAR_BOAT_KEY = ResourceKey.create(
+        Registries.ITEM,
+        Mc3verMod.id("pear_boat")
+    );
+
+    public static final Item PEAR_BOAT = Registry.register(
+        BuiltInRegistries.ITEM,
+        PEAR_BOAT_KEY,
+        new net.minecraft.world.item.BoatItem(
+            PearTreeEntities.PEAR_BOAT_ENTITY_TYPE,
+            new Item.Properties().setId(PEAR_BOAT_KEY).stacksTo(1)
+        )
+    );
+
+    public static final ResourceKey<Item> PEAR_CHEST_BOAT_KEY = ResourceKey.create(
+        Registries.ITEM,
+        Mc3verMod.id("pear_chest_boat")
+    );
+
+    public static final Item PEAR_CHEST_BOAT = Registry.register(
+        BuiltInRegistries.ITEM,
+        PEAR_CHEST_BOAT_KEY,
+        new net.minecraft.world.item.BoatItem(
+            PearTreeEntities.PEAR_CHEST_BOAT_ENTITY_TYPE,
+            new Item.Properties().setId(PEAR_CHEST_BOAT_KEY).stacksTo(1)
+        )
+    );
+
     public static void register() {
-        // Triggers static initialization
+        PearTreeEntities.register();
     }
 }

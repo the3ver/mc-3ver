@@ -4,6 +4,17 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.3] - 2026-09-05
+
+### ✨ Added & Fixed
+* **Pear Wood Boats (`mc3ver:pear_boat` & `mc3ver:pear_chest_boat`):**
+  * Boats can now be crafted using 5x Pear Planks (`mc3ver:pear_planks`).
+  * Pear Chest Boats can be crafted by combining a chest and a pear boat.
+  * Full integration with entity and item tags (`#minecraft:boats`, `#minecraft:chest_boats`, `#minecraft:boat`), furnace fuel (60 seconds), and dispenser behavior.
+  * Custom pixel-art textures and client-side boat renderers.
+
+---
+
 ## [0.4.2] - 2026-09-05
 
 ### ✨ Improvements & Bug Fixes

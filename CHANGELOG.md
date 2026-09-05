@@ -4,6 +4,17 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.4.3] - 2026-09-05
+
+### ✨ Neu hinzugefügt & Behoben
+* **Birnenholzboote (`mc3ver:pear_boat` & `mc3ver:pear_chest_boat`):**
+  * Boote können nun wie gewohnt aus 5x Birnenholzbrettern (`mc3ver:pear_planks`) gecraftet werden.
+  * Birnenholztruhenboote können durch die Kombination von Truhe und Birnenholzboot hergestellt werden.
+  * Vollständige Einbindung in Entity- und Item-Tags (`#minecraft:boats`, `#minecraft:chest_boats`, `#minecraft:boat`), Ofenbrennwert (60 Sekunden) und Werfer-Verhalten (*Dispenser*).
+  * Eigene Pixelart-Texturen und Client-Renderer für Boote und Truhenboote.
+
+---
+
 ## [0.4.2] - 2026-09-05
 
 ### ✨ Verbesserungen & Fehlerbehebungen

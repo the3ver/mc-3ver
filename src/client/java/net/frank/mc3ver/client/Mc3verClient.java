@@ -2,21 +2,36 @@ package net.frank.mc3ver.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.frank.mc3ver.DoubleJumpLogic;
 import net.frank.mc3ver.Mc3verMod;
+import net.frank.mc3ver.tree.PearTreeEntities;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.phys.Vec3;
 
 public class Mc3verClient implements ClientModInitializer {
+	public static final ModelLayerLocation PEAR_BOAT_LAYER = new ModelLayerLocation(Mc3verMod.id("boat/pear"), "main");
+	public static final ModelLayerLocation PEAR_CHEST_BOAT_LAYER = new ModelLayerLocation(Mc3verMod.id("chest_boat/pear"), "main");
+
 	private static final DoubleJumpLogic.DoubleJumpState doubleJumpState = new DoubleJumpLogic.DoubleJumpState();
 	private static boolean jumpWasDown = false;
 
 	@Override
 	public void onInitializeClient() {
-		Mc3verMod.LOGGER.info("WorldExplorerMod Client-Features aktiviert (Doppelsprung & Transportflammen aktiv)!");
+		Mc3verMod.LOGGER.info("WorldExplorerMod Client-Features aktiviert (Doppelsprung, Transportflammen & Birnenboote aktiv)!");
+
+		// Boat Models & Renderers
+		ModelLayerRegistry.registerModelLayer(PEAR_BOAT_LAYER, BoatModel::createBoatModel);
+		ModelLayerRegistry.registerModelLayer(PEAR_CHEST_BOAT_LAYER, BoatModel::createChestBoatModel);
+		EntityRendererRegistry.register(PearTreeEntities.PEAR_BOAT_ENTITY_TYPE, context -> new BoatRenderer(context, PEAR_BOAT_LAYER));
+		EntityRendererRegistry.register(PearTreeEntities.PEAR_CHEST_BOAT_ENTITY_TYPE, context -> new BoatRenderer(context, PEAR_CHEST_BOAT_LAYER));
 
 		// Client-Tick Event für Doppelsprung
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
