@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "canvas": "mc3ver:block/tent_canvas",
+    "particle": "mc3ver:block/tent_canvas",
+    "table_top": "minecraft:block/crafting_table_top",
+    "table_front": "minecraft:block/crafting_table_front",
+    "table_side": "minecraft:block/crafting_table_side",
+    "table_bottom": "minecraft:block/oak_planks"
+  },
+  "elements": [
+    {
+      "from": [14, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "west": { "uv": [0, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "north": { "uv": [14, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "south": { "uv": [14, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "up": { "uv": [14, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "down": { "uv": [14, 0, 16, 16], "texture": "#canvas", "tintindex": 0 }
+      }
+    },
+    {
+      "from": [0, 0, 1],
+      "to": [14, 14, 15],
+      "faces": {
+        "up": { "uv": [1, 1, 15, 15], "texture": "#table_top" },
+        "down": { "uv": [1, 1, 15, 15], "texture": "#table_bottom" },
+        "west": { "uv": [1, 2, 15, 16], "texture": "#table_front" },
+        "east": { "uv": [1, 2, 15, 16], "texture": "#table_side" },
+        "south": { "uv": [2, 2, 16, 16], "texture": "#table_side" },
+        "north": { "uv": [0, 2, 14, 16], "texture": "#table_side" }
+      }
+    }
+  ]
+}

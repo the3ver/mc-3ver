@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "bed": "mc3ver:block/tent_sleeping_bag",
+    "particle": "mc3ver:block/tent_sleeping_bag"
+  },
+  "elements": [
+    {
+      "from": [1, 0, 0],
+      "to": [15, 3, 16],
+      "faces": {
+        "down": { "uv": [1, 0, 15, 16], "texture": "#bed" },
+        "up": { "uv": [1, 0, 15, 16], "texture": "#bed" },
+        "north": { "uv": [1, 13, 15, 16], "texture": "#bed" },
+        "south": { "uv": [1, 13, 15, 16], "texture": "#bed" },
+        "west": { "uv": [0, 13, 16, 16], "texture": "#bed" },
+        "east": { "uv": [0, 13, 16, 16], "texture": "#bed" }
+      }
+    }
+  ]
+}

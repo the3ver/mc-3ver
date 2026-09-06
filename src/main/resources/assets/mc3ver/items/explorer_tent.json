@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "mc3ver:item/explorer_tent",
+    "tints": [
+      {
+        "type": "minecraft:dye",
+        "default": -393218
+      }
+    ]
+  }
+}

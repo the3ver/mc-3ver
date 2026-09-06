@@ -33,6 +33,16 @@ public class Mc3verClient implements ClientModInitializer {
 		EntityRendererRegistry.register(PearTreeEntities.PEAR_BOAT_ENTITY_TYPE, context -> new BoatRenderer(context, PEAR_BOAT_LAYER));
 		EntityRendererRegistry.register(PearTreeEntities.PEAR_CHEST_BOAT_ENTITY_TYPE, context -> new BoatRenderer(context, PEAR_CHEST_BOAT_LAYER));
 
+		// Explorer Tent Block Tinting (Färbung der Zeltplane in der Welt)
+		net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry.register((state, world, pos, tints) -> {
+			if (state != null && state.hasProperty(net.frank.mc3ver.tent.TentCanvasBlock.COLOR)) {
+				net.minecraft.world.item.DyeColor dyeColor = state.getValue(net.frank.mc3ver.tent.TentCanvasBlock.COLOR);
+				tints.add(net.frank.mc3ver.tent.ExplorerTentLogic.resolveBlockColorRgb(dyeColor.getName()));
+			} else {
+				tints.add(net.frank.mc3ver.tent.ExplorerTentLogic.getColorRgb("white"));
+			}
+		}, net.frank.mc3ver.tent.ModTentBlocks.TENT_CANVAS);
+
 		// Client-Tick Event für Doppelsprung
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			LocalPlayer player = client.player;

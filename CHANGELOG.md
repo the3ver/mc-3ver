@@ -4,6 +4,21 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.0] - 2026-09-06
+
+### ✨ Neu hinzugefügt & Verbesserungen
+* **Mobiles Entdeckerzelt (`mc3ver:explorer_tent`):**
+  * Tragbarer, vollwertiger Unterschlupf für Abenteurer und Erkunder.
+  * **Integrierter Schlafsack & Werkbank:** Enthält einen bequemen Schlafsack und eine direkt nutzbare Werkbank am Kopfende.
+  * **16 Farbvarianten:** In allen 16 Wollfarben herstellbar und mit beliebigem Farbstoff umfärbbar.
+  * **Maßgeschneiderte 3D-Geometrie:** Optimierte Zeltplane mit Stehhöhe im Mittelgang, bündiger Rückwand, zentriertem Zelteingang und passgenauen Kollisionen.
+  * **Bequemes Einpacken:** Per Sneak-Rechtsklick auf beliebige Zeltteile wird das gesamte Zelt wieder in ein einziges Item zurückverwandelt.
+* **Dokumentation & Rezepte:**
+  * Aktualisierung der Web-Dokumentation mit originalgetreuen Minecraft-Inventar-Icons für alle Crafting-Rezepte.
+  * Neues Rezept und Feature-Kachel für das Entdeckerzelt.
+
+---
+
 ## [0.4.3] - 2026-09-05
 
 ### ✨ Neu hinzugefügt & Behoben

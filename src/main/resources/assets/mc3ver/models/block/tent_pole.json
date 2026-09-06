@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "pole": "mc3ver:block/tent_pole",
+    "particle": "mc3ver:block/tent_pole"
+  },
+  "elements": [
+    {
+      "from": [6, 0, 6],
+      "to": [10, 16, 10],
+      "faces": {
+        "down": { "uv": [6, 6, 10, 10], "texture": "#pole" },
+        "up": { "uv": [6, 6, 10, 10], "texture": "#pole" },
+        "north": { "uv": [6, 0, 10, 16], "texture": "#pole" },
+        "south": { "uv": [6, 0, 10, 16], "texture": "#pole" },
+        "west": { "uv": [6, 0, 10, 16], "texture": "#pole" },
+        "east": { "uv": [6, 0, 10, 16], "texture": "#pole" }
+      }
+    },
+    {
+      "from": [4, 0, 4],
+      "to": [12, 3, 12],
+      "faces": {
+        "down": { "uv": [4, 4, 12, 12], "texture": "#pole" },
+        "up": { "uv": [4, 4, 12, 12], "texture": "#pole" },
+        "north": { "uv": [4, 13, 12, 16], "texture": "#pole" },
+        "south": { "uv": [4, 13, 12, 16], "texture": "#pole" },
+        "west": { "uv": [4, 13, 12, 16], "texture": "#pole" },
+        "east": { "uv": [4, 13, 12, 16], "texture": "#pole" }
+      }
+    }
+  ]
+}

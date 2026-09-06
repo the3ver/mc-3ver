@@ -49,5 +49,15 @@
   "message.mc3ver.teleport_success": "Teleported to Transport Flame!",
   "message.mc3ver.map_relinked": "Existing Transport Map re-linked to this Transport Flame!",
   "message.mc3ver.map_already_linked": "You already possess a Transport Map for this location.",
-  "message.mc3ver.welcome": "§8[§a%s§8] §fWelcome to the world! Mod §av%s§f is active. §7(Double jump enabled: Press Jump in mid-air)"
+  "message.mc3ver.welcome": "§8[§a%s§8] §fWelcome to the world! Mod §av%s§f is active. §7(Double jump enabled: Press Jump in mid-air)",
+  "item.mc3ver.explorer_tent": "Explorer's Tent",
+  "block.mc3ver.tent_canvas": "Tent Canvas",
+  "block.mc3ver.tent_pole": "Tent Pole",
+  "block.mc3ver.tent_sleeping_bag": "Explorer's Sleeping Bag",
+  "tooltip.mc3ver.explorer_tent": "Mobile tent for expeditions. Sleep without resetting your home spawn point.",
+  "message.mc3ver.tent_placed": "Explorer's Tent pitched!",
+  "message.mc3ver.tent_packed": "Explorer's Tent packed up.",
+  "message.mc3ver.tent_no_space": "Not enough clear space to pitch the tent (requires 3x4 blocks)!",
+  "message.mc3ver.tent_uneven_ground": "The ground is uneven. The tent requires 3x4 solid ground blocks!",
+  "message.mc3ver.tent_sleeping": "Good night, explorer! (Home spawn point remains untouched)"
 }

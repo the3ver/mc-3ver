@@ -4,6 +4,21 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-09-06
+
+### ✨ Added & Improvements
+* **Mobile Explorer Tent (`mc3ver:explorer_tent`):**
+  * Deployable shelter designed for wilderness exploration and traveling.
+  * **Integrated Sleeping Bag & Crafting Table:** Automatically deploys a sleeping mat and a fully functional crafting table at the head end.
+  * **16 Dyeable Colors:** Craftable with any wool color and dyeable with any Minecraft dye.
+  * **Custom 3D Geometry:** Tuned canvas angles with standing room in the central aisle, flush back wall, centered front entrance, and accurate collision shapes.
+  * **Packable:** Shift-right-click any tent block to instantly pack up the entire tent back into a single item.
+* **Documentation & Recipe Icons:**
+  * Updated web documentation with authentic Minecraft inventory textures for all crafting recipes.
+  * Added tent recipe card and highlight feature section to documentation page.
+
+---
+
 ## [0.4.3] - 2026-09-05
 
 ### ✨ Added & Fixed

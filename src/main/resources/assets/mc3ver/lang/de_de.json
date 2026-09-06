@@ -49,5 +49,15 @@
   "message.mc3ver.teleport_success": "Zur Transportflamme teleportiert!",
   "message.mc3ver.map_relinked": "Bestehende Transportkarte wurde mit dieser Transportflamme verknüpft!",
   "message.mc3ver.map_already_linked": "Du besitzt bereits eine Transportkarte für diesen Ort.",
-  "message.mc3ver.welcome": "§8[§a%s§8] §fWillkommen in der Welt! Mod §av%s§f ist aktiv. §7(Doppelsprung aktiv: Drücke Leertaste in der Luft)"
+  "message.mc3ver.welcome": "§8[§a%s§8] §fWillkommen in der Welt! Mod §av%s§f ist aktiv. §7(Doppelsprung aktiv: Drücke Leertaste in der Luft)",
+  "item.mc3ver.explorer_tent": "Entdeckerzelt",
+  "block.mc3ver.tent_canvas": "Zeltplane",
+  "block.mc3ver.tent_pole": "Zeltpfosten",
+  "block.mc3ver.tent_sleeping_bag": "Entdecker-Schlafsack",
+  "tooltip.mc3ver.explorer_tent": "Mobiles Zelt für Reisen. Schlafen ohne den Heimat-Spawnpunkt zu verändern.",
+  "message.mc3ver.tent_placed": "Entdeckerzelt aufgestellt!",
+  "message.mc3ver.tent_packed": "Entdeckerzelt eingepackt.",
+  "message.mc3ver.tent_no_space": "Nicht genügend ebener Platz zum Aufstellen des Zeltes (3x4 Blöcke benötigt)!",
+  "message.mc3ver.tent_uneven_ground": "Der Boden ist uneben. Das Zelt benötigt 3x4 feste Blöcke als Untergrund!",
+  "message.mc3ver.tent_sleeping": "Gute Nacht, Entdecker! (Heimat-Spawnpunkt bleibt erhalten)"
 }

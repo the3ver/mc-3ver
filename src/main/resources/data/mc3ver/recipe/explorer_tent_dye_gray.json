@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "mc3ver:explorer_tent",
+    "minecraft:gray_dye"
+  ],
+  "result": {
+    "count": 1,
+    "id": "mc3ver:explorer_tent",
+    "components": {
+      "minecraft:dyed_color": 4673362
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "facing=north,part=foot": { "model": "mc3ver:block/tent_sleeping_bag_foot", "y": 0 },
+    "facing=east,part=foot": { "model": "mc3ver:block/tent_sleeping_bag_foot", "y": 90 },
+    "facing=south,part=foot": { "model": "mc3ver:block/tent_sleeping_bag_foot", "y": 180 },
+    "facing=west,part=foot": { "model": "mc3ver:block/tent_sleeping_bag_foot", "y": 270 },
+
+    "facing=north,part=head": { "model": "mc3ver:block/tent_sleeping_bag_head", "y": 0 },
+    "facing=east,part=head": { "model": "mc3ver:block/tent_sleeping_bag_head", "y": 90 },
+    "facing=south,part=head": { "model": "mc3ver:block/tent_sleeping_bag_head", "y": 180 },
+    "facing=west,part=head": { "model": "mc3ver:block/tent_sleeping_bag_head", "y": 270 }
+  }
+}

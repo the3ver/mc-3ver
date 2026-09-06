@@ -39,11 +39,14 @@ const TRANSLATIONS = {
     "features.multiplayer.desc": "Volle Unterstützung für Singleplayer-Welten, LAN-Multiplayer und dedizierte Fabric-Server.",
     "features.tech.title": "⚡ Java 25 & Mojang Mappings",
     "features.tech.desc": "Natives Java 25 mit offiziellen Mappings und solider, 100% testgetriebener (TDD) Codebasis.",
+    "features.tent.title": "🏕️ Mobiles Entdeckerzelt",
+    "features.tent.desc": "Schnell auf- und abbaubares Zelt mit Schlafsack, nutzbarem Craftingtable, Stehhöhe und in 16 Wollfarben herstell- & umfärbbar.",
 
     "recipes.title": "Rezepte & Crafting",
     "recipes.subtitle": "Offizielle Herstellungsrezepte für Werkbank und Inventar im Überblick.",
     "recipes.ingredients_label": "Zutaten:",
     "recipes.badge.both": "Geformt & Formlos",
+    "recipes.badge.shaped": "Geformt",
     "recipes.flame.name": "🔥 Transportflamme",
     "recipes.flame.desc": "Errichtet einen Teleport-Anker und generiert automatisch eine verknüpfte Teleport-Karte ins Inventar.",
     "recipes.flame.result": "Transportflamme",
@@ -60,6 +63,10 @@ const TRANSLATIONS = {
     "recipes.golden_pear.desc": "Verleiht Sprungkraft II (ermöglicht Dreifachsprung!), Tempo II für 60 Sekunden und Sanften Fall für 45 Sekunden.",
     "recipes.golden_pear.result": "Goldene Birne",
     "recipes.golden_pear.ingredients": "8x Goldbarren, 1x Birne (im Zentrum oder formlos)",
+    "recipes.tent.name": "🏕️ Entdeckerzelt (Mobiles Zelt)",
+    "recipes.tent.desc": "Kompaktes mobiles Zelt mit integriertem Schlafsack und funktionsfähigem Craftingtable. In allen 16 Farben färbbar und per Sneak-Klick wieder einpackbar.",
+    "recipes.tent.result": "Entdeckerzelt",
+    "recipes.tent.ingredients": "5x Wolle (Farbe bestimmt Zeltfarbe), 3x Stock, 1x Bett (beliebig)",
     "recipes.item.cobblestone": "Bruchstein",
     "recipes.item.torch": "Fackel",
     "recipes.item.diamond": "Diamant",
@@ -70,6 +77,9 @@ const TRANSLATIONS = {
     "recipes.item.copper": "Kupfer",
     "recipes.item.gold_ingot": "Goldbarren",
     "recipes.item.pear": "Birne",
+    "recipes.item.wool": "Wolle",
+    "recipes.item.bed": "Bett",
+    "recipes.item.tent": "Entdeckerzelt",
     "recipes.pear_note": "🪵 <strong>Birnenholz-Bauset:</strong> Birnenholzstämme lassen sich wie gewohnt zu 4x Birnenholzbrettern verarbeiten. Daraus können Treppen, Stufen, Zäune, Tore, Türen mit Glaseinsatz, Falltüren, Druckplatten und Knöpfe gecraftet werden.",
 
     "install.title": "Download & Installation",
@@ -94,7 +104,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.2 herunter und installiere die passende <strong>Fabric API</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.4.3.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.5.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -171,11 +181,14 @@ const TRANSLATIONS = {
     "features.multiplayer.desc": "Full support for singleplayer worlds, LAN multiplayer, and dedicated Fabric servers.",
     "features.tech.title": "⚡ Java 25 & Mojang Mappings",
     "features.tech.desc": "Native Java 25 with official mappings and a solid, 100% test-driven (TDD) codebase.",
+    "features.tent.title": "🏕️ Mobile Explorer Tent",
+    "features.tent.desc": "Quickly deployable & packable shelter with built-in sleeping bag, functional crafting table, full headroom and 16 vibrant colors.",
 
     "recipes.title": "Recipes & Crafting",
     "recipes.subtitle": "Official crafting recipes for crafting tables and inventory.",
     "recipes.ingredients_label": "Ingredients:",
     "recipes.badge.both": "Shaped & Shapeless",
+    "recipes.badge.shaped": "Shaped",
     "recipes.flame.name": "🔥 Transport Flame",
     "recipes.flame.desc": "Places a teleport anchor and automatically awards a linked teleport card for safe recall.",
     "recipes.flame.result": "Transport Flame",
@@ -192,6 +205,10 @@ const TRANSLATIONS = {
     "recipes.golden_pear.desc": "Grants Jump Boost II (enables Triple Jump!), Speed II for 60 seconds, and Slow Falling for 45 seconds.",
     "recipes.golden_pear.result": "Golden Pear",
     "recipes.golden_pear.ingredients": "8x Gold Ingot, 1x Pear (centered or shapeless)",
+    "recipes.tent.name": "🏕️ Explorer Tent (Mobile Shelter)",
+    "recipes.tent.desc": "Compact mobile shelter featuring a built-in sleeping bag and functioning crafting table. Dyeable in all 16 colors and packable via sneak-click.",
+    "recipes.tent.result": "Explorer Tent",
+    "recipes.tent.ingredients": "5x Wool (determines tent color), 3x Stick, 1x Bed (any)",
     "recipes.item.cobblestone": "Cobblestone",
     "recipes.item.torch": "Torch",
     "recipes.item.diamond": "Diamond",
@@ -202,6 +219,9 @@ const TRANSLATIONS = {
     "recipes.item.copper": "Copper",
     "recipes.item.gold_ingot": "Gold Ingot",
     "recipes.item.pear": "Pear",
+    "recipes.item.wool": "Wool",
+    "recipes.item.bed": "Bed",
+    "recipes.item.tent": "Explorer Tent",
     "recipes.pear_note": "🪵 <strong>Pear Wood:</strong> Logs can be crafted into 4x planks and further into stairs, slabs, fences, gates, doors with glass, trapdoors, pressure plates, and buttons.",
 
     "install.title": "Download & Installation",
@@ -226,7 +246,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.2 and install the matching <strong>Fabric API</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.4.3.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.5.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -404,7 +424,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.4.3
+    // Graceful fallback to v0.5.0
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }
