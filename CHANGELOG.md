@@ -4,6 +4,15 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.1] - 2026-09-13
+
+### 🔧 Wartung & Dependency-Updates
+* **Fabric Loader:** Aktualisiert auf `0.19.5` (vorher `0.19.3`).
+* **JUnit Jupiter:** Test-Framework auf `5.12.2` aktualisiert (vorher `5.10.2`).
+* Alle Mod-Klassen, Mixins und Unittests erfolgreich mit Java 25 verifiziert.
+
+---
+
 ## [0.5.0] - 2026-09-06
 
 ### ✨ Neu hinzugefügt & Verbesserungen

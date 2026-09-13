@@ -35,3 +35,6 @@ replay_*.log
 # Local temp and logs
 scratch/
 logs/
+
+# Agent sync state
+.agents/
