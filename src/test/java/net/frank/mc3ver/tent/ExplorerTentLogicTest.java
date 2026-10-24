@@ -106,6 +106,7 @@ public class ExplorerTentLogicTest {
     void testStructureMappingAndPartCount() {
         // Prüft, dass alle 24 Positionen einem gültigen Zelt-Part zugeordnet werden
         int airCount = 0;
+        int flapCount = 0;
         int wallLeftCount = 0;
         int wallFurnaceLeftCount = 0;
         int wallRightCount = 0;
@@ -135,6 +136,7 @@ public class ExplorerTentLogicTest {
                     ExplorerTentLogic.TentPart part = ExplorerTentLogic.getTentPart(relX, relY, relZ);
                     switch (part) {
                         case AIR -> airCount++;
+                        case ENTRANCE_FLAP -> flapCount++;
                         case POLE -> poleCount++;
                         case WALL_LEFT -> wallLeftCount++;
                         case WALL_FURNACE_LEFT -> wallFurnaceLeftCount++;
@@ -163,7 +165,8 @@ public class ExplorerTentLogicTest {
         }
 
         // Layer 0 Validierung (Leichte Zeltkonstruktion: Keine Pfosten!)
-        assertEquals(1, airCount, "Eingang muss genau 1 begehbarer Luft-Block sein");
+        assertEquals(0, airCount, "Im Zeltvolumen gibt es keine Luftblöcke mehr");
+        assertEquals(1, flapCount, "Eingang muss genau 1 Eingangsplane haben");
         assertEquals(0, poleCount, "Es darf KEINE Holzpfosten im Zelt mehr geben!");
         assertEquals(1, wallFrontLeftCount, "Es muss 1 vorderen linken Stoff-Eingangsblock geben");
         assertEquals(1, wallFrontRightCount, "Es muss 1 vorderen rechten Stoff-Eingangsblock geben");
@@ -190,7 +193,7 @@ public class ExplorerTentLogicTest {
         assertEquals(1, roofBackCount, "Es muss 1 hinteren Giebel geben");
 
         // Spezifische Positions-Checks
-        assertEquals(ExplorerTentLogic.TentPart.AIR, ExplorerTentLogic.getTentPart(0, 0, 0), "Eingang bei (0,0,0) muss Luft sein");
+        assertEquals(ExplorerTentLogic.TentPart.ENTRANCE_FLAP, ExplorerTentLogic.getTentPart(0, 0, 0), "Eingang bei (0,0,0) muss die Eingangsplane sein");
         assertEquals(ExplorerTentLogic.TentPart.WALL_FRONT_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 0), "Vorne links muss Stoff-Eingangsplane sein");
         assertEquals(ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 0), "Vorne rechts muss Stoff-Eingangsplane sein");
         assertEquals(ExplorerTentLogic.TentPart.WALL_CORNER_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 3), "Hinten links muss Stoff-Ecke sein");
@@ -255,16 +258,16 @@ public class ExplorerTentLogicTest {
         // A. Klick auf Dach links oben
         ExplorerTentLogic.BlockCoord roofPos = ExplorerTentLogic.toWorldPos(anchorX, anchorY, anchorZ, facing, -1, 1, 3);
         java.util.List<ExplorerTentLogic.BlockCoord> blocksFromRoof = ExplorerTentLogic.collectTentBlocks(roofPos.x(), roofPos.y(), roofPos.z(), structureView);
-        assertEquals(23, blocksFromRoof.size(), "Sollte alle 23 platzierten Zeltblöcke erfassen");
+        assertEquals(24, blocksFromRoof.size(), "Sollte alle 24 platzierten Zeltblöcke erfassen");
 
         // B. Klick auf vorderen Eckpfosten
         ExplorerTentLogic.BlockCoord polePos = ExplorerTentLogic.toWorldPos(anchorX, anchorY, anchorZ, facing, 1, 0, 0);
         java.util.List<ExplorerTentLogic.BlockCoord> blocksFromPole = ExplorerTentLogic.collectTentBlocks(polePos.x(), polePos.y(), polePos.z(), structureView);
-        assertEquals(23, blocksFromPole.size(), "Sollte auch vom Pfosten aus alle 23 Zeltblöcke erfassen");
+        assertEquals(24, blocksFromPole.size(), "Sollte auch vom Pfosten aus alle 24 Zeltblöcke erfassen");
 
         // C. Klick auf Schlafsack selbst
         java.util.List<ExplorerTentLogic.BlockCoord> blocksFromBed = ExplorerTentLogic.collectTentBlocks(headPos.x(), headPos.y(), headPos.z(), structureView);
-        assertEquals(23, blocksFromBed.size(), "Sollte vom Schlafsack aus alle 23 Zeltblöcke erfassen");
+        assertEquals(24, blocksFromBed.size(), "Sollte vom Schlafsack aus alle 24 Zeltblöcke erfassen");
     }
 
     @Test
@@ -1027,8 +1030,8 @@ public class ExplorerTentLogicTest {
             "Eingang links unten (-1, 0, 0) muss WALL_FRONT_LEFT sein");
         assertEquals(ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 0),
             "Eingang rechts unten (1, 0, 0) muss WALL_FRONT_RIGHT sein");
-        assertEquals(ExplorerTentLogic.TentPart.AIR, ExplorerTentLogic.getTentPart(0, 0, 0),
-            "Mittelgang unten (0, 0, 0) muss frei (AIR) bleiben");
+        assertEquals(ExplorerTentLogic.TentPart.ENTRANCE_FLAP, ExplorerTentLogic.getTentPart(0, 0, 0),
+            "Mittelgang unten (0, 0, 0) ist die Eingangsplane");
 
         assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 0),
             "Eingang links oben (-1, 1, 0) muss ROOF_FRONT_LEFT sein");
@@ -1445,7 +1448,7 @@ public class ExplorerTentLogicTest {
         // Grundriss je Ebene, Zeilen = relZ 0..3 (Eingang -> Rückwand), Spalten = relX -1, 0, 1
         String[][] expected = {
             {
-                "WALL_FRONT_LEFT AIR WALL_FRONT_RIGHT",
+                "WALL_FRONT_LEFT ENTRANCE_FLAP WALL_FRONT_RIGHT",
                 "WALL_FURNACE_LEFT SLEEPING_BAG_FOOT WALL_RIGHT",
                 "WALL_LEFT SLEEPING_BAG_HEAD WALL_CRAFTING_TABLE_RIGHT",
                 "WALL_CORNER_LEFT WALL_BACK WALL_CORNER_RIGHT"
@@ -1578,5 +1581,59 @@ public class ExplorerTentLogicTest {
         }
         String states = java.nio.file.Files.readString(res.resolve("blockstates/tent_canvas.json"));
         assertEquals(4, states.split("\"part\": \"roof_lantern_right\"", -1).length - 1, "4 Blockstate-Einträge (je Richtung)");
+    }
+
+    @Test
+    void testEntranceFlapOpensAndCloses() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        for (net.minecraft.core.Direction facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
+            assertTrue(TentFlapBlock.getCollision(facing, true).isEmpty(), "Offene Plane darf nicht blockieren (" + facing + ")");
+            net.minecraft.world.phys.shapes.VoxelShape closed = TentFlapBlock.getCollision(facing, false);
+            assertFalse(closed.isEmpty(), "Geschlossene Plane muss blockieren (" + facing + ")");
+            // Geschlossene Plane liegt an der Außenkante des Eingangs, wie die Rückwand an ihrer Kante
+            assertFalse(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(closed,
+                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing),
+                net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME), "Plane an der Außenkante (" + facing + ")");
+        }
+        assertTrue(TentFlapBlock.isPassable(true), "Mobs dürfen durch die offene Plane");
+        assertFalse(TentFlapBlock.isPassable(false), "Mobs dürfen nicht durch die geschlossene Plane");
+    }
+
+    @Test
+    void testEntranceFlapResources() throws Exception {
+        java.nio.file.Path res = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
+            java.nio.file.Files.readString(res.resolve("blockstates/tent_flap.json"))).getAsJsonObject().getAsJsonObject("variants");
+        for (String facing : new String[]{"north", "east", "south", "west"}) {
+            assertEquals("mc3ver:block/tent_flap_closed", variants.getAsJsonObject("facing=" + facing + ",open=false").get("model").getAsString());
+            assertEquals("mc3ver:block/tent_flap_open", variants.getAsJsonObject("facing=" + facing + ",open=true").get("model").getAsString());
+        }
+        for (String model : new String[]{"tent_flap_closed", "tent_flap_open"}) {
+            String content = java.nio.file.Files.readString(res.resolve("models/block/" + model + ".json"));
+            assertTrue(content.contains("\"tintindex\": 0"), model + " muss in Zeltfarbe getönt sein");
+        }
+        for (String lang : new String[]{"de_de", "en_us"}) {
+            assertTrue(java.nio.file.Files.readString(res.resolve("lang/" + lang + ".json")).contains("\"block.mc3ver.tent_flap\""));
+        }
+
+        // Plane reicht vom Boden bis unter das Dach (Dachunterkante im Block darüber bei y=30)
+        assertEquals(0.0, modelBound(res, "tent_flap_closed", 1, true), 1e-9, "Geschlossene Plane beginnt am Boden");
+        assertEquals(30.0, modelBound(res, "tent_flap_closed", 1, false), 1e-9, "Geschlossene Plane reicht bis unter das Dach");
+        assertEquals(30.0, modelBound(res, "tent_flap_open", 1, false), 1e-9, "Aufgerollte Plane hängt unter dem Dach");
+        assertTrue(modelBound(res, "tent_flap_open", 1, true) >= 24.0, "Aufgerollte Plane darf nicht in den Durchgang hängen");
+    }
+
+    private static double modelBound(java.nio.file.Path res, String model, int axis, boolean min) throws Exception {
+        com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(
+            java.nio.file.Files.readString(res.resolve("models/block/" + model + ".json"))).getAsJsonObject().getAsJsonArray("elements");
+        double bound = min ? Double.MAX_VALUE : -Double.MAX_VALUE;
+        for (com.google.gson.JsonElement el : elements) {
+            double from = el.getAsJsonObject().getAsJsonArray("from").get(axis).getAsDouble();
+            double to = el.getAsJsonObject().getAsJsonArray("to").get(axis).getAsDouble();
+            bound = min ? Math.min(bound, from) : Math.max(bound, to);
+        }
+        return bound;
     }
 }

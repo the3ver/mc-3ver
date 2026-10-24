@@ -90,6 +90,7 @@ public class ExplorerTentLogic {
 
     public enum TentPart {
         AIR,
+        ENTRANCE_FLAP,
         POLE,
         WALL_SIDE,
         WALL_LEFT,
@@ -119,7 +120,7 @@ public class ExplorerTentLogic {
     // Grundriss je Ebene: Zeilen = relZ 0..3 (Eingang -> Rückwand), Spalten = relX -1, 0, 1
     private static final TentPart[][][] LAYOUT = {
         {
-            {TentPart.WALL_FRONT_LEFT, TentPart.AIR, TentPart.WALL_FRONT_RIGHT},
+            {TentPart.WALL_FRONT_LEFT, TentPart.ENTRANCE_FLAP, TentPart.WALL_FRONT_RIGHT},
             {TentPart.WALL_FURNACE_LEFT, TentPart.SLEEPING_BAG_FOOT, TentPart.WALL_RIGHT},
             {TentPart.WALL_LEFT, TentPart.SLEEPING_BAG_HEAD, TentPart.WALL_CRAFTING_TABLE_RIGHT},
             {TentPart.WALL_CORNER_LEFT, TentPart.WALL_BACK, TentPart.WALL_CORNER_RIGHT}

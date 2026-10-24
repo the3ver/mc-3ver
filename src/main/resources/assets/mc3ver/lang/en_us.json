@@ -55,6 +55,7 @@
   "block.mc3ver.tent_pole": "Tent Pole",
   "block.mc3ver.tent_sleeping_bag": "Explorer's Sleeping Bag",
   "block.mc3ver.tent_furnace": "Tent Furnace",
+  "block.mc3ver.tent_flap": "Tent Flap",
   "tooltip.mc3ver.explorer_tent": "Mobile tent for expeditions. Sleep without resetting your home spawn point.",
   "message.mc3ver.tent_placed": "Explorer's Tent pitched!",
   "message.mc3ver.tent_packed": "Explorer's Tent packed up.",

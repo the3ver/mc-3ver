@@ -104,6 +104,23 @@ public class ModTentBlocks {
         )
     );
 
+    public static final ResourceKey<Block> TENT_FLAP_KEY = ResourceKey.create(
+        Registries.BLOCK,
+        Mc3verMod.id("tent_flap")
+    );
+
+    public static final Block TENT_FLAP = Registry.register(
+        BuiltInRegistries.BLOCK,
+        TENT_FLAP_KEY,
+        new TentFlapBlock(
+            BlockBehaviour.Properties.of()
+                .setId(TENT_FLAP_KEY)
+                .strength(0.6f)
+                .sound(SoundType.WOOL)
+                .noOcclusion()
+        )
+    );
+
     public static final BlockEntityType<TentFurnaceBlockEntity> TENT_FURNACE_BLOCK_ENTITY = Registry.register(
         BuiltInRegistries.BLOCK_ENTITY_TYPE,
         Mc3verMod.id("tent_furnace"),
@@ -123,6 +140,7 @@ public class ModTentBlocks {
                 .setValue(TentSleepingBagBlock.FACING, facing)
                 .setValue(TentSleepingBagBlock.PART, BedPart.HEAD);
             case WALL_FURNACE_LEFT -> TENT_FURNACE.defaultBlockState().setValue(TentFurnaceBlock.FACING, facing);
+            case ENTRANCE_FLAP -> TENT_FLAP.defaultBlockState().setValue(TentFlapBlock.FACING, facing);
             default -> TentCanvasBlock.CanvasPart.fromTentPart(part)
                 .map(canvasPart -> TENT_CANVAS.defaultBlockState()
                     .setValue(TentCanvasBlock.FACING, facing)
@@ -143,7 +161,7 @@ public class ModTentBlocks {
     }
 
     public static boolean isTentBlock(BlockState state) {
-        return state.is(TENT_CANVAS) || state.is(TENT_POLE) || state.is(TENT_SLEEPING_BAG) || state.is(TENT_FURNACE);
+        return state.is(TENT_CANVAS) || state.is(TENT_POLE) || state.is(TENT_SLEEPING_BAG) || state.is(TENT_FURNACE) || state.is(TENT_FLAP);
     }
 
     public static void dismantleTent(Level level, BlockPos pos, Player player) {
