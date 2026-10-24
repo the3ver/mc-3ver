@@ -27,30 +27,32 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class TentCanvasBlock extends HorizontalDirectionalBlock {
 
     public enum CanvasPart implements StringRepresentable {
-        WALL_SIDE("wall_side"),
-        WALL_LEFT("wall_left"),
-        WALL_RIGHT("wall_right"),
-        WALL_FRONT_LEFT("wall_front_left"),
-        WALL_FRONT_RIGHT("wall_front_right"),
-        WALL_CORNER_LEFT("wall_corner_left"),
-        WALL_CORNER_RIGHT("wall_corner_right"),
-        WALL_CRAFTING_TABLE_RIGHT("wall_crafting_table_right"),
-        WALL_BACK("wall_back"),
-        ROOF_LEFT("roof_left"),
-        ROOF_PIPE_LEFT("roof_pipe_left"),
-        ROOF_RIGHT("roof_right"),
-        ROOF_FRONT_LEFT("roof_front_left"),
-        ROOF_FRONT_RIGHT("roof_front_right"),
-        ROOF_CORNER_LEFT("roof_corner_left"),
-        ROOF_CORNER_RIGHT("roof_corner_right"),
-        ROOF_RIDGE("roof_ridge"),
-        ROOF_FRONT("roof_front"),
-        ROOF_BACK("roof_back");
+        WALL_SIDE("wall_side", ExplorerTentLogic.TentPart.WALL_SIDE),
+        WALL_LEFT("wall_left", ExplorerTentLogic.TentPart.WALL_LEFT),
+        WALL_RIGHT("wall_right", ExplorerTentLogic.TentPart.WALL_RIGHT),
+        WALL_FRONT_LEFT("wall_front_left", ExplorerTentLogic.TentPart.WALL_FRONT_LEFT),
+        WALL_FRONT_RIGHT("wall_front_right", ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT),
+        WALL_CORNER_LEFT("wall_corner_left", ExplorerTentLogic.TentPart.WALL_CORNER_LEFT),
+        WALL_CORNER_RIGHT("wall_corner_right", ExplorerTentLogic.TentPart.WALL_CORNER_RIGHT),
+        WALL_CRAFTING_TABLE_RIGHT("wall_crafting_table_right", ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT),
+        WALL_BACK("wall_back", ExplorerTentLogic.TentPart.WALL_BACK),
+        ROOF_LEFT("roof_left", ExplorerTentLogic.TentPart.ROOF_LEFT),
+        ROOF_PIPE_LEFT("roof_pipe_left", ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT),
+        ROOF_RIGHT("roof_right", ExplorerTentLogic.TentPart.ROOF_RIGHT),
+        ROOF_FRONT_LEFT("roof_front_left", ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT),
+        ROOF_FRONT_RIGHT("roof_front_right", ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT),
+        ROOF_CORNER_LEFT("roof_corner_left", ExplorerTentLogic.TentPart.ROOF_CORNER_LEFT),
+        ROOF_CORNER_RIGHT("roof_corner_right", ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT),
+        ROOF_RIDGE("roof_ridge", ExplorerTentLogic.TentPart.ROOF_RIDGE),
+        ROOF_FRONT("roof_front", ExplorerTentLogic.TentPart.ROOF_FRONT),
+        ROOF_BACK("roof_back", ExplorerTentLogic.TentPart.ROOF_BACK);
 
         private final String name;
+        private final ExplorerTentLogic.TentPart tentPart;
 
-        CanvasPart(String name) {
+        CanvasPart(String name, ExplorerTentLogic.TentPart tentPart) {
             this.name = name;
+            this.tentPart = tentPart;
         }
 
         @Override
@@ -59,27 +61,16 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         }
 
         public ExplorerTentLogic.TentPart toTentPart() {
-            return switch (this) {
-                case WALL_SIDE -> ExplorerTentLogic.TentPart.WALL_SIDE;
-                case WALL_LEFT -> ExplorerTentLogic.TentPart.WALL_LEFT;
-                case WALL_RIGHT -> ExplorerTentLogic.TentPart.WALL_RIGHT;
-                case WALL_FRONT_LEFT -> ExplorerTentLogic.TentPart.WALL_FRONT_LEFT;
-                case WALL_FRONT_RIGHT -> ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT;
-                case WALL_CORNER_LEFT -> ExplorerTentLogic.TentPart.WALL_CORNER_LEFT;
-                case WALL_CORNER_RIGHT -> ExplorerTentLogic.TentPart.WALL_CORNER_RIGHT;
-                case WALL_CRAFTING_TABLE_RIGHT -> ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT;
-                case WALL_BACK -> ExplorerTentLogic.TentPart.WALL_BACK;
-                case ROOF_LEFT -> ExplorerTentLogic.TentPart.ROOF_LEFT;
-                case ROOF_PIPE_LEFT -> ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT;
-                case ROOF_RIGHT -> ExplorerTentLogic.TentPart.ROOF_RIGHT;
-                case ROOF_FRONT_LEFT -> ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT;
-                case ROOF_FRONT_RIGHT -> ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT;
-                case ROOF_CORNER_LEFT -> ExplorerTentLogic.TentPart.ROOF_CORNER_LEFT;
-                case ROOF_CORNER_RIGHT -> ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT;
-                case ROOF_RIDGE -> ExplorerTentLogic.TentPart.ROOF_RIDGE;
-                case ROOF_FRONT -> ExplorerTentLogic.TentPart.ROOF_FRONT;
-                case ROOF_BACK -> ExplorerTentLogic.TentPart.ROOF_BACK;
-            };
+            return tentPart;
+        }
+
+        public static java.util.Optional<CanvasPart> fromTentPart(ExplorerTentLogic.TentPart tentPart) {
+            for (CanvasPart part : values()) {
+                if (part.tentPart == tentPart) {
+                    return java.util.Optional.of(part);
+                }
+            }
+            return java.util.Optional.empty();
         }
     }
 

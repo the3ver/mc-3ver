@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BedPart;
 
 import net.minecraft.world.item.component.TooltipDisplay;
 
@@ -88,98 +87,7 @@ public class ExplorerTentItem extends Item {
             : ExplorerTentLogic.DEFAULT_COLOR_NAME;
         net.minecraft.world.item.DyeColor tentColor = net.minecraft.world.item.DyeColor.byName(colorName, net.minecraft.world.item.DyeColor.WHITE);
 
-        // Platzierung aller 24 Blöcke
-        for (int relY = 0; relY < ExplorerTentLogic.HEIGHT; relY++) {
-            for (int relX = -1; relX <= 1; relX++) {
-                for (int relZ = 0; relZ < ExplorerTentLogic.LENGTH; relZ++) {
-                    ExplorerTentLogic.TentPart part = ExplorerTentLogic.getTentPart(relX, relY, relZ);
-                    ExplorerTentLogic.BlockCoord coord = ExplorerTentLogic.toWorldPos(
-                        anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, relX, relY, relZ
-                    );
-                    BlockPos p = new BlockPos(coord.x(), coord.y(), coord.z());
-
-                    BlockState stateToPlace = null;
-                    switch (part) {
-                        case AIR -> {
-                            if (level.getBlockState(p).canBeReplaced()) {
-                                level.setBlock(p, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
-                            }
-                        }
-                        case POLE -> stateToPlace = ModTentBlocks.TENT_POLE.defaultBlockState()
-                            .setValue(TentPoleBlock.FACING, facing);
-                        case SLEEPING_BAG_FOOT -> stateToPlace = ModTentBlocks.TENT_SLEEPING_BAG.defaultBlockState()
-                            .setValue(TentSleepingBagBlock.FACING, facing)
-                            .setValue(TentSleepingBagBlock.PART, BedPart.FOOT);
-                        case SLEEPING_BAG_HEAD -> stateToPlace = ModTentBlocks.TENT_SLEEPING_BAG.defaultBlockState()
-                            .setValue(TentSleepingBagBlock.FACING, facing)
-                            .setValue(TentSleepingBagBlock.PART, BedPart.HEAD);
-                        case WALL_SIDE, WALL_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_LEFT);
-                        case WALL_RIGHT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_RIGHT);
-                        case WALL_CRAFTING_TABLE_RIGHT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_CRAFTING_TABLE_RIGHT);
-                        case WALL_FURNACE_LEFT -> stateToPlace = ModTentBlocks.TENT_FURNACE.defaultBlockState()
-                            .setValue(TentFurnaceBlock.FACING, facing);
-                        case WALL_FRONT_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_FRONT_LEFT);
-                        case WALL_FRONT_RIGHT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_FRONT_RIGHT);
-                        case WALL_CORNER_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_CORNER_LEFT);
-                        case WALL_CORNER_RIGHT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_CORNER_RIGHT);
-                        case WALL_BACK -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_BACK);
-                        case ROOF_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_LEFT);
-                        case ROOF_PIPE_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_PIPE_LEFT);
-                        case ROOF_RIGHT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_RIGHT);
-                        case ROOF_FRONT_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_FRONT_LEFT);
-                        case ROOF_FRONT_RIGHT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_FRONT_RIGHT);
-                        case ROOF_CORNER_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_CORNER_LEFT);
-                        case ROOF_CORNER_RIGHT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_CORNER_RIGHT);
-                        case ROOF_RIDGE -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_RIDGE);
-                        case ROOF_FRONT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_FRONT);
-                        case ROOF_BACK -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
-                            .setValue(TentCanvasBlock.FACING, facing)
-                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_BACK);
-                    }
-
-                    if (stateToPlace != null) {
-                        if (stateToPlace.hasProperty(TentCanvasBlock.COLOR)) {
-                            stateToPlace = stateToPlace.setValue(TentCanvasBlock.COLOR, tentColor);
-                        }
-                        level.setBlock(p, stateToPlace, Block.UPDATE_ALL);
-                    }
-                }
-            }
-        }
+        placeTent(level, anchor, tentFacing, facing, tentColor);
 
         // Sounds
         level.playSound(null, anchor, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -194,5 +102,32 @@ public class ExplorerTentItem extends Item {
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    private static void placeTent(Level level, BlockPos anchor, ExplorerTentLogic.Facing tentFacing, Direction facing,
+                                  net.minecraft.world.item.DyeColor tentColor) {
+        for (int relY = 0; relY < ExplorerTentLogic.HEIGHT; relY++) {
+            for (int relX = -1; relX <= 1; relX++) {
+                for (int relZ = 0; relZ < ExplorerTentLogic.LENGTH; relZ++) {
+                    ExplorerTentLogic.TentPart part = ExplorerTentLogic.getTentPart(relX, relY, relZ);
+                    ExplorerTentLogic.BlockCoord coord = ExplorerTentLogic.toWorldPos(
+                        anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, relX, relY, relZ
+                    );
+                    BlockPos p = new BlockPos(coord.x(), coord.y(), coord.z());
+
+                    if (part == ExplorerTentLogic.TentPart.AIR) {
+                        if (level.getBlockState(p).canBeReplaced()) {
+                            level.setBlock(p, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+                        }
+                        continue;
+                    }
+
+                    BlockState stateToPlace = ModTentBlocks.stateFor(part, facing, tentColor);
+                    if (stateToPlace != null) {
+                        level.setBlock(p, stateToPlace, Block.UPDATE_ALL);
+                    }
+                }
+            }
+        }
     }
 }

@@ -1439,4 +1439,55 @@ public class ExplorerTentLogicTest {
         assertTrue(canvasStates.contains("mc3ver:block/tent_canvas_roof_pipe_left"),
             "tent_canvas Blockstate muss das Ofenrohr-Dachmodell verwenden");
     }
+
+    @Test
+    void characterizeCompleteTentLayout() {
+        // Grundriss je Ebene, Zeilen = relZ 0..3 (Eingang -> Rückwand), Spalten = relX -1, 0, 1
+        String[][] expected = {
+            {
+                "WALL_FRONT_LEFT AIR WALL_FRONT_RIGHT",
+                "WALL_FURNACE_LEFT SLEEPING_BAG_FOOT WALL_RIGHT",
+                "WALL_LEFT SLEEPING_BAG_HEAD WALL_CRAFTING_TABLE_RIGHT",
+                "WALL_CORNER_LEFT WALL_BACK WALL_CORNER_RIGHT"
+            },
+            {
+                "ROOF_FRONT_LEFT ROOF_FRONT ROOF_FRONT_RIGHT",
+                "ROOF_PIPE_LEFT ROOF_RIDGE ROOF_RIGHT",
+                "ROOF_LEFT ROOF_RIDGE ROOF_RIGHT",
+                "ROOF_CORNER_LEFT ROOF_BACK ROOF_CORNER_RIGHT"
+            }
+        };
+        for (int relY = 0; relY < ExplorerTentLogic.HEIGHT; relY++) {
+            for (int relZ = 0; relZ < ExplorerTentLogic.LENGTH; relZ++) {
+                StringBuilder row = new StringBuilder();
+                for (int relX = -1; relX <= 1; relX++) {
+                    if (relX > -1) row.append(' ');
+                    row.append(ExplorerTentLogic.getTentPart(relX, relY, relZ).name());
+                }
+                assertEquals(expected[relY][relZ], row.toString(), "Ebene " + relY + ", relZ " + relZ);
+            }
+        }
+        // Außerhalb des Zeltvolumens ist alles Luft
+        assertEquals(ExplorerTentLogic.TentPart.AIR, ExplorerTentLogic.getTentPart(0, 2, 1));
+        assertEquals(ExplorerTentLogic.TentPart.AIR, ExplorerTentLogic.getTentPart(0, -1, 1));
+        assertEquals(ExplorerTentLogic.TentPart.AIR, ExplorerTentLogic.getTentPart(2, 0, 1));
+        assertEquals(ExplorerTentLogic.TentPart.AIR, ExplorerTentLogic.getTentPart(0, 0, 4));
+    }
+
+    @Test
+    void characterizeCanvasPartMapping() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        // Jede Zeltplanen-Variante steht für genau ein Layout-Teil
+        java.util.Set<ExplorerTentLogic.TentPart> seen = new java.util.HashSet<>();
+        for (TentCanvasBlock.CanvasPart canvasPart : TentCanvasBlock.CanvasPart.values()) {
+            assertTrue(seen.add(canvasPart.toTentPart()), "Doppelte Zuordnung für " + canvasPart);
+            assertEquals(canvasPart.name(), canvasPart.toTentPart().name(), "CanvasPart und TentPart heißen gleich");
+            assertEquals(java.util.Optional.of(canvasPart), TentCanvasBlock.CanvasPart.fromTentPart(canvasPart.toTentPart()),
+                "fromTentPart muss die Zuordnung umkehren: " + canvasPart);
+        }
+        assertTrue(TentCanvasBlock.CanvasPart.fromTentPart(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT).isEmpty(),
+            "Eigene Blöcke (Ofen) sind keine Zeltplane");
+    }
 }

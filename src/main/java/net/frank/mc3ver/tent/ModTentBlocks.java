@@ -111,6 +111,36 @@ public class ModTentBlocks {
 
     private static final Set<BlockPos> DISMANTLING_IN_PROGRESS = new HashSet<>();
 
+    public static BlockState stateFor(ExplorerTentLogic.TentPart part, Direction facing, net.minecraft.world.item.DyeColor color) {
+        BlockState state = switch (part) {
+            case AIR -> null;
+            case POLE -> TENT_POLE.defaultBlockState().setValue(TentPoleBlock.FACING, facing);
+            case SLEEPING_BAG_FOOT -> TENT_SLEEPING_BAG.defaultBlockState()
+                .setValue(TentSleepingBagBlock.FACING, facing)
+                .setValue(TentSleepingBagBlock.PART, BedPart.FOOT);
+            case SLEEPING_BAG_HEAD -> TENT_SLEEPING_BAG.defaultBlockState()
+                .setValue(TentSleepingBagBlock.FACING, facing)
+                .setValue(TentSleepingBagBlock.PART, BedPart.HEAD);
+            case WALL_FURNACE_LEFT -> TENT_FURNACE.defaultBlockState().setValue(TentFurnaceBlock.FACING, facing);
+            default -> TentCanvasBlock.CanvasPart.fromTentPart(part)
+                .map(canvasPart -> TENT_CANVAS.defaultBlockState()
+                    .setValue(TentCanvasBlock.FACING, facing)
+                    .setValue(TentCanvasBlock.PART, canvasPart))
+                .orElse(null);
+        };
+        if (state != null && state.hasProperty(TentCanvasBlock.COLOR)) {
+            state = state.setValue(TentCanvasBlock.COLOR, color);
+        }
+        return state;
+    }
+
+    static ItemStack createPackedTent(int colorRgb) {
+        ItemStack tentStack = new ItemStack(ModTentItems.EXPLORER_TENT);
+        tentStack.set(net.minecraft.core.component.DataComponents.DYED_COLOR,
+            new net.minecraft.world.item.component.DyedItemColor(colorRgb));
+        return tentStack;
+    }
+
     public static boolean isTentBlock(BlockState state) {
         return state.is(TENT_CANVAS) || state.is(TENT_POLE) || state.is(TENT_SLEEPING_BAG) || state.is(TENT_FURNACE);
     }
@@ -191,9 +221,7 @@ public class ModTentBlocks {
         }
 
         // Zelt als Item zurückgeben oder droppen
-        ItemStack tentStack = new ItemStack(ModTentItems.EXPLORER_TENT);
-        tentStack.set(net.minecraft.core.component.DataComponents.DYED_COLOR,
-            new net.minecraft.world.item.component.DyedItemColor(tentColorRgb));
+        ItemStack tentStack = createPackedTent(tentColorRgb);
         if (player != null && !player.getAbilities().instabuild) {
             boolean added = player.getInventory().add(tentStack);
             if (!added) {

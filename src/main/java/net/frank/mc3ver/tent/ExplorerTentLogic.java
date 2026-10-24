@@ -115,41 +115,27 @@ public class ExplorerTentLogic {
         ROOF_BACK
     }
 
-    public static TentPart getTentPart(int relX, int relY, int relZ) {
-        if (relY == 0) {
-            if (relX == 0) {
-                if (relZ == 0) return TentPart.AIR; // Eingang frei begehbar
-                if (relZ == 1) return TentPart.SLEEPING_BAG_FOOT;
-                if (relZ == 2) return TentPart.SLEEPING_BAG_HEAD;
-                if (relZ == 3) return TentPart.WALL_BACK;
-            } else if (relX == -1) {
-                if (relZ == 0) return TentPart.WALL_FRONT_LEFT;
-                if (relZ == 1) return TentPart.WALL_FURNACE_LEFT; // Fußende, nicht am Kissen
-                if (relZ == 3) return TentPart.WALL_CORNER_LEFT;
-                return TentPart.WALL_LEFT;
-            } else if (relX == 1) {
-                if (relZ == 0) return TentPart.WALL_FRONT_RIGHT;
-                if (relZ == 2) return TentPart.WALL_CRAFTING_TABLE_RIGHT;
-                if (relZ == 3) return TentPart.WALL_CORNER_RIGHT;
-                return TentPart.WALL_RIGHT;
-            }
-        } else if (relY == 1) {
-            if (relX == -1) {
-                if (relZ == 0) return TentPart.ROOF_FRONT_LEFT;
-                if (relZ == 1) return TentPart.ROOF_PIPE_LEFT; // Ofenrohr über dem Ofen
-                if (relZ == 3) return TentPart.ROOF_CORNER_LEFT;
-                return TentPart.ROOF_LEFT;
-            } else if (relX == 1) {
-                if (relZ == 0) return TentPart.ROOF_FRONT_RIGHT;
-                if (relZ == 3) return TentPart.ROOF_CORNER_RIGHT;
-                return TentPart.ROOF_RIGHT;
-            } else {
-                if (relZ == 0) return TentPart.ROOF_FRONT; // Vorderer Giebelbalken
-                if (relZ == 3) return TentPart.ROOF_BACK; // Hinterer Giebel
-                return TentPart.ROOF_RIDGE; // Mittlerer Firstbalken
-            }
+    // Grundriss je Ebene: Zeilen = relZ 0..3 (Eingang -> Rückwand), Spalten = relX -1, 0, 1
+    private static final TentPart[][][] LAYOUT = {
+        {
+            {TentPart.WALL_FRONT_LEFT, TentPart.AIR, TentPart.WALL_FRONT_RIGHT},
+            {TentPart.WALL_FURNACE_LEFT, TentPart.SLEEPING_BAG_FOOT, TentPart.WALL_RIGHT},
+            {TentPart.WALL_LEFT, TentPart.SLEEPING_BAG_HEAD, TentPart.WALL_CRAFTING_TABLE_RIGHT},
+            {TentPart.WALL_CORNER_LEFT, TentPart.WALL_BACK, TentPart.WALL_CORNER_RIGHT}
+        },
+        {
+            {TentPart.ROOF_FRONT_LEFT, TentPart.ROOF_FRONT, TentPart.ROOF_FRONT_RIGHT},
+            {TentPart.ROOF_PIPE_LEFT, TentPart.ROOF_RIDGE, TentPart.ROOF_RIGHT},
+            {TentPart.ROOF_LEFT, TentPart.ROOF_RIDGE, TentPart.ROOF_RIGHT},
+            {TentPart.ROOF_CORNER_LEFT, TentPart.ROOF_BACK, TentPart.ROOF_CORNER_RIGHT}
         }
-        return TentPart.AIR;
+    };
+
+    public static TentPart getTentPart(int relX, int relY, int relZ) {
+        if (relY < 0 || relY >= HEIGHT || relZ < 0 || relZ >= LENGTH || relX < -1 || relX > 1) {
+            return TentPart.AIR;
+        }
+        return LAYOUT[relY][relZ][relX + 1];
     }
 
     public static boolean isCraftingTable(TentPart part) {
