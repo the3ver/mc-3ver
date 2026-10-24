@@ -1702,7 +1702,7 @@ public class ExplorerTentLogicTest {
         com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
             java.nio.file.Files.readString(assets.resolve("blockstates/tent_chest.json"))).getAsJsonObject().getAsJsonObject("variants");
         for (String facing : new String[]{"north", "east", "south", "west"}) {
-            assertEquals("mc3ver:block/tent_chest_right", variants.getAsJsonObject("facing=" + facing).get("model").getAsString());
+            assertEquals("mc3ver:block/tent_chest_right", variants.getAsJsonObject("facing=" + facing + ",open=false").get("model").getAsString());
         }
         String model = java.nio.file.Files.readString(assets.resolve("models/block/tent_chest_right.json"));
         assertTrue(model.contains("\"tintindex\": 0"), "Zeltwand hinter der Truhe in Zeltfarbe");
@@ -1768,5 +1768,43 @@ public class ExplorerTentLogicTest {
                 .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
             itemComponentsBound = true;
         }
+    }
+
+    @Test
+    void testChestLidOpenRule() {
+        assertFalse(TentChestBlockEntity.isLidOpen(0));
+        assertTrue(TentChestBlockEntity.isLidOpen(1));
+        assertTrue(TentChestBlockEntity.isLidOpen(3));
+    }
+
+    @Test
+    void testChestOpenVariantsAndLidModel() throws Exception {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+        java.nio.file.Path assets = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
+            java.nio.file.Files.readString(assets.resolve("blockstates/tent_chest.json"))).getAsJsonObject().getAsJsonObject("variants");
+        for (String facing : new String[]{"north", "east", "south", "west"}) {
+            assertEquals("mc3ver:block/tent_chest_right", variants.getAsJsonObject("facing=" + facing + ",open=false").get("model").getAsString());
+            assertEquals("mc3ver:block/tent_chest_right_open", variants.getAsJsonObject("facing=" + facing + ",open=true").get("model").getAsString());
+        }
+        com.google.gson.JsonObject rot = lidElement(assets.resolve("models/block/tent_chest_right_open.json")).getAsJsonObject("rotation");
+        assertNotNull(rot, "Offener Deckel ist gedreht");
+        assertEquals("z", rot.get("axis").getAsString());
+        assertEquals(-45, rot.get("angle").getAsInt());
+        assertEquals(14, rot.getAsJsonArray("origin").get(0).getAsDouble());
+        assertNull(lidElement(assets.resolve("models/block/tent_chest_right.json")).get("rotation"), "Geschlossener Deckel ist nicht gedreht");
+        assertEquals("open", TentChestBlock.OPEN.getName());
+    }
+
+    private static com.google.gson.JsonObject lidElement(java.nio.file.Path model) throws Exception {
+        for (com.google.gson.JsonElement e : com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(model))
+                .getAsJsonObject().getAsJsonArray("elements")) {
+            com.google.gson.JsonObject o = e.getAsJsonObject();
+            if (o.getAsJsonArray("from").get(1).getAsDouble() == 9 && o.getAsJsonArray("to").get(1).getAsDouble() == 11) {
+                return o;
+            }
+        }
+        throw new AssertionError("Kein Deckel-Element");
     }
 }

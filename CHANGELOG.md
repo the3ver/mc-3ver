@@ -10,7 +10,7 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) 
 * **Nähte und dunkleres Dach:** Die Zeltplane zeigt pro Stoffbahn eine Falz und eine Steppnaht. Das Dach ist einen Ton dunkler als die Wände.
 * **Hängende Laterne:** Unter der Dachschräge über der Werkbank hängt eine Laterne und beleuchtet das Zelt mit Lichtstufe 14.
 * **Eingangsplane:** Der Eingang hat eine Plane in Zeltfarbe. Per Rechtsklick wird sie aufgerollt oder geschlossen, geschlossen hält sie Mobs draußen. Neue Zelte stehen offen.
-* **Zelttruhe:** Rechts am Fußende steht eine Truhe mit 27 Plätzen. Beim Einpacken wandert ihr Inhalt ins Zelt-Item und kommt beim Aufbau zurück. Umfärben behält den Inhalt und setzt die exakte Farbe des Farbstoffs.
+* **Zelttruhe:** Rechts am Fußende steht eine Truhe mit 27 Plätzen, deren Deckel beim Öffnen mit Truhengeräusch aufklappt. Beim Einpacken wandert ihr Inhalt ins Zelt-Item und kommt beim Aufbau zurück. Umfärben behält den Inhalt und setzt die exakte Farbe des Farbstoffs.
 * **Heringe und Abspannleinen:** An allen vier Ecken spannen Leinen die Zeltwände zu Heringen im Boden ab.
 * **Wimpel:** Auf dem vorderen Giebel flattert ein Wimpel in Zeltfarbe. So findet man das Zelt von Weitem.
 

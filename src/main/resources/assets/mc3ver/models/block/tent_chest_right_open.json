@@ -1,0 +1,61 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "canvas": "mc3ver:block/tent_canvas",
+    "particle": "mc3ver:block/tent_canvas",
+    "planks": "minecraft:block/spruce_planks",
+    "rim": "minecraft:block/dark_oak_planks",
+    "latch": "minecraft:block/iron_block"
+  },
+  "elements": [
+    {
+      "from": [14, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "west": { "uv": [0, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "north": { "uv": [14, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "south": { "uv": [14, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "up": { "uv": [14, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "down": { "uv": [14, 0, 16, 16], "texture": "#canvas", "tintindex": 0 }
+      }
+    },
+    {
+      "from": [1, 0, 2],
+      "to": [14, 9, 14],
+      "faces": {
+        "up": { "uv": [0, 0, 16, 16], "texture": "#planks" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#planks" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#planks" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#planks" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#planks" },
+        "north": { "uv": [0, 0, 16, 16], "texture": "#planks" }
+      }
+    },
+    {
+      "from": [0.5, 9, 1.5],
+      "to": [14, 11, 14.5],
+      "rotation": { "angle": -45, "axis": "z", "origin": [14, 11, 8] },
+      "faces": {
+        "up": { "uv": [0, 0, 16, 16], "texture": "#rim" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#rim" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#rim" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#rim" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#rim" },
+        "north": { "uv": [0, 0, 16, 16], "texture": "#rim" }
+      }
+    },
+    {
+      "from": [0, 7, 7],
+      "to": [1, 10, 9],
+      "faces": {
+        "up": { "uv": [0, 0, 16, 16], "texture": "#latch" },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#latch" },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#latch" },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#latch" },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#latch" },
+        "north": { "uv": [0, 0, 16, 16], "texture": "#latch" }
+      }
+    }
+  ]
+}

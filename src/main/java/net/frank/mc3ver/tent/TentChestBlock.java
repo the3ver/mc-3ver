@@ -16,6 +16,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -26,13 +30,15 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class TentChestBlock extends BaseEntityBlock {
 
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
     public static final MapCodec<TentChestBlock> CODEC = simpleCodec(TentChestBlock::new);
 
     public TentChestBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
             .setValue(FACING, Direction.NORTH)
-            .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE));
+            .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE)
+            .setValue(OPEN, false));
     }
 
     @Override
@@ -42,7 +48,7 @@ public class TentChestBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, TentCanvasBlock.COLOR);
+        builder.add(FACING, TentCanvasBlock.COLOR, OPEN);
     }
 
     public static VoxelShape getChestShape(Direction tentFacing) {
@@ -62,6 +68,13 @@ public class TentChestBlock extends BaseEntityBlock {
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return getChestShape(state.getValue(FACING));
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (level.getBlockEntity(pos) instanceof TentChestBlockEntity chest) {
+            chest.recheckOpen();
+        }
     }
 
     @Override
