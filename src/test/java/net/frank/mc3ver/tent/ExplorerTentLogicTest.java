@@ -107,6 +107,7 @@ public class ExplorerTentLogicTest {
         // Prüft, dass alle 24 Positionen einem gültigen Zelt-Part zugeordnet werden
         int airCount = 0;
         int wallLeftCount = 0;
+        int wallFurnaceLeftCount = 0;
         int wallRightCount = 0;
         int wallFrontLeftCount = 0;
         int wallFrontRightCount = 0;
@@ -119,6 +120,7 @@ public class ExplorerTentLogicTest {
         int wallCraftingTableRightCount = 0;
         int roofLeftCount = 0;
         int roofRightCount = 0;
+        int roofPipeLeftCount = 0;
         int roofFrontLeftCount = 0;
         int roofFrontRightCount = 0;
         int roofCornerLeftCount = 0;
@@ -135,6 +137,7 @@ public class ExplorerTentLogicTest {
                         case AIR -> airCount++;
                         case POLE -> poleCount++;
                         case WALL_LEFT -> wallLeftCount++;
+                        case WALL_FURNACE_LEFT -> wallFurnaceLeftCount++;
                         case WALL_RIGHT -> wallRightCount++;
                         case WALL_CRAFTING_TABLE_RIGHT -> wallCraftingTableRightCount++;
                         case WALL_FRONT_LEFT -> wallFrontLeftCount++;
@@ -146,6 +149,7 @@ public class ExplorerTentLogicTest {
                         case SLEEPING_BAG_HEAD -> bedHeadCount++;
                         case ROOF_LEFT -> roofLeftCount++;
                         case ROOF_RIGHT -> roofRightCount++;
+                        case ROOF_PIPE_LEFT -> roofPipeLeftCount++;
                         case ROOF_FRONT_LEFT -> roofFrontLeftCount++;
                         case ROOF_FRONT_RIGHT -> roofFrontRightCount++;
                         case ROOF_CORNER_LEFT -> roofCornerLeftCount++;
@@ -163,7 +167,8 @@ public class ExplorerTentLogicTest {
         assertEquals(0, poleCount, "Es darf KEINE Holzpfosten im Zelt mehr geben!");
         assertEquals(1, wallFrontLeftCount, "Es muss 1 vorderen linken Stoff-Eingangsblock geben");
         assertEquals(1, wallFrontRightCount, "Es muss 1 vorderen rechten Stoff-Eingangsblock geben");
-        assertEquals(2, wallLeftCount, "Es muss 2 linke Seitenwand-Blöcke geben");
+        assertEquals(1, wallLeftCount, "Es muss 1 linken Seitenwand-Block geben");
+        assertEquals(1, wallFurnaceLeftCount, "Es muss 1 Ofen-Block auf der linken Seite geben");
         assertEquals(1, wallCornerLeftCount, "Es muss 1 linke Eck-Zeltwand geben");
         assertEquals(1, wallRightCount, "Es muss 1 rechten Seitenwand-Block geben");
         assertEquals(1, wallCraftingTableRightCount, "Es muss 1 Craftingtable-Block auf der rechten Seite geben");
@@ -175,7 +180,8 @@ public class ExplorerTentLogicTest {
         // Layer 1 Validierung
         assertEquals(1, roofFrontLeftCount, "Es muss 1 vordere linke Dachfläche geben");
         assertEquals(1, roofFrontRightCount, "Es muss 1 vordere rechte Dachfläche geben");
-        assertEquals(2, roofLeftCount, "Es muss 2 linke Dachflächen geben");
+        assertEquals(1, roofLeftCount, "Es muss 1 linke Dachfläche ohne Ofenrohr geben");
+        assertEquals(1, roofPipeLeftCount, "Es muss 1 linke Dachfläche mit Ofenrohr geben");
         assertEquals(2, roofRightCount, "Es muss 2 rechte Dachflächen geben");
         assertEquals(1, roofCornerLeftCount, "Es muss 1 linke hintere Dachecke geben");
         assertEquals(1, roofCornerRightCount, "Es muss 1 rechte hintere Dachecke geben");
@@ -863,7 +869,7 @@ public class ExplorerTentLogicTest {
             "Hinten rechts oben (1, 1, 3) muss ROOF_CORNER_RIGHT sein");
 
         assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 0));
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 1));
+        assertEquals(ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 1));
         assertEquals(ExplorerTentLogic.TentPart.ROOF_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 2));
 
         assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 0));
@@ -1031,8 +1037,8 @@ public class ExplorerTentLogicTest {
         assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT, ExplorerTentLogic.getTentPart(0, 1, 0),
             "Mittelgang oben (0, 1, 0) muss ROOF_FRONT bleiben");
 
-        // Innenbereich neben Schlafmatte: links Wand, rechts Wand bei Fußende und Werkbank bei Kopfende
-        assertEquals(ExplorerTentLogic.TentPart.WALL_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 1));
+        // Innenbereich neben Schlafmatte: links Ofen am Fußende (nicht am Kissen), rechts Werkbank am Kopfende
+        assertEquals(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 1));
         assertEquals(ExplorerTentLogic.TentPart.WALL_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 2));
         assertEquals(ExplorerTentLogic.TentPart.WALL_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 1));
         assertEquals(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 2));
@@ -1288,9 +1294,149 @@ public class ExplorerTentLogicTest {
         assertNotNull(provider, "createCraftingMenuProvider darf nicht null liefern");
         assertEquals(net.minecraft.network.chat.Component.translatable("container.crafting"), provider.getDisplayName());
     }
+
+    @Test
+    void testFurnaceSitsOnLeftWallNextToFoot() {
+        assertEquals(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 1),
+            "relX=-1, relY=0, relZ=1 (links neben Fußende) muss WALL_FURNACE_LEFT sein");
+        assertEquals(ExplorerTentLogic.TentPart.WALL_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 2),
+            "Neben dem Kissen (-1, 0, 2) darf kein Ofen stehen");
+        assertTrue(ExplorerTentLogic.isFurnace(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT));
+        assertFalse(ExplorerTentLogic.isFurnace(ExplorerTentLogic.TentPart.WALL_LEFT));
+        assertFalse(ExplorerTentLogic.isFurnace(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT));
+        assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT),
+            "Ofen-Wandteil muss solide Kollision haben");
+    }
+
+    @Test
+    void testTentFurnaceFacesIntoTent() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        // Ofen hängt an der linken Wand, seine Front zeigt zum Mittelgang (rechts von der Zelt-Blickrichtung)
+        assertEquals(net.minecraft.core.Direction.EAST, TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.NORTH));
+        assertEquals(net.minecraft.core.Direction.SOUTH, TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.EAST));
+        assertEquals(net.minecraft.core.Direction.WEST, TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.SOUTH));
+        assertEquals(net.minecraft.core.Direction.NORTH, TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.WEST));
+    }
+
+    @Test
+    void testTentFurnaceCollisionCoversWallAndFurnace() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        net.minecraft.world.phys.shapes.VoxelShape shapeNorth = TentFurnaceBlock.getFurnaceShape(net.minecraft.core.Direction.NORTH);
+
+        // Linke Außenwand bei x=0..2
+        net.minecraft.world.phys.AABB wallBox = new net.minecraft.world.phys.AABB(0.0, 0.0, 0.0, 2.0 / 16.0, 1.0, 1.0);
+        assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+            shapeNorth, net.minecraft.world.phys.shapes.Shapes.create(wallBox), net.minecraft.world.phys.shapes.BooleanOp.AND
+        ), "Ofen-Wandteil muss an der linken Außenwand kollidieren");
+
+        // Ofenkörper im Inneren bei x=2..16
+        net.minecraft.world.phys.AABB furnaceBox = new net.minecraft.world.phys.AABB(
+            4.0 / 16.0, 2.0 / 16.0, 4.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
+        assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+            shapeNorth, net.minecraft.world.phys.shapes.Shapes.create(furnaceBox), net.minecraft.world.phys.shapes.BooleanOp.AND
+        ), "Ofenkörper muss Kollision haben");
+    }
+
+    @Test
+    void testTentFurnaceResourcesExist() throws Exception {
+        java.nio.file.Path res = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+
+        java.nio.file.Path blockstate = res.resolve("blockstates/tent_furnace.json");
+        assertTrue(java.nio.file.Files.exists(blockstate), "blockstates/tent_furnace.json muss existieren");
+        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(blockstate))
+            .getAsJsonObject().getAsJsonObject("variants");
+        for (String facing : new String[]{"north", "east", "south", "west"}) {
+            for (String lit : new String[]{"false", "true"}) {
+                assertTrue(variants.has("facing=" + facing + ",lit=" + lit),
+                    "Blockstate muss Variante facing=" + facing + ",lit=" + lit + " definieren");
+            }
+        }
+
+        String baseModel = java.nio.file.Files.readString(res.resolve("models/block/tent_furnace_left.json"));
+        assertTrue(baseModel.contains("\"tintindex\": 0"), "tent_furnace_left muss die Zeltplane einfärbbar machen");
+        assertTrue(baseModel.contains("\"minecraft:block/furnace_front\""), "tent_furnace_left muss die Ofenfront verwenden");
+
+        // Brennender Ofen erbt das Grundmodell und tauscht nur die Front
+        String litModel = java.nio.file.Files.readString(res.resolve("models/block/tent_furnace_left_on.json"));
+        assertTrue(litModel.contains("\"mc3ver:block/tent_furnace_left\""), "tent_furnace_left_on muss vom Grundmodell erben");
+        assertTrue(litModel.contains("\"minecraft:block/furnace_front_on\""), "tent_furnace_left_on muss die brennende Ofenfront verwenden");
+
+        for (String lang : new String[]{"de_de", "en_us"}) {
+            String content = java.nio.file.Files.readString(res.resolve("lang/" + lang + ".json"));
+            assertTrue(content.contains("\"block.mc3ver.tent_furnace\""), lang + " muss block.mc3ver.tent_furnace übersetzen");
+        }
+    }
+
+    @Test
+    void testStovepipeRoofSitsAboveFurnace() {
+        assertEquals(ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 1),
+            "Direkt über dem Ofen (-1, 1, 1) muss die Dachschräge mit Ofenrohr sitzen");
+        assertEquals(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 1));
+        assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT));
+        assertEquals(ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT, TentCanvasBlock.CanvasPart.ROOF_PIPE_LEFT.toTentPart());
+    }
+
+    @Test
+    void testStovepipeRoofKeepsSlopeCollision() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        for (net.minecraft.core.Direction facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
+            net.minecraft.world.phys.shapes.VoxelShape slope = TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_LEFT, facing);
+            net.minecraft.world.phys.shapes.VoxelShape pipe = TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_PIPE_LEFT, facing);
+            assertFalse(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(slope, pipe, net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME),
+                "Dachschräge mit Ofenrohr muss dieselbe Kollision wie ROOF_LEFT haben (" + facing + ")");
+        }
+    }
+
+    @Test
+    void testStovepipeSmokeRisesFromPipeTop() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        // Rohrmitte liegt im Nord-Modell bei x=6, z=8 (Pixel), Oberkante 24 Pixel über der Dachblock-Unterkante
+        assertPipeTop(net.minecraft.core.Direction.NORTH, 6.0 / 16.0, 8.0 / 16.0);
+        assertPipeTop(net.minecraft.core.Direction.EAST, 8.0 / 16.0, 6.0 / 16.0);
+        assertPipeTop(net.minecraft.core.Direction.SOUTH, 10.0 / 16.0, 8.0 / 16.0);
+        assertPipeTop(net.minecraft.core.Direction.WEST, 8.0 / 16.0, 10.0 / 16.0);
+    }
+
+    private static void assertPipeTop(net.minecraft.core.Direction facing, double expectedX, double expectedZ) {
+        double[] top = TentFurnaceBlock.getPipeTopOffset(facing);
+        assertEquals(expectedX, top[0], 1e-9, "x-Offset der Rohröffnung bei " + facing);
+        assertEquals(1.0 + 24.0 / 16.0, top[1], 1e-9, "y-Offset der Rohröffnung bei " + facing);
+        assertEquals(expectedZ, top[2], 1e-9, "z-Offset der Rohröffnung bei " + facing);
+    }
+
+    @Test
+    void testFurnaceAndPipeKeepOriginalColors() throws Exception {
+        java.nio.file.Path models = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
+
+        // Ofenkörper und Rohr dürfen nicht in Zeltfarbe getönt werden, nur die Zeltplane
+        for (String model : new String[]{"tent_furnace_left", "tent_canvas_roof_pipe_left"}) {
+            com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(
+                java.nio.file.Files.readString(models.resolve(model + ".json"))).getAsJsonObject();
+            boolean hasPipe = false;
+            for (com.google.gson.JsonElement el : json.getAsJsonArray("elements")) {
+                com.google.gson.JsonObject faces = el.getAsJsonObject().getAsJsonObject("faces");
+                for (String face : faces.keySet()) {
+                    com.google.gson.JsonObject f = faces.getAsJsonObject(face);
+                    String texture = f.get("texture").getAsString();
+                    if (texture.equals("#pipe")) hasPipe = true;
+                    assertEquals(texture.equals("#canvas"), f.has("tintindex"),
+                        model + ": nur #canvas darf getönt sein, Face " + face + " nutzt " + texture);
+                }
+            }
+            assertTrue(hasPipe, model + " muss ein Rohrstück (#pipe) enthalten");
+            assertEquals("minecraft:block/anvil", json.getAsJsonObject("textures").get("pipe").getAsString());
+        }
+
+        String canvasStates = java.nio.file.Files.readString(models.getParent().getParent().resolve("blockstates/tent_canvas.json"));
+        assertTrue(canvasStates.contains("mc3ver:block/tent_canvas_roof_pipe_left"),
+            "tent_canvas Blockstate muss das Ofenrohr-Dachmodell verwenden");
+    }
 }
-
-
-
-
-

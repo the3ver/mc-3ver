@@ -19,9 +19,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
@@ -83,10 +85,34 @@ public class ModTentBlocks {
         )
     );
 
+    public static final ResourceKey<Block> TENT_FURNACE_KEY = ResourceKey.create(
+        Registries.BLOCK,
+        Mc3verMod.id("tent_furnace")
+    );
+
+    public static final Block TENT_FURNACE = Registry.register(
+        BuiltInRegistries.BLOCK,
+        TENT_FURNACE_KEY,
+        new TentFurnaceBlock(
+            BlockBehaviour.Properties.of()
+                .setId(TENT_FURNACE_KEY)
+                .strength(0.6f)
+                .sound(SoundType.STONE)
+                .lightLevel(state -> state.getValue(AbstractFurnaceBlock.LIT) ? 13 : 0)
+                .noOcclusion()
+        )
+    );
+
+    public static final BlockEntityType<TentFurnaceBlockEntity> TENT_FURNACE_BLOCK_ENTITY = Registry.register(
+        BuiltInRegistries.BLOCK_ENTITY_TYPE,
+        Mc3verMod.id("tent_furnace"),
+        new BlockEntityType<>(TentFurnaceBlockEntity::new, Set.of(TENT_FURNACE))
+    );
+
     private static final Set<BlockPos> DISMANTLING_IN_PROGRESS = new HashSet<>();
 
     public static boolean isTentBlock(BlockState state) {
-        return state.is(TENT_CANVAS) || state.is(TENT_POLE) || state.is(TENT_SLEEPING_BAG);
+        return state.is(TENT_CANVAS) || state.is(TENT_POLE) || state.is(TENT_SLEEPING_BAG) || state.is(TENT_FURNACE);
     }
 
     public static void dismantleTent(Level level, BlockPos pos, Player player) {

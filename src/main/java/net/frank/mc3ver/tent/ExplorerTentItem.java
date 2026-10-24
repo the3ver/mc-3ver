@@ -122,6 +122,8 @@ public class ExplorerTentItem extends Item {
                         case WALL_CRAFTING_TABLE_RIGHT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
                             .setValue(TentCanvasBlock.FACING, facing)
                             .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_CRAFTING_TABLE_RIGHT);
+                        case WALL_FURNACE_LEFT -> stateToPlace = ModTentBlocks.TENT_FURNACE.defaultBlockState()
+                            .setValue(TentFurnaceBlock.FACING, facing);
                         case WALL_FRONT_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
                             .setValue(TentCanvasBlock.FACING, facing)
                             .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.WALL_FRONT_LEFT);
@@ -140,6 +142,9 @@ public class ExplorerTentItem extends Item {
                         case ROOF_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
                             .setValue(TentCanvasBlock.FACING, facing)
                             .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_LEFT);
+                        case ROOF_PIPE_LEFT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
+                            .setValue(TentCanvasBlock.FACING, facing)
+                            .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_PIPE_LEFT);
                         case ROOF_RIGHT -> stateToPlace = ModTentBlocks.TENT_CANVAS.defaultBlockState()
                             .setValue(TentCanvasBlock.FACING, facing)
                             .setValue(TentCanvasBlock.PART, TentCanvasBlock.CanvasPart.ROOF_RIGHT);

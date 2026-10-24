@@ -37,6 +37,7 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         WALL_CRAFTING_TABLE_RIGHT("wall_crafting_table_right"),
         WALL_BACK("wall_back"),
         ROOF_LEFT("roof_left"),
+        ROOF_PIPE_LEFT("roof_pipe_left"),
         ROOF_RIGHT("roof_right"),
         ROOF_FRONT_LEFT("roof_front_left"),
         ROOF_FRONT_RIGHT("roof_front_right"),
@@ -69,6 +70,7 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
                 case WALL_CRAFTING_TABLE_RIGHT -> ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT;
                 case WALL_BACK -> ExplorerTentLogic.TentPart.WALL_BACK;
                 case ROOF_LEFT -> ExplorerTentLogic.TentPart.ROOF_LEFT;
+                case ROOF_PIPE_LEFT -> ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT;
                 case ROOF_RIGHT -> ExplorerTentLogic.TentPart.ROOF_RIGHT;
                 case ROOF_FRONT_LEFT -> ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT;
                 case ROOF_FRONT_RIGHT -> ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT;
@@ -110,7 +112,7 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
             case WALL_FRONT_LEFT, WALL_CORNER_LEFT -> Shapes.or(leftShape, backShape);
             case WALL_FRONT_RIGHT, WALL_CORNER_RIGHT -> Shapes.or(rightShape, backShape);
             case ROOF_FRONT, ROOF_RIDGE -> SHAPE_ROOF_PLANE;
-            case ROOF_LEFT -> getRoofSlopeShape(leftDir);
+            case ROOF_LEFT, ROOF_PIPE_LEFT -> getRoofSlopeShape(leftDir);
             case ROOF_RIGHT -> getRoofSlopeShape(rightDir);
             case ROOF_FRONT_LEFT, ROOF_CORNER_LEFT -> Shapes.or(getRoofSlopeShape(leftDir), backShape);
             case ROOF_FRONT_RIGHT, ROOF_CORNER_RIGHT -> Shapes.or(getRoofSlopeShape(rightDir), backShape);
@@ -118,7 +120,7 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         };
     }
 
-    private static VoxelShape getTableShape(Direction rightDir) {
+    static VoxelShape getTableShape(Direction rightDir) {
         return switch (rightDir) {
             case EAST -> Block.box(0.0, 0.0, 0.0, 14.0, 14.0, 16.0);
             case WEST -> Block.box(2.0, 0.0, 0.0, 16.0, 14.0, 16.0);

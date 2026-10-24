@@ -99,10 +99,12 @@ public class ExplorerTentLogic {
         WALL_CORNER_LEFT,
         WALL_CORNER_RIGHT,
         WALL_CRAFTING_TABLE_RIGHT,
+        WALL_FURNACE_LEFT,
         WALL_BACK,
         SLEEPING_BAG_FOOT,
         SLEEPING_BAG_HEAD,
         ROOF_LEFT,
+        ROOF_PIPE_LEFT,
         ROOF_RIGHT,
         ROOF_FRONT_LEFT,
         ROOF_FRONT_RIGHT,
@@ -122,6 +124,7 @@ public class ExplorerTentLogic {
                 if (relZ == 3) return TentPart.WALL_BACK;
             } else if (relX == -1) {
                 if (relZ == 0) return TentPart.WALL_FRONT_LEFT;
+                if (relZ == 1) return TentPart.WALL_FURNACE_LEFT; // Fußende, nicht am Kissen
                 if (relZ == 3) return TentPart.WALL_CORNER_LEFT;
                 return TentPart.WALL_LEFT;
             } else if (relX == 1) {
@@ -133,6 +136,7 @@ public class ExplorerTentLogic {
         } else if (relY == 1) {
             if (relX == -1) {
                 if (relZ == 0) return TentPart.ROOF_FRONT_LEFT;
+                if (relZ == 1) return TentPart.ROOF_PIPE_LEFT; // Ofenrohr über dem Ofen
                 if (relZ == 3) return TentPart.ROOF_CORNER_LEFT;
                 return TentPart.ROOF_LEFT;
             } else if (relX == 1) {
@@ -152,6 +156,10 @@ public class ExplorerTentLogic {
         return part == TentPart.WALL_CRAFTING_TABLE_RIGHT;
     }
 
+    public static boolean isFurnace(TentPart part) {
+        return part == TentPart.WALL_FURNACE_LEFT;
+    }
+
     public static boolean hasSolidRoofPlane(TentPart part) {
         return part == TentPart.ROOF_FRONT || part == TentPart.ROOF_RIDGE;
     }
@@ -167,8 +175,8 @@ public class ExplorerTentLogic {
     public static boolean hasFullBlockCollision(TentPart part) {
         return switch (part) {
             case WALL_SIDE, WALL_LEFT, WALL_RIGHT, WALL_FRONT_LEFT, WALL_FRONT_RIGHT,
-                 WALL_CORNER_LEFT, WALL_CORNER_RIGHT, WALL_CRAFTING_TABLE_RIGHT, WALL_BACK,
-                 ROOF_LEFT, ROOF_RIGHT, ROOF_FRONT_LEFT, ROOF_FRONT_RIGHT,
+                 WALL_CORNER_LEFT, WALL_CORNER_RIGHT, WALL_CRAFTING_TABLE_RIGHT, WALL_FURNACE_LEFT, WALL_BACK,
+                 ROOF_LEFT, ROOF_PIPE_LEFT, ROOF_RIGHT, ROOF_FRONT_LEFT, ROOF_FRONT_RIGHT,
                  ROOF_CORNER_LEFT, ROOF_CORNER_RIGHT, ROOF_BACK, POLE -> true;
             default -> false;
         };

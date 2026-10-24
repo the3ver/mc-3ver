@@ -4,6 +4,15 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.3] - 2026-10-24
+
+### ✨ Neu hinzugefügt
+* **Zeltofen:** An der linken Zeltwand neben dem Fußende des Schlafsacks steht ein vollwertiger Ofen. Er nutzt originale Ofentexturen mit zeltfarbener Rückwand, vergibt Erfahrung und leuchtet beim Brennen mit Lichtstufe 13.
+* **Ofenrohr:** Über dem Ofen führt ein dunkles Metallrohr mit Regenkappe durch die Dachschräge nach draußen. Sobald der Ofen brennt, steigt Rauch aus dem Rohr auf.
+* **Zeltabbau:** Beim Einpacken per Sneak-Rechtsklick fallen Ofeninhalt und gesammelte Erfahrung heraus. Bereits aufgestellte Zelte erhalten den Ofen erst nach erneutem Ab- und Aufbauen.
+
+---
+
 ## [0.5.2] - 2026-10-24
 
 ### 🐛 Fehlerbehebungen

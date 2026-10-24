@@ -4,6 +4,15 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.3] - 2026-10-24
+
+### ✨ New Features
+* **Tent Furnace:** A fully functional furnace sits on the left tent wall next to the foot of the sleeping bag. It uses original furnace textures with a tent-colored back wall, yields experience, and emits light level 13 while burning.
+* **Stovepipe:** A dark metal stovepipe with a rain cap extends above the furnace through the sloped roof to the outside. Smoke rises from the pipe whenever the furnace is burning.
+* **Tent Packing:** Packing the tent via sneak right-click drops all furnace contents and stored experience. Previously placed tents receive the furnace only after tearing down and rebuilding them.
+
+---
+
 ## [0.5.2] - 2026-10-24
 
 ### 🐛 Bug Fixes

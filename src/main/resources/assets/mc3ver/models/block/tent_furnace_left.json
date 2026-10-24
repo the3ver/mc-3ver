@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "canvas": "mc3ver:block/tent_canvas",
+    "particle": "mc3ver:block/tent_canvas",
+    "front": "minecraft:block/furnace_front",
+    "side": "minecraft:block/furnace_side",
+    "top": "minecraft:block/furnace_top",
+    "bottom": "minecraft:block/furnace_top",
+    "pipe": "minecraft:block/anvil"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [2, 16, 16],
+      "faces": {
+        "west": { "uv": [0, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#canvas", "tintindex": 0 },
+        "north": { "uv": [0, 0, 2, 16], "texture": "#canvas", "tintindex": 0 },
+        "south": { "uv": [0, 0, 2, 16], "texture": "#canvas", "tintindex": 0 },
+        "up": { "uv": [0, 0, 2, 16], "texture": "#canvas", "tintindex": 0 },
+        "down": { "uv": [0, 0, 2, 16], "texture": "#canvas", "tintindex": 0 }
+      }
+    },
+    {
+      "from": [2, 0, 1],
+      "to": [16, 14, 15],
+      "faces": {
+        "up": { "uv": [1, 1, 15, 15], "texture": "#top" },
+        "down": { "uv": [1, 1, 15, 15], "texture": "#bottom" },
+        "west": { "uv": [1, 2, 15, 16], "texture": "#side" },
+        "east": { "uv": [1, 2, 15, 16], "texture": "#front" },
+        "south": { "uv": [0, 2, 14, 16], "texture": "#side" },
+        "north": { "uv": [2, 2, 16, 16], "texture": "#side" }
+      }
+    },
+    {
+      "from": [4, 14, 6],
+      "to": [8, 16, 10],
+      "faces": {
+        "north": { "uv": [0, 0, 4, 2], "texture": "#pipe" },
+        "south": { "uv": [0, 0, 4, 2], "texture": "#pipe" },
+        "west": { "uv": [0, 0, 4, 2], "texture": "#pipe" },
+        "east": { "uv": [0, 0, 4, 2], "texture": "#pipe" },
+        "up": { "uv": [0, 0, 4, 4], "texture": "#pipe" },
+        "down": { "uv": [0, 0, 4, 4], "texture": "#pipe" }
+      }
+    }
+  ]
+}

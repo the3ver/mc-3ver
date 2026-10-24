@@ -54,6 +54,7 @@
   "block.mc3ver.tent_canvas": "Zeltplane",
   "block.mc3ver.tent_pole": "Zeltpfosten",
   "block.mc3ver.tent_sleeping_bag": "Entdecker-Schlafsack",
+  "block.mc3ver.tent_furnace": "Zeltofen",
   "tooltip.mc3ver.explorer_tent": "Mobiles Zelt für Reisen. Schlafen ohne den Heimat-Spawnpunkt zu verändern.",
   "message.mc3ver.tent_placed": "Entdeckerzelt aufgestellt!",
   "message.mc3ver.tent_packed": "Entdeckerzelt eingepackt.",
