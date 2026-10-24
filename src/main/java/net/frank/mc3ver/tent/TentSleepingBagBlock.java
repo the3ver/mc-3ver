@@ -3,7 +3,6 @@ package net.frank.mc3ver.tent;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -15,15 +14,12 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BedPart;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -32,11 +28,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
 
-public class TentSleepingBagBlock extends HorizontalDirectionalBlock {
+// Erbt von BedBlock: LivingEntity.tick() weckt Schlafende sofort, wenn der Block an sleepingPos kein BedBlock ist
+public class TentSleepingBagBlock extends BedBlock {
 
-    public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
-    public static final EnumProperty<BedPart> PART = BlockStateProperties.BED_PART;
-    public static final BooleanProperty OCCUPIED = BlockStateProperties.OCCUPIED;
     public static final com.mojang.serialization.MapCodec<TentSleepingBagBlock> CODEC = simpleCodec(TentSleepingBagBlock::new);
 
     protected static final VoxelShape FOOT_SHAPE = Block.box(1.0, 0.0, 0.0, 15.0, 3.0, 16.0);
@@ -46,21 +40,18 @@ public class TentSleepingBagBlock extends HorizontalDirectionalBlock {
     );
 
     public TentSleepingBagBlock(BlockBehaviour.Properties properties) {
-        super(properties);
-        this.registerDefaultState(this.stateDefinition.any()
-            .setValue(FACING, Direction.NORTH)
-            .setValue(PART, BedPart.FOOT)
-            .setValue(OCCUPIED, false));
+        super(DyeColor.WHITE, properties);
     }
 
     @Override
-    protected com.mojang.serialization.MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
+    @SuppressWarnings("unchecked")
+    public com.mojang.serialization.MapCodec<BedBlock> codec() {
+        return (com.mojang.serialization.MapCodec<BedBlock>) (com.mojang.serialization.MapCodec<?>) CODEC;
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, PART, OCCUPIED);
+    // Schlafen im Zelt darf den Heimat-Spawnpunkt nie verändern (siehe EntitySleepEvents.ALLOW_SETTING_SPAWN)
+    public static boolean allowsSettingSpawn(Block block) {
+        return !(block instanceof TentSleepingBagBlock);
     }
 
     @Override
@@ -96,7 +87,6 @@ public class TentSleepingBagBlock extends HorizontalDirectionalBlock {
         }
 
         if (player instanceof ServerPlayer serverPlayer) {
-            ServerPlayer.RespawnConfig oldRespawn = serverPlayer.getRespawnConfig();
             Either<Player.BedSleepingProblem, Unit> result = serverPlayer.startSleepInBed(targetPos);
 
             result.ifLeft(problem -> {
@@ -107,9 +97,6 @@ public class TentSleepingBagBlock extends HorizontalDirectionalBlock {
             });
 
             if (result.right().isPresent()) {
-                // Heimat-Spawnpunkt unverändert wiederherstellen
-                serverPlayer.setRespawnPosition(oldRespawn, false);
-
                 // Ruhetimer gegen Phantome zurücksetzen
                 serverPlayer.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_REST));
 

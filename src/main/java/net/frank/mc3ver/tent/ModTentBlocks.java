@@ -1,5 +1,6 @@
 package net.frank.mc3ver.tent;
 
+import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.frank.mc3ver.Mc3verMod;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -185,5 +186,7 @@ public class ModTentBlocks {
 
     public static void register() {
         // Triggers static init
+        EntitySleepEvents.ALLOW_SETTING_SPAWN.register((player, sleepingPos) ->
+            TentSleepingBagBlock.allowsSettingSpawn(player.level().getBlockState(sleepingPos).getBlock()));
     }
 }

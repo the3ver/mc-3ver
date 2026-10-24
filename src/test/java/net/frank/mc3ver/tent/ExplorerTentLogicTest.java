@@ -285,6 +285,24 @@ public class ExplorerTentLogicTest {
     }
 
     @Test
+    void testSleepingBagIsRecognizedAsBedByVanillaSleepTick() {
+        // LivingEntity.tick() weckt Schlafende sofort, wenn der Block an sleepingPos kein BedBlock ist
+        assertTrue(net.minecraft.world.level.block.BedBlock.class.isAssignableFrom(TentSleepingBagBlock.class),
+            "Schlafsack muss von BedBlock erben, sonst bricht Vanilla den Schlaf im ersten Tick ab");
+    }
+
+    @Test
+    void testOnlyTentSleepingBagBlocksSettingSpawn() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        assertTrue(TentSleepingBagBlock.allowsSettingSpawn(net.minecraft.world.level.block.Blocks.BED.red()),
+            "Vanilla-Betten müssen den Spawnpunkt weiterhin setzen");
+        assertTrue(TentSleepingBagBlock.allowsSettingSpawn(net.minecraft.world.level.block.Blocks.STONE),
+            "Nicht-Zelt-Blöcke dürfen nicht blockiert werden");
+    }
+
+    @Test
     void testTentResourcesRecipesAndTranslations() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
         java.nio.file.Path resourcesDir = baseDir.resolve("src/main/resources");
