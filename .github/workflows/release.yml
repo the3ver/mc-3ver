@@ -44,8 +44,9 @@ jobs:
             echo "version=$VER" >> $GITHUB_OUTPUT
             echo "tag=$TAG" >> $GITHUB_OUTPUT
           else
-            echo "version=0.5.0" >> $GITHUB_OUTPUT
-            echo "tag=v0.5.0" >> $GITHUB_OUTPUT
+            VER="$(grep '^version=' gradle.properties | cut -d= -f2)"
+            echo "version=$VER" >> $GITHUB_OUTPUT
+            echo "tag=v$VER" >> $GITHUB_OUTPUT
           fi
 
       - name: Create GitHub Release
