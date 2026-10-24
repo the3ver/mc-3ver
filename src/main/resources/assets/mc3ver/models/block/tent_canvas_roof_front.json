@@ -156,70 +156,326 @@
         7.75
       ],
       "to": [
-        16,
+        10,
         27,
         8.25
       ],
       "faces": {
-        "down": {
-          "uv": [
-            0,
-            0,
-            1,
-            12
-          ],
+        "south": {
           "texture": "#pennant",
-          "tintindex": 0
-        },
-        "up": {
+          "tintindex": 0,
           "uv": [
-            0,
-            0,
-            1,
-            12
-          ],
-          "texture": "#pennant",
-          "tintindex": 0
+            0.0,
+            0.0,
+            3.2,
+            16.0
+          ]
         },
         "north": {
-          "uv": [
-            0,
-            0,
-            16,
-            12
-          ],
           "texture": "#pennant",
-          "tintindex": 0
+          "tintindex": 0,
+          "uv": [
+            3.2,
+            0.0,
+            0.0,
+            16.0
+          ]
         },
-        "south": {
-          "uv": [
-            0,
-            0,
-            16,
-            12
-          ],
+        "up": {
           "texture": "#pennant",
-          "tintindex": 0
+          "tintindex": 0,
+          "uv": [
+            0.0,
+            0.0,
+            3.2,
+            0.5
+          ]
         },
-        "west": {
-          "uv": [
-            0,
-            0,
-            1,
-            12
-          ],
+        "down": {
           "texture": "#pennant",
-          "tintindex": 0
+          "tintindex": 0,
+          "uv": [
+            0.0,
+            15.5,
+            3.2,
+            16.0
+          ]
         },
         "east": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            2.7,
+            0.0,
+            3.2,
+            16.0
+          ]
+        },
+        "west": {
+          "texture": "#pennant",
+          "tintindex": 0,
           "uv": [
             0,
-            0,
-            1,
-            12
-          ],
+            0.0,
+            0.5,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        10,
+        21.5,
+        7.75
+      ],
+      "to": [
+        11.5,
+        26.5,
+        8.25
+      ],
+      "faces": {
+        "south": {
           "texture": "#pennant",
-          "tintindex": 0
+          "tintindex": 0,
+          "uv": [
+            3.2,
+            1.333,
+            6.4,
+            14.667
+          ]
+        },
+        "north": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            6.4,
+            1.333,
+            3.2,
+            14.667
+          ]
+        },
+        "up": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            3.2,
+            1.333,
+            6.4,
+            1.833
+          ]
+        },
+        "down": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            3.2,
+            14.167,
+            6.4,
+            14.667
+          ]
+        },
+        "east": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            5.9,
+            1.333,
+            6.4,
+            14.667
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        11.5,
+        22,
+        7.75
+      ],
+      "to": [
+        13,
+        26,
+        8.25
+      ],
+      "faces": {
+        "south": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            6.4,
+            2.667,
+            9.6,
+            13.333
+          ]
+        },
+        "north": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            9.6,
+            2.667,
+            6.4,
+            13.333
+          ]
+        },
+        "up": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            6.4,
+            2.667,
+            9.6,
+            3.167
+          ]
+        },
+        "down": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            6.4,
+            12.833,
+            9.6,
+            13.333
+          ]
+        },
+        "east": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            9.1,
+            2.667,
+            9.6,
+            13.333
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        13,
+        22.5,
+        7.75
+      ],
+      "to": [
+        14.5,
+        25.5,
+        8.25
+      ],
+      "faces": {
+        "south": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            9.6,
+            4.0,
+            12.8,
+            12.0
+          ]
+        },
+        "north": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            12.8,
+            4.0,
+            9.6,
+            12.0
+          ]
+        },
+        "up": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            9.6,
+            4.0,
+            12.8,
+            4.5
+          ]
+        },
+        "down": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            9.6,
+            11.5,
+            12.8,
+            12.0
+          ]
+        },
+        "east": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            12.3,
+            4.0,
+            12.8,
+            12.0
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        14.5,
+        23.25,
+        7.75
+      ],
+      "to": [
+        16,
+        24.75,
+        8.25
+      ],
+      "faces": {
+        "south": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            12.8,
+            6.0,
+            16.0,
+            10.0
+          ]
+        },
+        "north": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            16.0,
+            6.0,
+            12.8,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            12.8,
+            6.0,
+            16.0,
+            6.5
+          ]
+        },
+        "down": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            12.8,
+            9.5,
+            16.0,
+            10.0
+          ]
+        },
+        "east": {
+          "texture": "#pennant",
+          "tintindex": 0,
+          "uv": [
+            15.5,
+            6.0,
+            16.0,
+            10.0
+          ]
         }
       }
     }
