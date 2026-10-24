@@ -641,6 +641,7 @@ public class ExplorerTentLogicTest {
             assertNotNull(elements, "Modell " + modelName + " muss elements haben");
 
             for (com.google.gson.JsonElement el : elements) {
+                if (!el.toString().contains("#canvas")) continue; // Deko wie Hering, Leine, Wimpel ist keine Zeltplane
                 com.google.gson.JsonObject elObj = el.getAsJsonObject();
                 com.google.gson.JsonObject faces = elObj.getAsJsonObject("faces");
                 for (String faceName : faces.keySet()) {
@@ -889,6 +890,7 @@ public class ExplorerTentLogicTest {
             boolean hasRoofSteps = false;
 
             for (com.google.gson.JsonElement el : elements) {
+                if (!el.toString().contains("#canvas")) continue; // Deko wie Hering, Leine, Wimpel ist keine Zeltplane
                 com.google.gson.JsonObject elObj = el.getAsJsonObject();
                 com.google.gson.JsonArray from = elObj.getAsJsonArray("from");
                 com.google.gson.JsonArray to = elObj.getAsJsonArray("to");
@@ -997,6 +999,7 @@ public class ExplorerTentLogicTest {
             assertNotNull(elements, "Modell " + modelName + " muss elements haben");
 
             for (com.google.gson.JsonElement el : elements) {
+                if (!el.toString().contains("#canvas")) continue; // Deko wie Hering, Leine, Wimpel ist keine Zeltplane
                 com.google.gson.JsonObject elObj = el.getAsJsonObject();
                 com.google.gson.JsonArray from = elObj.getAsJsonArray("from");
                 double fromZ = from.get(2).getAsDouble();
@@ -1060,6 +1063,7 @@ public class ExplorerTentLogicTest {
             boolean hasFullDepthSideOrSlope = false;
 
             for (com.google.gson.JsonElement el : elements) {
+                if (!el.toString().contains("#canvas")) continue; // Deko wie Hering, Leine, Wimpel ist keine Zeltplane
                 com.google.gson.JsonObject elObj = el.getAsJsonObject();
                 com.google.gson.JsonArray from = elObj.getAsJsonArray("from");
                 com.google.gson.JsonArray to = elObj.getAsJsonArray("to");
@@ -1704,6 +1708,37 @@ public class ExplorerTentLogicTest {
         assertTrue(model.contains("\"tintindex\": 0"), "Zeltwand hinter der Truhe in Zeltfarbe");
         for (String lang : new String[]{"de_de", "en_us"}) {
             assertTrue(java.nio.file.Files.readString(assets.resolve("lang/" + lang + ".json")).contains("\"block.mc3ver.tent_chest\""));
+        }
+    }
+
+    @Test
+    void testStakesAndGuyLinesOutsideTheTent() throws Exception {
+        java.nio.file.Path models = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
+        for (String side : new String[]{"front_left", "corner_left", "front_right", "corner_right"}) {
+            com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(
+                java.nio.file.Files.readString(models.resolve("tent_canvas_wall_" + side + ".json"))).getAsJsonObject();
+            boolean left = side.endsWith("left");
+            boolean stakeOutside = false;
+            boolean hasRope = false;
+            for (com.google.gson.JsonElement el : json.getAsJsonArray("elements")) {
+                com.google.gson.JsonObject e = el.getAsJsonObject();
+                String text = e.toString();
+                double fromX = e.getAsJsonArray("from").get(0).getAsDouble();
+                double toX = e.getAsJsonArray("to").get(0).getAsDouble();
+                if (text.contains("#stake")) {
+                    stakeOutside = left ? toX <= 0 : fromX >= 16;
+                    assertEquals(0.0, e.getAsJsonArray("from").get(1).getAsDouble(), 1e-9, "Hering steckt im Boden (" + side + ")");
+                }
+                if (text.contains("#rope")) {
+                    hasRope = true;
+                    assertTrue(e.has("rotation"), "Abspannleine verläuft schräg (" + side + ")");
+                }
+                if (text.contains("#stake") || text.contains("#rope")) {
+                    assertFalse(text.contains("tintindex"), "Hering und Leine bleiben ungefärbt (" + side + ")");
+                }
+            }
+            assertTrue(stakeOutside, "Hering muss außerhalb der Zeltseite stecken (" + side + ")");
+            assertTrue(hasRope, "Abspannleine fehlt (" + side + ")");
         }
     }
 
