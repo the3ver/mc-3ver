@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### ✨ Tent Makeover
 * **Seams and darker roof:** Each canvas panel shows a fold and a stitched seam. The roof is one shade darker than the walls.
+* **Hanging lantern:** A lantern hangs under the roof slope above the crafting table and lights the tent with light level 14.
 
 ---
 

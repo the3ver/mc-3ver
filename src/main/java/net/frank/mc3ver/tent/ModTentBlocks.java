@@ -57,6 +57,7 @@ public class ModTentBlocks {
                 .setId(TENT_CANVAS_KEY)
                 .strength(0.6f)
                 .sound(SoundType.WOOL)
+                .lightLevel(state -> TentCanvasBlock.lightEmission(state.getValue(TentCanvasBlock.PART)))
                 .noOcclusion()
         )
     );

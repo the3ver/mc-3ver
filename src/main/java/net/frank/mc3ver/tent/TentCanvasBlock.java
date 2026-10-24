@@ -45,7 +45,8 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         ROOF_CORNER_RIGHT("roof_corner_right", ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT),
         ROOF_RIDGE("roof_ridge", ExplorerTentLogic.TentPart.ROOF_RIDGE),
         ROOF_FRONT("roof_front", ExplorerTentLogic.TentPart.ROOF_FRONT),
-        ROOF_BACK("roof_back", ExplorerTentLogic.TentPart.ROOF_BACK);
+        ROOF_BACK("roof_back", ExplorerTentLogic.TentPart.ROOF_BACK),
+        ROOF_LANTERN_RIGHT("roof_lantern_right", ExplorerTentLogic.TentPart.ROOF_LANTERN_RIGHT);
 
         private final String name;
         private final ExplorerTentLogic.TentPart tentPart;
@@ -86,6 +87,10 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     protected static final VoxelShape SHAPE_WALL_NORTH = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 2.0);
     protected static final VoxelShape SHAPE_WALL_SOUTH = Block.box(0.0, 0.0, 14.0, 16.0, 16.0, 16.0);
 
+    public static int lightEmission(CanvasPart part) {
+        return part == CanvasPart.ROOF_LANTERN_RIGHT ? 14 : 0;
+    }
+
     public static VoxelShape getWallShape(CanvasPart part, Direction facing) {
         Direction leftDir = facing.getCounterClockWise();
         Direction rightDir = facing.getClockWise();
@@ -104,7 +109,7 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
             case WALL_FRONT_RIGHT, WALL_CORNER_RIGHT -> Shapes.or(rightShape, backShape);
             case ROOF_FRONT, ROOF_RIDGE -> SHAPE_ROOF_PLANE;
             case ROOF_LEFT, ROOF_PIPE_LEFT -> getRoofSlopeShape(leftDir);
-            case ROOF_RIGHT -> getRoofSlopeShape(rightDir);
+            case ROOF_RIGHT, ROOF_LANTERN_RIGHT -> getRoofSlopeShape(rightDir);
             case ROOF_FRONT_LEFT, ROOF_CORNER_LEFT -> Shapes.or(getRoofSlopeShape(leftDir), backShape);
             case ROOF_FRONT_RIGHT, ROOF_CORNER_RIGHT -> Shapes.or(getRoofSlopeShape(rightDir), backShape);
             default -> Shapes.block();

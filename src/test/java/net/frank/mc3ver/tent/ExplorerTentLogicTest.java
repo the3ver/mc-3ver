@@ -148,7 +148,7 @@ public class ExplorerTentLogicTest {
                         case SLEEPING_BAG_FOOT -> bedFootCount++;
                         case SLEEPING_BAG_HEAD -> bedHeadCount++;
                         case ROOF_LEFT -> roofLeftCount++;
-                        case ROOF_RIGHT -> roofRightCount++;
+                        case ROOF_RIGHT, ROOF_LANTERN_RIGHT -> roofRightCount++;
                         case ROOF_PIPE_LEFT -> roofPipeLeftCount++;
                         case ROOF_FRONT_LEFT -> roofFrontLeftCount++;
                         case ROOF_FRONT_RIGHT -> roofFrontRightCount++;
@@ -874,7 +874,7 @@ public class ExplorerTentLogicTest {
 
         assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 0));
         assertEquals(ExplorerTentLogic.TentPart.ROOF_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 1));
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 2));
+        assertEquals(ExplorerTentLogic.TentPart.ROOF_LANTERN_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 2));
 
         assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.ROOF_CORNER_LEFT));
         assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT));
@@ -1453,7 +1453,7 @@ public class ExplorerTentLogicTest {
             {
                 "ROOF_FRONT_LEFT ROOF_FRONT ROOF_FRONT_RIGHT",
                 "ROOF_PIPE_LEFT ROOF_RIDGE ROOF_RIGHT",
-                "ROOF_LEFT ROOF_RIDGE ROOF_RIGHT",
+                "ROOF_LEFT ROOF_RIDGE ROOF_LANTERN_RIGHT",
                 "ROOF_CORNER_LEFT ROOF_BACK ROOF_CORNER_RIGHT"
             }
         };
@@ -1534,5 +1534,49 @@ public class ExplorerTentLogicTest {
                     canvas, name + " nutzt die falsche Planen-Textur");
             }
         }
+    }
+
+    @Test
+    void testLanternHangsAboveCraftingTableAndGlows() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        // Über der Werkbank steht niemand, die Kamera ragt also nie in die Laterne
+        assertEquals(ExplorerTentLogic.TentPart.ROOF_LANTERN_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 2));
+        assertEquals(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 2));
+        assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.ROOF_LANTERN_RIGHT));
+        assertEquals(14, TentCanvasBlock.lightEmission(TentCanvasBlock.CanvasPart.ROOF_LANTERN_RIGHT));
+        for (TentCanvasBlock.CanvasPart part : TentCanvasBlock.CanvasPart.values()) {
+            if (part != TentCanvasBlock.CanvasPart.ROOF_LANTERN_RIGHT) {
+                assertEquals(0, TentCanvasBlock.lightEmission(part), part + " darf nicht leuchten");
+            }
+        }
+        // Gleiche Kollision wie die normale rechte Dachschräge
+        for (net.minecraft.core.Direction facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
+            assertFalse(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_RIGHT, facing),
+                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_LANTERN_RIGHT, facing),
+                net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME), "Kollision Laternen-Dachschräge " + facing);
+        }
+    }
+
+    @Test
+    void testLanternResources() throws Exception {
+        java.nio.file.Path res = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+        String model = java.nio.file.Files.readString(res.resolve("models/block/tent_canvas_roof_lantern_right.json"));
+        assertTrue(model.contains("\"minecraft:block/lantern\""), "Laternenmodell muss die Vanilla-Laternentextur nutzen");
+        assertTrue(model.contains("\"mc3ver:block/tent_canvas_roof\""), "Dachschräge muss die Dachplane nutzen");
+        // Laterne hängt unter der Schräge über der Werkbank, nicht außerhalb des Blocks
+        com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(model).getAsJsonObject().getAsJsonArray("elements");
+        for (com.google.gson.JsonElement el : elements) {
+            com.google.gson.JsonObject e = el.getAsJsonObject();
+            if (e.toString().contains("#lantern")) {
+                assertTrue(e.getAsJsonArray("from").get(2).getAsDouble() >= 0 && e.getAsJsonArray("to").get(2).getAsDouble() <= 16,
+                    "Laterne muss innerhalb des Dachblocks hängen");
+                assertTrue(e.getAsJsonArray("to").get(1).getAsDouble() <= 10.5, "Laterne muss unter der Dachschräge hängen");
+            }
+        }
+        String states = java.nio.file.Files.readString(res.resolve("blockstates/tent_canvas.json"));
+        assertEquals(4, states.split("\"part\": \"roof_lantern_right\"", -1).length - 1, "4 Blockstate-Einträge (je Richtung)");
     }
 }

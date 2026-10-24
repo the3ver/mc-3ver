@@ -112,7 +112,8 @@ public class ExplorerTentLogic {
         ROOF_CORNER_RIGHT,
         ROOF_RIDGE,
         ROOF_FRONT,
-        ROOF_BACK
+        ROOF_BACK,
+        ROOF_LANTERN_RIGHT
     }
 
     // Grundriss je Ebene: Zeilen = relZ 0..3 (Eingang -> Rückwand), Spalten = relX -1, 0, 1
@@ -126,7 +127,7 @@ public class ExplorerTentLogic {
         {
             {TentPart.ROOF_FRONT_LEFT, TentPart.ROOF_FRONT, TentPart.ROOF_FRONT_RIGHT},
             {TentPart.ROOF_PIPE_LEFT, TentPart.ROOF_RIDGE, TentPart.ROOF_RIGHT},
-            {TentPart.ROOF_LEFT, TentPart.ROOF_RIDGE, TentPart.ROOF_RIGHT},
+            {TentPart.ROOF_LEFT, TentPart.ROOF_RIDGE, TentPart.ROOF_LANTERN_RIGHT},
             {TentPart.ROOF_CORNER_LEFT, TentPart.ROOF_BACK, TentPart.ROOF_CORNER_RIGHT}
         }
     };
@@ -163,7 +164,7 @@ public class ExplorerTentLogic {
             case WALL_SIDE, WALL_LEFT, WALL_RIGHT, WALL_FRONT_LEFT, WALL_FRONT_RIGHT,
                  WALL_CORNER_LEFT, WALL_CORNER_RIGHT, WALL_CRAFTING_TABLE_RIGHT, WALL_FURNACE_LEFT, WALL_BACK,
                  ROOF_LEFT, ROOF_PIPE_LEFT, ROOF_RIGHT, ROOF_FRONT_LEFT, ROOF_FRONT_RIGHT,
-                 ROOF_CORNER_LEFT, ROOF_CORNER_RIGHT, ROOF_BACK, POLE -> true;
+                 ROOF_CORNER_LEFT, ROOF_CORNER_RIGHT, ROOF_BACK, ROOF_LANTERN_RIGHT, POLE -> true;
             default -> false;
         };
     }

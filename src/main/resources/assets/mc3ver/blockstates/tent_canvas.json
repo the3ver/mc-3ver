@@ -740,6 +740,45 @@
         "model": "mc3ver:block/tent_canvas_roof_pipe_left",
         "y": 270
       }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "part": "roof_lantern_right"
+      },
+      "apply": {
+        "model": "mc3ver:block/tent_canvas_roof_lantern_right"
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "part": "roof_lantern_right"
+      },
+      "apply": {
+        "model": "mc3ver:block/tent_canvas_roof_lantern_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "part": "roof_lantern_right"
+      },
+      "apply": {
+        "model": "mc3ver:block/tent_canvas_roof_lantern_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "part": "roof_lantern_right"
+      },
+      "apply": {
+        "model": "mc3ver:block/tent_canvas_roof_lantern_right",
+        "y": 270
+      }
     }
   ]
 }
