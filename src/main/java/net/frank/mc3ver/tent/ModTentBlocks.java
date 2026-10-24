@@ -121,6 +121,29 @@ public class ModTentBlocks {
         )
     );
 
+    public static final ResourceKey<Block> TENT_CHEST_KEY = ResourceKey.create(
+        Registries.BLOCK,
+        Mc3verMod.id("tent_chest")
+    );
+
+    public static final Block TENT_CHEST = Registry.register(
+        BuiltInRegistries.BLOCK,
+        TENT_CHEST_KEY,
+        new TentChestBlock(
+            BlockBehaviour.Properties.of()
+                .setId(TENT_CHEST_KEY)
+                .strength(0.6f)
+                .sound(SoundType.WOOD)
+                .noOcclusion()
+        )
+    );
+
+    public static final BlockEntityType<TentChestBlockEntity> TENT_CHEST_BLOCK_ENTITY = Registry.register(
+        BuiltInRegistries.BLOCK_ENTITY_TYPE,
+        Mc3verMod.id("tent_chest"),
+        new BlockEntityType<>(TentChestBlockEntity::new, Set.of(TENT_CHEST))
+    );
+
     public static final BlockEntityType<TentFurnaceBlockEntity> TENT_FURNACE_BLOCK_ENTITY = Registry.register(
         BuiltInRegistries.BLOCK_ENTITY_TYPE,
         Mc3verMod.id("tent_furnace"),
@@ -141,6 +164,7 @@ public class ModTentBlocks {
                 .setValue(TentSleepingBagBlock.PART, BedPart.HEAD);
             case WALL_FURNACE_LEFT -> TENT_FURNACE.defaultBlockState().setValue(TentFurnaceBlock.FACING, facing);
             case ENTRANCE_FLAP -> TENT_FLAP.defaultBlockState().setValue(TentFlapBlock.FACING, facing);
+            case WALL_CHEST_RIGHT -> TENT_CHEST.defaultBlockState().setValue(TentChestBlock.FACING, facing);
             default -> TentCanvasBlock.CanvasPart.fromTentPart(part)
                 .map(canvasPart -> TENT_CANVAS.defaultBlockState()
                     .setValue(TentCanvasBlock.FACING, facing)
@@ -153,15 +177,16 @@ public class ModTentBlocks {
         return state;
     }
 
-    static ItemStack createPackedTent(int colorRgb) {
+    static ItemStack createPackedTent(int colorRgb, List<ItemStack> chestItems) {
         ItemStack tentStack = new ItemStack(ModTentItems.EXPLORER_TENT);
         tentStack.set(net.minecraft.core.component.DataComponents.DYED_COLOR,
             new net.minecraft.world.item.component.DyedItemColor(colorRgb));
+        TentChestStorage.store(tentStack, chestItems);
         return tentStack;
     }
 
     public static boolean isTentBlock(BlockState state) {
-        return state.is(TENT_CANVAS) || state.is(TENT_POLE) || state.is(TENT_SLEEPING_BAG) || state.is(TENT_FURNACE) || state.is(TENT_FLAP);
+        return state.is(TENT_CANVAS) || state.is(TENT_POLE) || state.is(TENT_SLEEPING_BAG) || state.is(TENT_FURNACE) || state.is(TENT_FLAP) || state.is(TENT_CHEST);
     }
 
     public static void dismantleTent(Level level, BlockPos pos, Player player) {
@@ -210,6 +235,13 @@ public class ModTentBlocks {
         String tentColorName = ExplorerTentLogic.findTentColor(blocksToClear, structureView);
         int tentColorRgb = ExplorerTentLogic.getColorRgb(tentColorName);
 
+        List<ItemStack> chestItems = List.of();
+        for (ExplorerTentLogic.BlockCoord c : blocksToClear) {
+            if (level.getBlockEntity(new BlockPos(c.x(), c.y(), c.z())) instanceof TentChestBlockEntity chest) {
+                chestItems = chest.takeAllItems();
+            }
+        }
+
         try {
             for (ExplorerTentLogic.BlockCoord c : blocksToClear) {
                 DISMANTLING_IN_PROGRESS.add(new BlockPos(c.x(), c.y(), c.z()));
@@ -240,7 +272,7 @@ public class ModTentBlocks {
         }
 
         // Zelt als Item zurückgeben oder droppen
-        ItemStack tentStack = createPackedTent(tentColorRgb);
+        ItemStack tentStack = createPackedTent(tentColorRgb, chestItems);
         if (player != null && !player.getAbilities().instabuild) {
             boolean added = player.getInventory().add(tentStack);
             if (!added) {
@@ -259,6 +291,7 @@ public class ModTentBlocks {
 
     public static void register() {
         // Triggers static init
+        Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, Mc3verMod.id("tent_dye"), TentDyeRecipe.SERIALIZER);
         EntitySleepEvents.ALLOW_SETTING_SPAWN.register((player, sleepingPos) ->
             TentSleepingBagBlock.allowsSettingSpawn(player.level().getBlockState(sleepingPos).getBlock()));
     }

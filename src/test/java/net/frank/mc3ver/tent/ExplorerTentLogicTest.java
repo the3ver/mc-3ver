@@ -110,6 +110,7 @@ public class ExplorerTentLogicTest {
         int wallLeftCount = 0;
         int wallFurnaceLeftCount = 0;
         int wallRightCount = 0;
+        int wallChestRightCount = 0;
         int wallFrontLeftCount = 0;
         int wallFrontRightCount = 0;
         int wallCornerLeftCount = 0;
@@ -141,6 +142,7 @@ public class ExplorerTentLogicTest {
                         case WALL_LEFT -> wallLeftCount++;
                         case WALL_FURNACE_LEFT -> wallFurnaceLeftCount++;
                         case WALL_RIGHT -> wallRightCount++;
+                        case WALL_CHEST_RIGHT -> wallChestRightCount++;
                         case WALL_CRAFTING_TABLE_RIGHT -> wallCraftingTableRightCount++;
                         case WALL_FRONT_LEFT -> wallFrontLeftCount++;
                         case WALL_FRONT_RIGHT -> wallFrontRightCount++;
@@ -173,7 +175,8 @@ public class ExplorerTentLogicTest {
         assertEquals(1, wallLeftCount, "Es muss 1 linken Seitenwand-Block geben");
         assertEquals(1, wallFurnaceLeftCount, "Es muss 1 Ofen-Block auf der linken Seite geben");
         assertEquals(1, wallCornerLeftCount, "Es muss 1 linke Eck-Zeltwand geben");
-        assertEquals(1, wallRightCount, "Es muss 1 rechten Seitenwand-Block geben");
+        assertEquals(0, wallRightCount, "Rechts gibt es keine reine Seitenwand mehr");
+        assertEquals(1, wallChestRightCount, "Es muss 1 Truhe an der rechten Wand geben");
         assertEquals(1, wallCraftingTableRightCount, "Es muss 1 Craftingtable-Block auf der rechten Seite geben");
         assertEquals(1, wallCornerRightCount, "Es muss 1 rechte Eck-Zeltwand geben");
         assertEquals(1, wallBackCount, "Es muss 1 hinteren Zeltwand-Block geben");
@@ -586,26 +589,6 @@ public class ExplorerTentLogicTest {
                 : components.get("minecraft:dyed_color").getAsInt();
             assertEquals(expectedRgb, actualRgb, "RGB für " + colorName + " muss übereinstimmen");
 
-            // 2. Umfärbe-Rezept mit Farbstoff (Dyeing)
-            java.nio.file.Path dyePath = recipeDir.resolve("explorer_tent_dye_" + colorName + ".json");
-            assertTrue(java.nio.file.Files.exists(dyePath), "Umfärbe-Rezept für " + colorName + " muss existieren: " + dyePath);
-
-            String dyeContent = java.nio.file.Files.readString(dyePath);
-            com.google.gson.JsonObject dyeJson = com.google.gson.JsonParser.parseString(dyeContent).getAsJsonObject();
-            assertEquals("minecraft:crafting_shapeless", dyeJson.get("type").getAsString());
-
-            com.google.gson.JsonArray ingredients = dyeJson.getAsJsonArray("ingredients");
-            assertNotNull(ingredients);
-            assertEquals(2, ingredients.size(), "Umfärben benötigt 2 Zutaten (Zelt + Farbstoff)");
-
-            com.google.gson.JsonObject dyeResult = dyeJson.getAsJsonObject("result");
-            assertEquals("mc3ver:explorer_tent", dyeResult.get("id").getAsString());
-            com.google.gson.JsonObject dyeComponents = dyeResult.getAsJsonObject("components");
-            assertNotNull(dyeComponents);
-            int actualDyeRgb = dyeComponents.has("minecraft:dyed_color") && dyeComponents.get("minecraft:dyed_color").isJsonObject()
-                ? dyeComponents.getAsJsonObject("minecraft:dyed_color").get("rgb").getAsInt()
-                : dyeComponents.get("minecraft:dyed_color").getAsInt();
-            assertEquals(expectedRgb, actualDyeRgb);
         }
     }
 
@@ -1043,7 +1026,7 @@ public class ExplorerTentLogicTest {
         // Innenbereich neben Schlafmatte: links Ofen am Fußende (nicht am Kissen), rechts Werkbank am Kopfende
         assertEquals(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 1));
         assertEquals(ExplorerTentLogic.TentPart.WALL_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 2));
-        assertEquals(ExplorerTentLogic.TentPart.WALL_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 1));
+        assertEquals(ExplorerTentLogic.TentPart.WALL_CHEST_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 1));
         assertEquals(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 2));
 
         assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.WALL_FRONT_LEFT));
@@ -1153,8 +1136,8 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testCraftingTablePartInTentLogic() {
-        assertEquals(ExplorerTentLogic.TentPart.WALL_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 1),
-            "relX=1, relY=0, relZ=1 (neben Fußende) muss WALL_RIGHT sein");
+        assertEquals(ExplorerTentLogic.TentPart.WALL_CHEST_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 1),
+            "relX=1, relY=0, relZ=1 (neben Fußende) muss die Truhe sein");
         assertEquals(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 2),
             "relX=1, relY=0, relZ=2 (neben Kopfende) muss WALL_CRAFTING_TABLE_RIGHT sein");
         assertTrue(ExplorerTentLogic.isCraftingTable(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT),
@@ -1449,7 +1432,7 @@ public class ExplorerTentLogicTest {
         String[][] expected = {
             {
                 "WALL_FRONT_LEFT ENTRANCE_FLAP WALL_FRONT_RIGHT",
-                "WALL_FURNACE_LEFT SLEEPING_BAG_FOOT WALL_RIGHT",
+                "WALL_FURNACE_LEFT SLEEPING_BAG_FOOT WALL_CHEST_RIGHT",
                 "WALL_LEFT SLEEPING_BAG_HEAD WALL_CRAFTING_TABLE_RIGHT",
                 "WALL_CORNER_LEFT WALL_BACK WALL_CORNER_RIGHT"
             },
@@ -1635,5 +1618,106 @@ public class ExplorerTentLogicTest {
             bound = min ? Math.min(bound, from) : Math.max(bound, to);
         }
         return bound;
+    }
+
+    @Test
+    void testChestStorageRoundTripKeepsItemsInTentItem() {
+        bootstrapWithItemComponents();
+
+        // Beliebiges Vanilla-Item als Träger, das Zelt-Item lässt sich im Test nicht registrieren
+        net.minecraft.world.item.ItemStack carrier = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.PAPER);
+        java.util.List<net.minecraft.world.item.ItemStack> items = new java.util.ArrayList<>();
+        for (int i = 0; i < TentChestStorage.SIZE; i++) items.add(net.minecraft.world.item.ItemStack.EMPTY);
+        items.set(0, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND, 5));
+        items.set(26, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BREAD, 12));
+
+        TentChestStorage.store(carrier, items);
+        net.minecraft.core.NonNullList<net.minecraft.world.item.ItemStack> restored = TentChestStorage.restore(carrier);
+        assertEquals(TentChestStorage.SIZE, restored.size());
+        assertTrue(net.minecraft.world.item.ItemStack.matches(items.get(0), restored.get(0)), "Diamanten in Slot 0");
+        assertTrue(net.minecraft.world.item.ItemStack.matches(items.get(26), restored.get(26)), "Brot in Slot 26");
+        assertTrue(restored.get(13).isEmpty());
+
+        // Leere Truhe hinterlässt keine Komponente am Item
+        java.util.List<net.minecraft.world.item.ItemStack> empty = new java.util.ArrayList<>();
+        for (int i = 0; i < TentChestStorage.SIZE; i++) empty.add(net.minecraft.world.item.ItemStack.EMPTY);
+        TentChestStorage.store(carrier, empty);
+        assertFalse(carrier.has(net.minecraft.core.component.DataComponents.CONTAINER), "Leere Truhe darf keinen Inhalt speichern");
+    }
+
+    @Test
+    void testDyeingKeepsChestContentsAndSetsExactColor() {
+        bootstrapWithItemComponents();
+
+        net.minecraft.world.item.ItemStack carrier = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.PAPER);
+        java.util.List<net.minecraft.world.item.ItemStack> items = new java.util.ArrayList<>();
+        for (int i = 0; i < TentChestStorage.SIZE; i++) items.add(net.minecraft.world.item.ItemStack.EMPTY);
+        items.set(3, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.TORCH, 32));
+        TentChestStorage.store(carrier, items);
+        carrier.set(net.minecraft.core.component.DataComponents.DYED_COLOR,
+            new net.minecraft.world.item.component.DyedItemColor(ExplorerTentLogic.getColorRgb("white")));
+
+        net.minecraft.world.item.ItemStack dyed = TentDyeRecipe.dye(carrier, net.minecraft.world.item.DyeColor.RED);
+        assertEquals(ExplorerTentLogic.getColorRgb("red"), dyed.get(net.minecraft.core.component.DataComponents.DYED_COLOR).rgb(),
+            "Färben setzt die exakte Zeltfarbe statt zu mischen");
+        assertTrue(net.minecraft.world.item.ItemStack.matches(items.get(3), TentChestStorage.restore(dyed).get(3)),
+            "Truheninhalt muss beim Färben erhalten bleiben");
+        assertEquals(1, dyed.getCount());
+    }
+
+    @Test
+    void testChestCollisionCoversWallAndBox() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        for (net.minecraft.core.Direction facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
+            net.minecraft.world.phys.shapes.VoxelShape shape = TentChestBlock.getChestShape(facing);
+            assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(shape,
+                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_RIGHT, facing),
+                net.minecraft.world.phys.shapes.BooleanOp.AND), "Truhe hat die rechte Zeltwand (" + facing + ")");
+            net.minecraft.world.phys.AABB center = new net.minecraft.world.phys.AABB(6 / 16.0, 2 / 16.0, 6 / 16.0, 10 / 16.0, 8 / 16.0, 10 / 16.0);
+            assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(shape,
+                net.minecraft.world.phys.shapes.Shapes.create(center), net.minecraft.world.phys.shapes.BooleanOp.AND),
+                "Kistenkörper in der Blockmitte (" + facing + ")");
+            assertTrue(shape.max(net.minecraft.core.Direction.Axis.Y) <= 1.0);
+        }
+    }
+
+    @Test
+    void testChestDyeRecipeAndResources() throws Exception {
+        java.nio.file.Path base = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources");
+        java.nio.file.Path recipes = base.resolve("data/mc3ver/recipe");
+        assertEquals("mc3ver:tent_dye", com.google.gson.JsonParser.parseString(
+            java.nio.file.Files.readString(recipes.resolve("explorer_tent_dye.json"))).getAsJsonObject().get("type").getAsString());
+        try (java.util.stream.Stream<java.nio.file.Path> files = java.nio.file.Files.list(recipes)) {
+            assertEquals(0, files.filter(f -> f.getFileName().toString().startsWith("explorer_tent_dye_")).count(),
+                "Die alten Einzel-Färberezepte verlieren den Truheninhalt und müssen weg sein");
+        }
+
+        java.nio.file.Path assets = base.resolve("assets/mc3ver");
+        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
+            java.nio.file.Files.readString(assets.resolve("blockstates/tent_chest.json"))).getAsJsonObject().getAsJsonObject("variants");
+        for (String facing : new String[]{"north", "east", "south", "west"}) {
+            assertEquals("mc3ver:block/tent_chest_right", variants.getAsJsonObject("facing=" + facing).get("model").getAsString());
+        }
+        String model = java.nio.file.Files.readString(assets.resolve("models/block/tent_chest_right.json"));
+        assertTrue(model.contains("\"tintindex\": 0"), "Zeltwand hinter der Truhe in Zeltfarbe");
+        for (String lang : new String[]{"de_de", "en_us"}) {
+            assertTrue(java.nio.file.Files.readString(assets.resolve("lang/" + lang + ".json")).contains("\"block.mc3ver.tent_chest\""));
+        }
+    }
+
+    private static boolean itemComponentsBound = false;
+
+    // Bindet die Standard-Komponenten der Items, damit Tests ItemStacks bauen können
+    private static synchronized void bootstrapWithItemComponents() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+        if (!itemComponentsBound) {
+            net.minecraft.core.HolderLookup.Provider lookup = net.minecraft.data.registries.VanillaRegistries.createLookup();
+            net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(lookup)
+                .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
+            itemComponentsBound = true;
+        }
     }
 }

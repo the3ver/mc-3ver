@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * **Seams and darker roof:** Each canvas panel shows a fold and a stitched seam. The roof is one shade darker than the walls.
 * **Hanging lantern:** A lantern hangs under the roof slope above the crafting table and lights the tent with light level 14.
 * **Tent flap:** The entrance has a flap in the tent color. Right-click rolls it up or closes it, and a closed flap keeps mobs out. New tents start open.
+* **Tent chest:** A 27-slot chest stands on the right next to the foot of the sleeping bag. Packing moves its contents into the tent item, pitching restores them. Re-dyeing keeps the contents and applies the exact dye color.
 
 ---
 

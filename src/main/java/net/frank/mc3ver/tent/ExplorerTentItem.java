@@ -87,7 +87,7 @@ public class ExplorerTentItem extends Item {
             : ExplorerTentLogic.DEFAULT_COLOR_NAME;
         net.minecraft.world.item.DyeColor tentColor = net.minecraft.world.item.DyeColor.byName(colorName, net.minecraft.world.item.DyeColor.WHITE);
 
-        placeTent(level, anchor, tentFacing, facing, tentColor);
+        placeTent(level, anchor, tentFacing, facing, tentColor, heldStack);
 
         // Sounds
         level.playSound(null, anchor, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -105,7 +105,7 @@ public class ExplorerTentItem extends Item {
     }
 
     private static void placeTent(Level level, BlockPos anchor, ExplorerTentLogic.Facing tentFacing, Direction facing,
-                                  net.minecraft.world.item.DyeColor tentColor) {
+                                  net.minecraft.world.item.DyeColor tentColor, ItemStack tentStack) {
         for (int relY = 0; relY < ExplorerTentLogic.HEIGHT; relY++) {
             for (int relX = -1; relX <= 1; relX++) {
                 for (int relZ = 0; relZ < ExplorerTentLogic.LENGTH; relZ++) {
@@ -125,6 +125,9 @@ public class ExplorerTentItem extends Item {
                     BlockState stateToPlace = ModTentBlocks.stateFor(part, facing, tentColor);
                     if (stateToPlace != null) {
                         level.setBlock(p, stateToPlace, Block.UPDATE_ALL);
+                        if (level.getBlockEntity(p) instanceof TentChestBlockEntity chest) {
+                            chest.putAllItems(TentChestStorage.restore(tentStack));
+                        }
                     }
                 }
             }

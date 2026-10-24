@@ -101,6 +101,7 @@ public class ExplorerTentLogic {
         WALL_CORNER_RIGHT,
         WALL_CRAFTING_TABLE_RIGHT,
         WALL_FURNACE_LEFT,
+        WALL_CHEST_RIGHT,
         WALL_BACK,
         SLEEPING_BAG_FOOT,
         SLEEPING_BAG_HEAD,
@@ -121,7 +122,7 @@ public class ExplorerTentLogic {
     private static final TentPart[][][] LAYOUT = {
         {
             {TentPart.WALL_FRONT_LEFT, TentPart.ENTRANCE_FLAP, TentPart.WALL_FRONT_RIGHT},
-            {TentPart.WALL_FURNACE_LEFT, TentPart.SLEEPING_BAG_FOOT, TentPart.WALL_RIGHT},
+            {TentPart.WALL_FURNACE_LEFT, TentPart.SLEEPING_BAG_FOOT, TentPart.WALL_CHEST_RIGHT},
             {TentPart.WALL_LEFT, TentPart.SLEEPING_BAG_HEAD, TentPart.WALL_CRAFTING_TABLE_RIGHT},
             {TentPart.WALL_CORNER_LEFT, TentPart.WALL_BACK, TentPart.WALL_CORNER_RIGHT}
         },
@@ -163,7 +164,7 @@ public class ExplorerTentLogic {
     public static boolean hasFullBlockCollision(TentPart part) {
         return switch (part) {
             case WALL_SIDE, WALL_LEFT, WALL_RIGHT, WALL_FRONT_LEFT, WALL_FRONT_RIGHT,
-                 WALL_CORNER_LEFT, WALL_CORNER_RIGHT, WALL_CRAFTING_TABLE_RIGHT, WALL_FURNACE_LEFT, WALL_BACK,
+                 WALL_CORNER_LEFT, WALL_CORNER_RIGHT, WALL_CRAFTING_TABLE_RIGHT, WALL_FURNACE_LEFT, WALL_CHEST_RIGHT, WALL_BACK,
                  ROOF_LEFT, ROOF_PIPE_LEFT, ROOF_RIGHT, ROOF_FRONT_LEFT, ROOF_FRONT_RIGHT,
                  ROOF_CORNER_LEFT, ROOF_CORNER_RIGHT, ROOF_BACK, ROOF_LANTERN_RIGHT, POLE -> true;
             default -> false;

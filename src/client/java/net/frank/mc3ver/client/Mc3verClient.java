@@ -41,7 +41,7 @@ public class Mc3verClient implements ClientModInitializer {
 			} else {
 				tints.add(net.frank.mc3ver.tent.ExplorerTentLogic.getColorRgb("white"));
 			}
-		}, net.frank.mc3ver.tent.ModTentBlocks.TENT_CANVAS, net.frank.mc3ver.tent.ModTentBlocks.TENT_FURNACE, net.frank.mc3ver.tent.ModTentBlocks.TENT_FLAP);
+		}, net.frank.mc3ver.tent.ModTentBlocks.TENT_CANVAS, net.frank.mc3ver.tent.ModTentBlocks.TENT_FURNACE, net.frank.mc3ver.tent.ModTentBlocks.TENT_FLAP, net.frank.mc3ver.tent.ModTentBlocks.TENT_CHEST);
 
 		// Client-Tick Event für Doppelsprung
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {

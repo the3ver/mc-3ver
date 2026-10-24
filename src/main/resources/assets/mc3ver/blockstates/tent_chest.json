@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "mc3ver:block/tent_chest_right"
+    },
+    "facing=east": {
+      "model": "mc3ver:block/tent_chest_right",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "mc3ver:block/tent_chest_right",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mc3ver:block/tent_chest_right",
+      "y": 270
+    }
+  }
+}
