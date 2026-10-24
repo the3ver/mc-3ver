@@ -63,7 +63,6 @@ jobs:
 
       - name: Publish to Mod Platforms (Modrinth & CurseForge)
         uses: Kira-NT/mc-publish@v3.3
-        continue-on-error: true
         with:
           modrinth-id: '6Gr0fyD8'
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
