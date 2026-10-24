@@ -1742,6 +1742,20 @@ public class ExplorerTentLogicTest {
         }
     }
 
+    @Test
+    void testPennantOnFrontGable() throws Exception {
+        java.nio.file.Path assets = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+        String roofFront = java.nio.file.Files.readString(assets.resolve("models/block/tent_canvas_roof_front.json"));
+        assertTrue(roofFront.contains("\"mc3ver:block/tent_pennant\""), "Giebel muss den Wimpel tragen");
+        assertTrue(roofFront.contains("#pole"), "Wimpel braucht eine Stange");
+
+        java.awt.image.BufferedImage pennant = javax.imageio.ImageIO.read(assets.resolve("textures/block/tent_pennant.png").toFile());
+        assertEquals(16, pennant.getWidth());
+        assertEquals(0, pennant.getHeight() % 16, "Animierte Textur besteht aus 16x16-Frames");
+        assertTrue(pennant.getHeight() / 16 >= 2, "Wimpel flattert: mindestens 2 Frames");
+        assertTrue(java.nio.file.Files.readString(assets.resolve("textures/block/tent_pennant.png.mcmeta")).contains("\"animation\""));
+    }
+
     private static boolean itemComponentsBound = false;
 
     // Bindet die Standard-Komponenten der Items, damit Tests ItemStacks bauen können

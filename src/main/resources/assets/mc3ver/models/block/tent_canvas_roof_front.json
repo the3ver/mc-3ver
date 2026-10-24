@@ -2,8 +2,9 @@
   "parent": "minecraft:block/block",
   "textures": {
     "canvas": "mc3ver:block/tent_canvas_roof",
-    "pole": "mc3ver:block/tent_pole",
-    "particle": "mc3ver:block/tent_canvas_roof"
+    "pole": "minecraft:block/stripped_oak_log",
+    "particle": "mc3ver:block/tent_canvas_roof",
+    "pennant": "mc3ver:block/tent_pennant"
   },
   "elements": [
     {
@@ -76,6 +77,148 @@
             2
           ],
           "texture": "#canvas",
+          "tintindex": 0
+        }
+      }
+    },
+    {
+      "from": [
+        7.5,
+        16,
+        7.5
+      ],
+      "to": [
+        8.5,
+        28,
+        8.5
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "texture": "#pole"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "texture": "#pole"
+        },
+        "north": {
+          "uv": [
+            0,
+            0,
+            1,
+            12
+          ],
+          "texture": "#pole"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            1,
+            12
+          ],
+          "texture": "#pole"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            1,
+            12
+          ],
+          "texture": "#pole"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            1,
+            12
+          ],
+          "texture": "#pole"
+        }
+      }
+    },
+    {
+      "from": [
+        8.5,
+        21,
+        7.75
+      ],
+      "to": [
+        16,
+        27,
+        8.25
+      ],
+      "faces": {
+        "down": {
+          "uv": [
+            0,
+            0,
+            1,
+            12
+          ],
+          "texture": "#pennant",
+          "tintindex": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            1,
+            12
+          ],
+          "texture": "#pennant",
+          "tintindex": 0
+        },
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            12
+          ],
+          "texture": "#pennant",
+          "tintindex": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            12
+          ],
+          "texture": "#pennant",
+          "tintindex": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            1,
+            12
+          ],
+          "texture": "#pennant",
+          "tintindex": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            1,
+            12
+          ],
+          "texture": "#pennant",
           "tintindex": 0
         }
       }

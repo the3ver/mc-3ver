@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * **Tent flap:** The entrance has a flap in the tent color. Right-click rolls it up or closes it, and a closed flap keeps mobs out. New tents start open.
 * **Tent chest:** A 27-slot chest stands on the right next to the foot of the sleeping bag. Packing moves its contents into the tent item, pitching restores them. Re-dyeing keeps the contents and applies the exact dye color.
 * **Stakes and guy lines:** Guy lines at all four corners anchor the tent walls to stakes in the ground.
+* **Pennant:** A pennant in the tent color flutters on the front gable, so the tent is easy to spot from afar.
 
 ---
 
