@@ -1490,4 +1490,49 @@ public class ExplorerTentLogicTest {
         assertTrue(TentCanvasBlock.CanvasPart.fromTentPart(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT).isEmpty(),
             "Eigene Blöcke (Ofen) sind keine Zeltplane");
     }
+
+    private static double averageBrightness(java.awt.image.BufferedImage img, int fromX, int toX) {
+        double sum = 0;
+        int count = 0;
+        for (int y = 0; y < img.getHeight(); y++) {
+            for (int x = fromX; x <= toX; x++) {
+                int rgb = img.getRGB(x, y);
+                sum += ((rgb >> 16) & 0xFF) + ((rgb >> 8) & 0xFF) + (rgb & 0xFF);
+                count += 3;
+            }
+        }
+        return sum / count;
+    }
+
+    @Test
+    void testCanvasTexturesHaveSeamsAndDarkerRoof() throws Exception {
+        java.nio.file.Path textures = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/textures/block");
+        java.awt.image.BufferedImage wall = javax.imageio.ImageIO.read(textures.resolve("tent_canvas.png").toFile());
+        java.awt.image.BufferedImage roof = javax.imageio.ImageIO.read(textures.resolve("tent_canvas_roof.png").toFile());
+
+        assertEquals(16, roof.getWidth());
+        assertEquals(16, roof.getHeight());
+        assertTrue(averageBrightness(roof, 0, 15) < averageBrightness(wall, 0, 15) * 0.9,
+            "Dachplane muss sichtbar dunkler sein als die Wandplane");
+
+        for (java.awt.image.BufferedImage img : new java.awt.image.BufferedImage[]{wall, roof}) {
+            double fabric = averageBrightness(img, 4, 11);
+            assertTrue(averageBrightness(img, 15, 15) < fabric - 16, "Falz an der Blockkante muss dunkler als der Stoff sein");
+            assertTrue(averageBrightness(img, 1, 1) < fabric - 4, "Steppnaht neben der Kante muss sich vom Stoff abheben");
+        }
+    }
+
+    @Test
+    void testRoofModelsUseRoofCanvasAndWallsUseWallCanvas() throws Exception {
+        java.nio.file.Path models = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
+        try (java.util.stream.Stream<java.nio.file.Path> files = java.nio.file.Files.list(models)) {
+            for (java.nio.file.Path model : files.filter(f -> f.getFileName().toString().startsWith("tent_canvas_")).toList()) {
+                String name = model.getFileName().toString();
+                String canvas = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(model))
+                    .getAsJsonObject().getAsJsonObject("textures").get("canvas").getAsString();
+                assertEquals(name.startsWith("tent_canvas_roof_") ? "mc3ver:block/tent_canvas_roof" : "mc3ver:block/tent_canvas",
+                    canvas, name + " nutzt die falsche Planen-Textur");
+            }
+        }
+    }
 }

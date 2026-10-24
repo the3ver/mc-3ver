@@ -4,6 +4,13 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.4] - 2026-10-24
+
+### ✨ Tent Makeover
+* **Seams and darker roof:** Each canvas panel shows a fold and a stitched seam. The roof is one shade darker than the walls.
+
+---
+
 ## [0.5.3] - 2026-10-24
 
 ### ✨ New Features

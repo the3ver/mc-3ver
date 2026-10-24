@@ -1,9 +1,9 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "canvas": "mc3ver:block/tent_canvas",
+    "canvas": "mc3ver:block/tent_canvas_roof",
     "pole": "mc3ver:block/tent_pole",
-    "particle": "mc3ver:block/tent_canvas"
+    "particle": "mc3ver:block/tent_canvas_roof"
   },
   "elements": [
     {
