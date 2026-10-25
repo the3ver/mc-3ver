@@ -46,7 +46,7 @@
 
 #### Schritt 3: WorldExplorerMod herunterladen
 1. Gehe zu den [GitHub Releases von WorldExplorerMod](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.5.5.jar` herunter.
+2. Lade die Datei `mc-3ver-0.5.6.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -54,7 +54,7 @@
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.5.5.jar`** in diesen `mods`-Ordner.
+3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.5.6.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
@@ -70,7 +70,7 @@
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.5.5.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Ziehe die heruntergeladene `mc-3ver-0.5.6.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
@@ -78,7 +78,7 @@
 ### Variante C: Dedizierter Server (Multiplayer)
 
 1. Richte einen Minecraft 26.2 Fabric-Server ein.
-2. Platziere `fabric-api-...jar` und `mc-3ver-0.5.5.jar` im `mods/`-Ordner auf dem Server.
+2. Platziere `fabric-api-...jar` und `mc-3ver-0.5.6.jar` im `mods/`-Ordner auf dem Server.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
@@ -111,6 +111,10 @@
 * **🌳 Birnbaum & Birnenholz-Set (Pear Tree & Wood Set):**
   * Neuer Baumtyp mit eigenen Holzblöcken, Blättern und optisch unterscheidbaren Setzlingen.
   * Vollwertiges Holz-Bauset im Schweizer Birnbaum-Design: Treppen, Stufen, Zäune, Tore, Türen mit Glaseinsatz, Falltüren, Druckplatten, Knöpfe sowie Birnenholzboote und Birnenholztruhenboote.
+* **🏳️ Weiße Fahne (Pazifist-Modus):**
+  * Rechtsklick hisst die Fahne: Der Dauer-Effekt *Friedfertig* sorgt dafür, dass Monster dich nicht angreifen und dir keinen Schaden zufügen.
+  * Greifst du selbst ein Monster an, ist der Frieden gebrochen: Effekt weg, Fahne 30 Sekunden gesperrt.
+  * **Crafting:** 3 Stöcke links als Spalte, 4 weiße Wolle rechts daneben.
 * **🏕️ Mobiles Entdeckerzelt (Mobile Explorer Tent):**
   * Tragbares 3x4-Zelt mit Schlafsack, Werkbank am Kopfende sowie Ofen und Truhe am Fußende.
   * Ofenrohr mit Rauch, hängende Laterne, Eingangsplane zum Öffnen und Schließen, Heringe mit Abspannleinen und ein flatternder Wimpel.
