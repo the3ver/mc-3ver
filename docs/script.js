@@ -26,7 +26,7 @@ const TRANSLATIONS = {
     "features.title": "Highlights & Features",
     "features.subtitle": "Spannende Gameplay-Erweiterungen und moderne Architektur.",
     "features.flames.title": "🔥 Transportflammen",
-    "features.flames.desc": "Platziere herstellbare Transportflammen (1 Fackel + 4 Bruchstein), erhalte gefärbte Teleport-Karten und teleportiere dich per Channeling jederzeit dimensionsübergreifend zurück.",
+    "features.flames.desc": "Platziere herstellbare Transportflammen (1 Fackel + 4 Bruchstein), erhalte gefärbte Teleport-Karten und teleportiere dich per Channeling jederzeit dimensionsübergreifend zurück. Gib jeder Flamme beim Aufstellen einen Namen und hole verlorene Karten mit Papier an der Flamme nach.",
     "features.lightning.title": "⚡ Kettenblitzstab",
     "features.lightning.desc": "Hold-to-Charge für bis zu 24 Schaden, springt auf bis zu 4 weitere Ziele über, lädt Creeper mit elektrischem Schild auf und setzt brennbare Blöcke in Brand.",
     "features.wand.title": "🪄 Windstab",
@@ -112,7 +112,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.2 herunter und installiere die passende <strong>Fabric API</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.6.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.6.2.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -176,7 +176,7 @@ const TRANSLATIONS = {
     "features.title": "Highlights & Features",
     "features.subtitle": "Exciting gameplay expansions and modern architecture.",
     "features.flames.title": "🔥 Transport Flames",
-    "features.flames.desc": "Place craftable Transport Flames (1 torch + 4 cobblestone), receive dyed teleport maps, and channel anytime to safely return across dimensions.",
+    "features.flames.desc": "Place craftable Transport Flames (1 torch + 4 cobblestone), receive dyed teleport maps, and channel anytime to safely return across dimensions. Name each flame when placing it and recover lost maps with paper at the flame.",
     "features.lightning.title": "⚡ Chain Lightning Wand",
     "features.lightning.desc": "Hold-to-charge for up to 24 damage, chains to up to 4 nearby living mobs, charges creepers with electric shields, and ignites flammable blocks.",
     "features.wand.title": "🪄 Wind Wand",
@@ -262,7 +262,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.2 and install the matching <strong>Fabric API</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.6.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.6.2.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -440,7 +440,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.6.0
+    // Graceful fallback to v0.6.2
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }

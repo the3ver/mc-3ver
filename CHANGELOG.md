@@ -4,6 +4,14 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.6.2] - 2026-10-25
+
+### ✨ Neu hinzugefügt
+* **Verlorene Transportkarte nachholen:** Halte Papier in der Hand und halte Rechtsklick auf die Flamme 1,5 Sekunden gedrückt. Ein Fortschrittsbalken über der Hotbar zeigt den Stand, danach gibt es eine neue, mit dieser Flamme verknüpfte Karte in der Originalfarbe. Kostet 1 Papier (im Kreativmodus nichts). Wer schon eine Karte für die Flamme trägt, auch in einem Beutel, bekommt keine zweite und verliert kein Papier.
+* **Namen beim Aufstellen:** Nach dem Platzieren öffnet sich ein kleines Eingabefeld für den Namen der Flamme. Der Name steht auf der Karte und auf jeder später nachgeholten Karte. Wird das Feld ohne Namen geschlossen, öffnet ein Rechtsklick mit leerer Hand auf die Flamme es erneut. Der erste vergebene Name ist endgültig und nur der Aufsteller darf ihn setzen. Ein am Amboss benanntes Flammen-Item übernimmt seinen Namen direkt. Umbenennen geht danach wie bisher nur über die Karte am Amboss.
+
+---
+
 ## [0.6.0] - 2026-10-25
 
 ### ✨ Neu hinzugefügt

@@ -4,6 +4,14 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.2] - 2026-10-25
+
+### ✨ Added
+* **Recover a lost Transport Map:** Hold paper and keep right-click pressed on the flame for 1.5 seconds. A progress bar above the hotbar shows how far along you are, then you get a new map linked to this flame in its original color. Costs 1 paper (free in creative mode). Players who already carry a map for the flame, also inside a bundle, get no second one and keep their paper.
+* **Name on placement:** After placing a flame, a small input field asks for its name. The name appears on the map and on every map recovered later. If you close the field without a name, right-clicking the flame with an empty hand opens it again. The first name is final and only the player who placed the flame may set it. A flame item renamed at the anvil takes over its name directly. After that, renaming works as before only on the map at the anvil.
+
+---
+
 ## [0.6.0] - 2026-10-25
 
 ### ✨ Added
