@@ -67,5 +67,10 @@
   "effect.mc3ver.pacifist": "Pacifist",
   "message.mc3ver.pacifist_on": "You raise the white flag. Monsters leave you alone.",
   "message.mc3ver.pacifist_off": "You lower the white flag. Monsters will attack you again.",
-  "message.mc3ver.peace_broken": "You attacked a monster. The peace is broken!"
+  "message.mc3ver.peace_broken": "You attacked a monster. The peace is broken!",
+  "item.mc3ver.bonfire": "Bonfire",
+  "block.mc3ver.bonfire": "Bonfire",
+  "tooltip.mc3ver.bonfire": "Large 3x3 fire with a smoke column visible from far away. Put it out with a shovel or water, light it with flint and steel.",
+  "message.mc3ver.bonfire_no_space": "Not enough free space for the bonfire (3x3 blocks required)!",
+  "message.mc3ver.bonfire_uneven_ground": "The ground is uneven. The bonfire needs 3x3 solid blocks below it!"
 }

@@ -4,6 +4,16 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.8] - 2026-10-25
+
+### ✨ Neu hinzugefügt
+* **Signalfeuer:** Großes 3x3-Feuer, das eine graue Rauchsäule 64 Blöcke hoch in den Himmel schickt. Die Säule ist über die volle Render-Distanz sichtbar und wird mit der Entfernung breiter, damit sie nicht zu einem Strich schrumpft.
+* **Bedienung:** Rechtsklick auf ebenen Boden mit 3x3 freien Feldern stellt das Feuer brennend auf. Schaufel oder Wassereimer löscht es, Feuerzeug oder Feuerkugel zündet es wieder an. Brennend leuchtet es mit Lichtstufe 15 und verbrennt alles, was hineinläuft.
+* **Abbau:** Ein beliebiges Feld abbauen entfernt das ganze Feuer und gibt das Signalfeuer zurück.
+* **Rezept:** Lagerfeuer in der Mitte, Holzstämme in den Ecken, Kohle oder Holzkohle an den Seiten.
+
+---
+
 ## [0.5.7] - 2026-10-25
 
 ### ⚖️ Balancing

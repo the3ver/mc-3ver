@@ -4,6 +4,16 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.8] - 2026-10-25
+
+### ✨ Added
+* **Bonfire:** Large 3x3 fire that sends a grey smoke column 64 blocks into the sky. The column is visible across the full render distance and widens with distance so it does not shrink to a thin line.
+* **Usage:** Right-click flat ground with 3x3 free spaces to place it, already burning. A shovel or water bucket puts it out, flint and steel or a fire charge lights it again. While burning it gives light level 15 and burns anything that walks in.
+* **Removal:** Breaking any of its nine blocks removes the whole fire and returns the bonfire item.
+* **Recipe:** Campfire in the middle, logs in the corners, coal or charcoal on the sides.
+
+---
+
 ## [0.5.7] - 2026-10-25
 
 ### ⚖️ Balancing

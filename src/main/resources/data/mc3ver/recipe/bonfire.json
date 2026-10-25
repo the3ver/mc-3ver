@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "LKL",
+    "KCK",
+    "LKL"
+  ],
+  "key": {
+    "L": "#minecraft:logs",
+    "K": "#minecraft:coals",
+    "C": "minecraft:campfire"
+  },
+  "result": {
+    "id": "mc3ver:bonfire",
+    "count": 1
+  }
+}

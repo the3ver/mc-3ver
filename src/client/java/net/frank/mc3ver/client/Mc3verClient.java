@@ -33,6 +33,9 @@ public class Mc3verClient implements ClientModInitializer {
 		EntityRendererRegistry.register(PearTreeEntities.PEAR_BOAT_ENTITY_TYPE, context -> new BoatRenderer(context, PEAR_BOAT_LAYER));
 		EntityRendererRegistry.register(PearTreeEntities.PEAR_CHEST_BOAT_ENTITY_TYPE, context -> new BoatRenderer(context, PEAR_CHEST_BOAT_LAYER));
 
+		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
+			net.frank.mc3ver.bonfire.ModBonfire.BONFIRE_BLOCK_ENTITY, context -> new BonfireRenderer());
+
 		// Explorer Tent Block Tinting (Färbung der Zeltplane in der Welt)
 		net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry.register((state, world, pos, tints) -> {
 			if (state != null && state.hasProperty(net.frank.mc3ver.tent.TentCanvasBlock.COLOR)) {
