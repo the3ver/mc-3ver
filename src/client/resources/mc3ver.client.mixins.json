@@ -2,9 +2,7 @@
 	"required": true,
 	"package": "net.frank.mc3ver.client.mixin",
 	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"ExampleClientMixin"
-	],
+	"mixins": [],
 	"injectors": {
 		"defaultRequire": 1
 	},
