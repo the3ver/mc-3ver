@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class Mc3verMod implements ModInitializer {
 	public static final String MOD_ID = "mc3ver";
 	public static final String MOD_NAME = "WorldExplorerMod";
-	public static final String MOD_VERSION = "0.6.1";
+	public static final String MOD_VERSION = "0.6.2";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -23,6 +23,7 @@ public class Mc3verMod implements ModInitializer {
 		net.frank.mc3ver.transport.ModDataComponents.register();
 		net.frank.mc3ver.transport.ModBlocks.register();
 		net.frank.mc3ver.transport.ModItems.register();
+		net.frank.mc3ver.transport.TransportFlameNaming.register();
 		net.frank.mc3ver.tree.PearTreeBlocks.register();
 		net.frank.mc3ver.tree.PearTreeItems.register();
 		net.frank.mc3ver.tree.PearTreeSaplingGenerator.registerWorldGen();

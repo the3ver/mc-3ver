@@ -46,6 +46,14 @@ public class Mc3verClient implements ClientModInitializer {
 			}
 		};
 
+		// Eingabe-Screen für den Namen einer frisch aufgestellten Transportflamme
+		net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.registerGlobalReceiver(
+			net.frank.mc3ver.transport.TransportFlameNaming.OpenNameScreenPayload.TYPE, (payload, context) -> {
+				if (!(context.client().gui.screen() instanceof TransportFlameNameScreen)) {
+					context.client().gui.setScreen(new TransportFlameNameScreen(payload.pos()));
+				}
+			});
+
 		// Explorer Tent Block Tinting (Färbung der Zeltplane in der Welt)
 		net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry.register((state, world, pos, tints) -> {
 			if (state != null && state.hasProperty(net.frank.mc3ver.tent.TentCanvasBlock.COLOR)) {

@@ -236,6 +236,37 @@ public class TransportFlameLogic {
         }
     }
 
+    // Name beim Aufstellen: einmal vergeben, danach nur noch per Amboss an der Karte änderbar
+    public static final int MAX_FLAME_NAME_LENGTH = 32;
+
+    // Liefert null, wenn kein brauchbarer Name übrig bleibt
+    public static String sanitizeFlameName(String raw) {
+        if (raw == null) {
+            return null;
+        }
+        // Farbcodes wie \u00A7c samt folgendem Zeichen und Steuerzeichen entfernen
+        StringBuilder cleaned = new StringBuilder();
+        int[] codePoints = raw.codePoints().toArray();
+        for (int i = 0; i < codePoints.length; i++) {
+            int cp = codePoints[i];
+            if (cp == '\u00A7') {
+                i++;
+            } else if (!Character.isISOControl(cp)) {
+                cleaned.appendCodePoint(cp);
+            }
+        }
+        String name = cleaned.toString().strip();
+        if (name.codePointCount(0, name.length()) > MAX_FLAME_NAME_LENGTH) {
+            name = name.substring(0, name.offsetByCodePoints(0, MAX_FLAME_NAME_LENGTH)).strip();
+        }
+        return name.isEmpty() ? null : name;
+    }
+
+    // Schließen ohne Namen sperrt nichts; erst ein gesetzter Name ist endgültig
+    public static boolean canNameFlame(String currentName, UUID placer, UUID player) {
+        return currentName == null && (placer == null || placer.equals(player));
+    }
+
     public record FlameTarget(
         int x,
         int y,

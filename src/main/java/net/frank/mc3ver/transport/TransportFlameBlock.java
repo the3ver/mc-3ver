@@ -2,6 +2,7 @@ package net.frank.mc3ver.transport;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -57,6 +58,21 @@ public class TransportFlameBlock extends Block implements EntityBlock {
 
         if (!level.isClientSide() && placer instanceof ServerPlayer player) {
             handleFlamePlaced(player, level, pos);
+            nameFlameOnPlacement(player, level, pos, stack);
+        }
+    }
+
+    // Ein am Amboss benanntes Flammen-Item gibt den Namen vor, sonst fragt ein Eingabe-Screen danach
+    private static void nameFlameOnPlacement(ServerPlayer player, Level level, BlockPos pos, ItemStack stack) {
+        if (!(level.getBlockEntity(pos) instanceof TransportFlameBlockEntity flame)) return;
+        flame.setPlacer(player.getUUID());
+
+        Component itemName = stack.get(DataComponents.CUSTOM_NAME);
+        String name = itemName != null ? TransportFlameLogic.sanitizeFlameName(itemName.getString()) : null;
+        if (name != null) {
+            TransportFlameNaming.applyName(player, flame, name);
+        } else {
+            TransportFlameNaming.openNameScreen(player, pos);
         }
     }
 
@@ -139,7 +155,11 @@ public class TransportFlameBlock extends Block implements EntityBlock {
             return InteractionResult.PASS;
         }
         if (player instanceof ServerPlayer serverPlayer) {
-            showMapRecoveryHint(serverPlayer, level, pos);
+            if (level.getBlockEntity(pos) instanceof TransportFlameBlockEntity flame && TransportFlameNaming.mayName(serverPlayer, flame)) {
+                TransportFlameNaming.openNameScreen(serverPlayer, pos);
+            } else {
+                showMapRecoveryHint(serverPlayer, level, pos);
+            }
         }
         return InteractionResult.SUCCESS;
     }
@@ -190,6 +210,9 @@ public class TransportFlameBlock extends Block implements EntityBlock {
             paper.shrink(1);
         }
         ItemStack mapStack = TransportMapInventory.createMap(target);
+        if (flame != null && flame.getName() != null) {
+            mapStack.set(DataComponents.CUSTOM_NAME, Component.literal(flame.getName()));
+        }
         if (!player.getInventory().add(mapStack)) {
             player.drop(mapStack, false);
         }
