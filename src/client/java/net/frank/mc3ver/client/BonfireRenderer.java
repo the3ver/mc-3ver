@@ -27,7 +27,6 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
 
     private static final Identifier SMOKE_TEXTURE = Mc3verMod.id("textures/entity/bonfire_smoke.png");
     private static final RenderType SMOKE_RENDER_TYPE = RenderTypes.entityTranslucent(SMOKE_TEXTURE);
-    private static final int SMOKE_GRAY = 0xD8D8D8;
     // Vanilla-Lagerfeuerflamme als eigenständige Textur; das Animationsbild wählt BonfireLogic.flameTongue
     private static final RenderType FLAME_RENDER_TYPE =
         RenderTypes.entityTranslucentEmissive(Identifier.withDefaultNamespace("textures/block/campfire_fire.png"));
@@ -35,6 +34,7 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
 
     public static class State extends BlockEntityRenderState {
         boolean lit;
+        int smokeRgb;
         double time;
         float radiusScale;
     }
@@ -49,6 +49,7 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
                                    ModelFeatureRenderer.CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(bonfire, state, partialTick, cameraPos, breakProgress);
         state.lit = bonfire.getBlockState().getValue(BonfireBlock.LIT);
+        state.smokeRgb = bonfire.getBlockState().getValue(BonfireBlock.COLOR).smokeRgb();
         state.time = bonfire.getLevel() != null ? bonfire.getLevel().getGameTime() + (double) partialTick : 0.0;
         double distance = Vec3.atCenterOf(state.blockPos).subtract(cameraPos).horizontalDistance();
         LocalPlayer player = Minecraft.getInstance().player;
@@ -74,7 +75,7 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
             // Unten vom Feuer angestrahlt, weiter oben nur noch vom Himmel
             int blockLight = Math.max(0, 15 - (int) (puff.y() / 3.0));
             int light = LightCoordsUtil.pack(blockLight, skyLight);
-            int color = (alpha << 24) | SMOKE_GRAY;
+            int color = (alpha << 24) | state.smokeRgb;
             float size = (float) puff.size() * state.radiusScale;
             float u0 = (puff.variant() % 2) * 0.5f;
             float v0 = (puff.variant() / 2) * 0.5f;

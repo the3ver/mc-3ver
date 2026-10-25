@@ -3,6 +3,7 @@ package net.frank.mc3ver.bonfire;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvents;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
@@ -44,6 +46,7 @@ public class BonfireBlock extends BaseEntityBlock {
     public static final MapCodec<BonfireBlock> CODEC = simpleCodec(BonfireBlock::new);
     public static final EnumProperty<BonfireLogic.Part> PART = EnumProperty.create("part", BonfireLogic.Part.class);
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final EnumProperty<BonfireLogic.SmokeColor> COLOR = EnumProperty.create("color", BonfireLogic.SmokeColor.class);
 
     private static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 7.0, 16.0);
 
@@ -51,7 +54,8 @@ public class BonfireBlock extends BaseEntityBlock {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
             .setValue(PART, BonfireLogic.Part.CENTER)
-            .setValue(LIT, true));
+            .setValue(LIT, true)
+            .setValue(COLOR, BonfireLogic.SmokeColor.NONE));
     }
 
     @Override
@@ -61,7 +65,7 @@ public class BonfireBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(PART, LIT);
+        builder.add(PART, LIT, COLOR);
     }
 
     @Override
@@ -126,6 +130,20 @@ public class BonfireBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         }
 
+        DyeColor dye = stack.get(DataComponents.DYE);
+        if (dye != null) {
+            BonfireLogic.SmokeColor color = BonfireLogic.SmokeColor.fromDyeName(dye.getName()).orElseThrow();
+            if (color == state.getValue(COLOR)) {
+                return InteractionResult.PASS;
+            }
+            if (!level.isClientSide()) {
+                updateAllParts(level, center, s -> s.setValue(COLOR, color));
+                level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
+                stack.consume(1, player);
+            }
+            return InteractionResult.SUCCESS;
+        }
+
         return super.useItemOn(stack, state, level, pos, player, hand, hit);
     }
 
@@ -163,14 +181,24 @@ public class BonfireBlock extends BaseEntityBlock {
     }
 
     // Wie CampfireBlock.makeParticles, aber mit demselben Wind wie die Rauchfahne des Renderers
-    private static void addWindblownSmoke(Level level, BlockPos pos, RandomSource random, SimpleParticleType type) {
+    // Partikel lassen sich nur clientseitig einfärben; der Client ersetzt diesen Spawner in Mc3verClient
+    public interface SmokeSpawner {
+        void spawn(Level level, SimpleParticleType type, double x, double y, double z,
+                   double xd, double yd, double zd, BonfireLogic.SmokeColor color);
+    }
+
+    public static SmokeSpawner smokeSpawner = (level, type, x, y, z, xd, yd, zd, color) ->
+        level.addAlwaysVisibleParticle(type, true, x, y, z, xd, yd, zd);
+
+    private static void addWindblownSmoke(Level level, BlockPos pos, BlockState state, RandomSource random,
+                                          SimpleParticleType type) {
         double[] velocity = BonfireLogic.smokeParticleVelocity(
             BonfireLogic.windAt(level.getGameTime()), BonfireLogic.SIGNAL_SMOKE_RISE);
-        level.addAlwaysVisibleParticle(type, true,
+        smokeSpawner.spawn(level, type,
             pos.getX() + 0.5 + random.nextDouble() / 3.0 * (random.nextBoolean() ? 1 : -1),
             pos.getY() + random.nextDouble() + random.nextDouble(),
             pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (random.nextBoolean() ? 1 : -1),
-            velocity[0], velocity[1], velocity[2]);
+            velocity[0], velocity[1], velocity[2], state.getValue(COLOR));
     }
 
     @Override
@@ -184,9 +212,9 @@ public class BonfireBlock extends BaseEntityBlock {
                     SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS,
                     1.5f + random.nextFloat(), random.nextFloat() * 0.7f + 0.6f, false);
             }
-            addWindblownSmoke(level, pos, random, ParticleTypes.CAMPFIRE_SIGNAL_SMOKE);
+            addWindblownSmoke(level, pos, state, random, ParticleTypes.CAMPFIRE_SIGNAL_SMOKE);
         } else if (random.nextInt(4) == 0) {
-            addWindblownSmoke(level, pos, random, ParticleTypes.CAMPFIRE_COSY_SMOKE);
+            addWindblownSmoke(level, pos, state, random, ParticleTypes.CAMPFIRE_COSY_SMOKE);
         }
         if (random.nextInt(6) == 0) {
             level.addParticle(ParticleTypes.LAVA, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,

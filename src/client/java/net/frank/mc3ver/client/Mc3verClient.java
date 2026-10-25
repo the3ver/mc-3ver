@@ -35,6 +35,16 @@ public class Mc3verClient implements ClientModInitializer {
 
 		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
 			net.frank.mc3ver.bonfire.ModBonfire.BONFIRE_BLOCK_ENTITY, context -> new BonfireRenderer());
+		// Rauchpartikel des Signalfeuers in der Farbe des Rauchs einfärben
+		net.frank.mc3ver.bonfire.BonfireBlock.smokeSpawner = (level, type, x, y, z, xd, yd, zd, color) -> {
+			net.minecraft.client.particle.Particle particle =
+				net.minecraft.client.Minecraft.getInstance().particleEngine.createParticle(type, x, y, z, xd, yd, zd);
+			if (particle instanceof net.minecraft.client.particle.SingleQuadParticle quad
+					&& color != net.frank.mc3ver.bonfire.BonfireLogic.SmokeColor.NONE) {
+				int rgb = color.smokeRgb();
+				quad.setColor(((rgb >> 16) & 0xFF) / 255.0f, ((rgb >> 8) & 0xFF) / 255.0f, (rgb & 0xFF) / 255.0f);
+			}
+		};
 
 		// Explorer Tent Block Tinting (Färbung der Zeltplane in der Welt)
 		net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry.register((state, world, pos, tints) -> {

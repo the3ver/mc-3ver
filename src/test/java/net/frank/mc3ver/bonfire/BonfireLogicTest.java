@@ -83,6 +83,40 @@ public class BonfireLogicTest {
     }
 
     @Test
+    void everyVanillaDyeHasASmokeColor() {
+        for (net.minecraft.world.item.DyeColor dye : net.minecraft.world.item.DyeColor.values()) {
+            BonfireLogic.SmokeColor color = BonfireLogic.SmokeColor.fromDyeName(dye.getName()).orElseThrow(
+                () -> new AssertionError("Keine Rauchfarbe für " + dye.getName()));
+            assertEquals(dye.getName(), color.getSerializedName());
+        }
+        assertEquals(net.minecraft.world.item.DyeColor.values().length + 1, BonfireLogic.SmokeColor.values().length);
+    }
+
+    @Test
+    void noneIsNotADye() {
+        assertTrue(BonfireLogic.SmokeColor.fromDyeName("none").isEmpty());
+        assertTrue(BonfireLogic.SmokeColor.fromDyeName("rainbow").isEmpty());
+    }
+
+    @Test
+    void undyedSmokeStaysGray() {
+        assertEquals(0xD8D8D8, BonfireLogic.SmokeColor.NONE.smokeRgb());
+    }
+
+    @Test
+    void dyedSmokeIsLightenedButKeepsItsHue() {
+        int red = BonfireLogic.SmokeColor.RED.smokeRgb();
+        int r = (red >> 16) & 0xFF;
+        int g = (red >> 8) & 0xFF;
+        int b = red & 0xFF;
+        assertTrue(r > 0xB0, "heller als der Farbstoff");
+        assertTrue(r > g + 60 && r > b + 60, "bleibt rot");
+        // Schwarz wird dunkelgrau statt fast schwarz
+        int black = BonfireLogic.SmokeColor.BLACK.smokeRgb() & 0xFF;
+        assertTrue(black >= 0x5A, "Schwarz: " + Integer.toHexString(black));
+    }
+
+    @Test
     void litBonfireGivesFullLight() {
         assertEquals(15, BonfireLogic.lightLevel(true));
         assertEquals(0, BonfireLogic.lightLevel(false));

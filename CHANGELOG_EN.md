@@ -4,6 +4,14 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.11] - 2026-10-25
+
+### ✨ Added
+* **Smoke color on the bonfire:** Right-clicking the fire with any of the 16 dyes colors the smoke plume and the small smoke puffs near the fire. The dye is consumed (not in Creative mode). Colors are slightly brightened so dark shades stay visible against the sky. Without a dye the smoke stays gray. Breaking the bonfire resets the color.
+* **Use case:** Multiple camps or meeting points can be told apart by smoke color from a distance.
+
+---
+
 ## [0.5.10] - 2026-10-25
 
 ### 🎨 Visuals

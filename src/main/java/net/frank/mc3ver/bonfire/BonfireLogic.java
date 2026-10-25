@@ -84,6 +84,61 @@ public final class BonfireLogic {
         }
     }
 
+    // Rauchfarbe: NONE ist der graue Normalrauch, die übrigen heißen wie die 16 Vanilla-Farbstoffe
+    public enum SmokeColor implements StringRepresentable {
+        NONE(0xD8D8D8),
+        WHITE(0xF9FFFE),
+        ORANGE(0xF9801D),
+        MAGENTA(0xC74EBD),
+        LIGHT_BLUE(0x3AB3DA),
+        YELLOW(0xFED83D),
+        LIME(0x80C71F),
+        PINK(0xF38BAA),
+        GRAY(0x474F52),
+        LIGHT_GRAY(0x9D9D97),
+        CYAN(0x169C9C),
+        PURPLE(0x8932B8),
+        BLUE(0x3C44AA),
+        BROWN(0x835432),
+        GREEN(0x5E7C16),
+        RED(0xB02E26),
+        BLACK(0x1D1D21);
+
+        // Anteil Weiß, den gefärbter Rauch beigemischt bekommt, damit dunkle Farben am Himmel nicht wie ein Loch wirken
+        public static final double LIGHTEN = 0.3;
+
+        private final int dyeRgb;
+
+        SmokeColor(int dyeRgb) {
+            this.dyeRgb = dyeRgb;
+        }
+
+        public static Optional<SmokeColor> fromDyeName(String dyeName) {
+            for (SmokeColor color : values()) {
+                if (color != NONE && color.getSerializedName().equals(dyeName)) {
+                    return Optional.of(color);
+                }
+            }
+            return Optional.empty();
+        }
+
+        public int smokeRgb() {
+            if (this == NONE) {
+                return dyeRgb;
+            }
+            return lighten((dyeRgb >> 16) & 0xFF) << 16 | lighten((dyeRgb >> 8) & 0xFF) << 8 | lighten(dyeRgb & 0xFF);
+        }
+
+        private static int lighten(int channel) {
+            return (int) Math.round(channel + (255 - channel) * LIGHTEN);
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name().toLowerCase(Locale.ROOT);
+        }
+    }
+
     public enum PlacementStatus {
         OK,
         OBSTRUCTED,

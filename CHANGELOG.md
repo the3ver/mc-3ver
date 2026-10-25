@@ -4,6 +4,14 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.11] - 2026-10-25
+
+### ✨ Neu hinzugefügt
+* **Rauchfarbe am Signalfeuer:** Ein Rechtsklick mit einem der 16 Farbstoffe auf das Feuer färbt die Rauchfahne und die Rauchwölkchen in dieser Farbe. Der Farbstoff wird verbraucht (im Kreativmodus nicht). Die Farben sind leicht aufgehellt, damit dunkle Töne am Himmel sichtbar bleiben. Ohne Farbstoff bleibt der Rauch grau. Beim Abbau geht die Farbe verloren.
+* **Nutzen:** Mehrere Lager oder Treffpunkte lassen sich damit aus der Ferne farblich unterscheiden.
+
+---
+
 ## [0.5.10] - 2026-10-25
 
 ### 🎨 Optik
