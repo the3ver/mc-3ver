@@ -23,6 +23,13 @@ public final class BonfireLogic {
     // Ab dieser Entfernung wächst die Fahne mit, damit sie nicht zu einem Strich schrumpft (wie beim Beacon)
     public static final float SMOKE_SCALE_DISTANCE = 96.0f;
 
+    // Flammenzungen, die der Renderer über dem Holzstoß zeichnet (das Blockmodell darf nur 2 Blöcke hoch sein)
+    public static final int FLAME_TONGUES = 5;
+    public static final double FLAME_BASE_HEIGHT = 3.6;
+    public static final double FLAME_WIDTH = 1.8;
+    public static final int FLAME_FRAMES = 8;
+    public static final int FLAME_FRAME_TICKS = 2;
+
     // Wind: seitlicher Versatz in Blöcken pro Block Steighöhe, Richtung dreht über Minuten langsam
     public static final double WIND_BASE = 0.3;
     public static final double WIND_VARIATION = 0.12;
@@ -153,6 +160,22 @@ public final class BonfireLogic {
         float roll = (float) ((index * 47 + time * (index % 2 == 0 ? 0.25 : -0.25)) % 360.0);
 
         return new Puff(x, PLUME_BASE_Y + rise, z, size, alpha, roll, index % 4);
+    }
+
+    // x/z relativ zur Blockmitte, Fuß bei y = 0.2; yaw in Grad, frame = Bild im Animationsstreifen
+    public record FlameTongue(double x, double z, double height, double width, float yaw, int frame) {}
+
+    public static FlameTongue flameTongue(int index, double time) {
+        // Mittlere Zunge am höchsten, die übrigen im Kreis darum
+        boolean center = index == 0;
+        double angle = index * (2.0 * Math.PI / (FLAME_TONGUES - 1));
+        double radius = center ? 0.0 : 0.45;
+        double flicker = 1.0 + 0.12 * Math.sin(time * 0.35 + index * 2.1) + 0.08 * Math.sin(time * 0.83 + index * 0.7);
+        double height = FLAME_BASE_HEIGHT * (center ? 1.0 : 0.72) * flicker;
+        double width = FLAME_WIDTH * (center ? 1.0 : 0.8);
+        int frame = (int) Math.floorMod((long) Math.floor(time / FLAME_FRAME_TICKS) + index * 3L, FLAME_FRAMES);
+        return new FlameTongue(Math.cos(angle) * radius, Math.sin(angle) * radius, height, width,
+            (float) (index * 37.0), frame);
     }
 
     private static double frac(double value) {

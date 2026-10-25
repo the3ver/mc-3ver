@@ -4,6 +4,14 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.10] - 2026-10-25
+
+### 🎨 Visuals
+* **Bonfire burns visibly:** Five flickering flame tongues now blaze above the woodpile, the middle one almost 4 blocks tall. They glow at full brightness at night too and grow with distance, so you can spot the fire from far away.
+* **More fire inside the woodpile:** The flames inside the pile face eight directions and also burst out sideways between the logs.
+
+---
+
 ## [0.5.9] - 2026-10-25
 
 ### 🎨 Visuals

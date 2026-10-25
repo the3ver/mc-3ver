@@ -28,6 +28,10 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
     private static final Identifier SMOKE_TEXTURE = Mc3verMod.id("textures/entity/bonfire_smoke.png");
     private static final RenderType SMOKE_RENDER_TYPE = RenderTypes.entityTranslucent(SMOKE_TEXTURE);
     private static final int SMOKE_GRAY = 0xD8D8D8;
+    // Vanilla-Lagerfeuerflamme als eigenständige Textur; das Animationsbild wählt BonfireLogic.flameTongue
+    private static final RenderType FLAME_RENDER_TYPE =
+        RenderTypes.entityTranslucentEmissive(Identifier.withDefaultNamespace("textures/block/campfire_fire.png"));
+    private static final float FLAME_BASE_Y = 0.2f;
 
     public static class State extends BlockEntityRenderState {
         boolean lit;
@@ -56,6 +60,8 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
         if (!state.lit) {
             return;
         }
+        submitFlames(state, poseStack, collector);
+
         BonfireLogic.Wind wind = BonfireLogic.windAt(state.time);
         int skyLight = LightCoordsUtil.sky(state.lightCoords);
 
@@ -79,18 +85,54 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
             poseStack.mulPose(Axis.ZP.rotationDegrees(puff.roll()));
             poseStack.scale(size, size, size);
             collector.submitCustomGeometry(poseStack, SMOKE_RENDER_TYPE, (pose, consumer) -> {
-                vertex(consumer, pose, -0.5f, -0.5f, u0 + 0.5f, v0 + 0.5f, color, light);
-                vertex(consumer, pose, 0.5f, -0.5f, u0, v0 + 0.5f, color, light);
-                vertex(consumer, pose, 0.5f, 0.5f, u0, v0, color, light);
-                vertex(consumer, pose, -0.5f, 0.5f, u0 + 0.5f, v0, color, light);
+                vertex(consumer, pose, -0.5f, -0.5f, 0.0f, u0 + 0.5f, v0 + 0.5f, color, light);
+                vertex(consumer, pose, 0.5f, -0.5f, 0.0f, u0, v0 + 0.5f, color, light);
+                vertex(consumer, pose, 0.5f, 0.5f, 0.0f, u0, v0, color, light);
+                vertex(consumer, pose, -0.5f, 0.5f, 0.0f, u0 + 0.5f, v0, color, light);
             });
             poseStack.popPose();
         }
     }
 
-    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float u, float v,
-                               int color, int light) {
-        consumer.addVertex(pose, x, y, 0.0f)
+    // Je Zunge zwei gekreuzte, beidseitige Flächen; leuchten voll und wachsen mit der Entfernung nach oben mit
+    private static void submitFlames(State state, PoseStack poseStack, SubmitNodeCollector collector) {
+        float frameHeight = 1.0f / BonfireLogic.FLAME_FRAMES;
+        for (int i = 0; i < BonfireLogic.FLAME_TONGUES; i++) {
+            BonfireLogic.FlameTongue tongue = BonfireLogic.flameTongue(i, state.time);
+            float halfWidth = (float) tongue.width() * state.radiusScale / 2.0f;
+            float height = (float) tongue.height() * state.radiusScale;
+            float v0 = tongue.frame() * frameHeight;
+            float v1 = v0 + frameHeight;
+
+            poseStack.pushPose();
+            poseStack.translate(0.5 + tongue.x(), FLAME_BASE_Y, 0.5 + tongue.z());
+            poseStack.mulPose(Axis.YP.rotationDegrees(tongue.yaw()));
+            collector.submitCustomGeometry(poseStack, FLAME_RENDER_TYPE, (pose, consumer) -> {
+                flamePlane(consumer, pose, halfWidth, 0.0f, height, v0, v1);
+                flamePlane(consumer, pose, 0.0f, halfWidth, height, v0, v1);
+            });
+            poseStack.popPose();
+        }
+    }
+
+    private static void flamePlane(VertexConsumer consumer, PoseStack.Pose pose, float dx, float dz, float height,
+                                   float v0, float v1) {
+        int color = 0xFFFFFFFF;
+        int light = LightCoordsUtil.FULL_BRIGHT;
+        // Vorderseite und Rückseite, damit die Flamme von allen Seiten sichtbar ist
+        vertex(consumer, pose, -dx, 0.0f, -dz, 0.0f, v1, color, light);
+        vertex(consumer, pose, dx, 0.0f, dz, 1.0f, v1, color, light);
+        vertex(consumer, pose, dx, height, dz, 1.0f, v0, color, light);
+        vertex(consumer, pose, -dx, height, -dz, 0.0f, v0, color, light);
+        vertex(consumer, pose, -dx, height, -dz, 0.0f, v0, color, light);
+        vertex(consumer, pose, dx, height, dz, 1.0f, v0, color, light);
+        vertex(consumer, pose, dx, 0.0f, dz, 1.0f, v1, color, light);
+        vertex(consumer, pose, -dx, 0.0f, -dz, 0.0f, v1, color, light);
+    }
+
+    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
+                                    float u, float v, int color, int light) {
+        consumer.addVertex(pose, x, y, z)
             .setColor(color)
             .setUv(u, v)
             .setOverlay(OverlayTexture.NO_OVERLAY)

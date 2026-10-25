@@ -4,6 +4,14 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.10] - 2026-10-25
+
+### 🎨 Optik
+* **Signalfeuer brennt sichtbar:** Über dem Holzstoß lodern jetzt fünf flackernde Flammenzungen, die mittlere fast 4 Blöcke hoch. Sie leuchten auch nachts voll und wachsen mit der Entfernung mit, damit man das Feuer von weitem erkennt.
+* **Mehr Feuer im Holzstoß:** Die Flammen im Stoß stehen in acht Richtungen und schlagen auch seitlich zwischen den Stämmen heraus.
+
+---
+
 ## [0.5.9] - 2026-10-25
 
 ### 🎨 Optik

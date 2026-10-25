@@ -165,6 +165,50 @@ public class BonfireLogicTest {
     }
 
     @Test
+    void flamesRiseWellAboveTheWoodpile() {
+        // Der Holzstoß ist 2 Blöcke hoch, die mittlere Flamme soll deutlich darüber hinaus schlagen
+        for (double t = 0; t < 400; t += 7) {
+            BonfireLogic.FlameTongue middle = BonfireLogic.flameTongue(0, t);
+            assertTrue(middle.height() > 2.8, "Höhe " + middle.height() + " bei t=" + t);
+            assertEquals(0.0, middle.x(), 1e-9);
+            assertEquals(0.0, middle.z(), 1e-9);
+        }
+    }
+
+    @Test
+    void outerFlamesSurroundTheMiddleAndAreSmaller() {
+        for (int i = 1; i < BonfireLogic.FLAME_TONGUES; i++) {
+            BonfireLogic.FlameTongue tongue = BonfireLogic.flameTongue(i, 100.0);
+            assertTrue(Math.hypot(tongue.x(), tongue.z()) > 0.3);
+            assertTrue(tongue.height() < BonfireLogic.flameTongue(0, 100.0).height() * 1.3);
+            assertTrue(tongue.width() < BonfireLogic.FLAME_WIDTH);
+        }
+    }
+
+    @Test
+    void flamesFlickerOverTime() {
+        double min = Double.MAX_VALUE;
+        double max = 0.0;
+        for (double t = 0; t < 200; t += 1) {
+            double h = BonfireLogic.flameTongue(0, t).height();
+            min = Math.min(min, h);
+            max = Math.max(max, h);
+        }
+        assertTrue(max - min > 0.3);
+    }
+
+    @Test
+    void flameFramesFollowTheVanillaAnimation() {
+        assertEquals(0, BonfireLogic.flameTongue(0, 0.0).frame());
+        assertEquals(1, BonfireLogic.flameTongue(0, 2.0).frame());
+        assertEquals(0, BonfireLogic.flameTongue(0, 16.0).frame());
+        for (int i = 0; i < BonfireLogic.FLAME_TONGUES; i++) {
+            int frame = BonfireLogic.flameTongue(i, 12345.6).frame();
+            assertTrue(frame >= 0 && frame < BonfireLogic.FLAME_FRAMES);
+        }
+    }
+
+    @Test
     void windBendsThePlumeMoreHigherUp() {
         BonfireLogic.Wind east = new BonfireLogic.Wind(0.4, 0.0);
         double lifetime = BonfireLogic.PLUME_LIFETIME_TICKS;
