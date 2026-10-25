@@ -4,37 +4,13 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
-## [0.5.11] - 2026-10-25
+## [0.6.0] - 2026-10-25
 
 ### ✨ Neu hinzugefügt
-* **Rauchfarbe am Signalfeuer:** Ein Rechtsklick mit einem der 16 Farbstoffe auf das Feuer färbt die Rauchfahne und die Rauchwölkchen in dieser Farbe. Der Farbstoff wird verbraucht (im Kreativmodus nicht). Die Farben sind leicht aufgehellt, damit dunkle Töne am Himmel sichtbar bleiben. Ohne Farbstoff bleibt der Rauch grau. Beim Abbau geht die Farbe verloren.
-* **Nutzen:** Mehrere Lager oder Treffpunkte lassen sich damit aus der Ferne farblich unterscheiden.
-
----
-
-## [0.5.10] - 2026-10-25
-
-### 🎨 Optik
-* **Signalfeuer brennt sichtbar:** Über dem Holzstoß lodern jetzt fünf flackernde Flammenzungen, die mittlere fast 4 Blöcke hoch. Sie leuchten auch nachts voll und wachsen mit der Entfernung mit, damit man das Feuer von weitem erkennt.
-* **Mehr Feuer im Holzstoß:** Die Flammen im Stoß stehen in acht Richtungen und schlagen auch seitlich zwischen den Stämmen heraus.
-
----
-
-## [0.5.9] - 2026-10-25
-
-### 🎨 Optik
-* **Signalfeuer als Holzstoß:** Statt neun kleiner Lagerfeuer steht jetzt ein hoher Stoß aus dicken Stämmen auf der 3x3-Fläche. Unten liegen zwei Lagen quer, darauf lehnen acht Stämme wie ein Tipi zusammen, und die Flammen schlagen oben heraus.
-* **Rauchfahne statt Säule:** Einzelne Rauchwolken steigen auf, werden größer und blasser und treiben im Wind zur Seite. Oben biegt der Wind die Fahne stärker als direkt über dem Feuer. Sie bleibt über die volle Render-Distanz sichtbar.
-* **Wind:** Die Rauchwölkchen am Feuer treiben mit demselben Wind wie die Fahne. Richtung und Stärke wechseln langsam über einige Minuten und sind für alle Spieler gleich.
-
----
-
-## [0.5.8] - 2026-10-25
-
-### ✨ Neu hinzugefügt
-* **Signalfeuer:** Großes 3x3-Feuer, das eine graue Rauchsäule 64 Blöcke hoch in den Himmel schickt. Die Säule ist über die volle Render-Distanz sichtbar und wird mit der Entfernung breiter, damit sie nicht zu einem Strich schrumpft.
-* **Bedienung:** Rechtsklick auf ebenen Boden mit 3x3 freien Feldern stellt das Feuer brennend auf. Schaufel oder Wassereimer löscht es, Feuerzeug oder Feuerkugel zündet es wieder an. Brennend leuchtet es mit Lichtstufe 15 und verbrennt alles, was hineinläuft.
-* **Abbau:** Ein beliebiges Feld abbauen entfernt das ganze Feuer und gibt das Signalfeuer zurück.
+* **Signalfeuer:** Großes Lagerfeuer auf einer 3x3-Fläche. Der Holzstoß besteht aus zwei quer liegenden Lagen unten und acht daran gelehnten Stämmen im Tipi-Stil darüber. Fünf flackernde Flammenzungen lodern oben heraus, die mittlere fast 4 Blöcke hoch. Sie leuchten nachts voll und wachsen mit der Entfernung mit. Brennend strahlt das Feuer Lichtstufe 15 aus und verursacht Feuerschaden.
+* **Rauchfahne:** Einzelne Rauchwolken steigen 64 Blöcke auf, werden dabei größer und blasser und treiben im Wind zur Seite. Die Fahne bleibt über die volle Render-Distanz sichtbar. Wind wechselt langsam über einige Minuten und wirkt für alle Spieler gleich.
+* **Rauchfarbe:** Rechtsklick mit einem der 16 Farbstoffe auf das Feuer färbt Fahne und Wölkchen. Der Farbstoff wird verbraucht (im Kreativmodus nicht). Die Farben sind leicht aufgehellt, damit dunkle Töne am Himmel sichtbar bleiben. Beim Abbau geht die Farbe verloren.
+* **Bedienung:** Rechtsklick auf ebenen Boden mit 3x3 freien Feldern stellt das Feuer brennend auf. Schaufel oder Wassereimer löscht es, Feuerzeug oder Feuerkugel zündet es wieder an. Ein beliebiges Feld abbauen entfernt das ganze Feuer und gibt das Item zurück.
 * **Rezept:** Lagerfeuer in der Mitte, Holzstämme in den Ecken, Kohle oder Holzkohle an den Seiten.
 
 ---

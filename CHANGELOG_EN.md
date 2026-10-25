@@ -4,38 +4,14 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.5.11] - 2026-10-25
+## [0.6.0] - 2026-10-25
 
 ### ✨ Added
-* **Smoke color on the bonfire:** Right-clicking the fire with any of the 16 dyes colors the smoke plume and the small smoke puffs near the fire. The dye is consumed (not in Creative mode). Colors are slightly brightened so dark shades stay visible against the sky. Without a dye the smoke stays gray. Breaking the bonfire resets the color.
-* **Use case:** Multiple camps or meeting points can be told apart by smoke color from a distance.
-
----
-
-## [0.5.10] - 2026-10-25
-
-### 🎨 Visuals
-* **Bonfire burns visibly:** Five flickering flame tongues now blaze above the woodpile, the middle one almost 4 blocks tall. They glow at full brightness at night too and grow with distance, so you can spot the fire from far away.
-* **More fire inside the woodpile:** The flames inside the pile face eight directions and also burst out sideways between the logs.
-
----
-
-## [0.5.9] - 2026-10-25
-
-### 🎨 Visuals
-* **Bonfire as a woodpile:** Instead of nine small campfires, a tall pile of thick logs now stands on the 3x3 area. Two crossed layers form the base, eight logs lean together like a teepee on top, and the flames reach out above.
-* **Smoke plume instead of a column:** Single smoke clouds rise, grow, fade and drift sideways with the wind. The wind bends the plume more higher up than right above the fire. It stays visible across the full render distance.
-* **Wind:** The small smoke puffs at the fire drift with the same wind as the plume. Direction and strength change slowly over a few minutes and are the same for every player.
-
----
-
-## [0.5.8] - 2026-10-25
-
-### ✨ Added
-* **Bonfire:** Large 3x3 fire that sends a grey smoke column 64 blocks into the sky. The column is visible across the full render distance and widens with distance so it does not shrink to a thin line.
-* **Usage:** Right-click flat ground with 3x3 free spaces to place it, already burning. A shovel or water bucket puts it out, flint and steel or a fire charge lights it again. While burning it gives light level 15 and burns anything that walks in.
-* **Removal:** Breaking any of its nine blocks removes the whole fire and returns the bonfire item.
-* **Recipe:** Campfire in the middle, logs in the corners, coal or charcoal on the sides.
+* **Bonfire:** A large campfire covering a 3x3 area. The woodpile consists of two crosswise layers at the base with eight logs leaning against them in a teepee shape. Five flickering flame tongues rise from the top, the tallest reaching nearly 4 blocks high. They glow fully at night and scale up with distance. While lit, the fire emits light level 15 and deals fire damage.
+* **Smoke plume:** Individual smoke puffs rise 64 blocks into the air, growing larger and more transparent as they climb, and drift sideways in the wind. The plume stays visible across the full render distance. Wind shifts slowly over several minutes and is the same for all players.
+* **Smoke color:** Right-clicking the fire with any of the 16 dyes colors the plume and puffs. The dye is consumed (not in creative mode). Colors are slightly brightened so dark shades remain visible against the sky. The color is lost when the fire is broken.
+* **Controls:** Right-click on flat ground with a free 3x3 area to place the fire already lit. A shovel or water bucket extinguishes it, flint and steel or fire charge relights it. Breaking any block of the fire removes the whole structure and returns the item.
+* **Recipe:** Campfire in the center, logs in the corners, coal or charcoal on the sides.
 
 ---
 
