@@ -49,7 +49,6 @@
   "message.mc3ver.teleport_success": "Zur Transportflamme teleportiert!",
   "message.mc3ver.map_relinked": "Bestehende Transportkarte wurde mit dieser Transportflamme verknüpft!",
   "message.mc3ver.map_already_linked": "Du besitzt bereits eine Transportkarte für diesen Ort.",
-  "message.mc3ver.map_recovery_hint": "Karte verloren? Halte Papier in der Hand und halte Rechtsklick auf die Flamme gedrückt.",
   "message.mc3ver.map_recovery_progress": "Karte wird gezeichnet %s",
   "message.mc3ver.map_recovered": "Neue Transportkarte für diese Flamme gezeichnet!",
   "message.mc3ver.flame_named": "Die Transportflamme heißt jetzt %s.",

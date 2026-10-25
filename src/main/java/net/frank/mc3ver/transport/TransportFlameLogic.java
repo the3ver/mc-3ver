@@ -166,25 +166,9 @@ public class TransportFlameLogic {
         return new PlacementDecision(PlacementActionType.CREATE_NEW_MAP, null, freshTarget);
     }
 
-    // Karte nachholen: Rechtsklick mit Papier gedrückt halten. Der Client wiederholt den Rechtsklick alle 4 Ticks.
+    // Karte nachholen: Rechtsklick mit leerer Hand gedrückt halten. Der Client wiederholt den Rechtsklick alle 4 Ticks.
     public static final int RECOVERY_HOLD_TICKS = 30;  // 1.5 seconds at 20 ticks/sec
     public static final int HOLD_MAX_GAP_TICKS = 8;    // longer pause counts as letting go
-
-    public enum MapRecoveryOutcome {
-        ALREADY_HAS_MAP,
-        NEEDS_PAPER,
-        GRANT_MAP
-    }
-
-    public static MapRecoveryOutcome decideMapRecovery(boolean carriesMapForFlame, boolean hasPaper) {
-        if (carriesMapForFlame) {
-            return MapRecoveryOutcome.ALREADY_HAS_MAP;
-        }
-        if (!hasPaper) {
-            return MapRecoveryOutcome.NEEDS_PAPER;
-        }
-        return MapRecoveryOutcome.GRANT_MAP;
-    }
 
     public static boolean carriesMapFor(List<FlameTarget> playerMapTargets, int x, int y, int z, String dimension) {
         for (FlameTarget target : playerMapTargets) {

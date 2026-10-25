@@ -14,18 +14,6 @@ public class MapRecoveryLogicTest {
     private static final String OVERWORLD = "minecraft:overworld";
 
     @Test
-    void testPlayerWithLinkedMapGetsNoDuplicate() {
-        assertEquals(TransportFlameLogic.MapRecoveryOutcome.ALREADY_HAS_MAP, TransportFlameLogic.decideMapRecovery(true, true));
-        assertEquals(TransportFlameLogic.MapRecoveryOutcome.ALREADY_HAS_MAP, TransportFlameLogic.decideMapRecovery(true, false));
-    }
-
-    @Test
-    void testRecoveryCostsPaper() {
-        assertEquals(TransportFlameLogic.MapRecoveryOutcome.NEEDS_PAPER, TransportFlameLogic.decideMapRecovery(false, false));
-        assertEquals(TransportFlameLogic.MapRecoveryOutcome.GRANT_MAP, TransportFlameLogic.decideMapRecovery(false, true));
-    }
-
-    @Test
     void testCarriesMapForMatchesOnlyThisFlame() {
         UUID id = UUID.randomUUID();
         List<TransportFlameLogic.FlameTarget> targets = Arrays.asList(

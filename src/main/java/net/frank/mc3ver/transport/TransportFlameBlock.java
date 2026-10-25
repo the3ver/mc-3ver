@@ -16,7 +16,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -135,30 +134,20 @@ public class TransportFlameBlock extends Block implements EntityBlock {
         }
     }
 
+    // Mit leerer Hand: Rechtsklick benennt eine noch namenlose eigene Flamme, gedrückt halten holt eine verlorene Karte nach
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (stack.isEmpty()) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
-        }
-        if (!stack.is(Items.PAPER)) {
-            return InteractionResult.PASS;
-        }
-        if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
-            continueMapRecovery(serverPlayer, serverLevel, pos, stack);
-        }
-        return InteractionResult.SUCCESS;
+        return stack.isEmpty() ? InteractionResult.TRY_WITH_EMPTY_HAND : InteractionResult.PASS;
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (player.getOffhandItem().is(Items.PAPER)) {
-            return InteractionResult.PASS;
-        }
-        if (player instanceof ServerPlayer serverPlayer) {
-            if (level.getBlockEntity(pos) instanceof TransportFlameBlockEntity flame && TransportFlameNaming.mayName(serverPlayer, flame)) {
+        if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
+            boolean carriesMap = carriesMapFor(serverPlayer, level, pos);
+            if (carriesMap && level.getBlockEntity(pos) instanceof TransportFlameBlockEntity flame && TransportFlameNaming.mayName(serverPlayer, flame)) {
                 TransportFlameNaming.openNameScreen(serverPlayer, pos);
             } else {
-                showMapRecoveryHint(serverPlayer, level, pos);
+                continueMapRecovery(serverPlayer, serverLevel, pos, carriesMap);
             }
         }
         return InteractionResult.SUCCESS;
@@ -171,18 +160,9 @@ public class TransportFlameBlock extends Block implements EntityBlock {
         );
     }
 
-    private static void showMapRecoveryHint(ServerPlayer player, Level level, BlockPos pos) {
-        TransportFlameLogic.MapRecoveryOutcome outcome = TransportFlameLogic.decideMapRecovery(carriesMapFor(player, level, pos), false);
-        String key = outcome == TransportFlameLogic.MapRecoveryOutcome.ALREADY_HAS_MAP
-            ? "message.mc3ver.map_already_linked"
-            : "message.mc3ver.map_recovery_hint";
-        player.sendOverlayMessage(Component.translatable(key).withStyle(ChatFormatting.YELLOW));
-    }
-
-    // Wird bei gedrückter rechter Maustaste alle 4 Ticks aufgerufen; nach RECOVERY_HOLD_TICKS gibt es die Karte
-    private static void continueMapRecovery(ServerPlayer player, ServerLevel level, BlockPos pos, ItemStack paper) {
-        TransportFlameLogic.MapRecoveryOutcome outcome = TransportFlameLogic.decideMapRecovery(carriesMapFor(player, level, pos), true);
-        if (outcome == TransportFlameLogic.MapRecoveryOutcome.ALREADY_HAS_MAP) {
+    // Wird bei gedrückter rechter Maustaste alle 4 Ticks aufgerufen; nach RECOVERY_HOLD_TICKS gibt es die Karte gratis
+    private static void continueMapRecovery(ServerPlayer player, ServerLevel level, BlockPos pos, boolean carriesMap) {
+        if (carriesMap) {
             MAP_RECOVERY_HOLDS.reset(player.getUUID());
             player.sendOverlayMessage(Component.translatable("message.mc3ver.map_already_linked").withStyle(ChatFormatting.YELLOW));
             return;
@@ -206,9 +186,6 @@ public class TransportFlameBlock extends Block implements EntityBlock {
             flame.setTarget(target);
         }
 
-        if (!player.hasInfiniteMaterials()) {
-            paper.shrink(1);
-        }
         ItemStack mapStack = TransportMapInventory.createMap(target);
         if (flame != null && flame.getName() != null) {
             mapStack.set(DataComponents.CUSTOM_NAME, Component.literal(flame.getName()));
