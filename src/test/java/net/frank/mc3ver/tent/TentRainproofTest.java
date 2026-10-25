@@ -26,8 +26,9 @@ public class TentRainproofTest {
     @Test
     void tentCanvasIsForcedSolidSoRainStopsAtTheRoof() throws Exception {
         // Blöcke lassen sich im Test nicht registrieren, daher Prüfung der Block-Eigenschaften im Quelltext
+        // Windows-Checkouts haben CRLF, die Suche unten erwartet LF
         String source = java.nio.file.Files.readString(java.nio.file.Paths.get("").toAbsolutePath()
-            .resolve("src/main/java/net/frank/mc3ver/tent/ModTentBlocks.java"));
+            .resolve("src/main/java/net/frank/mc3ver/tent/ModTentBlocks.java")).replace("\r\n", "\n");
         int start = source.indexOf("new TentCanvasBlock(");
         assertTrue(start > 0, "TENT_CANVAS-Registrierung nicht gefunden");
         String canvasProperties = source.substring(start, source.indexOf(")\n    );", start));
