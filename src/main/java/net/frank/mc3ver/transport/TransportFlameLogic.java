@@ -53,10 +53,7 @@ public class TransportFlameLogic {
         if (!flameExistsInWorld) {
             return TeleportOutcome.FLAME_EXTINGUISHED;
         }
-        if (target.dimension().equals(currentDimension)
-            && target.x() == currentX
-            && target.y() == currentY
-            && target.z() == currentZ) {
+        if (target.isAt(currentX, currentY, currentZ, currentDimension)) {
             return TeleportOutcome.ALREADY_AT_TARGET;
         }
         return TeleportOutcome.SUCCESS;
@@ -140,11 +137,7 @@ public class TransportFlameLogic {
     ) {
         // 1. Check if player already has a map pointing to this exact position
         for (FlameTarget target : playerMapTargets) {
-            if (target != null &&
-                target.x() == placedX &&
-                target.y() == placedY &&
-                target.z() == placedZ &&
-                placedDimension.equals(target.dimension())) {
+            if (target != null && target.isAt(placedX, placedY, placedZ, placedDimension)) {
                 return new PlacementDecision(PlacementActionType.KEEP_EXISTING_MAP, target, target);
             }
         }
@@ -180,6 +173,10 @@ public class TransportFlameLogic {
         int colorRgb,
         java.util.UUID flameId
     ) {
+        public boolean isAt(int otherX, int otherY, int otherZ, String otherDimension) {
+            return x == otherX && y == otherY && z == otherZ && otherDimension.equals(dimension);
+        }
+
         public String formatCoordinates() {
             return String.format("X: %d, Y: %d, Z: %d", x, y, z);
         }

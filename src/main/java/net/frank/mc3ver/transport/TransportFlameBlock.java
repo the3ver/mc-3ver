@@ -8,8 +8,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -19,10 +17,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 public class TransportFlameBlock extends Block {
 
@@ -50,65 +46,8 @@ public class TransportFlameBlock extends Block {
         MinecraftServer server = player.level().getServer();
         String dimensionId = level.dimension().identifier().toString();
 
-        interface MapItemRef {
-            TransportFlameLogic.FlameTarget getTarget();
-            void updateTarget(TransportFlameLogic.FlameTarget newTarget);
-        }
-
-        List<MapItemRef> mapRefs = new ArrayList<>();
-
-        // 1. Scan regular inventory, hotbar, and offhand
-        for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
-            ItemStack slotStack = player.getInventory().getItem(slot);
-            if (slotStack.isEmpty()) continue;
-
-            if (slotStack.is(ModItems.TRANSPORT_MAP)) {
-                mapRefs.add(new MapItemRef() {
-                    @Override
-                    public TransportFlameLogic.FlameTarget getTarget() {
-                        return slotStack.get(ModDataComponents.FLAME_TARGET);
-                    }
-
-                    @Override
-                    public void updateTarget(TransportFlameLogic.FlameTarget newTarget) {
-                        slotStack.set(ModDataComponents.FLAME_TARGET, newTarget);
-                        slotStack.set(net.minecraft.core.component.DataComponents.DYED_COLOR, new net.minecraft.world.item.component.DyedItemColor(newTarget.colorRgb()));
-                    }
-                });
-            } else {
-                // Check if it is a Bundle containing transport maps
-                BundleContents bundle = slotStack.get(net.minecraft.core.component.DataComponents.BUNDLE_CONTENTS);
-                if (bundle != null && !bundle.isEmpty()) {
-                    List<ItemStackTemplate> templates = bundle.items();
-                    for (int i = 0; i < templates.size(); i++) {
-                        ItemStackTemplate template = templates.get(i);
-                        TransportFlameLogic.FlameTarget target = template.get(ModDataComponents.FLAME_TARGET);
-                        if (target != null || template.item().value() == ModItems.TRANSPORT_MAP) {
-                            final int templateIndex = i;
-                            mapRefs.add(new MapItemRef() {
-                                @Override
-                                public TransportFlameLogic.FlameTarget getTarget() {
-                                    return target;
-                                }
-
-                                @Override
-                                public void updateTarget(TransportFlameLogic.FlameTarget newTarget) {
-                                    BundleContents currentBundle = slotStack.get(net.minecraft.core.component.DataComponents.BUNDLE_CONTENTS);
-                                    if (currentBundle != null && templateIndex < currentBundle.items().size()) {
-                                        List<ItemStackTemplate> updatedTemplates = new ArrayList<>(currentBundle.items());
-                                        ItemStack stackInBundle = updatedTemplates.get(templateIndex).create();
-                                        stackInBundle.set(ModDataComponents.FLAME_TARGET, newTarget);
-                                        stackInBundle.set(net.minecraft.core.component.DataComponents.DYED_COLOR, new net.minecraft.world.item.component.DyedItemColor(newTarget.colorRgb()));
-                                        updatedTemplates.set(templateIndex, ItemStackTemplate.fromNonEmptyStack(stackInBundle));
-                                        slotStack.set(net.minecraft.core.component.DataComponents.BUNDLE_CONTENTS, new BundleContents(updatedTemplates));
-                                    }
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-        }
+        // 1. Scan regular inventory, hotbar, offhand and bundles
+        List<TransportMapInventory.MapItemRef> mapRefs = TransportMapInventory.scan(player);
 
         // 2. Prepare FlameChecker
         TransportFlameLogic.FlameChecker flameChecker = (dimStr, targetPos) -> {
@@ -123,10 +62,7 @@ public class TransportFlameBlock extends Block {
         };
 
         // 3. Extract targets
-        List<TransportFlameLogic.FlameTarget> candidateTargets = new ArrayList<>();
-        for (MapItemRef ref : mapRefs) {
-            candidateTargets.add(ref.getTarget());
-        }
+        List<TransportFlameLogic.FlameTarget> candidateTargets = TransportMapInventory.targets(mapRefs);
 
         // 4. Decide action
         TransportFlameLogic.PlacementDecision decision = TransportFlameLogic.decidePlacementAction(
@@ -142,7 +78,7 @@ public class TransportFlameBlock extends Block {
                 player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("message.mc3ver.map_already_linked").withStyle(net.minecraft.ChatFormatting.YELLOW));
             }
             case RELINK_OLD_MAP -> {
-                for (MapItemRef ref : mapRefs) {
+                for (TransportMapInventory.MapItemRef ref : mapRefs) {
                     if (decision.targetToRelink() != null && decision.targetToRelink().equals(ref.getTarget())) {
                         ref.updateTarget(decision.newTarget());
                         break;
@@ -151,9 +87,7 @@ public class TransportFlameBlock extends Block {
                 player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("message.mc3ver.map_relinked").withStyle(net.minecraft.ChatFormatting.GREEN));
             }
             case CREATE_NEW_MAP -> {
-                ItemStack mapStack = new ItemStack(ModItems.TRANSPORT_MAP);
-                mapStack.set(ModDataComponents.FLAME_TARGET, decision.newTarget());
-                mapStack.set(net.minecraft.core.component.DataComponents.DYED_COLOR, new net.minecraft.world.item.component.DyedItemColor(decision.newTarget().colorRgb()));
+                ItemStack mapStack = TransportMapInventory.createMap(decision.newTarget());
 
                 boolean added = player.getInventory().add(mapStack);
                 if (!added) {

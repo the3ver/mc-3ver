@@ -235,4 +235,14 @@ public class TransportFlameLogicTest {
         assertEquals(0xB02E26, decision.newTarget().colorRgb(), "Must preserve extinguished map's color");
         assertEquals(extinguishedFlameId, decision.newTarget().flameId(), "Must preserve extinguished map's flameId");
     }
+
+    @Test
+    void testFlameTargetIsAtMatchesPositionAndDimension() {
+        TransportFlameLogic.FlameTarget target = new TransportFlameLogic.FlameTarget(
+            5, 70, -3, "minecraft:overworld", 0x3AB3DA, java.util.UUID.randomUUID()
+        );
+        assertTrue(target.isAt(5, 70, -3, "minecraft:overworld"));
+        assertFalse(target.isAt(5, 71, -3, "minecraft:overworld"));
+        assertFalse(target.isAt(5, 70, -3, "minecraft:the_nether"));
+    }
 }
