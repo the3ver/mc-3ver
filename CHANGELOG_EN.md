@@ -4,6 +4,13 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.5] - 2026-10-25
+
+### 🐛 Bug Fixes
+* **Rainproof tent roof:** Minecraft did not treat the thin roof ridge as solid, so rain fell onto the sleeping bag. The tent canvas now stops rain, and splashes no longer show through the thin roof from inside.
+
+---
+
 ## [0.5.4] - 2026-10-24
 
 ### ✨ Tent Makeover

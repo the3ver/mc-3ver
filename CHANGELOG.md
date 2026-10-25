@@ -4,6 +4,13 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.5] - 2026-10-25
+
+### 🐛 Fehlerbehebungen
+* **Regendichtes Zeltdach:** Der dünne Dachfirst galt für Minecraft nicht als solide, deshalb regnete es auf den Schlafsack. Die Zeltplane hält Regen jetzt auf, und Regenspritzer scheinen nicht mehr von innen durch das dünne Dach.
+
+---
+
 ## [0.5.4] - 2026-10-24
 
 ### ✨ Zelt-Verschönerungen

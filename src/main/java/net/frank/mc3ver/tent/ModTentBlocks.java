@@ -58,6 +58,8 @@ public class ModTentBlocks {
                 .strength(0.6f)
                 .sound(SoundType.WOOL)
                 .lightLevel(state -> TentCanvasBlock.lightEmission(state.getValue(TentCanvasBlock.PART)))
+                // Dünne Dachplatten gelten sonst nicht als solide und Regen fällt hindurch
+                .forceSolidOn()
                 .noOcclusion()
         )
     );

@@ -87,6 +87,16 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     protected static final VoxelShape SHAPE_WALL_NORTH = Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 2.0);
     protected static final VoxelShape SHAPE_WALL_SOUTH = Block.box(0.0, 0.0, 14.0, 16.0, 16.0, 16.0);
 
+    // Regenspritzer landen auf der Kollisions-Oberkante (ohne Kollision: auf der Blockunterkante) und ragen
+    // ~3 Pixel um ihren Mittelpunkt, durch die nur 2 Pixel dicke Plane also nach innen. Für Abfragen ohne
+    // Entity (Partikel, Regen) bekommt jedes Dachteil deshalb eine Kappe 4 Pixel über der Oberkante.
+    private static final VoxelShape RAIN_CAP = Block.box(0.0, 16.0, 0.0, 16.0, 20.0, 16.0);
+
+    public static VoxelShape getRainShape(CanvasPart part, Direction facing) {
+        VoxelShape shape = getWallShape(part, facing);
+        return part.name().startsWith("ROOF_") ? Shapes.or(shape, RAIN_CAP) : shape;
+    }
+
     public static int lightEmission(CanvasPart part) {
         return part == CanvasPart.ROOF_LANTERN_RIGHT ? 14 : 0;
     }
@@ -191,6 +201,9 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
 
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (context == CollisionContext.empty()) {
+            return getRainShape(state.getValue(PART), state.getValue(FACING));
+        }
         return getWallShape(state.getValue(PART), state.getValue(FACING));
     }
 
