@@ -9,7 +9,10 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+
+import java.util.Set;
 
 public class ModBlocks {
 
@@ -34,6 +37,12 @@ public class ModBlocks {
                 .strength(0.3f)
                 .sound(SoundType.STONE)
         )
+    );
+
+    public static final BlockEntityType<TransportFlameBlockEntity> TRANSPORT_FLAME_BLOCK_ENTITY = Registry.register(
+        BuiltInRegistries.BLOCK_ENTITY_TYPE,
+        Mc3verMod.id("transport_flame"),
+        new BlockEntityType<>(TransportFlameBlockEntity::new, Set.of(TRANSPORT_FLAME))
     );
 
     public static final Item TRANSPORT_FLAME_ITEM = Registry.register(

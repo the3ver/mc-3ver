@@ -1,18 +1,29 @@
 package net.frank.mc3ver.transport;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -20,9 +31,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class TransportFlameBlock extends Block {
+public class TransportFlameBlock extends Block implements EntityBlock {
 
     protected static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 14.0, 12.0);
+
+    private static final TransportFlameLogic.FlameHoldTracker MAP_RECOVERY_HOLDS = new TransportFlameLogic.FlameHoldTracker();
 
     public TransportFlameBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -31,6 +44,11 @@ public class TransportFlameBlock extends Block {
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new TransportFlameBlockEntity(pos, state);
     }
 
     @Override
@@ -72,6 +90,10 @@ public class TransportFlameBlock extends Block {
             new Random()
         );
 
+        if (level.getBlockEntity(pos) instanceof TransportFlameBlockEntity flame) {
+            flame.setTarget(decision.newTarget());
+        }
+
         // 5. Execute decision
         switch (decision.actionType()) {
             case KEEP_EXISTING_MAP -> {
@@ -95,6 +117,84 @@ public class TransportFlameBlock extends Block {
                 }
             }
         }
+    }
+
+    @Override
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (stack.isEmpty()) {
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
+        }
+        if (!stack.is(Items.PAPER)) {
+            return InteractionResult.PASS;
+        }
+        if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
+            continueMapRecovery(serverPlayer, serverLevel, pos, stack);
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (player.getOffhandItem().is(Items.PAPER)) {
+            return InteractionResult.PASS;
+        }
+        if (player instanceof ServerPlayer serverPlayer) {
+            showMapRecoveryHint(serverPlayer, level, pos);
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    private static boolean carriesMapFor(ServerPlayer player, Level level, BlockPos pos) {
+        return TransportFlameLogic.carriesMapFor(
+            TransportMapInventory.targets(TransportMapInventory.scan(player)),
+            pos.getX(), pos.getY(), pos.getZ(), level.dimension().identifier().toString()
+        );
+    }
+
+    private static void showMapRecoveryHint(ServerPlayer player, Level level, BlockPos pos) {
+        TransportFlameLogic.MapRecoveryOutcome outcome = TransportFlameLogic.decideMapRecovery(carriesMapFor(player, level, pos), false);
+        String key = outcome == TransportFlameLogic.MapRecoveryOutcome.ALREADY_HAS_MAP
+            ? "message.mc3ver.map_already_linked"
+            : "message.mc3ver.map_recovery_hint";
+        player.sendOverlayMessage(Component.translatable(key).withStyle(ChatFormatting.YELLOW));
+    }
+
+    // Wird bei gedrückter rechter Maustaste alle 4 Ticks aufgerufen; nach RECOVERY_HOLD_TICKS gibt es die Karte
+    private static void continueMapRecovery(ServerPlayer player, ServerLevel level, BlockPos pos, ItemStack paper) {
+        TransportFlameLogic.MapRecoveryOutcome outcome = TransportFlameLogic.decideMapRecovery(carriesMapFor(player, level, pos), true);
+        if (outcome == TransportFlameLogic.MapRecoveryOutcome.ALREADY_HAS_MAP) {
+            MAP_RECOVERY_HOLDS.reset(player.getUUID());
+            player.sendOverlayMessage(Component.translatable("message.mc3ver.map_already_linked").withStyle(ChatFormatting.YELLOW));
+            return;
+        }
+
+        String dimensionId = level.dimension().identifier().toString();
+        float progress = MAP_RECOVERY_HOLDS.update(player.getUUID(), dimensionId + "|" + pos.asLong(), level.getGameTime());
+        if (progress < 1.0f) {
+            player.sendOverlayMessage(Component.translatable("message.mc3ver.map_recovery_progress",
+                TransportFlameLogic.progressBar(progress, 10)).withStyle(ChatFormatting.AQUA));
+            level.playSound(null, pos, SoundEvents.BOOK_PAGE_TURN, SoundSource.BLOCKS, 0.6f, 0.8f + progress * 0.6f);
+            return;
+        }
+
+        TransportFlameBlockEntity flame = level.getBlockEntity(pos) instanceof TransportFlameBlockEntity be ? be : null;
+        TransportFlameLogic.FlameTarget target = TransportFlameLogic.resolveFlameTarget(
+            flame != null ? flame.getTarget() : null,
+            pos.getX(), pos.getY(), pos.getZ(), dimensionId, new Random()
+        );
+        if (flame != null) {
+            flame.setTarget(target);
+        }
+
+        if (!player.hasInfiniteMaterials()) {
+            paper.shrink(1);
+        }
+        ItemStack mapStack = TransportMapInventory.createMap(target);
+        if (!player.getInventory().add(mapStack)) {
+            player.drop(mapStack, false);
+        }
+        level.playSound(null, pos, SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, SoundSource.BLOCKS, 1.0f, 1.0f);
+        player.sendOverlayMessage(Component.translatable("message.mc3ver.map_recovered").withStyle(ChatFormatting.GREEN));
     }
 
     @Override

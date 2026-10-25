@@ -2,8 +2,9 @@ package net.frank.mc3ver.transport;
 
 import net.minecraft.core.BlockPos;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -163,6 +164,76 @@ public class TransportFlameLogic {
             placedX, placedY, placedZ, placedDimension, newColor, newFlameId
         );
         return new PlacementDecision(PlacementActionType.CREATE_NEW_MAP, null, freshTarget);
+    }
+
+    // Karte nachholen: Rechtsklick mit Papier gedrückt halten. Der Client wiederholt den Rechtsklick alle 4 Ticks.
+    public static final int RECOVERY_HOLD_TICKS = 30;  // 1.5 seconds at 20 ticks/sec
+    public static final int HOLD_MAX_GAP_TICKS = 8;    // longer pause counts as letting go
+
+    public enum MapRecoveryOutcome {
+        ALREADY_HAS_MAP,
+        NEEDS_PAPER,
+        GRANT_MAP
+    }
+
+    public static MapRecoveryOutcome decideMapRecovery(boolean carriesMapForFlame, boolean hasPaper) {
+        if (carriesMapForFlame) {
+            return MapRecoveryOutcome.ALREADY_HAS_MAP;
+        }
+        if (!hasPaper) {
+            return MapRecoveryOutcome.NEEDS_PAPER;
+        }
+        return MapRecoveryOutcome.GRANT_MAP;
+    }
+
+    public static boolean carriesMapFor(List<FlameTarget> playerMapTargets, int x, int y, int z, String dimension) {
+        for (FlameTarget target : playerMapTargets) {
+            if (target != null && target.isAt(x, y, z, dimension)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Flammen aus älteren Versionen kennen ihr Ziel nicht; sie bekommen beim ersten Nachholen eine neue Farbe und ID
+    public static FlameTarget resolveFlameTarget(FlameTarget stored, int x, int y, int z, String dimension, Random random) {
+        if (stored != null && stored.isAt(x, y, z, dimension)) {
+            return stored;
+        }
+        if (stored != null) {
+            return new FlameTarget(x, y, z, dimension, stored.colorRgb(), stored.flameId());
+        }
+        return new FlameTarget(x, y, z, dimension, getRandomFlameColorRgb(random), UUID.randomUUID());
+    }
+
+    public static String progressBar(float progress, int segments) {
+        int filled = Math.round(Math.max(0.0f, Math.min(1.0f, progress)) * segments);
+        return "■".repeat(filled) + "□".repeat(segments - filled);
+    }
+
+    public static class FlameHoldTracker {
+        private record Hold(String flameKey, long startTick, long lastTick) {}
+
+        private final Map<UUID, Hold> holds = new HashMap<>();
+
+        // Liefert den Fortschritt von 0 bis 1; bei 1 ist das Halten abgeschlossen und beginnt beim nächsten Mal von vorn
+        public float update(UUID playerId, String flameKey, long gameTime) {
+            Hold hold = holds.get(playerId);
+            if (hold == null || !hold.flameKey().equals(flameKey) || gameTime - hold.lastTick() > HOLD_MAX_GAP_TICKS) {
+                hold = new Hold(flameKey, gameTime, gameTime);
+            }
+            float progress = Math.min(1.0f, (float) (gameTime - hold.startTick()) / RECOVERY_HOLD_TICKS);
+            if (progress >= 1.0f) {
+                holds.remove(playerId);
+                return 1.0f;
+            }
+            holds.put(playerId, new Hold(flameKey, hold.startTick(), gameTime));
+            return progress;
+        }
+
+        public void reset(UUID playerId) {
+            holds.remove(playerId);
+        }
     }
 
     public record FlameTarget(
