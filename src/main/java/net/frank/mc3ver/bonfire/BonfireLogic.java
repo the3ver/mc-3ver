@@ -12,11 +12,21 @@ public final class BonfireLogic {
     public static final int LIGHT_LEVEL_LIT = 15;
     public static final float FIRE_DAMAGE = 2.0f;
 
-    // Rauchsäule über dem Mittelblock
-    public static final int SMOKE_COLUMN_HEIGHT = 64;
-    public static final int SMOKE_COLOR = 0xFFD8D8D8;
-    // Ab dieser Entfernung wächst die Säule mit, damit sie nicht zu einem Strich schrumpft (wie beim Beacon)
+    // Rauchfahne über dem Mittelblock: einzelne Wolken steigen auf, wachsen, verblassen und treiben im Wind
+    public static final double PLUME_HEIGHT = 64.0;
+    public static final double PLUME_BASE_Y = 1.6;
+    public static final int PLUME_PUFFS = 40;
+    public static final double PLUME_LIFETIME_TICKS = 600.0;
+    public static final double PUFF_START_SIZE = 1.6;
+    public static final double PUFF_END_SIZE = 8.0;
+    public static final float PUFF_MAX_ALPHA = 0.7f;
+    // Ab dieser Entfernung wächst die Fahne mit, damit sie nicht zu einem Strich schrumpft (wie beim Beacon)
     public static final float SMOKE_SCALE_DISTANCE = 96.0f;
+
+    // Wind: seitlicher Versatz in Blöcken pro Block Steighöhe, Richtung dreht über Minuten langsam
+    public static final double WIND_BASE = 0.3;
+    public static final double WIND_VARIATION = 0.12;
+    public static final double SIGNAL_SMOKE_RISE = 0.07;
 
     private BonfireLogic() {}
 
@@ -104,5 +114,48 @@ public final class BonfireLogic {
             return 1.0f;
         }
         return Math.max(1.0f, (float) horizontalDistance / SMOKE_SCALE_DISTANCE);
+    }
+
+    public record Wind(double x, double z) {
+        public double strength() {
+            return Math.sqrt(x * x + z * z);
+        }
+    }
+
+    // Hängt nur an der Spielzeit, damit Server-Spielzeit alle Clients gleich wehen lässt
+    public static Wind windAt(double gameTime) {
+        double angle = Math.sin(gameTime / 2400.0) * 1.3 + Math.sin(gameTime / 9100.0 + 1.0) * 2.1;
+        double strength = WIND_BASE + WIND_VARIATION * Math.sin(gameTime / 3700.0 + 2.0);
+        return new Wind(Math.cos(angle) * strength, Math.sin(angle) * strength);
+    }
+
+    // Geschwindigkeit eines Rauchpartikels, das mit SIGNAL_SMOKE_RISE aufsteigt und vom Wind mitgenommen wird
+    public static double[] smokeParticleVelocity(Wind wind, double rise) {
+        return new double[]{wind.x() * rise, rise, wind.z() * rise};
+    }
+
+    // x/z relativ zur Blockmitte, y relativ zur Blockunterkante; size in Blöcken, roll in Grad
+    public record Puff(double x, double y, double z, double size, float alpha, float roll, int variant) {}
+
+    public static Puff plumePuff(int index, double time, Wind wind) {
+        double phase = frac(index / (double) PLUME_PUFFS + time / PLUME_LIFETIME_TICKS);
+        double rise = PLUME_HEIGHT * phase;
+
+        // Oben biegt der Wind stärker als direkt über dem Feuer, wo die Hitze den Rauch steil nach oben drückt
+        double bend = rise * (0.15 + 0.65 * phase);
+        double swirl = 0.3 + 1.5 * phase;
+        double x = wind.x() * bend + Math.sin(time * 0.031 + index * 2.39) * swirl;
+        double z = wind.z() * bend + Math.cos(time * 0.027 + index * 1.71) * swirl;
+
+        double size = PUFF_START_SIZE + (PUFF_END_SIZE - PUFF_START_SIZE) * phase;
+        double fadeIn = Math.min(1.0, phase / 0.06);
+        float alpha = (float) (fadeIn * Math.pow(1.0 - phase, 1.3) * PUFF_MAX_ALPHA);
+        float roll = (float) ((index * 47 + time * (index % 2 == 0 ? 0.25 : -0.25)) % 360.0);
+
+        return new Puff(x, PLUME_BASE_Y + rise, z, size, alpha, roll, index % 4);
+    }
+
+    private static double frac(double value) {
+        return value - Math.floor(value);
     }
 }

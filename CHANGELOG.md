@@ -4,6 +4,15 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.9] - 2026-10-25
+
+### 🎨 Optik
+* **Signalfeuer als Holzstoß:** Statt neun kleiner Lagerfeuer steht jetzt ein hoher Stoß aus dicken Stämmen auf der 3x3-Fläche. Unten liegen zwei Lagen quer, darauf lehnen acht Stämme wie ein Tipi zusammen, und die Flammen schlagen oben heraus.
+* **Rauchfahne statt Säule:** Einzelne Rauchwolken steigen auf, werden größer und blasser und treiben im Wind zur Seite. Oben biegt der Wind die Fahne stärker als direkt über dem Feuer. Sie bleibt über die volle Render-Distanz sichtbar.
+* **Wind:** Die Rauchwölkchen am Feuer treiben mit demselben Wind wie die Fahne. Richtung und Stärke wechseln langsam über einige Minuten und sind für alle Spieler gleich.
+
+---
+
 ## [0.5.8] - 2026-10-25
 
 ### ✨ Neu hinzugefügt

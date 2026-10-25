@@ -4,6 +4,15 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.9] - 2026-10-25
+
+### 🎨 Visuals
+* **Bonfire as a woodpile:** Instead of nine small campfires, a tall pile of thick logs now stands on the 3x3 area. Two crossed layers form the base, eight logs lean together like a teepee on top, and the flames reach out above.
+* **Smoke plume instead of a column:** Single smoke clouds rise, grow, fade and drift sideways with the wind. The wind bends the plume more higher up than right above the fire. It stays visible across the full render distance.
+* **Wind:** The small smoke puffs at the fire drift with the same wind as the plume. Direction and strength change slowly over a few minutes and are the same for every player.
+
+---
+
 ## [0.5.8] - 2026-10-25
 
 ### ✨ Added

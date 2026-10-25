@@ -70,7 +70,7 @@
   "message.mc3ver.peace_broken": "Du hast ein Monster angegriffen. Der Frieden ist gebrochen!",
   "item.mc3ver.bonfire": "Signalfeuer",
   "block.mc3ver.bonfire": "Signalfeuer",
-  "tooltip.mc3ver.bonfire": "Großes 3x3-Feuer mit einer Rauchsäule, die man von weitem sieht. Schaufel oder Wasser löscht es, Feuerzeug zündet es an.",
+  "tooltip.mc3ver.bonfire": "Hoher 3x3-Holzstoß mit einer Rauchfahne, die man von weitem sieht. Schaufel oder Wasser löscht es, Feuerzeug zündet es an.",
   "message.mc3ver.bonfire_no_space": "Nicht genug freier Platz für das Signalfeuer (3x3 Blöcke benötigt)!",
   "message.mc3ver.bonfire_uneven_ground": "Der Boden ist uneben. Das Signalfeuer braucht 3x3 feste Blöcke als Untergrund!"
 }

@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
@@ -24,7 +25,6 @@ import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -156,6 +156,17 @@ public class BonfireBlock extends BaseEntityBlock {
         return super.playerWillDestroy(level, pos, state, player);
     }
 
+    // Wie CampfireBlock.makeParticles, aber mit demselben Wind wie die Rauchfahne des Renderers
+    private static void addWindblownSmoke(Level level, BlockPos pos, RandomSource random, SimpleParticleType type) {
+        double[] velocity = BonfireLogic.smokeParticleVelocity(
+            BonfireLogic.windAt(level.getGameTime()), BonfireLogic.SIGNAL_SMOKE_RISE);
+        level.addAlwaysVisibleParticle(type, true,
+            pos.getX() + 0.5 + random.nextDouble() / 3.0 * (random.nextBoolean() ? 1 : -1),
+            pos.getY() + random.nextDouble() + random.nextDouble(),
+            pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (random.nextBoolean() ? 1 : -1),
+            velocity[0], velocity[1], velocity[2]);
+    }
+
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (!state.getValue(LIT)) {
@@ -167,9 +178,9 @@ public class BonfireBlock extends BaseEntityBlock {
                     SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS,
                     1.5f + random.nextFloat(), random.nextFloat() * 0.7f + 0.6f, false);
             }
-            CampfireBlock.makeParticles(level, pos, true, false);
+            addWindblownSmoke(level, pos, random, ParticleTypes.CAMPFIRE_SIGNAL_SMOKE);
         } else if (random.nextInt(4) == 0) {
-            CampfireBlock.makeParticles(level, pos, false, false);
+            addWindblownSmoke(level, pos, random, ParticleTypes.CAMPFIRE_COSY_SMOKE);
         }
         if (random.nextInt(6) == 0) {
             level.addParticle(ParticleTypes.LAVA, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,

@@ -1,70 +1,58 @@
 {
   "variants": {
     "lit=false,part=center": {
-      "model": "minecraft:block/campfire_off"
+      "model": "mc3ver:block/bonfire_center_off"
     },
     "lit=true,part=center": {
-      "model": "minecraft:block/campfire"
+      "model": "mc3ver:block/bonfire_center"
     },
     "lit=false,part=north": {
-      "model": "minecraft:block/campfire_off"
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=true,part=north": {
-      "model": "minecraft:block/campfire"
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=false,part=north_east": {
-      "model": "minecraft:block/campfire_off",
-      "y": 90
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=true,part=north_east": {
-      "model": "minecraft:block/campfire",
-      "y": 90
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=false,part=east": {
-      "model": "minecraft:block/campfire_off",
-      "y": 90
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=true,part=east": {
-      "model": "minecraft:block/campfire",
-      "y": 90
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=false,part=south_east": {
-      "model": "minecraft:block/campfire_off",
-      "y": 180
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=true,part=south_east": {
-      "model": "minecraft:block/campfire",
-      "y": 180
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=false,part=south": {
-      "model": "minecraft:block/campfire_off",
-      "y": 180
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=true,part=south": {
-      "model": "minecraft:block/campfire",
-      "y": 180
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=false,part=south_west": {
-      "model": "minecraft:block/campfire_off",
-      "y": 270
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=true,part=south_west": {
-      "model": "minecraft:block/campfire",
-      "y": 270
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=false,part=west": {
-      "model": "minecraft:block/campfire_off",
-      "y": 270
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=true,part=west": {
-      "model": "minecraft:block/campfire",
-      "y": 270
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=false,part=north_west": {
-      "model": "minecraft:block/campfire_off"
+      "model": "mc3ver:block/bonfire_part"
     },
     "lit=true,part=north_west": {
-      "model": "minecraft:block/campfire"
+      "model": "mc3ver:block/bonfire_part"
     }
   }
 }
