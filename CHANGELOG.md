@@ -4,6 +4,13 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.7] - 2026-10-25
+
+### ⚖️ Balancing
+* **Birnenlaub droppt wie Eichenlaub:** Setzlinge (5 %), Stöcke (2 %) und Birnen (0,5 %, wie Äpfel) fallen jetzt so oft wie bei Vanilla-Bäumen, vorher 2- bis 12-mal häufiger. Glück erhöht die Chancen wie bei Vanilla, Behutsamkeit erntet das Laub selbst.
+
+---
+
 ## [0.5.6] - 2026-10-25
 
 ### ✨ Neu hinzugefügt

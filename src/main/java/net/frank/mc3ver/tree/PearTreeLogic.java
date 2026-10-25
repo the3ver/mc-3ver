@@ -29,11 +29,11 @@ public class PearTreeLogic {
         return null;
     }
 
-    // Dropchancen des Birnenlaubs je Glücksstufe (Index = Fortune-Level, letzter Wert gilt darüber hinaus).
+    // Dropchancen des Birnenlaubs je Glücksstufe, wie Vanilla-Eichenlaub (Birne = Apfel) (Index = Fortune-Level, letzter Wert gilt darüber hinaus).
     // Einzige Quelle für loot_table/blocks/pear_leaves.json, ein Test hält beide synchron.
-    public static final float[] SAPLING_DROP_CHANCES = {0.1f};
-    public static final float[] STICK_DROP_CHANCES = {0.08f};
-    public static final float[] PEAR_DROP_CHANCES = {0.06f};
+    public static final float[] SAPLING_DROP_CHANCES = {0.05f, 0.0625f, 0.083333336f, 0.1f};
+    public static final float[] STICK_DROP_CHANCES = {0.02f, 0.022222223f, 0.025f, 0.033333335f, 0.1f};
+    public static final float[] PEAR_DROP_CHANCES = {0.005f, 0.0055555557f, 0.00625f, 0.008333334f, 0.025f};
 
     public static int getFuelDurationTicks(String itemName) {
         if ("pear_boat".equals(itemName) || "pear_chest_boat".equals(itemName)) {

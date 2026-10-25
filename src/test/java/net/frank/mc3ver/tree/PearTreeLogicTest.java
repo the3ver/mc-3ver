@@ -37,6 +37,27 @@ public class PearTreeLogicTest {
         org.junit.jupiter.api.Assertions.assertArrayEquals(PearTreeLogic.PEAR_DROP_CHANCES, chancesFor(json, "mc3ver:pear"), 1e-6f);
     }
 
+    @Test
+    void testPearLeavesDropLikeVanillaOakLeaves() throws Exception {
+        // Vanilla-Eichenlaub aus dem Minecraft-JAR im Test-Classpath
+        com.google.gson.JsonObject oak;
+        try (java.io.InputStream in = PearTreeLogicTest.class.getResourceAsStream("/data/minecraft/loot_table/blocks/oak_leaves.json")) {
+            org.junit.jupiter.api.Assertions.assertNotNull(in, "oak_leaves.json muss im Classpath liegen");
+            oak = com.google.gson.JsonParser.parseString(new String(in.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8)).getAsJsonObject();
+        }
+        org.junit.jupiter.api.Assertions.assertArrayEquals(chancesFor(oak, "minecraft:oak_sapling"), PearTreeLogic.SAPLING_DROP_CHANCES, 1e-6f,
+            "Birnensetzlinge wie Eichensetzlinge");
+        org.junit.jupiter.api.Assertions.assertArrayEquals(chancesFor(oak, "minecraft:stick"), PearTreeLogic.STICK_DROP_CHANCES, 1e-6f,
+            "Stöcke wie bei Eichenlaub");
+        org.junit.jupiter.api.Assertions.assertArrayEquals(chancesFor(oak, "minecraft:apple"), PearTreeLogic.PEAR_DROP_CHANCES, 1e-6f,
+            "Birnen so selten wie Äpfel");
+
+        String pearTable = java.nio.file.Files.readString(java.nio.file.Paths.get("").toAbsolutePath()
+            .resolve("src/main/resources/data/mc3ver/loot_table/blocks/pear_leaves.json"));
+        org.junit.jupiter.api.Assertions.assertTrue(pearTable.contains("minecraft:silk_touch"),
+            "Behutsamkeit muss wie bei Vanilla das Laub selbst droppen");
+    }
+
     // Sucht die table_bonus-Chancen, die für das Item gelten (am Eintrag selbst oder am Pool)
     static float[] chancesFor(com.google.gson.JsonObject lootTable, String item) {
         for (com.google.gson.JsonElement pool : lootTable.getAsJsonArray("pools")) {
