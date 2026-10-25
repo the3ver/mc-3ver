@@ -36,6 +36,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import java.util.function.UnaryOperator;
+
 // Ein Block pro Feld des 3x3-Signalfeuers; nur die Mitte trägt die BlockEntity für die Rauchsäule
 public class BonfireBlock extends BaseEntityBlock {
 
@@ -77,12 +79,16 @@ public class BonfireBlock extends BaseEntityBlock {
         return pos.offset(-part.dx(), 0, -part.dz());
     }
 
-    public static void setLit(Level level, BlockPos center, boolean lit) {
+    // Wendet dieselbe Zustandsänderung auf alle 9 Felder an, damit sie immer gleich aussehen
+    public static void updateAllParts(Level level, BlockPos center, UnaryOperator<BlockState> change) {
         for (BonfireLogic.Part part : BonfireLogic.Part.values()) {
             BlockPos p = center.offset(part.dx(), 0, part.dz());
             BlockState s = level.getBlockState(p);
-            if (s.getBlock() instanceof BonfireBlock && s.getValue(LIT) != lit) {
-                level.setBlock(p, s.setValue(LIT, lit), Block.UPDATE_ALL);
+            if (s.getBlock() instanceof BonfireBlock) {
+                BlockState changed = change.apply(s);
+                if (changed != s) {
+                    level.setBlock(p, changed, Block.UPDATE_ALL);
+                }
             }
         }
     }
@@ -95,7 +101,7 @@ public class BonfireBlock extends BaseEntityBlock {
 
         if (!lit && (stack.is(Items.FLINT_AND_STEEL) || stack.is(Items.FIRE_CHARGE))) {
             if (!level.isClientSide()) {
-                setLit(level, center, true);
+                updateAllParts(level, center, s -> s.setValue(LIT, true));
                 if (stack.is(Items.FLINT_AND_STEEL)) {
                     level.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     stack.hurtAndBreak(1, player, hand);
@@ -109,7 +115,7 @@ public class BonfireBlock extends BaseEntityBlock {
 
         if (lit && (stack.is(ItemTags.SHOVELS) || stack.is(Items.WATER_BUCKET))) {
             if (!level.isClientSide()) {
-                setLit(level, center, false);
+                updateAllParts(level, center, s -> s.setValue(LIT, false));
                 level.playSound(null, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
                 if (stack.is(Items.WATER_BUCKET)) {
                     player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, new ItemStack(Items.BUCKET)));
