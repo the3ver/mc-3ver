@@ -4,6 +4,15 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.6] - 2026-10-25
+
+### ✨ New Features
+* **White Flag (pacifist mode):** Right-click raises the flag and grants the permanent *Pacifist* effect. Monsters no longer target you and deal no damage, not even through stray arrows or explosions. Right-click again to lower the flag.
+* **Breaking the peace:** Attacking a monster while the effect is active removes it and locks the flag for 30 seconds. Hitting animals or players does not break the peace.
+* **Recipe:** 3 sticks as a left column, 4 white wool to the right.
+
+---
+
 ## [0.5.5] - 2026-10-25
 
 ### 🐛 Bug Fixes

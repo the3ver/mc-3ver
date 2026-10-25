@@ -62,5 +62,10 @@
   "message.mc3ver.tent_packed": "Explorer's Tent packed up.",
   "message.mc3ver.tent_no_space": "Not enough clear space to pitch the tent (requires 3x4 blocks)!",
   "message.mc3ver.tent_uneven_ground": "The ground is uneven. The tent requires 3x4 solid ground blocks!",
-  "message.mc3ver.tent_sleeping": "Good night, explorer! (Home spawn point remains untouched)"
+  "message.mc3ver.tent_sleeping": "Good night, explorer! (Home spawn point remains untouched)",
+  "item.mc3ver.white_flag": "White Flag",
+  "effect.mc3ver.pacifist": "Pacifist",
+  "message.mc3ver.pacifist_on": "You raise the white flag. Monsters leave you alone.",
+  "message.mc3ver.pacifist_off": "You lower the white flag. Monsters will attack you again.",
+  "message.mc3ver.peace_broken": "You attacked a monster. The peace is broken!"
 }

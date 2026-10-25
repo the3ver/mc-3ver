@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SWW",
+    "SWW",
+    "S  "
+  ],
+  "key": {
+    "S": "minecraft:stick",
+    "W": "minecraft:white_wool"
+  },
+  "result": {
+    "id": "mc3ver:white_flag",
+    "count": 1
+  }
+}

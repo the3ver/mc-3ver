@@ -4,6 +4,15 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.5.6] - 2026-10-25
+
+### ✨ Neu hinzugefügt
+* **Weiße Fahne (Pazifist-Modus):** Rechtsklick hisst die Fahne und gibt den Dauer-Effekt *Friedfertig*. Monster nehmen dich dann nicht mehr als Ziel und verursachen keinen Schaden, auch nicht durch verirrte Pfeile oder Explosionen. Ein zweiter Rechtsklick holt die Fahne wieder ein.
+* **Frieden bricht:** Greifst du mit aktivem Effekt ein Monster an, verlierst du den Schutz und kannst die Fahne 30 Sekunden lang nicht hissen. Tiere und Spieler zu schlagen bricht den Frieden nicht.
+* **Rezept:** 3 Stöcke links als Spalte, 4 weiße Wolle rechts daneben.
+
+---
+
 ## [0.5.5] - 2026-10-25
 
 ### 🐛 Fehlerbehebungen

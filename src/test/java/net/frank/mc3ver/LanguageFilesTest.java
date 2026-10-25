@@ -76,7 +76,12 @@ public class LanguageFilesTest {
             "message.mc3ver.teleport_success",
             "message.mc3ver.map_relinked",
             "message.mc3ver.map_already_linked",
-            "message.mc3ver.welcome"
+            "message.mc3ver.welcome",
+            "item.mc3ver.white_flag",
+            "effect.mc3ver.pacifist",
+            "message.mc3ver.pacifist_on",
+            "message.mc3ver.pacifist_off",
+            "message.mc3ver.peace_broken"
         );
 
         for (String key : requiredKeys) {

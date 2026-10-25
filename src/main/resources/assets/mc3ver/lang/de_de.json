@@ -62,5 +62,10 @@
   "message.mc3ver.tent_packed": "Entdeckerzelt eingepackt.",
   "message.mc3ver.tent_no_space": "Nicht genügend ebener Platz zum Aufstellen des Zeltes (3x4 Blöcke benötigt)!",
   "message.mc3ver.tent_uneven_ground": "Der Boden ist uneben. Das Zelt benötigt 3x4 feste Blöcke als Untergrund!",
-  "message.mc3ver.tent_sleeping": "Gute Nacht, Entdecker! (Heimat-Spawnpunkt bleibt erhalten)"
+  "message.mc3ver.tent_sleeping": "Gute Nacht, Entdecker! (Heimat-Spawnpunkt bleibt erhalten)",
+  "item.mc3ver.white_flag": "Weiße Fahne",
+  "effect.mc3ver.pacifist": "Friedfertig",
+  "message.mc3ver.pacifist_on": "Du hisst die weiße Fahne. Monster lassen dich in Ruhe.",
+  "message.mc3ver.pacifist_off": "Du holst die weiße Fahne ein. Monster greifen dich wieder an.",
+  "message.mc3ver.peace_broken": "Du hast ein Monster angegriffen. Der Frieden ist gebrochen!"
 }
