@@ -28,23 +28,48 @@ public class PearTreeLogicTest {
     }
 
     @Test
-    void testLeafDropChances() {
-        // Base chances without Fortune (fortune = 0)
-        // Sapling base rate: 5% (0.05)
-        org.junit.jupiter.api.Assertions.assertTrue(PearTreeLogic.shouldDropSapling(0.04, 0));
-        org.junit.jupiter.api.Assertions.assertFalse(PearTreeLogic.shouldDropSapling(0.06, 0));
+    void testLeafLootTableMatchesDropChances() throws Exception {
+        java.nio.file.Path table = java.nio.file.Paths.get("").toAbsolutePath()
+            .resolve("src/main/resources/data/mc3ver/loot_table/blocks/pear_leaves.json");
+        com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(table)).getAsJsonObject();
+        org.junit.jupiter.api.Assertions.assertArrayEquals(PearTreeLogic.SAPLING_DROP_CHANCES, chancesFor(json, "mc3ver:pear_sapling"), 1e-6f);
+        org.junit.jupiter.api.Assertions.assertArrayEquals(PearTreeLogic.STICK_DROP_CHANCES, chancesFor(json, "minecraft:stick"), 1e-6f);
+        org.junit.jupiter.api.Assertions.assertArrayEquals(PearTreeLogic.PEAR_DROP_CHANCES, chancesFor(json, "mc3ver:pear"), 1e-6f);
+    }
 
-        // Pear base rate: 2.5% (0.025)
-        org.junit.jupiter.api.Assertions.assertTrue(PearTreeLogic.shouldDropPear(0.02, 0));
-        org.junit.jupiter.api.Assertions.assertFalse(PearTreeLogic.shouldDropPear(0.03, 0));
+    // Sucht die table_bonus-Chancen, die für das Item gelten (am Eintrag selbst oder am Pool)
+    static float[] chancesFor(com.google.gson.JsonObject lootTable, String item) {
+        for (com.google.gson.JsonElement pool : lootTable.getAsJsonArray("pools")) {
+            String poolText = pool.toString();
+            if (!poolText.contains("\"" + item + "\"")) continue;
+            java.util.List<com.google.gson.JsonObject> candidates = new java.util.ArrayList<>();
+            collectConditions(pool, item, candidates);
+            for (com.google.gson.JsonObject condition : candidates) {
+                if ("minecraft:table_bonus".equals(condition.get("condition").getAsString())) {
+                    com.google.gson.JsonArray chances = condition.getAsJsonArray("chances");
+                    float[] result = new float[chances.size()];
+                    for (int i = 0; i < result.length; i++) result[i] = chances.get(i).getAsFloat();
+                    return result;
+                }
+            }
+        }
+        throw new AssertionError("Keine table_bonus-Chance für " + item);
+    }
 
-        // Fortune 3 increases sapling drop rate to 10% (0.10)
-        org.junit.jupiter.api.Assertions.assertTrue(PearTreeLogic.shouldDropSapling(0.08, 3));
-        org.junit.jupiter.api.Assertions.assertFalse(PearTreeLogic.shouldDropSapling(0.12, 3));
-
-        // Fortune 3 increases pear drop rate to 6.25% (0.0625)
-        org.junit.jupiter.api.Assertions.assertTrue(PearTreeLogic.shouldDropPear(0.05, 3));
-        org.junit.jupiter.api.Assertions.assertFalse(PearTreeLogic.shouldDropPear(0.07, 3));
+    private static void collectConditions(com.google.gson.JsonElement node, String item, java.util.List<com.google.gson.JsonObject> out) {
+        if (node.isJsonObject()) {
+            com.google.gson.JsonObject obj = node.getAsJsonObject();
+            // Bedingungen an einem Eintrag gelten nur für dieses Item, Pool-Bedingungen für alle Einträge
+            if (obj.has("type") && obj.has("name") && !item.equals(obj.get("name").getAsString())) return;
+            if (obj.has("conditions")) {
+                for (com.google.gson.JsonElement c : obj.getAsJsonArray("conditions")) out.add(c.getAsJsonObject());
+            }
+            for (String key : obj.keySet()) {
+                if (!key.equals("conditions")) collectConditions(obj.get(key), item, out);
+            }
+        } else if (node.isJsonArray()) {
+            for (com.google.gson.JsonElement e : node.getAsJsonArray()) collectConditions(e, item, out);
+        }
     }
 
     @Test

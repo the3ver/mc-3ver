@@ -29,15 +29,11 @@ public class PearTreeLogic {
         return null;
     }
 
-    public static boolean shouldDropSapling(double roll, int fortuneLevel) {
-        double chance = 0.05 * (1.0 + Math.max(0, fortuneLevel) / 3.0);
-        return roll <= chance;
-    }
-
-    public static boolean shouldDropPear(double roll, int fortuneLevel) {
-        double chance = 0.025 * (1.0 + Math.max(0, fortuneLevel) * 0.5);
-        return roll <= chance;
-    }
+    // Dropchancen des Birnenlaubs je Glücksstufe (Index = Fortune-Level, letzter Wert gilt darüber hinaus).
+    // Einzige Quelle für loot_table/blocks/pear_leaves.json, ein Test hält beide synchron.
+    public static final float[] SAPLING_DROP_CHANCES = {0.1f};
+    public static final float[] STICK_DROP_CHANCES = {0.08f};
+    public static final float[] PEAR_DROP_CHANCES = {0.06f};
 
     public static int getFuelDurationTicks(String itemName) {
         if ("pear_boat".equals(itemName) || "pear_chest_boat".equals(itemName)) {

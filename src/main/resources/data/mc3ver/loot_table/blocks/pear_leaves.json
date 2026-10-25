@@ -26,8 +26,11 @@
                   "condition": "minecraft:survives_explosion"
                 },
                 {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.10
+                  "condition": "minecraft:table_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "chances": [
+                    0.1
+                  ]
                 }
               ],
               "name": "mc3ver:pear_sapling"
@@ -53,8 +56,11 @@
           "condition": "minecraft:survives_explosion"
         },
         {
-          "condition": "minecraft:random_chance",
-          "chance": 0.08
+          "condition": "minecraft:table_bonus",
+          "enchantment": "minecraft:fortune",
+          "chances": [
+            0.08
+          ]
         }
       ],
       "entries": [
@@ -91,8 +97,11 @@
           "condition": "minecraft:survives_explosion"
         },
         {
-          "condition": "minecraft:random_chance",
-          "chance": 0.06
+          "condition": "minecraft:table_bonus",
+          "enchantment": "minecraft:fortune",
+          "chances": [
+            0.06
+          ]
         }
       ],
       "entries": [
