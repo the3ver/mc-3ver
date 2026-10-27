@@ -1,12 +1,9 @@
 package net.frank.mc3ver.transport;
 
+import net.frank.mc3ver.teleport.ChannelTeleport;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,7 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public class TransportMapItem extends Item {
@@ -64,28 +60,7 @@ public class TransportMapItem extends Item {
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
         int ticksUsed = getUseDuration(stack, livingEntity) - remainingUseDuration;
 
-        if (level.isClientSide()) {
-            double x = livingEntity.getX() + (level.getRandom().nextDouble() - 0.5) * 1.5;
-            double y = livingEntity.getY() + level.getRandom().nextDouble() * 2.0;
-            double z = livingEntity.getZ() + (level.getRandom().nextDouble() - 0.5) * 1.5;
-
-            level.addParticle(ParticleTypes.PORTAL, x, y, z,
-                (level.getRandom().nextDouble() - 0.5) * 2.0,
-                (level.getRandom().nextDouble() - 0.5) * 2.0,
-                (level.getRandom().nextDouble() - 0.5) * 2.0);
-        }
-
-        if (ticksUsed % 10 == 0) {
-            float pitch = 0.8f + ((float) ticksUsed / TransportFlameLogic.CHANNELING_TICKS) * 0.6f;
-            level.playSound(
-                null,
-                livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
-                SoundEvents.PORTAL_TRIGGER,
-                SoundSource.PLAYERS,
-                0.5f,
-                pitch
-            );
-        }
+        ChannelTeleport.channelEffects(level, livingEntity, ticksUsed, TransportFlameLogic.CHANNELING_TICKS);
     }
 
     @Override
@@ -103,11 +78,7 @@ public class TransportMapItem extends Item {
                 return stack;
             }
 
-            ResourceKey<Level> targetDimKey = ResourceKey.create(
-                Registries.DIMENSION,
-                Identifier.parse(target.dimension())
-            );
-            ServerLevel targetLevel = server.getLevel(targetDimKey);
+            ServerLevel targetLevel = ChannelTeleport.resolveLevel(server, target.dimension());
 
             if (targetLevel == null) {
                 player.sendSystemMessage(Component.translatable("message.mc3ver.flame_extinguished").withStyle(ChatFormatting.RED));
@@ -136,9 +107,7 @@ public class TransportMapItem extends Item {
                 }
                 case SUCCESS -> {
                     double[] coords = TransportFlameLogic.calculateArrivalCoordinates(target);
-                    player.teleportTo(targetLevel, coords[0], coords[1], coords[2], Set.of(), player.getYRot(), player.getXRot(), false);
-                    
-                    targetLevel.playSound(null, coords[0], coords[1], coords[2], SoundEvents.PORTAL_TRAVEL, SoundSource.PLAYERS, 0.8f, 1.0f);
+                    ChannelTeleport.teleport(player, targetLevel, coords[0], coords[1], coords[2]);
                     player.sendSystemMessage(Component.translatable("message.mc3ver.teleport_success").withStyle(ChatFormatting.AQUA));
                     
                     player.getCooldowns().addCooldown(stack, TransportFlameLogic.COOLDOWN_TICKS);
