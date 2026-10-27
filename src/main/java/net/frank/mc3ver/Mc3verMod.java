@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class Mc3verMod implements ModInitializer {
 	public static final String MOD_ID = "mc3ver";
 	public static final String MOD_NAME = "WorldExplorerMod";
-	public static final String MOD_VERSION = "0.6.3";
+	public static final String MOD_VERSION = "0.7.0";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -31,6 +31,7 @@ public class Mc3verMod implements ModInitializer {
 		net.frank.mc3ver.tent.ModTentItems.register();
 		net.frank.mc3ver.peace.ModPeace.register();
 		net.frank.mc3ver.bonfire.ModBonfire.register();
+		net.frank.mc3ver.friend.ModFriendStone.register();
 
 		// Event: Spieler betritt die Welt
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {

@@ -60,6 +60,9 @@ public class TransportMapItem extends Item {
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
         int ticksUsed = getUseDuration(stack, livingEntity) - remainingUseDuration;
 
+        if (ChannelTeleport.interruptIfHurt(level, livingEntity, ticksUsed)) {
+            return;
+        }
         ChannelTeleport.channelEffects(level, livingEntity, ticksUsed, TransportFlameLogic.CHANNELING_TICKS);
     }
 

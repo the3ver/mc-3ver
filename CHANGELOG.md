@@ -4,6 +4,18 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.7.0] - 2026-10-27
+
+### ✨ Neu hinzugefügt
+* **Freundschaftsstein:** Neues Item für LAN-Partys. Sneak + Rechtsklick prägt einen ungeprägten Stein auf dich. Er heißt dann "Freundschaftsstein von <Name>" und zeigt ein Herz-Icon. Den geprägten Stein gibst du einem Freund.
+* **Teleport:** Wer den Stein hält, hält Rechtsklick 2,5 Sekunden gedrückt und landet neben dem Spieler, der ihn geprägt hat. Funktioniert auch in Nether und End. Abklingzeit 30 Sekunden. Ein Treffer während des Kanalisierens bricht den Vorgang ab, das gilt jetzt auch für die Transportkarte.
+* **Nachricht:** Wer den Stein geprägt hat, bekommt eine Meldung, dass jemand kommt. Ist er offline, passiert nichts.
+* **Aktionsleiste:** Solange der Stein in der Hand liegt, zeigt die Aktionsleiste Entfernung in Blöcken und Himmelsrichtung zum Freund. Ist der Freund in einer anderen Dimension, steht die Dimension dort.
+* **Entwerten:** Sneak + Rechtsklick auf einen eigenen geprägten Stein entwertet alle Steine, die du je ausgegeben hast.
+* **Rezept:** 4 Amethystscherben um eine Enderperle ergeben 2 Steine. Ungeprägte Steine stapeln bis 16.
+
+---
+
 ## [0.6.3] - 2026-10-25
 
 ### ✨ Neu hinzugefügt

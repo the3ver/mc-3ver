@@ -1,0 +1,15 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "minecraft:has_component",
+    "component": "mc3ver:friend_link",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "mc3ver:item/friendship_stone"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "mc3ver:item/friendship_stone_bound"
+    }
+  }
+}

@@ -1,7 +1,9 @@
 package net.frank.mc3ver.teleport;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -42,6 +44,20 @@ public final class ChannelTeleport {
                 pitch
             );
         }
+    }
+
+    // Ein Treffer während des Kanalisierens bricht ab, damit der Teleport kein Fluchtknopf im Kampf ist
+    public static boolean interruptIfHurt(Level level, LivingEntity entity, int ticksUsed) {
+        if (ticksUsed <= 0 || entity.hurtTime <= 0) {
+            return false;
+        }
+        entity.stopUsingItem();
+        if (!level.isClientSide() && entity instanceof ServerPlayer player) {
+            player.sendOverlayMessage(Component.translatable("message.mc3ver.teleport_interrupted").withStyle(ChatFormatting.RED));
+            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(),
+                SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 0.5f, 1.4f);
+        }
+        return true;
     }
 
     public static ServerLevel resolveLevel(MinecraftServer server, String dimensionId) {

@@ -4,6 +4,18 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-10-27
+
+### ✨ Added
+* **Friendship Stone:** New item for LAN parties. Sneak + right-click binds an unbound stone to you. It is then called "Friendship Stone of <Name>" and shows a heart icon. Give the bound stone to a friend.
+* **Teleport:** Hold right-click for 2.5 seconds to teleport next to the player who bound the stone. Works in the Nether and the End. Cooldown is 30 seconds. Taking a hit during channeling cancels the teleport, and this now applies to the transport map too.
+* **Notification:** The player who bound the stone receives a message that someone is coming. If they are offline, nothing happens.
+* **Action bar:** While holding the stone, the action bar shows distance in blocks and compass direction to the friend. If the friend is in another dimension, the dimension is shown instead.
+* **Revoke:** Sneak + right-click on one of your own bound stones revokes all stones you ever handed out.
+* **Recipe:** 4 amethyst shards around an ender pearl make 2 stones. Unbound stones stack to 16.
+
+---
+
 ## [0.6.3] - 2026-10-25
 
 ### ✨ Added
