@@ -46,7 +46,7 @@
 
 #### Schritt 3: WorldExplorerMod herunterladen
 1. Gehe zu den [GitHub Releases von WorldExplorerMod](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.6.3.jar` herunter.
+2. Lade die Datei `mc-3ver-0.7.0.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -54,7 +54,7 @@
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.6.3.jar`** in diesen `mods`-Ordner.
+3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.7.0.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
@@ -70,7 +70,7 @@
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.6.3.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Ziehe die heruntergeladene `mc-3ver-0.7.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
@@ -78,7 +78,7 @@
 ### Variante C: Dedizierter Server (Multiplayer)
 
 1. Richte einen Minecraft 26.2 Fabric-Server ein.
-2. Platziere `fabric-api-...jar` und `mc-3ver-0.6.3.jar` im `mods/`-Ordner auf dem Server.
+2. Platziere `fabric-api-...jar` und `mc-3ver-0.7.0.jar` im `mods/`-Ordner auf dem Server.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
@@ -117,6 +117,14 @@
   * Rechtsklick hisst die Fahne: Der Dauer-Effekt *Friedfertig* sorgt dafür, dass Monster dich nicht angreifen und dir keinen Schaden zufügen.
   * Greifst du selbst ein Monster an, ist der Frieden gebrochen: Effekt weg, Fahne 30 Sekunden gesperrt.
   * **Crafting:** 3 Stöcke links als Spalte, 4 weiße Wolle rechts daneben.
+* **💎 Freundschaftsstein (Friendship Stone):**
+  * Sneak + Rechtsklick prägt einen ungeprägten Stein auf dich. Er heißt dann 'Freundschaftsstein von <Name>' und zeigt ein Herz. Den gibst du einem Freund.
+  * Wer den Stein hält, hält Rechtsklick 2,5 Sekunden gedrückt und landet neben dem Spieler, der ihn geprägt hat. Klappt in Nether und End. Abklingzeit 30 Sekunden.
+  * Ein Treffer während des Kanalisierens bricht ab, auch bei der Transportkarte.
+  * Der Freund bekommt eine Meldung, dass du kommst. Ist er offline, passiert nichts.
+  * Solange der Stein in der Hand ist, zeigt die Aktionsleiste Entfernung und Richtung zum Freund oder seine aktuelle Dimension.
+  * Sneak + Rechtsklick auf einen eigenen geprägten Stein entwertet alle Steine, die du je ausgegeben hast. Für beide Richtungen prägt jeder einen Stein und ihr tauscht.
+  * **Crafting:** 4 Amethystscherben um eine Enderperle, ergibt 2 Steine. Ungeprägt stapelbar bis 16.
 * **🔥 Signalfeuer (Bonfire):**
   * Hoher Holzstoß aus dicken Stämmen auf 3x3 Feldern. Eine Rauchfahne steigt 64 Blöcke auf, treibt im Wind und ist über die volle Render-Distanz sichtbar.
   * Schaufel oder Wassereimer löscht es, Feuerzeug oder Feuerkugel zündet es an. Brennend Lichtstufe 15 und Feuerschaden.

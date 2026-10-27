@@ -45,6 +45,8 @@ const TRANSLATIONS = {
     "features.flag.desc": "Hisse die Fahne per Rechtsklick: Monster ignorieren dich und können dir nicht schaden. Greifst du selbst an, ist der Frieden für 30 Sekunden gebrochen.",
     "features.bonfire.title": "🔥 Signalfeuer",
     "features.bonfire.desc": "Hoher Holzstoß auf 3x3 Feldern. Die Rauchfahne steigt 64 Blöcke auf, treibt im Wind und ist über die volle Render-Distanz sichtbar. Farbstoffe färben den Rauch. Mit Schaufel oder Wasser löschen, mit Feuerzeug anzünden.",
+    "features.friend.title": "💎 Freundschaftsstein",
+    "features.friend.desc": "Präge einen Amethyststein auf dich und gib ihn einem Freund. Er teleportiert sich mit 2,5 Sekunden Haltezeit zu dir, egal in welcher Dimension.",
 
     "recipes.title": "Rezepte & Crafting",
     "recipes.subtitle": "Offizielle Herstellungsrezepte für Werkbank und Inventar im Überblick.",
@@ -112,7 +114,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.2 herunter und installiere die passende <strong>Fabric API</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.6.3.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.7.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -195,6 +197,8 @@ const TRANSLATIONS = {
     "features.flag.desc": "Raise the flag with a right-click: monsters ignore you and cannot hurt you. Attack one yourself and the peace is broken for 30 seconds.",
     "features.bonfire.title": "🔥 Bonfire",
     "features.bonfire.desc": "Tall woodpile on 3x3 blocks. Its smoke plume rises 64 blocks, drifts with the wind and is visible across the full render distance. Dyes color the smoke. Put it out with a shovel or water, light it with flint and steel.",
+    "features.friend.title": "💎 Friendship Stone",
+    "features.friend.desc": "Bind an amethyst stone to yourself and give it to a friend. They teleport to you by holding right-click for 2.5 seconds, across any dimension.",
 
     "recipes.title": "Recipes & Crafting",
     "recipes.subtitle": "Official crafting recipes for crafting tables and inventory.",
@@ -262,7 +266,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.2 and install the matching <strong>Fabric API</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.6.3.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.7.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -440,7 +444,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.6.3
+    // Graceful fallback to v0.7.0
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }
