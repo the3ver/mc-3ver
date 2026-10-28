@@ -1,5 +1,7 @@
 package net.frank.mc3ver.tent;
 
+import net.frank.mc3ver.DyeColors;
+
 public class ExplorerTentLogic {
 
     public static final int WIDTH = 3;
@@ -9,24 +11,7 @@ public class ExplorerTentLogic {
 
     public static final String DEFAULT_COLOR_NAME = "white";
 
-    public static final java.util.Map<String, Integer> DYE_COLOR_MAP = java.util.Map.ofEntries(
-        java.util.Map.entry("white", 0xF9FFFE),
-        java.util.Map.entry("orange", 0xF9801D),
-        java.util.Map.entry("magenta", 0xC74EBD),
-        java.util.Map.entry("light_blue", 0x3AB3DA),
-        java.util.Map.entry("yellow", 0xFED83D),
-        java.util.Map.entry("lime", 0x80C71F),
-        java.util.Map.entry("pink", 0xF38BAA),
-        java.util.Map.entry("gray", 0x474F52),
-        java.util.Map.entry("light_gray", 0x9D9D97),
-        java.util.Map.entry("cyan", 0x169C9C),
-        java.util.Map.entry("purple", 0x8932B8),
-        java.util.Map.entry("blue", 0x3C44AA),
-        java.util.Map.entry("brown", 0x835432),
-        java.util.Map.entry("green", 0x5E7C16),
-        java.util.Map.entry("red", 0xB02E26),
-        java.util.Map.entry("black", 0x1D1D21)
-    );
+    public static final java.util.Map<String, Integer> DYE_COLOR_MAP = DyeColors.BY_NAME;
 
     public static final java.util.Set<String> ALL_DYE_COLORS = DYE_COLOR_MAP.keySet();
 

@@ -1,6 +1,8 @@
 package net.frank.mc3ver.bonfire;
 
+import net.frank.mc3ver.DyeColors;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.DyeColor;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -86,31 +88,33 @@ public final class BonfireLogic {
 
     // Rauchfarbe: NONE ist der graue Normalrauch, die übrigen heißen wie die 16 Vanilla-Farbstoffe
     public enum SmokeColor implements StringRepresentable {
-        NONE(0xD8D8D8),
-        WHITE(0xF9FFFE),
-        ORANGE(0xF9801D),
-        MAGENTA(0xC74EBD),
-        LIGHT_BLUE(0x3AB3DA),
-        YELLOW(0xFED83D),
-        LIME(0x80C71F),
-        PINK(0xF38BAA),
-        GRAY(0x474F52),
-        LIGHT_GRAY(0x9D9D97),
-        CYAN(0x169C9C),
-        PURPLE(0x8932B8),
-        BLUE(0x3C44AA),
-        BROWN(0x835432),
-        GREEN(0x5E7C16),
-        RED(0xB02E26),
-        BLACK(0x1D1D21);
+        NONE(null),
+        WHITE(DyeColor.WHITE),
+        ORANGE(DyeColor.ORANGE),
+        MAGENTA(DyeColor.MAGENTA),
+        LIGHT_BLUE(DyeColor.LIGHT_BLUE),
+        YELLOW(DyeColor.YELLOW),
+        LIME(DyeColor.LIME),
+        PINK(DyeColor.PINK),
+        GRAY(DyeColor.GRAY),
+        LIGHT_GRAY(DyeColor.LIGHT_GRAY),
+        CYAN(DyeColor.CYAN),
+        PURPLE(DyeColor.PURPLE),
+        BLUE(DyeColor.BLUE),
+        BROWN(DyeColor.BROWN),
+        GREEN(DyeColor.GREEN),
+        RED(DyeColor.RED),
+        BLACK(DyeColor.BLACK);
 
         // Anteil Weiß, den gefärbter Rauch beigemischt bekommt, damit dunkle Farben am Himmel nicht wie ein Loch wirken
         public static final double LIGHTEN = 0.3;
 
+        private static final int UNDYED_RGB = 0xD8D8D8;
+
         private final int dyeRgb;
 
-        SmokeColor(int dyeRgb) {
-            this.dyeRgb = dyeRgb;
+        SmokeColor(DyeColor dye) {
+            this.dyeRgb = dye == null ? UNDYED_RGB : DyeColors.rgb(dye);
         }
 
         public static Optional<SmokeColor> fromDyeName(String dyeName) {

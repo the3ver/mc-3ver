@@ -1,5 +1,6 @@
 package net.frank.mc3ver.transport;
 
+import net.frank.mc3ver.DyeColors;
 import net.minecraft.core.BlockPos;
 
 import java.util.HashMap;
@@ -10,24 +11,7 @@ import java.util.UUID;
 
 public class TransportFlameLogic {
 
-    public static final List<Integer> ALL_FLAME_COLORS = List.of(
-        0xF9FFFE, // White
-        0xF9801D, // Orange
-        0xC74EBD, // Magenta
-        0x3AB3DA, // Light Blue
-        0xFED83D, // Yellow
-        0x80C71F, // Lime
-        0xF38BAA, // Pink
-        0x474F52, // Gray
-        0x9D9D97, // Light Gray
-        0x169C9C, // Cyan
-        0x8932B8, // Purple
-        0x3C44AA, // Blue
-        0x835432, // Brown
-        0x5E7C16, // Green
-        0xB02E26, // Red
-        0x1D1D21  // Black
-    );
+    public static final List<Integer> ALL_FLAME_COLORS = DyeColors.ALL_RGB;
 
     public static final int CHANNELING_TICKS = 50; // 2.5 seconds at 20 ticks/sec
     public static final int COOLDOWN_TICKS = 600;  // 30 seconds at 20 ticks/sec
