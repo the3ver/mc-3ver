@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * **Translated dimension names:** The transport map tooltip showed "Overworld" or "The End" in every language. It now uses the translated names. The friendship stone action bar also shows just the dimension name, for example "Frank: Nether".
 
 ### 🔧 Internal
-* Cleanup: removed the dead `loot_tables/` folder and two unused classes, one shared base for transport map and friendship stone, one source for the 16 dye colors, client setup split by feature. Gameplay is unchanged.
+* Cleanup: removed the dead `loot_tables/` folder and two unused classes, one shared base for transport map and friendship stone, one source for the 16 dye colors, client setup split by feature, lightning wand and pear wood registration broken into small steps. Gameplay is unchanged.
 
 ---
 
