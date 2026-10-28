@@ -46,37 +46,8 @@ public class TransportFlameLogicTest {
     }
 
     @Test
-    void testChannelingProgressLifecycle() {
-        int requiredTicks = TransportFlameLogic.CHANNELING_TICKS;
-        assertEquals(50, requiredTicks, "Channeling must require 50 ticks (2.5 seconds)");
-
-        TransportFlameLogic.ChannelingSession session = new TransportFlameLogic.ChannelingSession();
-        assertFalse(session.isComplete());
-        assertEquals(0.0f, session.getProgress());
-
-        // Tick 25 times while holding use button
-        for (int i = 0; i < 25; i++) {
-            boolean finished = session.tick(true);
-            assertFalse(finished);
-        }
-        assertEquals(25, session.getTicksUsed());
-        assertEquals(0.5f, session.getProgress(), 0.001f);
-        assertFalse(session.isComplete());
-
-        // Cancel prematurely
-        session.tick(false);
-        assertEquals(0, session.getTicksUsed(), "Releasing use key must reset progress");
-        assertEquals(0.0f, session.getProgress());
-        assertFalse(session.isComplete());
-
-        // Now hold for full 50 ticks
-        boolean finished = false;
-        for (int i = 0; i < requiredTicks; i++) {
-            finished = session.tick(true);
-        }
-        assertTrue(finished, "Session must report finished when required ticks are reached");
-        assertTrue(session.isComplete());
-        assertEquals(1.0f, session.getProgress(), 0.001f);
+    void channelingTakesTwoAndAHalfSeconds() {
+        assertEquals(50, TransportFlameLogic.CHANNELING_TICKS, "Channeling must require 50 ticks (2.5 seconds)");
     }
 
     @Test

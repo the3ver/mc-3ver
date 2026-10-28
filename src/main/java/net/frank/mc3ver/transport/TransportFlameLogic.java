@@ -68,43 +68,6 @@ public class TransportFlameLogic {
         };
     }
 
-    public static class ChannelingSession {
-        private int ticksUsed = 0;
-        private boolean complete = false;
-
-        public boolean tick(boolean isUsingItem) {
-            if (!isUsingItem) {
-                ticksUsed = 0;
-                complete = false;
-                return false;
-            }
-
-            ticksUsed++;
-            if (ticksUsed >= CHANNELING_TICKS) {
-                complete = true;
-                return true;
-            }
-            return false;
-        }
-
-        public int getTicksUsed() {
-            return ticksUsed;
-        }
-
-        public float getProgress() {
-            return Math.min(1.0f, (float) ticksUsed / CHANNELING_TICKS);
-        }
-
-        public boolean isComplete() {
-            return complete;
-        }
-
-        public void reset() {
-            ticksUsed = 0;
-            complete = false;
-        }
-    }
-
     public static int getRandomFlameColorRgb(Random random) {
         return ALL_FLAME_COLORS.get(random.nextInt(ALL_FLAME_COLORS.size()));
     }
