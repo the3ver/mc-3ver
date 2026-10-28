@@ -2,7 +2,11 @@ package net.frank.mc3ver.wand;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class LightningWandLogicTest {
 
@@ -138,5 +142,31 @@ public class LightningWandLogicTest {
         assertEquals(19.0f, LightningWandLogic.calculateExtraDamage(24.0f, 5.0f), 0.001f);
         assertEquals(0.0f, LightningWandLogic.calculateExtraDamage(5.0f, 5.0f), 0.001f);
         assertEquals(0.0f, LightningWandLogic.calculateExtraDamage(3.0f, 5.0f), 0.001f);
+    }
+    @Test
+    void aimedTargetIsTheClosestOneAlongTheRay() {
+        // aimDistance > 0: anvisiert, Wert = Abstand entlang des Strahls; -1: nicht anvisiert
+        Map<String, Double> aim = Map.of("zombie", 12.0, "skeleton", 4.0, "cow", -1.0);
+        assertEquals("skeleton", LightningWandLogic.pickAimedTarget(List.of("zombie", "skeleton", "cow"), aim::get));
+    }
+
+    @Test
+    void noAimedTargetWhenNothingIsInSight() {
+        assertNull(LightningWandLogic.pickAimedTarget(List.of("cow"), c -> -1.0));
+        assertNull(LightningWandLogic.pickAimedTarget(List.<String>of(), c -> 5.0));
+    }
+
+    @Test
+    void chainJumpsToTheNearestTargetInsideTheRadius() {
+        // Quadrierte Abstände; Radius 8 heißt bis 64
+        Map<String, Double> distSq = Map.of("near", 9.0, "far", 49.0, "outside", 81.0);
+        assertEquals("near", LightningWandLogic.pickNearestInRange(List.of("far", "near", "outside"), distSq::get, 8.0));
+        assertEquals("far", LightningWandLogic.pickNearestInRange(List.of("far", "outside"), distSq::get, 8.0));
+        assertNull(LightningWandLogic.pickNearestInRange(List.of("outside"), distSq::get, 8.0));
+    }
+
+    @Test
+    void chainTargetExactlyOnTheRadiusCounts() {
+        assertEquals("edge", LightningWandLogic.pickNearestInRange(List.of("edge"), c -> 64.0, 8.0));
     }
 }

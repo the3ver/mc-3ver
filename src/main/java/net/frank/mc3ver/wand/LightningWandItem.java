@@ -98,26 +98,28 @@ public class LightningWandItem extends Item {
         }
     }
 
+    // Werte eines Schusses, alle abhängig davon, wie lange aufgeladen wurde
+    private record Charge(float ratio, float baseDamage, int durabilityCost) {
+        static Charge of(int chargeTicks) {
+            return new Charge(
+                LightningWandLogic.calculateChargeRatio(chargeTicks, LightningWandLogic.MAX_CHARGE_TICKS),
+                LightningWandLogic.calculateChargedDamage(
+                    LightningWandLogic.BASE_DAMAGE, LightningWandLogic.MAX_DAMAGE_MULTIPLIER,
+                    chargeTicks, LightningWandLogic.MAX_CHARGE_TICKS),
+                LightningWandLogic.calculateDurabilityCost(
+                    LightningWandLogic.MIN_DURABILITY_COST, LightningWandLogic.MAX_DURABILITY_COST,
+                    chargeTicks, LightningWandLogic.MAX_CHARGE_TICKS)
+            );
+        }
+    }
+
     @Override
     public boolean releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
         if (!(livingEntity instanceof Player player)) {
             return false;
         }
 
-        int chargeTicks = getUseDuration(stack, livingEntity) - timeLeft;
-        float chargeRatio = LightningWandLogic.calculateChargeRatio(chargeTicks, LightningWandLogic.MAX_CHARGE_TICKS);
-        float chargedBaseDamage = LightningWandLogic.calculateChargedDamage(
-            LightningWandLogic.BASE_DAMAGE,
-            LightningWandLogic.MAX_DAMAGE_MULTIPLIER,
-            chargeTicks,
-            LightningWandLogic.MAX_CHARGE_TICKS
-        );
-        int durabilityCost = LightningWandLogic.calculateDurabilityCost(
-            LightningWandLogic.MIN_DURABILITY_COST,
-            LightningWandLogic.MAX_DURABILITY_COST,
-            chargeTicks,
-            LightningWandLogic.MAX_CHARGE_TICKS
-        );
+        Charge charge = Charge.of(getUseDuration(stack, livingEntity) - timeLeft);
 
         // Sound beim Auslösen (wuchtiger bei höherer Aufladung)
         level.playSound(
@@ -127,215 +129,192 @@ public class LightningWandItem extends Item {
             player.getZ(),
             SoundEvents.LIGHTNING_BOLT_THUNDER,
             SoundSource.PLAYERS,
-            0.5f + chargeRatio * 0.5f,
-            1.8f - chargeRatio * 0.4f
+            0.5f + charge.ratio() * 0.5f,
+            1.8f - charge.ratio() * 0.4f
         );
 
         player.getCooldowns().addCooldown(stack, LightningWandLogic.COOLDOWN_TICKS);
 
         if (level instanceof ServerLevel serverLevel) {
-            Vec3 eyePos = player.getEyePosition();
-            Vec3 lookAngle = player.getLookAngle();
-            Vec3 endPos = eyePos.add(lookAngle.scale(LightningWandLogic.RANGE));
-
-            // Lebende Ziele im Umkreis suchen
-            AABB searchBox = player.getBoundingBox().inflate(LightningWandLogic.RANGE);
-            List<LivingEntity> potentialTargets = serverLevel.getEntitiesOfClass(
-                LivingEntity.class,
-                searchBox,
-                entity -> entity.isAlive() && !entity.isSpectator() && entity != player
-            );
-
-            LivingEntity primaryTarget = null;
-            double closestAimDistance = Double.MAX_VALUE;
-
-            for (LivingEntity candidate : potentialTargets) {
-                Vec3 targetCenter = candidate.position().add(0, candidate.getBbHeight() * 0.5, 0);
-                double tolerance = Math.max(1.0, candidate.getBbWidth() * 0.8 + 0.5);
-
-                double aimDist = LightningWandLogic.calculateAimDistance(
-                    eyePos.x, eyePos.y, eyePos.z,
-                    lookAngle.x, lookAngle.y, lookAngle.z,
-                    targetCenter.x, targetCenter.y, targetCenter.z,
-                    LightningWandLogic.RANGE,
-                    tolerance
-                );
-
-                if (aimDist > 0 && aimDist < closestAimDistance) {
-                    closestAimDistance = aimDist;
-                    primaryTarget = candidate;
-                }
-            }
-
-            if (primaryTarget != null) {
-                LivingEntity currentSource = player;
-                LivingEntity currentTarget = primaryTarget;
-                Set<UUID> hitEntities = new HashSet<>();
-                hitEntities.add(player.getUUID());
-
-                for (int chainIndex = 0; chainIndex < LightningWandLogic.MAX_CHAINS; chainIndex++) {
-                    if (currentTarget == null) {
-                        break;
-                    }
-
-                    hitEntities.add(currentTarget.getUUID());
-
-                    Vec3 startVec = currentSource == player ? player.getEyePosition() : currentSource.position().add(0, currentSource.getBbHeight() * 0.5, 0);
-                    Vec3 targetVec = currentTarget.position().add(0, currentTarget.getBbHeight() * 0.5, 0);
-
-                    // Blitz-Partikel-Bogen zwischen Quelle und Ziel
-                    spawnLightningArc(serverLevel, startVec, targetVec, chargeRatio);
-
-                    // Schaden berechnen und austeilen (skaliert mit Aufladung)
-                    float damage = LightningWandLogic.calculateDamage(
-                        chargedBaseDamage,
-                        LightningWandLogic.DAMAGE_DECAY,
-                        chainIndex
-                    );
-
-                    // Echter Blitz-Treffer (lädt Creeper auf, konvertiert Schweine/Villager etc.)
-                    LightningBolt bolt = EntityTypes.LIGHTNING_BOLT.create(serverLevel, EntitySpawnReason.TRIGGERED);
-                    if (bolt != null) {
-                        bolt.setPos(currentTarget.position());
-                        bolt.setVisualOnly(true);
-                        if (player instanceof ServerPlayer sp) {
-                            bolt.setCause(sp);
-                        }
-                    }
-                    currentTarget.thunderHit(serverLevel, bolt);
-
-                    // Zusätzlichen Magieschaden austeilen, falls der Stab-Schaden höher als der Grundblitz (5.0) ist
-                    float extraDamage = LightningWandLogic.calculateExtraDamage(damage, LightningWandLogic.THUNDER_HIT_DAMAGE);
-                    if (extraDamage > 0 && currentTarget.isAlive()) {
-                        currentTarget.hurtServer(serverLevel, serverLevel.damageSources().indirectMagic(player, player), extraDamage);
-                    }
-
-                    // Sound und Funken am getroffenen Ziel
-                    serverLevel.playSound(
-                        null,
-                        currentTarget.getX(),
-                        currentTarget.getY(),
-                        currentTarget.getZ(),
-                        SoundEvents.LIGHTNING_BOLT_IMPACT,
-                        SoundSource.PLAYERS,
-                        0.4f,
-                        1.5f + (chainIndex * 0.1f)
-                    );
-                    int sparkCount = (int) (12 + chargeRatio * 18);
-                    serverLevel.sendParticles(
-                        ParticleTypes.ELECTRIC_SPARK,
-                        targetVec.x,
-                        targetVec.y,
-                        targetVec.z,
-                        sparkCount,
-                        0.3,
-                        0.3,
-                        0.3,
-                        0.05
-                    );
-
-                    // Nächstes Ziel in der Kette finden
-                    currentSource = currentTarget;
-                    LivingEntity nextTarget = null;
-                    double closestDistanceSq = Double.MAX_VALUE;
-
-                    AABB chainBox = currentSource.getBoundingBox().inflate(LightningWandLogic.CHAIN_RADIUS);
-                    List<LivingEntity> chainCandidates = serverLevel.getEntitiesOfClass(
-                        LivingEntity.class,
-                        chainBox,
-                        entity -> entity.isAlive() && !entity.isSpectator() && !hitEntities.contains(entity.getUUID())
-                    );
-
-                    for (LivingEntity candidate : chainCandidates) {
-                        double distSq = currentSource.distanceToSqr(candidate);
-                        if (LightningWandLogic.isWithinRange(
-                            currentSource.getX(), currentSource.getY(), currentSource.getZ(),
-                            candidate.getX(), candidate.getY(), candidate.getZ(),
-                            LightningWandLogic.CHAIN_RADIUS
-                        ) && distSq < closestDistanceSq) {
-                            closestDistanceSq = distSq;
-                            nextTarget = candidate;
-                        }
-                    }
-
-                    currentTarget = nextTarget;
-                }
-
-                // Haltbarkeit verringern (skaliert mit Aufladung)
-                if (player instanceof ServerPlayer serverPlayer) {
-                    stack.hurtAndBreak(
-                        durabilityCost,
-                        serverLevel,
-                        serverPlayer,
-                        item -> player.onEquippedItemBroken(item, player.getUsedItemHand() == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND)
-                    );
-                }
-            } else {
-                // Kein Mob anvisiert: Block-Raycast prüfen
-                BlockHitResult blockHit = serverLevel.clip(new ClipContext(
-                    eyePos,
-                    endPos,
-                    ClipContext.Block.COLLIDER,
-                    ClipContext.Fluid.NONE,
-                    player
-                ));
-
-                if (blockHit.getType() == HitResult.Type.BLOCK) {
-                    Vec3 hitVec = blockHit.getLocation();
-                    BlockPos hitPos = blockHit.getBlockPos();
-                    Direction face = blockHit.getDirection();
-                    BlockState targetState = serverLevel.getBlockState(hitPos);
-
-                    // Blitzstrahl direkt auf den Block feuern (kein Kettensprung)
-                    spawnLightningArc(serverLevel, eyePos, hitVec, chargeRatio);
-                    int blockSparks = (int) (15 + chargeRatio * 20);
-                    serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK, hitVec.x, hitVec.y, hitVec.z, blockSparks, 0.2, 0.2, 0.2, 0.05);
-                    serverLevel.playSound(null, hitPos.getX(), hitPos.getY(), hitPos.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.BLOCKS, 0.5f + chargeRatio * 0.3f, 1.6f);
-
-                    // Brennbarkeit prüfen und ggf. in Brand setzen
-                    if (targetState.is(Blocks.TNT)) {
-                        TntBlock.prime(serverLevel, hitPos);
-                        serverLevel.removeBlock(hitPos, false);
-                    } else if (targetState.hasProperty(BlockStateProperties.LIT)
-                        && !targetState.getValue(BlockStateProperties.LIT)) {
-                        serverLevel.setBlock(hitPos, targetState.setValue(BlockStateProperties.LIT, true), 11);
-                        serverLevel.playSound(null, hitPos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
-                    } else if (isFlammableBlock(targetState)) {
-                        BlockPos firePos = hitPos.relative(face);
-                        if (BaseFireBlock.canBePlacedAt(serverLevel, firePos, face)) {
-                            serverLevel.setBlock(firePos, BaseFireBlock.getState(serverLevel, firePos), 11);
-                            serverLevel.playSound(null, firePos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
-                        } else {
-                            BlockPos topPos = hitPos.above();
-                            if (serverLevel.getBlockState(topPos).isAir()
-                                && BaseFireBlock.canBePlacedAt(serverLevel, topPos, Direction.UP)) {
-                                serverLevel.setBlock(topPos, BaseFireBlock.getState(serverLevel, topPos), 11);
-                                serverLevel.playSound(null, topPos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
-                            }
-                        }
-                    }
-
-                    // Haltbarkeit verringern (skaliert mit Aufladung)
-                    if (player instanceof ServerPlayer serverPlayer) {
-                        stack.hurtAndBreak(
-                            durabilityCost,
-                            serverLevel,
-                            serverPlayer,
-                            item -> player.onEquippedItemBroken(item, player.getUsedItemHand() == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND)
-                        );
-                    }
-                } else {
-                    // Weder Mob noch Block getroffen (in den Himmel geschossen)
-                    spawnLightningArc(serverLevel, eyePos, endPos, chargeRatio);
-                }
-            }
+            fire(stack, serverLevel, player, charge);
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
         return true;
     }
 
-    private void spawnLightningArc(ServerLevel level, Vec3 from, Vec3 to, float chargeRatio) {
+    // Erst ein anvisiertes Lebewesen (Kettenblitz), sonst ein Block (anzünden), sonst ein Strahl in die Luft
+    private static void fire(ItemStack stack, ServerLevel level, Player player, Charge charge) {
+        Vec3 eyePos = player.getEyePosition();
+        Vec3 lookAngle = player.getLookAngle();
+        Vec3 endPos = eyePos.add(lookAngle.scale(LightningWandLogic.RANGE));
+
+        LivingEntity primaryTarget = findAimedTarget(level, player, eyePos, lookAngle);
+        if (primaryTarget != null) {
+            strikeChain(level, player, primaryTarget, charge);
+            damageWand(stack, level, player, charge.durabilityCost());
+            return;
+        }
+
+        BlockHitResult blockHit = level.clip(new ClipContext(
+            eyePos,
+            endPos,
+            ClipContext.Block.COLLIDER,
+            ClipContext.Fluid.NONE,
+            player
+        ));
+        if (blockHit.getType() == HitResult.Type.BLOCK) {
+            strikeBlock(level, eyePos, blockHit, charge.ratio());
+            damageWand(stack, level, player, charge.durabilityCost());
+            return;
+        }
+
+        // Weder Mob noch Block getroffen (in den Himmel geschossen)
+        spawnLightningArc(level, eyePos, endPos, charge.ratio());
+    }
+
+    private static LivingEntity findAimedTarget(ServerLevel level, Player player, Vec3 eyePos, Vec3 lookAngle) {
+        AABB searchBox = player.getBoundingBox().inflate(LightningWandLogic.RANGE);
+        List<LivingEntity> potentialTargets = level.getEntitiesOfClass(
+            LivingEntity.class,
+            searchBox,
+            entity -> entity.isAlive() && !entity.isSpectator() && entity != player
+        );
+        return LightningWandLogic.pickAimedTarget(potentialTargets, candidate -> {
+            Vec3 targetCenter = center(candidate);
+            double tolerance = Math.max(1.0, candidate.getBbWidth() * 0.8 + 0.5);
+            return LightningWandLogic.calculateAimDistance(
+                eyePos.x, eyePos.y, eyePos.z,
+                lookAngle.x, lookAngle.y, lookAngle.z,
+                targetCenter.x, targetCenter.y, targetCenter.z,
+                LightningWandLogic.RANGE,
+                tolerance
+            );
+        });
+    }
+
+    private static void strikeChain(ServerLevel level, Player player, LivingEntity primaryTarget, Charge charge) {
+        LivingEntity currentSource = player;
+        LivingEntity currentTarget = primaryTarget;
+        Set<UUID> hitEntities = new HashSet<>();
+        hitEntities.add(player.getUUID());
+
+        for (int chainIndex = 0; chainIndex < LightningWandLogic.MAX_CHAINS && currentTarget != null; chainIndex++) {
+            hitEntities.add(currentTarget.getUUID());
+            Vec3 startVec = currentSource == player ? player.getEyePosition() : center(currentSource);
+            strikeEntity(level, player, startVec, currentTarget, chainIndex, charge);
+
+            currentSource = currentTarget;
+            currentTarget = findNextChainTarget(level, currentSource, hitEntities);
+        }
+    }
+
+    private static void strikeEntity(ServerLevel level, Player player, Vec3 startVec, LivingEntity target,
+                                     int chainIndex, Charge charge) {
+        Vec3 targetVec = center(target);
+
+        // Blitz-Partikel-Bogen zwischen Quelle und Ziel
+        spawnLightningArc(level, startVec, targetVec, charge.ratio());
+
+        // Schaden berechnen und austeilen (skaliert mit Aufladung)
+        float damage = LightningWandLogic.calculateDamage(charge.baseDamage(), LightningWandLogic.DAMAGE_DECAY, chainIndex);
+
+        // Echter Blitz-Treffer (lädt Creeper auf, konvertiert Schweine/Villager etc.)
+        LightningBolt bolt = EntityTypes.LIGHTNING_BOLT.create(level, EntitySpawnReason.TRIGGERED);
+        if (bolt != null) {
+            bolt.setPos(target.position());
+            bolt.setVisualOnly(true);
+            if (player instanceof ServerPlayer sp) {
+                bolt.setCause(sp);
+            }
+        }
+        target.thunderHit(level, bolt);
+
+        // Zusätzlichen Magieschaden austeilen, falls der Stab-Schaden höher als der Grundblitz (5.0) ist
+        float extraDamage = LightningWandLogic.calculateExtraDamage(damage, LightningWandLogic.THUNDER_HIT_DAMAGE);
+        if (extraDamage > 0 && target.isAlive()) {
+            target.hurtServer(level, level.damageSources().indirectMagic(player, player), extraDamage);
+        }
+
+        // Sound und Funken am getroffenen Ziel
+        level.playSound(
+            null,
+            target.getX(),
+            target.getY(),
+            target.getZ(),
+            SoundEvents.LIGHTNING_BOLT_IMPACT,
+            SoundSource.PLAYERS,
+            0.4f,
+            1.5f + (chainIndex * 0.1f)
+        );
+        int sparkCount = (int) (12 + charge.ratio() * 18);
+        level.sendParticles(ParticleTypes.ELECTRIC_SPARK, targetVec.x, targetVec.y, targetVec.z, sparkCount, 0.3, 0.3, 0.3, 0.05);
+    }
+
+    private static LivingEntity findNextChainTarget(ServerLevel level, LivingEntity source, Set<UUID> hitEntities) {
+        AABB chainBox = source.getBoundingBox().inflate(LightningWandLogic.CHAIN_RADIUS);
+        List<LivingEntity> chainCandidates = level.getEntitiesOfClass(
+            LivingEntity.class,
+            chainBox,
+            entity -> entity.isAlive() && !entity.isSpectator() && !hitEntities.contains(entity.getUUID())
+        );
+        return LightningWandLogic.pickNearestInRange(chainCandidates, source::distanceToSqr, LightningWandLogic.CHAIN_RADIUS);
+    }
+
+    // Blitzstrahl direkt auf den Block (kein Kettensprung), danach anzünden, was brennt
+    private static void strikeBlock(ServerLevel level, Vec3 eyePos, BlockHitResult blockHit, float chargeRatio) {
+        Vec3 hitVec = blockHit.getLocation();
+        BlockPos hitPos = blockHit.getBlockPos();
+
+        spawnLightningArc(level, eyePos, hitVec, chargeRatio);
+        int blockSparks = (int) (15 + chargeRatio * 20);
+        level.sendParticles(ParticleTypes.ELECTRIC_SPARK, hitVec.x, hitVec.y, hitVec.z, blockSparks, 0.2, 0.2, 0.2, 0.05);
+        level.playSound(null, hitPos.getX(), hitPos.getY(), hitPos.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.BLOCKS, 0.5f + chargeRatio * 0.3f, 1.6f);
+
+        igniteBlock(level, hitPos, blockHit.getDirection(), level.getBlockState(hitPos));
+    }
+
+    private static void igniteBlock(ServerLevel level, BlockPos hitPos, Direction face, BlockState targetState) {
+        if (targetState.is(Blocks.TNT)) {
+            TntBlock.prime(level, hitPos);
+            level.removeBlock(hitPos, false);
+        } else if (targetState.hasProperty(BlockStateProperties.LIT)
+            && !targetState.getValue(BlockStateProperties.LIT)) {
+            level.setBlock(hitPos, targetState.setValue(BlockStateProperties.LIT, true), 11);
+            level.playSound(null, hitPos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
+        } else if (isFlammableBlock(targetState)) {
+            BlockPos firePos = hitPos.relative(face);
+            if (BaseFireBlock.canBePlacedAt(level, firePos, face)) {
+                level.setBlock(firePos, BaseFireBlock.getState(level, firePos), 11);
+                level.playSound(null, firePos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
+            } else {
+                BlockPos topPos = hitPos.above();
+                if (level.getBlockState(topPos).isAir()
+                    && BaseFireBlock.canBePlacedAt(level, topPos, Direction.UP)) {
+                    level.setBlock(topPos, BaseFireBlock.getState(level, topPos), 11);
+                    level.playSound(null, topPos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
+                }
+            }
+        }
+    }
+
+    // Haltbarkeit verringern (skaliert mit Aufladung)
+    private static void damageWand(ItemStack stack, ServerLevel level, Player player, int durabilityCost) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            stack.hurtAndBreak(
+                durabilityCost,
+                level,
+                serverPlayer,
+                item -> player.onEquippedItemBroken(item, player.getUsedItemHand() == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND)
+            );
+        }
+    }
+
+    private static Vec3 center(LivingEntity entity) {
+        return entity.position().add(0, entity.getBbHeight() * 0.5, 0);
+    }
+
+    private static void spawnLightningArc(ServerLevel level, Vec3 from, Vec3 to, float chargeRatio) {
         Vec3 diff = to.subtract(from);
         double distance = diff.length();
         int particleCount = Math.max(5, (int) (distance * (3 + chargeRatio * 2)));
@@ -357,7 +336,7 @@ public class LightningWandItem extends Item {
         }
     }
 
-    private boolean isFlammableBlock(BlockState state) {
+    private static boolean isFlammableBlock(BlockState state) {
         if (state.ignitedByLava()) {
             return true;
         }

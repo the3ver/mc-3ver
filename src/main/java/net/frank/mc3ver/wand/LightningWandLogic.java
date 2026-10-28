@@ -1,5 +1,8 @@
 package net.frank.mc3ver.wand;
 
+import java.util.List;
+import java.util.function.ToDoubleFunction;
+
 public class LightningWandLogic {
 
     public static final int COOLDOWN_TICKS = 30;
@@ -133,5 +136,33 @@ public class LightningWandLogic {
 
     public static float calculateExtraDamage(float wandDamage, float thunderHitDamage) {
         return Math.max(0.0f, wandDamage - thunderHitDamage);
+    }
+
+    // Erstes Ziel: das Kandidat-Ziel mit dem kürzesten Abstand entlang der Blickrichtung (aimDistance > 0 heißt anvisiert)
+    public static <T> T pickAimedTarget(List<T> candidates, ToDoubleFunction<T> aimDistance) {
+        T best = null;
+        double closest = Double.MAX_VALUE;
+        for (T candidate : candidates) {
+            double distance = aimDistance.applyAsDouble(candidate);
+            if (distance > 0 && distance < closest) {
+                closest = distance;
+                best = candidate;
+            }
+        }
+        return best;
+    }
+
+    // Kettensprung: das nächste Ziel innerhalb des Radius, gemessen als quadrierter Abstand
+    public static <T> T pickNearestInRange(List<T> candidates, ToDoubleFunction<T> distanceSq, double radius) {
+        T best = null;
+        double closest = Double.MAX_VALUE;
+        for (T candidate : candidates) {
+            double d = distanceSq.applyAsDouble(candidate);
+            if (d <= radius * radius && d < closest) {
+                closest = d;
+                best = candidate;
+            }
+        }
+        return best;
     }
 }
