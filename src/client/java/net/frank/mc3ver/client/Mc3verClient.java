@@ -1,133 +1,18 @@
 package net.frank.mc3ver.client;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.frank.mc3ver.DoubleJumpLogic;
 import net.frank.mc3ver.Mc3verMod;
-import net.frank.mc3ver.tree.PearTreeEntities;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.object.boat.BoatModel;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.entity.BoatRenderer;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.phys.Vec3;
 
 public class Mc3verClient implements ClientModInitializer {
-	public static final ModelLayerLocation PEAR_BOAT_LAYER = new ModelLayerLocation(Mc3verMod.id("boat/pear"), "main");
-	public static final ModelLayerLocation PEAR_CHEST_BOAT_LAYER = new ModelLayerLocation(Mc3verMod.id("chest_boat/pear"), "main");
-
-	private static final DoubleJumpLogic.DoubleJumpState doubleJumpState = new DoubleJumpLogic.DoubleJumpState();
-	private static boolean jumpWasDown = false;
 
 	@Override
 	public void onInitializeClient() {
 		Mc3verMod.LOGGER.info("WorldExplorerMod Client-Features aktiviert (Doppelsprung, Transportflammen & Birnenboote aktiv)!");
 
-		// Boat Models & Renderers
-		ModelLayerRegistry.registerModelLayer(PEAR_BOAT_LAYER, BoatModel::createBoatModel);
-		ModelLayerRegistry.registerModelLayer(PEAR_CHEST_BOAT_LAYER, BoatModel::createChestBoatModel);
-		EntityRendererRegistry.register(PearTreeEntities.PEAR_BOAT_ENTITY_TYPE, context -> new BoatRenderer(context, PEAR_BOAT_LAYER));
-		EntityRendererRegistry.register(PearTreeEntities.PEAR_CHEST_BOAT_ENTITY_TYPE, context -> new BoatRenderer(context, PEAR_CHEST_BOAT_LAYER));
-
-		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
-			net.frank.mc3ver.bonfire.ModBonfire.BONFIRE_BLOCK_ENTITY, context -> new BonfireRenderer());
-		// Rauchpartikel des Signalfeuers in der Farbe des Rauchs einfärben
-		net.frank.mc3ver.bonfire.BonfireBlock.smokeSpawner = (level, type, x, y, z, xd, yd, zd, color) -> {
-			net.minecraft.client.particle.Particle particle =
-				net.minecraft.client.Minecraft.getInstance().particleEngine.createParticle(type, x, y, z, xd, yd, zd);
-			if (particle instanceof net.minecraft.client.particle.SingleQuadParticle quad
-					&& color != net.frank.mc3ver.bonfire.BonfireLogic.SmokeColor.NONE) {
-				int rgb = color.smokeRgb();
-				quad.setColor(((rgb >> 16) & 0xFF) / 255.0f, ((rgb >> 8) & 0xFF) / 255.0f, (rgb & 0xFF) / 255.0f);
-			}
-		};
-
-		// Eingabe-Screen für den Namen einer frisch aufgestellten Transportflamme
-		net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.registerGlobalReceiver(
-			net.frank.mc3ver.transport.TransportFlameNaming.OpenNameScreenPayload.TYPE, (payload, context) -> {
-				if (!(context.client().gui.screen() instanceof TransportFlameNameScreen)) {
-					context.client().gui.setScreen(new TransportFlameNameScreen(payload.pos()));
-				}
-			});
-
-		// Explorer Tent Block Tinting (Färbung der Zeltplane in der Welt)
-		net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry.register((state, world, pos, tints) -> {
-			if (state != null && state.hasProperty(net.frank.mc3ver.tent.TentCanvasBlock.COLOR)) {
-				net.minecraft.world.item.DyeColor dyeColor = state.getValue(net.frank.mc3ver.tent.TentCanvasBlock.COLOR);
-				tints.add(net.frank.mc3ver.tent.ExplorerTentLogic.resolveBlockColorRgb(dyeColor.getName()));
-			} else {
-				tints.add(net.frank.mc3ver.tent.ExplorerTentLogic.getColorRgb("white"));
-			}
-		}, net.frank.mc3ver.tent.ModTentBlocks.TENT_CANVAS, net.frank.mc3ver.tent.ModTentBlocks.TENT_FURNACE, net.frank.mc3ver.tent.ModTentBlocks.TENT_FLAP, net.frank.mc3ver.tent.ModTentBlocks.TENT_CHEST);
-
-		// Client-Tick Event für Doppelsprung
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			LocalPlayer player = client.player;
-			if (player == null || client.isPaused()) {
-				return;
-			}
-
-			boolean isJumpKeyDown = client.options.keyJump.isDown();
-			int maxExtraJumps = player.hasEffect(MobEffects.JUMP_BOOST) ? 2 : 1;
-
-			// State Machine Update für Doppelsprung & Dreifachsprung
-			boolean shouldTrigger = doubleJumpState.update(
-				player.onGround(),
-				player.isInWater(),
-				player.isInLava(),
-				player.isPassenger(),
-				player.onClimbable(),
-				player.getAbilities().flying,
-				player.isFallFlying(),
-				player.isSpectator(),
-				isJumpKeyDown,
-				jumpWasDown,
-				maxExtraJumps
-			);
-
-			if (shouldTrigger) {
-				performDoubleJump(player);
-			}
-
-			jumpWasDown = isJumpKeyDown;
-		});
-	}
-
-	private static void performDoubleJump(LocalPlayer player) {
-		Vec3 currentVelocity = player.getDeltaMovement();
-		Vec3 look = player.getLookAngle();
-
-		// Berechnung über DoubleJumpLogic
-		double[] newVel = DoubleJumpLogic.calculateNewVelocity(
-			currentVelocity.x,
-			currentVelocity.z,
-			look.x,
-			look.z,
-			0.52,
-			0.15
-		);
-
-		player.setDeltaMovement(newVel[0], newVel[1], newVel[2]);
-
-		// Sound-Effekt (Wind-Burst)
-		player.playSound(SoundEvents.WIND_CHARGE_BURST.value(), 0.7f, 1.3f);
-
-		// Partikel-Effekte unter den Füßen des Spielers
-		for (int i = 0; i < 12; i++) {
-			double px = player.getX() + (player.getRandom().nextDouble() - 0.5) * 0.6;
-			double py = player.getY() + 0.05;
-			double pz = player.getZ() + (player.getRandom().nextDouble() - 0.5) * 0.6;
-
-			double vx = (player.getRandom().nextDouble() - 0.5) * 0.2;
-			double vy = -0.05;
-			double vz = (player.getRandom().nextDouble() - 0.5) * 0.2;
-
-			player.level().addParticle(ParticleTypes.CLOUD, px, py, pz, vx, vy, vz);
-			player.level().addParticle(ParticleTypes.FIREWORK, px, py, pz, vx * 0.5, 0.05, vz * 0.5);
-		}
+		PearBoatClient.register();
+		BonfireClient.register();
+		TransportClient.register();
+		TentClient.register();
+		DoubleJumpClient.register();
 	}
 }

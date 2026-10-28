@@ -1,0 +1,85 @@
+package net.frank.mc3ver.client;
+
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.frank.mc3ver.DoubleJumpLogic;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.phys.Vec3;
+
+final class DoubleJumpClient {
+
+	private static final DoubleJumpLogic.DoubleJumpState doubleJumpState = new DoubleJumpLogic.DoubleJumpState();
+	private static boolean jumpWasDown = false;
+
+	private DoubleJumpClient() {}
+
+	static void register() {
+		// Client-Tick Event für Doppelsprung
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			LocalPlayer player = client.player;
+			if (player == null || client.isPaused()) {
+				return;
+			}
+
+			boolean isJumpKeyDown = client.options.keyJump.isDown();
+			int maxExtraJumps = player.hasEffect(MobEffects.JUMP_BOOST) ? 2 : 1;
+
+			// State Machine Update für Doppelsprung & Dreifachsprung
+			boolean shouldTrigger = doubleJumpState.update(
+				player.onGround(),
+				player.isInWater(),
+				player.isInLava(),
+				player.isPassenger(),
+				player.onClimbable(),
+				player.getAbilities().flying,
+				player.isFallFlying(),
+				player.isSpectator(),
+				isJumpKeyDown,
+				jumpWasDown,
+				maxExtraJumps
+			);
+
+			if (shouldTrigger) {
+				performDoubleJump(player);
+			}
+
+			jumpWasDown = isJumpKeyDown;
+		});
+	}
+
+	private static void performDoubleJump(LocalPlayer player) {
+		Vec3 currentVelocity = player.getDeltaMovement();
+		Vec3 look = player.getLookAngle();
+
+		// Berechnung über DoubleJumpLogic
+		double[] newVel = DoubleJumpLogic.calculateNewVelocity(
+			currentVelocity.x,
+			currentVelocity.z,
+			look.x,
+			look.z,
+			0.52,
+			0.15
+		);
+
+		player.setDeltaMovement(newVel[0], newVel[1], newVel[2]);
+
+		// Sound-Effekt (Wind-Burst)
+		player.playSound(SoundEvents.WIND_CHARGE_BURST.value(), 0.7f, 1.3f);
+
+		// Partikel-Effekte unter den Füßen des Spielers
+		for (int i = 0; i < 12; i++) {
+			double px = player.getX() + (player.getRandom().nextDouble() - 0.5) * 0.6;
+			double py = player.getY() + 0.05;
+			double pz = player.getZ() + (player.getRandom().nextDouble() - 0.5) * 0.6;
+
+			double vx = (player.getRandom().nextDouble() - 0.5) * 0.2;
+			double vy = -0.05;
+			double vz = (player.getRandom().nextDouble() - 0.5) * 0.2;
+
+			player.level().addParticle(ParticleTypes.CLOUD, px, py, pz, vx, vy, vz);
+			player.level().addParticle(ParticleTypes.FIREWORK, px, py, pz, vx * 0.5, 0.05, vz * 0.5);
+		}
+	}
+}
