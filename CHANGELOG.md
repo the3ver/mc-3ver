@@ -4,6 +4,16 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.7.1] - 2026-10-28
+
+### 🐛 Fehlerbehebungen
+* **Dimensionsnamen übersetzt:** Der Tooltip der Transportkarte zeigte auch auf Deutsch "Overworld" oder "The End". Jetzt steht dort "Oberwelt", "Nether" oder "End". Die Aktionsleiste des Freundschaftssteins nennt die Dimension ebenfalls nur noch beim Namen, etwa "Frank: Nether".
+
+### 🔧 Intern
+* Aufgeräumt: toter Ordner `loot_tables/` und zwei ungenutzte Klassen entfernt, eine gemeinsame Basis für Transportkarte und Freundschaftsstein, eine Quelle für die 16 Farbstofffarben, Client-Start nach Features aufgeteilt. Am Spiel ändert sich dadurch nichts.
+
+---
+
 ## [0.7.0] - 2026-10-27
 
 ### ✨ Neu hinzugefügt
