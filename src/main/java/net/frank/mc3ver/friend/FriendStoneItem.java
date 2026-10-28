@@ -1,6 +1,7 @@
 package net.frank.mc3ver.friend;
 
 import net.frank.mc3ver.teleport.ChannelTeleport;
+import net.frank.mc3ver.teleport.ChannelTeleportItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,7 +20,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -29,20 +29,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.function.Consumer;
 
 // Führt den Halter zu dem Spieler, der den Stein geprägt hat. Sneak + Rechtsklick prägt (ungeprägt) oder setzt zurück (eigener Stein).
-public class FriendStoneItem extends Item {
+public class FriendStoneItem extends ChannelTeleportItem {
 
     public FriendStoneItem(Item.Properties properties) {
-        super(properties);
-    }
-
-    @Override
-    public ItemUseAnimation getUseAnimation(ItemStack stack) {
-        return ItemUseAnimation.BOW;
-    }
-
-    @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
-        return FriendStoneLogic.CHANNELING_TICKS;
+        super(properties, FriendStoneLogic.CHANNELING_TICKS);
     }
 
     @Override
@@ -101,15 +91,6 @@ public class FriendStoneItem extends Item {
         player.sendSystemMessage(Component.translatable("message.mc3ver.friendship_stone_bound").withStyle(ChatFormatting.LIGHT_PURPLE));
         level.playSound(null, player.getX(), player.getY(), player.getZ(),
             SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.PLAYERS, 1.0f, 1.2f);
-    }
-
-    @Override
-    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
-        int ticksUsed = getUseDuration(stack, livingEntity) - remainingUseDuration;
-        if (ChannelTeleport.interruptIfHurt(level, livingEntity, ticksUsed)) {
-            return;
-        }
-        ChannelTeleport.channelEffects(level, livingEntity, ticksUsed, FriendStoneLogic.CHANNELING_TICKS);
     }
 
     @Override

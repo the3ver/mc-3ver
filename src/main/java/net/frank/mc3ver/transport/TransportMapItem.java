@@ -1,6 +1,7 @@
 package net.frank.mc3ver.transport;
 
 import net.frank.mc3ver.teleport.ChannelTeleport;
+import net.frank.mc3ver.teleport.ChannelTeleportItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -15,7 +16,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -25,20 +25,10 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class TransportMapItem extends Item {
+public class TransportMapItem extends ChannelTeleportItem {
 
     public TransportMapItem(Properties properties) {
-        super(properties);
-    }
-
-    @Override
-    public ItemUseAnimation getUseAnimation(ItemStack stack) {
-        return ItemUseAnimation.BOW;
-    }
-
-    @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
-        return TransportFlameLogic.CHANNELING_TICKS;
+        super(properties, TransportFlameLogic.CHANNELING_TICKS);
     }
 
     @Override
@@ -54,16 +44,6 @@ public class TransportMapItem extends Item {
         }
 
         return ItemUtils.startUsingInstantly(level, player, hand);
-    }
-
-    @Override
-    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
-        int ticksUsed = getUseDuration(stack, livingEntity) - remainingUseDuration;
-
-        if (ChannelTeleport.interruptIfHurt(level, livingEntity, ticksUsed)) {
-            return;
-        }
-        ChannelTeleport.channelEffects(level, livingEntity, ticksUsed, TransportFlameLogic.CHANNELING_TICKS);
     }
 
     @Override
