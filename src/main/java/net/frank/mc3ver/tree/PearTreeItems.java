@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.Consumable;
@@ -71,7 +72,7 @@ public class PearTreeItems {
     public static final Item PEAR_BOAT = Registry.register(
         BuiltInRegistries.ITEM,
         PEAR_BOAT_KEY,
-        new net.minecraft.world.item.BoatItem(
+        new BoatItem(
             PearTreeEntities.PEAR_BOAT_ENTITY_TYPE,
             new Item.Properties().setId(PEAR_BOAT_KEY).stacksTo(1)
         )
@@ -85,7 +86,7 @@ public class PearTreeItems {
     public static final Item PEAR_CHEST_BOAT = Registry.register(
         BuiltInRegistries.ITEM,
         PEAR_CHEST_BOAT_KEY,
-        new net.minecraft.world.item.BoatItem(
+        new BoatItem(
             PearTreeEntities.PEAR_CHEST_BOAT_ENTITY_TYPE,
             new Item.Properties().setId(PEAR_CHEST_BOAT_KEY).stacksTo(1)
         )

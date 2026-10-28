@@ -1,6 +1,7 @@
 package net.frank.mc3ver.tent;
 
 import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -12,9 +13,9 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -31,7 +32,7 @@ import java.util.List;
 // Erbt von BedBlock: LivingEntity.tick() weckt Schlafende sofort, wenn der Block an sleepingPos kein BedBlock ist
 public class TentSleepingBagBlock extends BedBlock {
 
-    public static final com.mojang.serialization.MapCodec<TentSleepingBagBlock> CODEC = simpleCodec(TentSleepingBagBlock::new);
+    public static final MapCodec<TentSleepingBagBlock> CODEC = simpleCodec(TentSleepingBagBlock::new);
 
     protected static final VoxelShape FOOT_SHAPE = Block.box(1.0, 0.0, 0.0, 15.0, 3.0, 16.0);
     protected static final VoxelShape HEAD_SHAPE = Shapes.or(
@@ -45,8 +46,8 @@ public class TentSleepingBagBlock extends BedBlock {
 
     @Override
     @SuppressWarnings("unchecked")
-    public com.mojang.serialization.MapCodec<BedBlock> codec() {
-        return (com.mojang.serialization.MapCodec<BedBlock>) (com.mojang.serialization.MapCodec<?>) CODEC;
+    public MapCodec<BedBlock> codec() {
+        return (MapCodec<BedBlock>) (MapCodec<?>) CODEC;
     }
 
     // Schlafen im Zelt darf den Heimat-Spawnpunkt nie verändern (siehe EntitySleepEvents.ALLOW_SETTING_SPAWN)

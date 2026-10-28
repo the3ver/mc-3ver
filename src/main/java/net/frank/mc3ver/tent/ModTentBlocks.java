@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -16,10 +17,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -154,7 +157,7 @@ public class ModTentBlocks {
 
     private static final Set<BlockPos> DISMANTLING_IN_PROGRESS = new HashSet<>();
 
-    public static BlockState stateFor(ExplorerTentLogic.TentPart part, Direction facing, net.minecraft.world.item.DyeColor color) {
+    public static BlockState stateFor(ExplorerTentLogic.TentPart part, Direction facing, DyeColor color) {
         BlockState state = switch (part) {
             case AIR -> null;
             case POLE -> TENT_POLE.defaultBlockState().setValue(TentPoleBlock.FACING, facing);
@@ -181,8 +184,8 @@ public class ModTentBlocks {
 
     static ItemStack createPackedTent(int colorRgb, List<ItemStack> chestItems) {
         ItemStack tentStack = new ItemStack(ModTentItems.EXPLORER_TENT);
-        tentStack.set(net.minecraft.core.component.DataComponents.DYED_COLOR,
-            new net.minecraft.world.item.component.DyedItemColor(colorRgb));
+        tentStack.set(DataComponents.DYED_COLOR,
+            new DyedItemColor(colorRgb));
         TentChestStorage.store(tentStack, chestItems);
         return tentStack;
     }

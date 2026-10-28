@@ -7,12 +7,15 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
@@ -395,11 +398,11 @@ public class PearTreeBlocks {
 
     public static void register() {
         // Strippable Block Registry (Axe stripping)
-        net.fabricmc.fabric.api.registry.StrippableBlockRegistry.register(PEAR_LOG, STRIPPED_PEAR_LOG);
-        net.fabricmc.fabric.api.registry.StrippableBlockRegistry.register(PEAR_WOOD, STRIPPED_PEAR_WOOD);
+        StrippableBlockRegistry.register(PEAR_LOG, STRIPPED_PEAR_LOG);
+        StrippableBlockRegistry.register(PEAR_WOOD, STRIPPED_PEAR_WOOD);
 
         // Flammable Block Registry (Fire behavior)
-        net.fabricmc.fabric.api.registry.FlammableBlockRegistry flammable = net.fabricmc.fabric.api.registry.FlammableBlockRegistry.getDefaultInstance();
+        FlammableBlockRegistry flammable = FlammableBlockRegistry.getDefaultInstance();
         flammable.add(PEAR_LOG, 5, 5);
         flammable.add(STRIPPED_PEAR_LOG, 5, 5);
         flammable.add(PEAR_WOOD, 5, 5);
@@ -414,8 +417,8 @@ public class PearTreeBlocks {
         flammable.add(PEAR_LEAVES, 30, 60);
 
         // Composting (Vanilla ComposterBlock)
-        net.minecraft.world.level.block.ComposterBlock.COMPOSTABLES.put(PearTreeItems.PEAR, PearTreeLogic.getCompostChance("pear"));
-        net.minecraft.world.level.block.ComposterBlock.COMPOSTABLES.put(PEAR_LEAVES_ITEM, PearTreeLogic.getCompostChance("pear_leaves"));
-        net.minecraft.world.level.block.ComposterBlock.COMPOSTABLES.put(PEAR_SAPLING_ITEM, PearTreeLogic.getCompostChance("pear_sapling"));
+        ComposterBlock.COMPOSTABLES.put(PearTreeItems.PEAR, PearTreeLogic.getCompostChance("pear"));
+        ComposterBlock.COMPOSTABLES.put(PEAR_LEAVES_ITEM, PearTreeLogic.getCompostChance("pear_leaves"));
+        ComposterBlock.COMPOSTABLES.put(PEAR_SAPLING_ITEM, PearTreeLogic.getCompostChance("pear_sapling"));
     }
 }

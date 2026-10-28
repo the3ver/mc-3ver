@@ -1,22 +1,35 @@
 package net.frank.mc3ver.wand;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseFireBlock;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.HashSet;
@@ -181,7 +194,7 @@ public class LightningWandItem extends Item {
                     );
 
                     // Echter Blitz-Treffer (lädt Creeper auf, konvertiert Schweine/Villager etc.)
-                    net.minecraft.world.entity.LightningBolt bolt = net.minecraft.world.entity.EntityTypes.LIGHTNING_BOLT.create(serverLevel, net.minecraft.world.entity.EntitySpawnReason.TRIGGERED);
+                    LightningBolt bolt = EntityTypes.LIGHTNING_BOLT.create(serverLevel, EntitySpawnReason.TRIGGERED);
                     if (bolt != null) {
                         bolt.setPos(currentTarget.position());
                         bolt.setVisualOnly(true);
@@ -259,19 +272,19 @@ public class LightningWandItem extends Item {
                 }
             } else {
                 // Kein Mob anvisiert: Block-Raycast prüfen
-                BlockHitResult blockHit = serverLevel.clip(new net.minecraft.world.level.ClipContext(
+                BlockHitResult blockHit = serverLevel.clip(new ClipContext(
                     eyePos,
                     endPos,
-                    net.minecraft.world.level.ClipContext.Block.COLLIDER,
-                    net.minecraft.world.level.ClipContext.Fluid.NONE,
+                    ClipContext.Block.COLLIDER,
+                    ClipContext.Fluid.NONE,
                     player
                 ));
 
-                if (blockHit.getType() == net.minecraft.world.phys.HitResult.Type.BLOCK) {
+                if (blockHit.getType() == HitResult.Type.BLOCK) {
                     Vec3 hitVec = blockHit.getLocation();
-                    net.minecraft.core.BlockPos hitPos = blockHit.getBlockPos();
-                    net.minecraft.core.Direction face = blockHit.getDirection();
-                    net.minecraft.world.level.block.state.BlockState targetState = serverLevel.getBlockState(hitPos);
+                    BlockPos hitPos = blockHit.getBlockPos();
+                    Direction face = blockHit.getDirection();
+                    BlockState targetState = serverLevel.getBlockState(hitPos);
 
                     // Blitzstrahl direkt auf den Block feuern (kein Kettensprung)
                     spawnLightningArc(serverLevel, eyePos, hitVec, chargeRatio);
@@ -280,23 +293,23 @@ public class LightningWandItem extends Item {
                     serverLevel.playSound(null, hitPos.getX(), hitPos.getY(), hitPos.getZ(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.BLOCKS, 0.5f + chargeRatio * 0.3f, 1.6f);
 
                     // Brennbarkeit prüfen und ggf. in Brand setzen
-                    if (targetState.is(net.minecraft.world.level.block.Blocks.TNT)) {
-                        net.minecraft.world.level.block.TntBlock.prime(serverLevel, hitPos);
+                    if (targetState.is(Blocks.TNT)) {
+                        TntBlock.prime(serverLevel, hitPos);
                         serverLevel.removeBlock(hitPos, false);
-                    } else if (targetState.hasProperty(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT)
-                        && !targetState.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT)) {
-                        serverLevel.setBlock(hitPos, targetState.setValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT, true), 11);
+                    } else if (targetState.hasProperty(BlockStateProperties.LIT)
+                        && !targetState.getValue(BlockStateProperties.LIT)) {
+                        serverLevel.setBlock(hitPos, targetState.setValue(BlockStateProperties.LIT, true), 11);
                         serverLevel.playSound(null, hitPos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
                     } else if (isFlammableBlock(targetState)) {
-                        net.minecraft.core.BlockPos firePos = hitPos.relative(face);
-                        if (net.minecraft.world.level.block.BaseFireBlock.canBePlacedAt(serverLevel, firePos, face)) {
-                            serverLevel.setBlock(firePos, net.minecraft.world.level.block.BaseFireBlock.getState(serverLevel, firePos), 11);
+                        BlockPos firePos = hitPos.relative(face);
+                        if (BaseFireBlock.canBePlacedAt(serverLevel, firePos, face)) {
+                            serverLevel.setBlock(firePos, BaseFireBlock.getState(serverLevel, firePos), 11);
                             serverLevel.playSound(null, firePos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
                         } else {
-                            net.minecraft.core.BlockPos topPos = hitPos.above();
+                            BlockPos topPos = hitPos.above();
                             if (serverLevel.getBlockState(topPos).isAir()
-                                && net.minecraft.world.level.block.BaseFireBlock.canBePlacedAt(serverLevel, topPos, net.minecraft.core.Direction.UP)) {
-                                serverLevel.setBlock(topPos, net.minecraft.world.level.block.BaseFireBlock.getState(serverLevel, topPos), 11);
+                                && BaseFireBlock.canBePlacedAt(serverLevel, topPos, Direction.UP)) {
+                                serverLevel.setBlock(topPos, BaseFireBlock.getState(serverLevel, topPos), 11);
                                 serverLevel.playSound(null, topPos, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
                             }
                         }
@@ -344,27 +357,27 @@ public class LightningWandItem extends Item {
         }
     }
 
-    private boolean isFlammableBlock(net.minecraft.world.level.block.state.BlockState state) {
+    private boolean isFlammableBlock(BlockState state) {
         if (state.ignitedByLava()) {
             return true;
         }
-        return state.is(net.minecraft.tags.BlockTags.LOGS)
-            || state.is(net.minecraft.tags.BlockTags.PLANKS)
-            || state.is(net.minecraft.tags.BlockTags.LEAVES)
-            || state.is(net.minecraft.tags.BlockTags.WOOL)
-            || state.is(net.minecraft.tags.BlockTags.WOOL_CARPETS)
-            || state.is(net.minecraft.tags.BlockTags.WOODEN_SLABS)
-            || state.is(net.minecraft.tags.BlockTags.WOODEN_STAIRS)
-            || state.is(net.minecraft.tags.BlockTags.WOODEN_FENCES)
-            || state.is(net.minecraft.tags.BlockTags.WOODEN_DOORS)
-            || state.is(net.minecraft.tags.BlockTags.WOODEN_TRAPDOORS)
-            || state.is(net.minecraft.tags.BlockTags.WOODEN_PRESSURE_PLATES)
-            || state.is(net.minecraft.tags.BlockTags.WOODEN_BUTTONS)
-            || state.is(net.minecraft.tags.BlockTags.FLOWERS)
-            || state.is(net.minecraft.world.level.block.Blocks.HAY_BLOCK)
-            || state.is(net.minecraft.world.level.block.Blocks.BOOKSHELF)
-            || state.is(net.minecraft.world.level.block.Blocks.CHISELED_BOOKSHELF)
-            || state.is(net.minecraft.world.level.block.Blocks.BAMBOO)
-            || state.is(net.minecraft.world.level.block.Blocks.SCAFFOLDING);
+        return state.is(BlockTags.LOGS)
+            || state.is(BlockTags.PLANKS)
+            || state.is(BlockTags.LEAVES)
+            || state.is(BlockTags.WOOL)
+            || state.is(BlockTags.WOOL_CARPETS)
+            || state.is(BlockTags.WOODEN_SLABS)
+            || state.is(BlockTags.WOODEN_STAIRS)
+            || state.is(BlockTags.WOODEN_FENCES)
+            || state.is(BlockTags.WOODEN_DOORS)
+            || state.is(BlockTags.WOODEN_TRAPDOORS)
+            || state.is(BlockTags.WOODEN_PRESSURE_PLATES)
+            || state.is(BlockTags.WOODEN_BUTTONS)
+            || state.is(BlockTags.FLOWERS)
+            || state.is(Blocks.HAY_BLOCK)
+            || state.is(Blocks.BOOKSHELF)
+            || state.is(Blocks.CHISELED_BOOKSHELF)
+            || state.is(Blocks.BAMBOO)
+            || state.is(Blocks.SCAFFOLDING);
     }
 }

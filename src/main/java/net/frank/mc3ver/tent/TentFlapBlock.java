@@ -1,5 +1,6 @@
 package net.frank.mc3ver.tent;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -26,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class TentFlapBlock extends HorizontalDirectionalBlock {
 
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
-    public static final com.mojang.serialization.MapCodec<TentFlapBlock> CODEC = simpleCodec(TentFlapBlock::new);
+    public static final MapCodec<TentFlapBlock> CODEC = simpleCodec(TentFlapBlock::new);
 
     public TentFlapBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -37,7 +38,7 @@ public class TentFlapBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    protected com.mojang.serialization.MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
 

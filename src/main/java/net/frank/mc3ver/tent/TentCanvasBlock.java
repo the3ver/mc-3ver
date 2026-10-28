@@ -1,5 +1,6 @@
 package net.frank.mc3ver.tent;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -11,6 +12,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.CraftingMenu;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -23,6 +25,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.Optional;
 
 public class TentCanvasBlock extends HorizontalDirectionalBlock {
 
@@ -65,20 +69,20 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
             return tentPart;
         }
 
-        public static java.util.Optional<CanvasPart> fromTentPart(ExplorerTentLogic.TentPart tentPart) {
+        public static Optional<CanvasPart> fromTentPart(ExplorerTentLogic.TentPart tentPart) {
             for (CanvasPart part : values()) {
                 if (part.tentPart == tentPart) {
-                    return java.util.Optional.of(part);
+                    return Optional.of(part);
                 }
             }
-            return java.util.Optional.empty();
+            return Optional.empty();
         }
     }
 
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<CanvasPart> PART = EnumProperty.create("part", CanvasPart.class);
-    public static final EnumProperty<net.minecraft.world.item.DyeColor> COLOR = EnumProperty.create("color", net.minecraft.world.item.DyeColor.class);
-    public static final com.mojang.serialization.MapCodec<TentCanvasBlock> CODEC = simpleCodec(TentCanvasBlock::new);
+    public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
+    public static final MapCodec<TentCanvasBlock> CODEC = simpleCodec(TentCanvasBlock::new);
 
     protected static final VoxelShape SHAPE_ROOF_PLANE = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
 
@@ -181,11 +185,11 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         this.registerDefaultState(this.stateDefinition.any()
             .setValue(FACING, Direction.NORTH)
             .setValue(PART, CanvasPart.WALL_LEFT)
-            .setValue(COLOR, net.minecraft.world.item.DyeColor.WHITE));
+            .setValue(COLOR, DyeColor.WHITE));
     }
 
     @Override
-    protected com.mojang.serialization.MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
 

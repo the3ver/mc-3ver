@@ -3,21 +3,23 @@ package net.frank.mc3ver.tent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-
-import net.minecraft.world.item.component.TooltipDisplay;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -81,11 +83,11 @@ public class ExplorerTentItem extends Item {
         }
 
         ItemStack heldStack = context.getItemInHand();
-        net.minecraft.world.item.component.DyedItemColor dyedColor = heldStack.get(net.minecraft.core.component.DataComponents.DYED_COLOR);
+        DyedItemColor dyedColor = heldStack.get(DataComponents.DYED_COLOR);
         String colorName = dyedColor != null
             ? ExplorerTentLogic.getColorNameFromRgb(dyedColor.rgb())
             : ExplorerTentLogic.DEFAULT_COLOR_NAME;
-        net.minecraft.world.item.DyeColor tentColor = net.minecraft.world.item.DyeColor.byName(colorName, net.minecraft.world.item.DyeColor.WHITE);
+        DyeColor tentColor = DyeColor.byName(colorName, DyeColor.WHITE);
 
         placeTent(level, anchor, tentFacing, facing, tentColor, heldStack);
 
@@ -105,7 +107,7 @@ public class ExplorerTentItem extends Item {
     }
 
     private static void placeTent(Level level, BlockPos anchor, ExplorerTentLogic.Facing tentFacing, Direction facing,
-                                  net.minecraft.world.item.DyeColor tentColor, ItemStack tentStack) {
+                                  DyeColor tentColor, ItemStack tentStack) {
         for (int relY = 0; relY < ExplorerTentLogic.HEIGHT; relY++) {
             for (int relX = -1; relX <= 1; relX++) {
                 for (int relZ = 0; relZ < ExplorerTentLogic.LENGTH; relZ++) {

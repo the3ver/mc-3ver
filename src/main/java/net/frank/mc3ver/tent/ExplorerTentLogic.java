@@ -2,6 +2,13 @@ package net.frank.mc3ver.tent;
 
 import net.frank.mc3ver.DyeColors;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
 public class ExplorerTentLogic {
 
     public static final int WIDTH = 3;
@@ -11,13 +18,13 @@ public class ExplorerTentLogic {
 
     public static final String DEFAULT_COLOR_NAME = "white";
 
-    public static final java.util.Map<String, Integer> DYE_COLOR_MAP = DyeColors.BY_NAME;
+    public static final Map<String, Integer> DYE_COLOR_MAP = DyeColors.BY_NAME;
 
-    public static final java.util.Set<String> ALL_DYE_COLORS = DYE_COLOR_MAP.keySet();
+    public static final Set<String> ALL_DYE_COLORS = DYE_COLOR_MAP.keySet();
 
     public static String normalizeColorName(String name) {
         if (name == null) return DEFAULT_COLOR_NAME;
-        String lower = name.toLowerCase(java.util.Locale.ROOT).trim();
+        String lower = name.toLowerCase(Locale.ROOT).trim();
         return DYE_COLOR_MAP.containsKey(lower) ? lower : DEFAULT_COLOR_NAME;
     }
 
@@ -41,7 +48,7 @@ public class ExplorerTentLogic {
         String bestColor = DEFAULT_COLOR_NAME;
         double bestDist = Double.MAX_VALUE;
 
-        for (java.util.Map.Entry<String, Integer> entry : DYE_COLOR_MAP.entrySet()) {
+        for (Map.Entry<String, Integer> entry : DYE_COLOR_MAP.entrySet()) {
             int crgb = entry.getValue();
             if (crgb == rgb) {
                 return entry.getKey();
@@ -266,7 +273,7 @@ public class ExplorerTentLogic {
         }
     }
 
-    public static String findTentColor(java.util.List<BlockCoord> blocks, TentStructureView world) {
+    public static String findTentColor(List<BlockCoord> blocks, TentStructureView world) {
         for (BlockCoord coord : blocks) {
             String color = world.getColor(coord.x(), coord.y(), coord.z());
             if (color != null && !color.isEmpty()) {
@@ -276,7 +283,7 @@ public class ExplorerTentLogic {
         return DEFAULT_COLOR_NAME;
     }
 
-    public static java.util.List<BlockCoord> collectTentBlocks(int clickedX, int clickedY, int clickedZ, TentStructureView world) {
+    public static List<BlockCoord> collectTentBlocks(int clickedX, int clickedY, int clickedZ, TentStructureView world) {
         // Suche im Umkreis nach dem Kopfteil des Schlafsacks (maximaler Abstand eines Zeltblocks zum Kopf ist 2)
         BlockCoord foundHead = null;
         Facing foundFacing = null;
@@ -299,11 +306,11 @@ public class ExplorerTentLogic {
         }
 
         if (foundHead == null || foundFacing == null) {
-            return java.util.Collections.emptyList();
+            return Collections.emptyList();
         }
 
         BlockCoord anchor = getAnchorFromHead(foundHead.x(), foundHead.y(), foundHead.z(), foundFacing);
-        java.util.List<BlockCoord> result = new java.util.ArrayList<>();
+        List<BlockCoord> result = new ArrayList<>();
 
         for (int relY = 0; relY < HEIGHT; relY++) {
             for (int relX = -1; relX <= 1; relX++) {
