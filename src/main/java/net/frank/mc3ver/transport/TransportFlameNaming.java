@@ -1,5 +1,6 @@
 package net.frank.mc3ver.transport;
 
+import net.frank.mc3ver.teleport.Dimensions;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.frank.mc3ver.Mc3verMod;
@@ -79,7 +80,7 @@ public final class TransportFlameNaming {
     public static void applyName(ServerPlayer player, TransportFlameBlockEntity flame, String name) {
         flame.setName(name);
         BlockPos pos = flame.getBlockPos();
-        String dimensionId = player.level().dimension().identifier().toString();
+        String dimensionId = Dimensions.id(player.level());
         for (TransportMapInventory.MapItemRef ref : TransportMapInventory.scan(player)) {
             TransportFlameLogic.FlameTarget target = ref.getTarget();
             if (target != null && target.isAt(pos.getX(), pos.getY(), pos.getZ(), dimensionId)) {

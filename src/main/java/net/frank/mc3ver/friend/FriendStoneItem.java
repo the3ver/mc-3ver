@@ -1,5 +1,6 @@
 package net.frank.mc3ver.friend;
 
+import net.frank.mc3ver.teleport.Dimensions;
 import net.frank.mc3ver.teleport.ChannelTeleport;
 import net.frank.mc3ver.teleport.ChannelTeleportItem;
 import net.minecraft.ChatFormatting;
@@ -159,8 +160,8 @@ public class FriendStoneItem extends ChannelTeleportItem {
             player.sendOverlayMessage(Component.translatable("message.mc3ver.friend_offline", link.ownerName()).withStyle(ChatFormatting.GRAY));
             return;
         }
-        String here = player.level().dimension().identifier().toString();
-        String there = friend.level().dimension().identifier().toString();
+        String here = Dimensions.id(player.level());
+        String there = Dimensions.id(friend.level());
         Component text = FriendStoneLogic.bearing(player.getX(), player.getZ(), here, friend.getX(), friend.getZ(), there)
             .map(b -> Component.translatable("message.mc3ver.friend_bearing", friend.getPlainTextName(), b.distance(),
                 Component.translatable(b.direction().translationKey())))

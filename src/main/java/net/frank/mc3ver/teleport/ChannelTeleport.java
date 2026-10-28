@@ -2,11 +2,7 @@ package net.frank.mc3ver.teleport;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -58,10 +54,6 @@ public final class ChannelTeleport {
                 SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 0.5f, 1.4f);
         }
         return true;
-    }
-
-    public static ServerLevel resolveLevel(MinecraftServer server, String dimensionId) {
-        return server.getLevel(ResourceKey.create(Registries.DIMENSION, Identifier.parse(dimensionId)));
     }
 
     public static void teleport(ServerPlayer player, ServerLevel targetLevel, double x, double y, double z) {

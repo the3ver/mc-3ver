@@ -1,5 +1,6 @@
 package net.frank.mc3ver.transport;
 
+import net.frank.mc3ver.teleport.Dimensions;
 import net.frank.mc3ver.teleport.ChannelTeleport;
 import net.frank.mc3ver.teleport.ChannelTeleportItem;
 import net.minecraft.ChatFormatting;
@@ -61,7 +62,7 @@ public class TransportMapItem extends ChannelTeleportItem {
                 return stack;
             }
 
-            ServerLevel targetLevel = ChannelTeleport.resolveLevel(server, target.dimension());
+            ServerLevel targetLevel = Dimensions.resolve(server, target.dimension());
 
             if (targetLevel == null) {
                 player.sendSystemMessage(Component.translatable("message.mc3ver.flame_extinguished").withStyle(ChatFormatting.RED));
@@ -77,7 +78,7 @@ public class TransportMapItem extends ChannelTeleportItem {
                 player.getBlockX(),
                 player.getBlockY(),
                 player.getBlockZ(),
-                player.level().dimension().identifier().toString()
+                Dimensions.id(player.level())
             );
 
             switch (outcome) {

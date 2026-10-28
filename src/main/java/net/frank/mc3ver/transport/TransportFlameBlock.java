@@ -1,5 +1,6 @@
 package net.frank.mc3ver.transport;
 
+import net.frank.mc3ver.teleport.Dimensions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -77,7 +78,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
 
     private void handleFlamePlaced(ServerPlayer player, Level level, BlockPos pos) {
         MinecraftServer server = player.level().getServer();
-        String dimensionId = level.dimension().identifier().toString();
+        String dimensionId = Dimensions.id(level);
 
         // 1. Scan regular inventory, hotbar, offhand and bundles
         List<TransportMapInventory.MapItemRef> mapRefs = TransportMapInventory.scan(player);
@@ -85,11 +86,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
         // 2. Prepare FlameChecker
         TransportFlameLogic.FlameChecker flameChecker = (dimStr, targetPos) -> {
             if (server == null) return false;
-            net.minecraft.resources.ResourceKey<Level> dimKey = net.minecraft.resources.ResourceKey.create(
-                net.minecraft.core.registries.Registries.DIMENSION,
-                net.minecraft.resources.Identifier.parse(dimStr)
-            );
-            ServerLevel targetLevel = server.getLevel(dimKey);
+            ServerLevel targetLevel = Dimensions.resolve(server, dimStr);
             if (targetLevel == null) return false;
             return targetLevel.getBlockState(targetPos).is(ModBlocks.TRANSPORT_FLAME);
         };
@@ -112,7 +109,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
         // 5. Execute decision
         switch (decision.actionType()) {
             case KEEP_EXISTING_MAP -> {
-                player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("message.mc3ver.map_already_linked").withStyle(net.minecraft.ChatFormatting.YELLOW));
+                player.sendSystemMessage(Component.translatable("message.mc3ver.map_already_linked").withStyle(ChatFormatting.YELLOW));
             }
             case RELINK_OLD_MAP -> {
                 for (TransportMapInventory.MapItemRef ref : mapRefs) {
@@ -121,7 +118,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
                         break;
                     }
                 }
-                player.sendSystemMessage(net.minecraft.network.chat.Component.translatable("message.mc3ver.map_relinked").withStyle(net.minecraft.ChatFormatting.GREEN));
+                player.sendSystemMessage(Component.translatable("message.mc3ver.map_relinked").withStyle(ChatFormatting.GREEN));
             }
             case CREATE_NEW_MAP -> {
                 ItemStack mapStack = TransportMapInventory.createMap(decision.newTarget());
@@ -156,7 +153,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
     private static boolean carriesMapFor(ServerPlayer player, Level level, BlockPos pos) {
         return TransportFlameLogic.carriesMapFor(
             TransportMapInventory.targets(TransportMapInventory.scan(player)),
-            pos.getX(), pos.getY(), pos.getZ(), level.dimension().identifier().toString()
+            pos.getX(), pos.getY(), pos.getZ(), Dimensions.id(level)
         );
     }
 
@@ -168,7 +165,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
             return;
         }
 
-        String dimensionId = level.dimension().identifier().toString();
+        String dimensionId = Dimensions.id(level);
         float progress = MAP_RECOVERY_HOLDS.update(player.getUUID(), dimensionId + "|" + pos.asLong(), level.getGameTime());
         if (progress < 1.0f) {
             player.sendOverlayMessage(Component.translatable("message.mc3ver.map_recovery_progress",

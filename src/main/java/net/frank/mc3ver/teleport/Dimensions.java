@@ -1,0 +1,23 @@
+package net.frank.mc3ver.teleport;
+
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+
+// Dimensionen werden in Items und Blockdaten als Text gespeichert, z. B. "minecraft:the_nether"
+public final class Dimensions {
+
+    private Dimensions() {}
+
+    public static String id(Level level) {
+        return level.dimension().identifier().toString();
+    }
+
+    // null, wenn es die Dimension nicht (mehr) gibt
+    public static ServerLevel resolve(MinecraftServer server, String dimensionId) {
+        return server.getLevel(ResourceKey.create(Registries.DIMENSION, Identifier.parse(dimensionId)));
+    }
+}
