@@ -166,7 +166,7 @@ public class FriendStoneItem extends ChannelTeleportItem {
             .map(b -> Component.translatable("message.mc3ver.friend_bearing", friend.getPlainTextName(), b.distance(),
                 Component.translatable(b.direction().translationKey())))
             .orElseGet(() -> Component.translatable("message.mc3ver.friend_other_dimension", friend.getPlainTextName(),
-                Component.translatable("dimension.mc3ver." + friend.level().dimension().identifier().getPath())));
+                Dimensions.name(there)));
         player.sendOverlayMessage(text.copy().withStyle(ChatFormatting.LIGHT_PURPLE));
     }
 

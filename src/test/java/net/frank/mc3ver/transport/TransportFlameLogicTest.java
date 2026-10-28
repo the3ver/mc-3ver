@@ -32,17 +32,6 @@ public class TransportFlameLogicTest {
         assertEquals(flameId, target.flameId());
 
         assertEquals("X: 120, Y: 64, Z: -350", target.formatCoordinates());
-        assertEquals("Overworld", target.formatDimensionName());
-
-        TransportFlameLogic.FlameTarget netherTarget = new TransportFlameLogic.FlameTarget(
-            0, 100, 0, "minecraft:the_nether", 0xB02E26, flameId
-        );
-        assertEquals("Nether", netherTarget.formatDimensionName());
-
-        TransportFlameLogic.FlameTarget endTarget = new TransportFlameLogic.FlameTarget(
-            0, 100, 0, "minecraft:the_end", 0x8932B8, flameId
-        );
-        assertEquals("The End", endTarget.formatDimensionName());
     }
 
     @Test

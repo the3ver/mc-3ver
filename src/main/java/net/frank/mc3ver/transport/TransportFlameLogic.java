@@ -230,12 +230,5 @@ public class TransportFlameLogic {
             return String.format("X: %d, Y: %d, Z: %d", x, y, z);
         }
 
-        public String formatDimensionName() {
-            if (dimension == null) return "Unknown";
-            if (dimension.endsWith("overworld")) return "Overworld";
-            if (dimension.endsWith("the_nether") || dimension.endsWith("nether")) return "Nether";
-            if (dimension.endsWith("the_end") || dimension.endsWith("end")) return "The End";
-            return dimension;
-        }
     }
 }

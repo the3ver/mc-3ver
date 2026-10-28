@@ -105,7 +105,7 @@ public class TransportMapItem extends ChannelTeleportItem {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         TransportFlameLogic.FlameTarget target = stack.get(ModDataComponents.FLAME_TARGET);
         if (target != null) {
-            tooltipAdder.accept(Component.translatable("tooltip.mc3ver.destination", target.formatDimensionName()).withStyle(ChatFormatting.GRAY));
+            tooltipAdder.accept(Component.translatable("tooltip.mc3ver.destination", Dimensions.name(target.dimension())).withStyle(ChatFormatting.GRAY));
             tooltipAdder.accept(Component.translatable("tooltip.mc3ver.coordinates", target.formatCoordinates()).withStyle(ChatFormatting.DARK_AQUA));
         } else {
             tooltipAdder.accept(Component.translatable("tooltip.mc3ver.unlinked").withStyle(ChatFormatting.RED));

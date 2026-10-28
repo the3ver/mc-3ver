@@ -1,6 +1,7 @@
 package net.frank.mc3ver.teleport;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -14,6 +15,15 @@ public final class Dimensions {
 
     public static String id(Level level) {
         return level.dimension().identifier().toString();
+    }
+
+    public static String translationKey(String dimensionId) {
+        return "dimension.mc3ver." + Identifier.parse(dimensionId).getPath();
+    }
+
+    // Übersetzter Name; Dimensionen anderer Mods ohne Übersetzung zeigen ihre ID
+    public static Component name(String dimensionId) {
+        return Component.translatableWithFallback(translationKey(dimensionId), dimensionId);
     }
 
     // null, wenn es die Dimension nicht (mehr) gibt

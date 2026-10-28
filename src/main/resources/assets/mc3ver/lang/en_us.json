@@ -103,7 +103,7 @@
   "direction.mc3ver.south_west": "SW",
   "direction.mc3ver.west": "W",
   "direction.mc3ver.north_west": "NW",
-  "dimension.mc3ver.overworld": "in the Overworld",
-  "dimension.mc3ver.the_nether": "in the Nether",
-  "dimension.mc3ver.the_end": "in the End"
+  "dimension.mc3ver.overworld": "Overworld",
+  "dimension.mc3ver.the_nether": "Nether",
+  "dimension.mc3ver.the_end": "End"
 }
