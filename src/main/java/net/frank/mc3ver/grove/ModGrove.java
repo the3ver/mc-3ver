@@ -10,6 +10,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
+import net.minecraft.world.level.storage.loot.LootTable;
 import terrablender.api.Region;
 import terrablender.api.RegionType;
 import terrablender.api.Regions;
@@ -28,7 +31,20 @@ public class ModGrove implements TerraBlenderApi {
     // Forest und Flower Forest zum Birnenhain. Startwert, wird im Spiel abgestimmt.
     public static final int REGION_WEIGHT = 3;
 
-    /** Feature-Typen; aus Mc3verMod.onInitialize, bevor Datapacks die Feature-JSONs laden. */
+    public static final ResourceKey<LootTable> HEART_LOOT =
+            ResourceKey.create(Registries.LOOT_TABLE, Mc3verMod.id("chests/pear_grove_heart"));
+
+    public static final StructurePieceType HEART_PIECE = Registry.register(
+            BuiltInRegistries.STRUCTURE_PIECE, Mc3verMod.id("pear_grove_heart"), (StructurePieceType.ContextlessType)
+                    PearGroveHeartPiece::new);
+
+    public static final StructureType<PearGroveHeartStructure> HEART_STRUCTURE = Registry.register(
+            BuiltInRegistries.STRUCTURE_TYPE, Mc3verMod.id("pear_grove_heart"), () -> PearGroveHeartStructure.CODEC);
+
+    /**
+     * Feature-Typ; aus Mc3verMod.onInitialize, bevor Datapacks die JSONs laden. Strukturtyp und Stücktyp
+     * registrieren sich beim Laden der Klasse über die Felder oben.
+     */
     public static void register() {
         Registry.register(
                 BuiltInRegistries.FEATURE_TYPE, Mc3verMod.id("pear_grove_vegetation"), GroveVegetationFeature.CODEC);

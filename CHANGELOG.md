@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.13] - 2026-10-31
+
+### ✨ Neu hinzugefügt
+
+- Birnenhain (in Arbeit): Herzstück am tiefsten Punkt des Hains mit altem Birnbaum (2×2-Stamm, breite Krone, Wurzeln, Bienennester), Truhe zwischen den Wurzeln, kleinem See mit Seerosen, Quelle am Fels, Moos und Trittsteinen. Zu finden mit `/locate structure mc3ver:pear_grove_heart`. In der Truhe liegen Birnen, Setzlinge, Honigwaben und Knochenmehl, selten dazu eine goldene Birne, ein Freundschaftsstein, ein Windstab oder ein Blitzstab.
+
 ## [0.8.12] - 2026-10-31
 
 ### 🔧 Intern

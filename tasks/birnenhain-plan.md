@@ -70,11 +70,11 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 - Rollen als eigenes Enum, die Zuordnung Rolle → Block passiert außerhalb der Logik.
 - Tests: Stammhöhe 12 bis 15; See-Durchmesser 5 bis 10; Truhe neben Wurzel; Pfad 8 bis 12 Blöcke; Quelle grenzt an Seewasser; kein Block doppelt belegt.
 
-## Task 8: Herzstück-Struktur
+## Task 8: Herzstück-Struktur (erledigt)
 
 - Strukturtyp, Strukturteil und Struktur-Set; Platzierung am alten Baum aus `GroveShapeLogic.heart`, nur wo `isHeart` gilt (Tiefen-Cache wie beim Baum-Feature).
 - Geländeanpassung: See in den Boden, Baum auf Bodenhöhe.
-- Loot-Table `chests/pear_grove_heart` per Datagen-Provider.
+- Loot-Table `chests/pear_grove_heart` von Hand (die Loot-Builder-API von 26.3 hat neue Zahlen-Provider; wie andere Sonderfälle in `src/main/resources`, ein Test sichert den Inhalt).
 - Verify: `/locate structure mc3ver:pear_grove_heart`; Truhe, Bienen, fließendes Wasser im Spiel prüfen.
 
 ## Task 9: Gartenmauern

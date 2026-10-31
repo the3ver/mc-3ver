@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 1938274651,
+    "separation": 0,
+    "spacing": 1
+  },
+  "structures": [
+    {
+      "structure": "mc3ver:pear_grove_heart",
+      "weight": 1
+    }
+  ]
+}

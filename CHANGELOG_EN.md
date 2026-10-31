@@ -4,6 +4,12 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.13] - 2026-10-31
+
+### ✨ Added
+
+- Pear Grove (work in progress): heart at the deepest point of the grove with an old pear tree (2×2 trunk, wide crown, roots, bee nests), a chest between the roots, a small pond with lily pads, a spring on a rock, moss and stepping stones. Find it with `/locate structure mc3ver:pear_grove_heart`. The chest holds pears, saplings, honeycomb and bone meal, rarely also a golden pear, a friendship stone, a wind wand or a lightning wand.
+
 ## [0.8.12] - 2026-10-31
 
 ### 🔧 Internal

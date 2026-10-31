@@ -1,0 +1,6 @@
+{
+  "type": "mc3ver:pear_grove_heart",
+  "biomes": "#mc3ver:has_structure/pear_grove_heart",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}
