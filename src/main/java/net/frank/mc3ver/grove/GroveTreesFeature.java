@@ -7,7 +7,6 @@ import net.frank.mc3ver.grove.GroveZoneLogic.Density;
 import net.frank.mc3ver.tree.PearTreeBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.QuartPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -62,14 +61,18 @@ public record GroveTreesFeature(Holder<Feature> tree) implements Feature {
         return placed;
     }
 
-    // Zone gilt für den ganzen Chunk, gemessen an seiner Mitte
+    // Zone gilt für den ganzen Chunk, gemessen an seiner Mitte (= Rasterpunkt)
     private static GroveZoneLogic.Zone zoneOfChunk(WorldGenLevel level, ChunkGenerator generator, BlockPos origin) {
-        int seaLevel = generator.getSeaLevel();
-        return GroveZoneLogic.zoneFor(
-                level.getSeed(),
-                origin.getX() + 8,
-                origin.getZ() + 8,
-                center -> isGrove(level, center.x(), seaLevel, center.z()));
+        GroveShapeLogic.DepthGrid grid = GroveDepthCache.grid(level, generator.getSeaLevel());
+        int x = origin.getX() + 8;
+        int z = origin.getZ() + 8;
+        double toTree = Double.POSITIVE_INFINITY;
+        for (GroveShapeLogic.Heart heart :
+                GroveShapeLogic.heartsNear(grid, level.getSeed(), x, z, GroveZoneLogic.HEART_RADIUS)) {
+            toTree = Math.min(toTree, GroveShapeLogic.distance(heart.treeX() - x, heart.treeZ() - z));
+        }
+        int depth = grid.depth(GroveShapeLogic.gridOf(x), GroveShapeLogic.gridOf(z));
+        return GroveZoneLogic.zoneAt(depth, toTree);
     }
 
     private boolean placeTree(WorldGenLevel level, ChunkGenerator generator, RandomSource random, int x, int z) {
@@ -106,10 +109,5 @@ public record GroveTreesFeature(Holder<Feature> tree) implements Feature {
 
     private static int spread(RandomSource random, int radius) {
         return radius == 0 ? 0 : random.nextInt(2 * radius + 1) - radius;
-    }
-
-    private static boolean isGrove(WorldGenLevel level, int x, int y, int z) {
-        return level.getUncachedNoiseBiome(QuartPos.fromBlock(x), QuartPos.fromBlock(y), QuartPos.fromBlock(z))
-                .is(ModGrove.PEAR_GROVE);
     }
 }

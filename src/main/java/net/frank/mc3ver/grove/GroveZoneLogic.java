@@ -1,17 +1,15 @@
 package net.frank.mc3ver.grove;
 
-import java.util.function.Predicate;
-import net.frank.mc3ver.grove.GroveCenterLogic.GroveCenter;
-
 /**
  * Zonen des Birnenhains: außen einzelne Bäume, dann Gruppen, dann dichter Wald, um den alten Baum frei.
- * Radien sind Startwerte aus der Spec und werden im Spiel abgestimmt.
+ * Die Zone hängt an der Tiefe im Hain (Abstand zum Biomrand), so passt sie zu jeder Hain-Form.
+ * Schwellen sind Startwerte und werden im Spiel abgestimmt.
  */
 public class GroveZoneLogic {
 
     public static final int HEART_RADIUS = 20;
-    public static final int FOREST_RADIUS = 56;
-    public static final int GROUPS_RADIUS = 96;
+    public static final int GROUPS_DEPTH = 16;
+    public static final int FOREST_DEPTH = 32;
 
     public enum Zone {
         EDGE,
@@ -36,40 +34,18 @@ public class GroveZoneLogic {
     private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f);
     private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f);
 
-    /** Zone aus dem Abstand zum Hain-Mittelpunkt und zum alten Baum; der Herz-Bereich hat Vorrang. */
-    public static Zone zoneAt(double distanceToCenter, double distanceToTree) {
+    /** Zone aus der Tiefe im Hain (Abstand zum Biomrand) und dem Abstand zum alten Baum; das Herz hat Vorrang. */
+    public static Zone zoneAt(int depth, double distanceToTree) {
         if (distanceToTree < HEART_RADIUS) {
             return Zone.HEART;
         }
-        if (distanceToCenter < FOREST_RADIUS) {
+        if (depth >= FOREST_DEPTH) {
             return Zone.FOREST;
         }
-        if (distanceToCenter < GROUPS_RADIUS) {
+        if (depth >= GROUPS_DEPTH) {
             return Zone.GROUPS;
         }
         return Zone.EDGE;
-    }
-
-    /**
-     * Zone an einer Position; zählt nur Mittelpunkte, die {@code isInGrove} akzeptiert (Biom dort ist Birnenhain).
-     * Ohne gültigen Mittelpunkt in Reichweite gilt der Rand.
-     */
-    public static Zone zoneFor(long seed, int blockX, int blockZ, Predicate<GroveCenter> isInGrove) {
-        GroveCenter nearest = null;
-        double nearestDistance = Double.POSITIVE_INFINITY;
-        for (GroveCenter candidate : GroveCenterLogic.candidatesNear(seed, blockX, blockZ)) {
-            double distance = GroveCenterLogic.distance(candidate, blockX, blockZ);
-            if (distance < nearestDistance && isInGrove.test(candidate)) {
-                nearest = candidate;
-                nearestDistance = distance;
-            }
-        }
-        if (nearest == null) {
-            return Zone.EDGE;
-        }
-        double dx = blockX - nearest.treeX();
-        double dz = blockZ - nearest.treeZ();
-        return zoneAt(nearestDistance, Math.sqrt(dx * dx + dz * dz));
     }
 
     public static Density densityOf(Zone zone) {

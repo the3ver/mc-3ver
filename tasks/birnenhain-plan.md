@@ -16,7 +16,7 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 - Worldgen-Keys des Birnbaums (`PEAR_TREE_KEY`, Feature-JSON) so ablegen, dass das Hain-Feature sie mitnutzen kann, ohne `PearTreeSaplingGenerator` zu duplizieren.
 - Keine Verhaltensänderung, Tests bleiben grün.
 
-## Task 2: `GroveCenterLogic` – Hain-Mittelpunkte
+## Task 2: `GroveCenterLogic` – Hain-Mittelpunkte (erledigt, später durch `GroveShapeLogic` ersetzt, siehe Task 5b)
 
 - Rasterzelle (Startwert 24 Chunks) → ein Kandidat-Mittelpunkt pro Zelle, deterministisch aus Seed und Zelle.
 - Versatz des alten Baums zum Mittelpunkt: 8 bis 20 Blöcke, deterministisch.
@@ -44,6 +44,12 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 - Bodenflecken (grobe Erde, Podsol) im dichten Wald.
 - Verify: im Spiel Übergang einzeln → Gruppen → dicht sichtbar; Screenshots für den PR.
 
+## Task 5b: Zonen am Biomrand (erledigt)
+
+- Messung nach Task 5: Haine sind 4.000 bis 25.000 Blöcke² groß, höchstens 32 bis 64 tief; festes Raster und Radien passten nicht.
+- `GroveShapeLogic`: Tiefe je Chunk-Mitte (Abstand zum Biomrand), Herz = tiefster Punkt im Umkreis 96, alter Baum 6 bis 12 daneben.
+- `GroveZoneLogic.zoneAt(depth, distanceToTree)`; `GroveCenterLogic` entfernt; Tiefen-Cache in `GroveDepthCache`.
+
 ## Task 5a: Laubfarben-Variation am Birnbaum
 
 - Birnenlaub bekommt einen `BlockColorRegistry`-Eintrag im Client: Grundton ist die Laubfarbe des Bioms, dazu eine Helligkeitsabweichung aus der Blockposition (Startwert ±12 %). Gleiche Position, gleicher Ton; kein Blockstate, kein Speicheraufwand.
@@ -66,7 +72,7 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 
 ## Task 8: Herzstück-Struktur
 
-- Strukturtyp, Strukturteil und Struktur-Set; Platzierung am Baum-Punkt aus `GroveCenterLogic`, nur im Birnenhain.
+- Strukturtyp, Strukturteil und Struktur-Set; Platzierung am alten Baum aus `GroveShapeLogic.heart`, nur wo `isHeart` gilt (Tiefen-Cache wie beim Baum-Feature).
 - Geländeanpassung: See in den Boden, Baum auf Bodenhöhe.
 - Loot-Table `chests/pear_grove_heart` per Datagen-Provider.
 - Verify: `/locate structure mc3ver:pear_grove_heart`; Truhe, Bienen, fließendes Wasser im Spiel prüfen.

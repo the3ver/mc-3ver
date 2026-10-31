@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.9] - 2026-10-31
+
+### 🔄 Geändert
+
+- Birnenhain (in Arbeit): Zonen richten sich nach dem Abstand zum Biomrand statt nach festen Radien. Außen einzelne Bäume, innen dichter Wald, am tiefsten Punkt eine Lichtung für den alten Baum. Passt zu jeder Hain-Form.
+
 ## [0.8.8] - 2026-10-31
 
 ### 🔄 Geändert
