@@ -31,8 +31,7 @@ public class TentFurnaceBlock extends AbstractFurnaceBlock {
 
     public TentFurnaceBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState()
-            .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE));
+        this.registerDefaultState(this.defaultBlockState().setValue(TentCanvasBlock.COLOR, DyeColor.WHITE));
     }
 
     @Override
@@ -53,21 +52,21 @@ public class TentFurnaceBlock extends AbstractFurnaceBlock {
     public static double[] getPipeTopOffset(Direction tentFacing) {
         double x = PIPE_CENTER_X;
         double z = PIPE_CENTER_Z;
-        double[] rotated = switch (tentFacing) {
-            case EAST -> new double[]{16.0 - z, x};
-            case SOUTH -> new double[]{16.0 - x, 16.0 - z};
-            case WEST -> new double[]{z, 16.0 - x};
-            default -> new double[]{x, z};
-        };
-        return new double[]{rotated[0] / 16.0, PIPE_TOP_Y, rotated[1] / 16.0};
+        double[] rotated =
+                switch (tentFacing) {
+                    case EAST -> new double[] {16.0 - z, x};
+                    case SOUTH -> new double[] {16.0 - x, 16.0 - z};
+                    case WEST -> new double[] {z, 16.0 - x};
+                    default -> new double[] {x, z};
+                };
+        return new double[] {rotated[0] / 16.0, PIPE_TOP_Y, rotated[1] / 16.0};
     }
 
     public static VoxelShape getFurnaceShape(Direction tentFacing) {
         Direction leftDir = tentFacing.getCounterClockWise();
         return Shapes.or(
-            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_LEFT, tentFacing),
-            TentCanvasBlock.getTableShape(leftDir)
-        );
+                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_LEFT, tentFacing),
+                TentCanvasBlock.getTableShape(leftDir));
     }
 
     @Override
@@ -81,7 +80,8 @@ public class TentFurnaceBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level, BlockState state, BlockEntityType<T> type) {
         return createFurnaceTicker(level, type, ModTentBlocks.TENT_FURNACE_BLOCK_ENTITY);
     }
 
@@ -94,7 +94,8 @@ public class TentFurnaceBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (player.isShiftKeyDown()) {
             if (!level.isClientSide()) {
                 ModTentBlocks.dismantleTent(level, pos, player);
@@ -135,9 +136,14 @@ public class TentFurnaceBlock extends AbstractFurnaceBlock {
         // Rauch aus dem Ofenrohr über dem Dach
         if (random.nextFloat() < 0.6f) {
             double[] pipeTop = getPipeTopOffset(state.getValue(FACING));
-            level.addParticle(ParticleTypes.LARGE_SMOKE,
-                pos.getX() + pipeTop[0], pos.getY() + pipeTop[1], pos.getZ() + pipeTop[2],
-                0.0, 0.04, 0.0);
+            level.addParticle(
+                    ParticleTypes.LARGE_SMOKE,
+                    pos.getX() + pipeTop[0],
+                    pos.getY() + pipeTop[1],
+                    pos.getZ() + pipeTop[2],
+                    0.0,
+                    0.04,
+                    0.0);
         }
     }
 }

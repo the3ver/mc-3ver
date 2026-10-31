@@ -1,5 +1,6 @@
 package net.frank.mc3ver.tent;
 
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,9 +22,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 public class ExplorerTentItem extends Item {
 
     public ExplorerTentItem(Item.Properties properties) {
@@ -31,8 +29,14 @@ public class ExplorerTentItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.translatable("tooltip.mc3ver.explorer_tent").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(
+            ItemStack stack,
+            TooltipContext context,
+            TooltipDisplay display,
+            Consumer<Component> tooltipAdder,
+            TooltipFlag flag) {
+        tooltipAdder.accept(
+                Component.translatable("tooltip.mc3ver.explorer_tent").withStyle(ChatFormatting.GRAY));
     }
 
     @Override
@@ -60,20 +64,21 @@ public class ExplorerTentItem extends Item {
             }
         };
 
-        ExplorerTentLogic.PlacementResult result = ExplorerTentLogic.validatePlacement(
-            anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, worldView
-        );
+        ExplorerTentLogic.PlacementResult result =
+                ExplorerTentLogic.validatePlacement(anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, worldView);
 
         if (result.status() == ExplorerTentLogic.PlacementStatus.UNEVEN_GROUND) {
             if (player != null) {
-                player.sendOverlayMessage(Component.translatable("message.mc3ver.tent_uneven_ground").withStyle(ChatFormatting.RED));
+                player.sendOverlayMessage(Component.translatable("message.mc3ver.tent_uneven_ground")
+                        .withStyle(ChatFormatting.RED));
             }
             return InteractionResult.FAIL;
         }
 
         if (result.status() == ExplorerTentLogic.PlacementStatus.OBSTRUCTED) {
             if (player != null) {
-                player.sendOverlayMessage(Component.translatable("message.mc3ver.tent_no_space").withStyle(ChatFormatting.RED));
+                player.sendOverlayMessage(
+                        Component.translatable("message.mc3ver.tent_no_space").withStyle(ChatFormatting.RED));
             }
             return InteractionResult.FAIL;
         }
@@ -85,8 +90,8 @@ public class ExplorerTentItem extends Item {
         ItemStack heldStack = context.getItemInHand();
         DyedItemColor dyedColor = heldStack.get(DataComponents.DYED_COLOR);
         String colorName = dyedColor != null
-            ? ExplorerTentLogic.getColorNameFromRgb(dyedColor.rgb())
-            : ExplorerTentLogic.DEFAULT_COLOR_NAME;
+                ? ExplorerTentLogic.getColorNameFromRgb(dyedColor.rgb())
+                : ExplorerTentLogic.DEFAULT_COLOR_NAME;
         DyeColor tentColor = DyeColor.byName(colorName, DyeColor.WHITE);
 
         placeTent(level, anchor, tentFacing, facing, tentColor, heldStack);
@@ -100,21 +105,26 @@ public class ExplorerTentItem extends Item {
         }
 
         if (player != null) {
-            player.sendSystemMessage(Component.translatable("message.mc3ver.tent_placed").withStyle(ChatFormatting.GREEN));
+            player.sendSystemMessage(
+                    Component.translatable("message.mc3ver.tent_placed").withStyle(ChatFormatting.GREEN));
         }
 
         return InteractionResult.SUCCESS;
     }
 
-    private static void placeTent(Level level, BlockPos anchor, ExplorerTentLogic.Facing tentFacing, Direction facing,
-                                  DyeColor tentColor, ItemStack tentStack) {
+    private static void placeTent(
+            Level level,
+            BlockPos anchor,
+            ExplorerTentLogic.Facing tentFacing,
+            Direction facing,
+            DyeColor tentColor,
+            ItemStack tentStack) {
         for (int relY = 0; relY < ExplorerTentLogic.HEIGHT; relY++) {
             for (int relX = -1; relX <= 1; relX++) {
                 for (int relZ = 0; relZ < ExplorerTentLogic.LENGTH; relZ++) {
                     ExplorerTentLogic.TentPart part = ExplorerTentLogic.getTentPart(relX, relY, relZ);
                     ExplorerTentLogic.BlockCoord coord = ExplorerTentLogic.toWorldPos(
-                        anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, relX, relY, relZ
-                    );
+                            anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, relX, relY, relZ);
                     BlockPos p = new BlockPos(coord.x(), coord.y(), coord.z());
 
                     if (part == ExplorerTentLogic.TentPart.AIR) {

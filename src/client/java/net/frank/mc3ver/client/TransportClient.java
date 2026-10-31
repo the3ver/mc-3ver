@@ -9,10 +9,11 @@ final class TransportClient {
 
     static void register() {
         // Eingabe-Screen für den Namen einer frisch aufgestellten Transportflamme
-        ClientPlayNetworking.registerGlobalReceiver(TransportFlameNaming.OpenNameScreenPayload.TYPE, (payload, context) -> {
-            if (!(context.client().gui.screen() instanceof TransportFlameNameScreen)) {
-                context.client().gui.setScreen(new TransportFlameNameScreen(payload.pos()));
-            }
-        });
+        ClientPlayNetworking.registerGlobalReceiver(
+                TransportFlameNaming.OpenNameScreenPayload.TYPE, (payload, context) -> {
+                    if (!(context.client().gui.screen() instanceof TransportFlameNameScreen)) {
+                        context.client().gui.setScreen(new TransportFlameNameScreen(payload.pos()));
+                    }
+                });
     }
 }

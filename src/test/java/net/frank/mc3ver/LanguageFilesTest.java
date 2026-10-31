@@ -1,17 +1,16 @@
 package net.frank.mc3ver;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.junit.jupiter.api.Test;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class LanguageFilesTest {
 
@@ -30,86 +29,85 @@ public class LanguageFilesTest {
         Map<String, String> deDe = loadLangFile("de_de.json");
 
         Set<String> requiredKeys = Set.of(
-            "block.mc3ver.transport_flame",
-            "item.mc3ver.transport_flame",
-            "item.mc3ver.transport_map",
-            "item.mc3ver.wind_wand",
-            "item.mc3ver.lightning_wand",
-            "item.mc3ver.pear",
-            "item.mc3ver.golden_pear",
-            "block.mc3ver.pear_log",
-            "item.mc3ver.pear_log",
-            "block.mc3ver.stripped_pear_log",
-            "item.mc3ver.stripped_pear_log",
-            "block.mc3ver.pear_wood",
-            "item.mc3ver.pear_wood",
-            "block.mc3ver.stripped_pear_wood",
-            "item.mc3ver.stripped_pear_wood",
-            "block.mc3ver.pear_planks",
-            "item.mc3ver.pear_planks",
-            "block.mc3ver.pear_leaves",
-            "item.mc3ver.pear_leaves",
-            "block.mc3ver.pear_sapling",
-            "item.mc3ver.pear_sapling",
-            "block.mc3ver.pear_stairs",
-            "item.mc3ver.pear_stairs",
-            "block.mc3ver.pear_slab",
-            "item.mc3ver.pear_slab",
-            "block.mc3ver.pear_fence",
-            "item.mc3ver.pear_fence",
-            "block.mc3ver.pear_fence_gate",
-            "item.mc3ver.pear_fence_gate",
-            "block.mc3ver.pear_door",
-            "item.mc3ver.pear_door",
-            "block.mc3ver.pear_trapdoor",
-            "item.mc3ver.pear_trapdoor",
-            "block.mc3ver.pear_pressure_plate",
-            "item.mc3ver.pear_pressure_plate",
-            "block.mc3ver.pear_button",
-            "item.mc3ver.pear_button",
-            "tooltip.mc3ver.destination",
-            "tooltip.mc3ver.coordinates",
-            "tooltip.mc3ver.unlinked",
-            "message.mc3ver.no_target",
-            "message.mc3ver.flame_extinguished",
-            "message.mc3ver.already_at_target",
-            "message.mc3ver.teleport_success",
-            "message.mc3ver.map_relinked",
-            "message.mc3ver.map_already_linked",
-            "message.mc3ver.map_recovery_progress",
-            "message.mc3ver.map_recovered",
-            "message.mc3ver.flame_named",
-            "screen.mc3ver.flame_name.title",
-            "screen.mc3ver.flame_name.hint",
-            "screen.mc3ver.flame_name.info",
-            "message.mc3ver.welcome",
-            "item.mc3ver.white_flag",
-            "item.mc3ver.bonfire",
-            "item.mc3ver.friendship_stone",
-            "item.mc3ver.friendship_stone.bound",
-            "tooltip.mc3ver.friendship_stone.unbound",
-            "tooltip.mc3ver.friendship_stone.leads_to",
-            "tooltip.mc3ver.friendship_stone.bound",
-            "message.mc3ver.friendship_stone_how_to_bind",
-            "message.mc3ver.friendship_stone_own",
-            "message.mc3ver.friendship_stone_bound",
-            "message.mc3ver.friendship_stone_reset",
-            "message.mc3ver.friendship_stone_revoked",
-            "message.mc3ver.friend_offline",
-            "message.mc3ver.friend_teleported",
-            "message.mc3ver.friend_arriving",
-            "message.mc3ver.friend_bearing",
-            "message.mc3ver.friend_other_dimension",
-            "message.mc3ver.teleport_interrupted",
-            "block.mc3ver.bonfire",
-            "tooltip.mc3ver.bonfire",
-            "message.mc3ver.bonfire_no_space",
-            "message.mc3ver.bonfire_uneven_ground",
-            "effect.mc3ver.pacifist",
-            "message.mc3ver.pacifist_on",
-            "message.mc3ver.pacifist_off",
-            "message.mc3ver.peace_broken"
-        );
+                "block.mc3ver.transport_flame",
+                "item.mc3ver.transport_flame",
+                "item.mc3ver.transport_map",
+                "item.mc3ver.wind_wand",
+                "item.mc3ver.lightning_wand",
+                "item.mc3ver.pear",
+                "item.mc3ver.golden_pear",
+                "block.mc3ver.pear_log",
+                "item.mc3ver.pear_log",
+                "block.mc3ver.stripped_pear_log",
+                "item.mc3ver.stripped_pear_log",
+                "block.mc3ver.pear_wood",
+                "item.mc3ver.pear_wood",
+                "block.mc3ver.stripped_pear_wood",
+                "item.mc3ver.stripped_pear_wood",
+                "block.mc3ver.pear_planks",
+                "item.mc3ver.pear_planks",
+                "block.mc3ver.pear_leaves",
+                "item.mc3ver.pear_leaves",
+                "block.mc3ver.pear_sapling",
+                "item.mc3ver.pear_sapling",
+                "block.mc3ver.pear_stairs",
+                "item.mc3ver.pear_stairs",
+                "block.mc3ver.pear_slab",
+                "item.mc3ver.pear_slab",
+                "block.mc3ver.pear_fence",
+                "item.mc3ver.pear_fence",
+                "block.mc3ver.pear_fence_gate",
+                "item.mc3ver.pear_fence_gate",
+                "block.mc3ver.pear_door",
+                "item.mc3ver.pear_door",
+                "block.mc3ver.pear_trapdoor",
+                "item.mc3ver.pear_trapdoor",
+                "block.mc3ver.pear_pressure_plate",
+                "item.mc3ver.pear_pressure_plate",
+                "block.mc3ver.pear_button",
+                "item.mc3ver.pear_button",
+                "tooltip.mc3ver.destination",
+                "tooltip.mc3ver.coordinates",
+                "tooltip.mc3ver.unlinked",
+                "message.mc3ver.no_target",
+                "message.mc3ver.flame_extinguished",
+                "message.mc3ver.already_at_target",
+                "message.mc3ver.teleport_success",
+                "message.mc3ver.map_relinked",
+                "message.mc3ver.map_already_linked",
+                "message.mc3ver.map_recovery_progress",
+                "message.mc3ver.map_recovered",
+                "message.mc3ver.flame_named",
+                "screen.mc3ver.flame_name.title",
+                "screen.mc3ver.flame_name.hint",
+                "screen.mc3ver.flame_name.info",
+                "message.mc3ver.welcome",
+                "item.mc3ver.white_flag",
+                "item.mc3ver.bonfire",
+                "item.mc3ver.friendship_stone",
+                "item.mc3ver.friendship_stone.bound",
+                "tooltip.mc3ver.friendship_stone.unbound",
+                "tooltip.mc3ver.friendship_stone.leads_to",
+                "tooltip.mc3ver.friendship_stone.bound",
+                "message.mc3ver.friendship_stone_how_to_bind",
+                "message.mc3ver.friendship_stone_own",
+                "message.mc3ver.friendship_stone_bound",
+                "message.mc3ver.friendship_stone_reset",
+                "message.mc3ver.friendship_stone_revoked",
+                "message.mc3ver.friend_offline",
+                "message.mc3ver.friend_teleported",
+                "message.mc3ver.friend_arriving",
+                "message.mc3ver.friend_bearing",
+                "message.mc3ver.friend_other_dimension",
+                "message.mc3ver.teleport_interrupted",
+                "block.mc3ver.bonfire",
+                "tooltip.mc3ver.bonfire",
+                "message.mc3ver.bonfire_no_space",
+                "message.mc3ver.bonfire_uneven_ground",
+                "effect.mc3ver.pacifist",
+                "message.mc3ver.pacifist_on",
+                "message.mc3ver.pacifist_off",
+                "message.mc3ver.peace_broken");
 
         for (String key : requiredKeys) {
             assertTrue(enUs.containsKey(key), "en_us.json must contain key: " + key);
@@ -118,6 +116,7 @@ public class LanguageFilesTest {
             assertFalse(deDe.get(key).isBlank(), "de_de.json value for " + key + " must not be blank");
         }
 
-        assertEquals(enUs.keySet(), deDe.keySet(), "Both language files should have the exact same set of translation keys");
+        assertEquals(
+                enUs.keySet(), deDe.keySet(), "Both language files should have the exact same set of translation keys");
     }
 }

@@ -1,8 +1,9 @@
 package net.frank.mc3ver.transport;
 
-import net.frank.mc3ver.teleport.Dimensions;
+import java.util.function.Consumer;
 import net.frank.mc3ver.teleport.ChannelTeleport;
 import net.frank.mc3ver.teleport.ChannelTeleportItem;
+import net.frank.mc3ver.teleport.Dimensions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -15,16 +16,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-
 import net.minecraft.world.item.component.TooltipDisplay;
-
-import java.util.List;
-import java.util.function.Consumer;
+import net.minecraft.world.level.Level;
 
 public class TransportMapItem extends ChannelTeleportItem {
 
@@ -39,7 +35,8 @@ public class TransportMapItem extends ChannelTeleportItem {
 
         if (target == null) {
             if (!level.isClientSide()) {
-                player.sendSystemMessage(Component.translatable("message.mc3ver.no_target").withStyle(ChatFormatting.RED));
+                player.sendSystemMessage(
+                        Component.translatable("message.mc3ver.no_target").withStyle(ChatFormatting.RED));
             }
             return InteractionResult.FAIL;
         }
@@ -58,14 +55,16 @@ public class TransportMapItem extends ChannelTeleportItem {
             TransportFlameLogic.FlameTarget target = stack.get(ModDataComponents.FLAME_TARGET);
 
             if (target == null) {
-                player.sendSystemMessage(Component.translatable("message.mc3ver.no_target").withStyle(ChatFormatting.RED));
+                player.sendSystemMessage(
+                        Component.translatable("message.mc3ver.no_target").withStyle(ChatFormatting.RED));
                 return stack;
             }
 
             ServerLevel targetLevel = Dimensions.resolve(server, target.dimension());
 
             if (targetLevel == null) {
-                player.sendSystemMessage(Component.translatable("message.mc3ver.flame_extinguished").withStyle(ChatFormatting.RED));
+                player.sendSystemMessage(Component.translatable("message.mc3ver.flame_extinguished")
+                        .withStyle(ChatFormatting.RED));
                 return stack;
             }
 
@@ -73,27 +72,38 @@ public class TransportMapItem extends ChannelTeleportItem {
             boolean flameExists = targetLevel.getBlockState(targetPos).is(ModBlocks.TRANSPORT_FLAME);
 
             TransportFlameLogic.TeleportOutcome outcome = TransportFlameLogic.evaluateTeleport(
-                target,
-                flameExists,
-                player.getBlockX(),
-                player.getBlockY(),
-                player.getBlockZ(),
-                Dimensions.id(player.level())
-            );
+                    target,
+                    flameExists,
+                    player.getBlockX(),
+                    player.getBlockY(),
+                    player.getBlockZ(),
+                    Dimensions.id(player.level()));
 
             switch (outcome) {
                 case FLAME_EXTINGUISHED, INVALID_TARGET -> {
-                    player.sendSystemMessage(Component.translatable("message.mc3ver.flame_extinguished").withStyle(ChatFormatting.RED));
-                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 0.7f, 1.0f);
+                    player.sendSystemMessage(Component.translatable("message.mc3ver.flame_extinguished")
+                            .withStyle(ChatFormatting.RED));
+                    player.level()
+                            .playSound(
+                                    null,
+                                    player.getX(),
+                                    player.getY(),
+                                    player.getZ(),
+                                    SoundEvents.FIRE_EXTINGUISH,
+                                    SoundSource.PLAYERS,
+                                    0.7f,
+                                    1.0f);
                 }
                 case ALREADY_AT_TARGET -> {
-                    player.sendSystemMessage(Component.translatable("message.mc3ver.already_at_target").withStyle(ChatFormatting.YELLOW));
+                    player.sendSystemMessage(Component.translatable("message.mc3ver.already_at_target")
+                            .withStyle(ChatFormatting.YELLOW));
                 }
                 case SUCCESS -> {
                     double[] coords = TransportFlameLogic.calculateArrivalCoordinates(target);
                     ChannelTeleport.teleport(player, targetLevel, coords[0], coords[1], coords[2]);
-                    player.sendSystemMessage(Component.translatable("message.mc3ver.teleport_success").withStyle(ChatFormatting.AQUA));
-                    
+                    player.sendSystemMessage(Component.translatable("message.mc3ver.teleport_success")
+                            .withStyle(ChatFormatting.AQUA));
+
                     player.getCooldowns().addCooldown(stack, TransportFlameLogic.COOLDOWN_TICKS);
                 }
             }
@@ -102,13 +112,22 @@ public class TransportMapItem extends ChannelTeleportItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack,
+            TooltipContext context,
+            TooltipDisplay display,
+            Consumer<Component> tooltipAdder,
+            TooltipFlag flag) {
         TransportFlameLogic.FlameTarget target = stack.get(ModDataComponents.FLAME_TARGET);
         if (target != null) {
-            tooltipAdder.accept(Component.translatable("tooltip.mc3ver.destination", Dimensions.name(target.dimension())).withStyle(ChatFormatting.GRAY));
-            tooltipAdder.accept(Component.translatable("tooltip.mc3ver.coordinates", target.formatCoordinates()).withStyle(ChatFormatting.DARK_AQUA));
+            tooltipAdder.accept(
+                    Component.translatable("tooltip.mc3ver.destination", Dimensions.name(target.dimension()))
+                            .withStyle(ChatFormatting.GRAY));
+            tooltipAdder.accept(Component.translatable("tooltip.mc3ver.coordinates", target.formatCoordinates())
+                    .withStyle(ChatFormatting.DARK_AQUA));
         } else {
-            tooltipAdder.accept(Component.translatable("tooltip.mc3ver.unlinked").withStyle(ChatFormatting.RED));
+            tooltipAdder.accept(
+                    Component.translatable("tooltip.mc3ver.unlinked").withStyle(ChatFormatting.RED));
         }
     }
 }

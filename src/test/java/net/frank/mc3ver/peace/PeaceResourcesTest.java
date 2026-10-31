@@ -1,13 +1,13 @@
 package net.frank.mc3ver.peace;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 public class PeaceResourcesTest {
 
     private static final java.nio.file.Path RESOURCES =
-        java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources");
+            java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources");
 
     private static java.awt.image.BufferedImage image(String path) throws Exception {
         java.nio.file.Path file = RESOURCES.resolve("assets/mc3ver/textures/" + path);
@@ -20,7 +20,8 @@ public class PeaceResourcesTest {
         for (int y = 0; y < img.getHeight(); y++) {
             for (int x = 0; x < img.getWidth(); x++) {
                 int alpha = (img.getRGB(x, y) >>> 24) & 0xFF;
-                assertTrue(alpha == 0 || alpha == 255, name + ": nur ganz transparent oder deckend, Pixel " + x + "," + y);
+                assertTrue(
+                        alpha == 0 || alpha == 255, name + ": nur ganz transparent oder deckend, Pixel " + x + "," + y);
                 if (alpha == 255) opaque++;
             }
         }
@@ -42,16 +43,19 @@ public class PeaceResourcesTest {
 
     @Test
     void flagRecipeIsSticksBesideWool() throws Exception {
-        com.google.gson.JsonObject recipe = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(
-            RESOURCES.resolve("data/mc3ver/recipe/white_flag.json"))).getAsJsonObject();
+        com.google.gson.JsonObject recipe = com.google.gson.JsonParser.parseString(
+                        java.nio.file.Files.readString(RESOURCES.resolve("data/mc3ver/recipe/white_flag.json")))
+                .getAsJsonObject();
         // 3 Stöcke links als Spalte, 4 weiße Wolle rechts daneben als 2x2
         com.google.gson.JsonArray pattern = recipe.getAsJsonArray("pattern");
         assertEquals("SWW", pattern.get(0).getAsString());
         assertEquals("SWW", pattern.get(1).getAsString());
         assertEquals("S  ", pattern.get(2).getAsString());
         assertEquals("minecraft:stick", recipe.getAsJsonObject("key").get("S").getAsString());
-        assertEquals("minecraft:white_wool", recipe.getAsJsonObject("key").get("W").getAsString());
-        assertEquals("mc3ver:white_flag", recipe.getAsJsonObject("result").get("id").getAsString());
+        assertEquals(
+                "minecraft:white_wool", recipe.getAsJsonObject("key").get("W").getAsString());
+        assertEquals(
+                "mc3ver:white_flag", recipe.getAsJsonObject("result").get("id").getAsString());
     }
 
     @Test

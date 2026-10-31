@@ -8,14 +8,7 @@ public class WindWandLogic {
     public static final float DEFAULT_INACCURACY = 0.05f;
 
     public static double[] calculateVelocity(
-        double lookX,
-        double lookY,
-        double lookZ,
-        double spreadX,
-        double spreadY,
-        double spreadZ,
-        float speed
-    ) {
+            double lookX, double lookY, double lookZ, double spreadX, double spreadY, double spreadZ, float speed) {
         double lengthSq = lookX * lookX + lookY * lookY + lookZ * lookZ;
         double normX = 0;
         double normY = 0;
@@ -32,7 +25,7 @@ public class WindWandLogic {
         double vy = (normY + spreadY) * speed;
         double vz = (normZ + spreadZ) * speed;
 
-        return new double[]{vx, vy, vz};
+        return new double[] {vx, vy, vz};
     }
 
     public static int calculateNewDamage(int currentDamage, int amount) {

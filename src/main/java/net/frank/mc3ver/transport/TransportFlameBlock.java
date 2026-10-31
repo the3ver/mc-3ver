@@ -1,5 +1,7 @@
 package net.frank.mc3ver.transport;
 
+import java.util.List;
+import java.util.Random;
 import net.frank.mc3ver.teleport.Dimensions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -30,14 +32,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Random;
-
 public class TransportFlameBlock extends Block implements EntityBlock {
 
     protected static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 14.0, 12.0);
 
-    private static final TransportFlameLogic.FlameHoldTracker MAP_RECOVERY_HOLDS = new TransportFlameLogic.FlameHoldTracker();
+    private static final TransportFlameLogic.FlameHoldTracker MAP_RECOVERY_HOLDS =
+            new TransportFlameLogic.FlameHoldTracker();
 
     public TransportFlameBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -54,7 +54,8 @@ public class TransportFlameBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(
+            Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
 
         if (!level.isClientSide() && placer instanceof ServerPlayer player) {
@@ -97,11 +98,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
 
         // 4. Decide action
         TransportFlameLogic.PlacementDecision decision = TransportFlameLogic.decidePlacementAction(
-            pos.getX(), pos.getY(), pos.getZ(), dimensionId,
-            candidateTargets,
-            flameChecker,
-            new Random()
-        );
+                pos.getX(), pos.getY(), pos.getZ(), dimensionId, candidateTargets, flameChecker, new Random());
 
         if (level.getBlockEntity(pos) instanceof TransportFlameBlockEntity flame) {
             flame.setTarget(decision.newTarget());
@@ -110,16 +107,19 @@ public class TransportFlameBlock extends Block implements EntityBlock {
         // 5. Execute decision
         switch (decision.actionType()) {
             case KEEP_EXISTING_MAP -> {
-                player.sendSystemMessage(Component.translatable("message.mc3ver.map_already_linked").withStyle(ChatFormatting.YELLOW));
+                player.sendSystemMessage(Component.translatable("message.mc3ver.map_already_linked")
+                        .withStyle(ChatFormatting.YELLOW));
             }
             case RELINK_OLD_MAP -> {
                 for (TransportMapInventory.MapItemRef ref : mapRefs) {
-                    if (decision.targetToRelink() != null && decision.targetToRelink().equals(ref.getTarget())) {
+                    if (decision.targetToRelink() != null
+                            && decision.targetToRelink().equals(ref.getTarget())) {
                         ref.updateTarget(decision.newTarget());
                         break;
                     }
                 }
-                player.sendSystemMessage(Component.translatable("message.mc3ver.map_relinked").withStyle(ChatFormatting.GREEN));
+                player.sendSystemMessage(
+                        Component.translatable("message.mc3ver.map_relinked").withStyle(ChatFormatting.GREEN));
             }
             case CREATE_NEW_MAP -> {
                 ItemStack mapStack = TransportMapInventory.createMap(decision.newTarget());
@@ -132,17 +132,28 @@ public class TransportFlameBlock extends Block implements EntityBlock {
         }
     }
 
-    // Mit leerer Hand: Rechtsklick benennt eine noch namenlose eigene Flamme, gedrückt halten holt eine verlorene Karte nach
+    // Mit leerer Hand: Rechtsklick benennt eine noch namenlose eigene Flamme, gedrückt halten holt eine verlorene Karte
+    // nach
     @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(
+            ItemStack stack,
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            BlockHitResult hitResult) {
         return stack.isEmpty() ? InteractionResult.TRY_WITH_EMPTY_HAND : InteractionResult.PASS;
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (level instanceof ServerLevel serverLevel && player instanceof ServerPlayer serverPlayer) {
             boolean carriesMap = carriesMapFor(serverPlayer, level, pos);
-            if (carriesMap && level.getBlockEntity(pos) instanceof TransportFlameBlockEntity flame && TransportFlameNaming.mayName(serverPlayer, flame)) {
+            if (carriesMap
+                    && level.getBlockEntity(pos) instanceof TransportFlameBlockEntity flame
+                    && TransportFlameNaming.mayName(serverPlayer, flame)) {
                 TransportFlameNaming.openNameScreen(serverPlayer, pos);
             } else {
                 continueMapRecovery(serverPlayer, serverLevel, pos, carriesMap);
@@ -153,33 +164,41 @@ public class TransportFlameBlock extends Block implements EntityBlock {
 
     private static boolean carriesMapFor(ServerPlayer player, Level level, BlockPos pos) {
         return TransportFlameLogic.carriesMapFor(
-            TransportMapInventory.targets(TransportMapInventory.scan(player)),
-            pos.getX(), pos.getY(), pos.getZ(), Dimensions.id(level)
-        );
+                TransportMapInventory.targets(TransportMapInventory.scan(player)),
+                pos.getX(),
+                pos.getY(),
+                pos.getZ(),
+                Dimensions.id(level));
     }
 
     // Wird bei gedrückter rechter Maustaste alle 4 Ticks aufgerufen; nach RECOVERY_HOLD_TICKS gibt es die Karte gratis
     private static void continueMapRecovery(ServerPlayer player, ServerLevel level, BlockPos pos, boolean carriesMap) {
         if (carriesMap) {
             MAP_RECOVERY_HOLDS.reset(player.getUUID());
-            player.sendOverlayMessage(Component.translatable("message.mc3ver.map_already_linked").withStyle(ChatFormatting.YELLOW));
+            player.sendOverlayMessage(
+                    Component.translatable("message.mc3ver.map_already_linked").withStyle(ChatFormatting.YELLOW));
             return;
         }
 
         String dimensionId = Dimensions.id(level);
-        float progress = MAP_RECOVERY_HOLDS.update(player.getUUID(), dimensionId + "|" + pos.asLong(), level.getGameTime());
+        float progress =
+                MAP_RECOVERY_HOLDS.update(player.getUUID(), dimensionId + "|" + pos.asLong(), level.getGameTime());
         if (progress < 1.0f) {
-            player.sendOverlayMessage(Component.translatable("message.mc3ver.map_recovery_progress",
-                TransportFlameLogic.progressBar(progress, 10)).withStyle(ChatFormatting.AQUA));
+            player.sendOverlayMessage(Component.translatable(
+                            "message.mc3ver.map_recovery_progress", TransportFlameLogic.progressBar(progress, 10))
+                    .withStyle(ChatFormatting.AQUA));
             level.playSound(null, pos, SoundEvents.BOOK_PAGE_TURN, SoundSource.BLOCKS, 0.6f, 0.8f + progress * 0.6f);
             return;
         }
 
         TransportFlameBlockEntity flame = level.getBlockEntity(pos) instanceof TransportFlameBlockEntity be ? be : null;
         TransportFlameLogic.FlameTarget target = TransportFlameLogic.resolveFlameTarget(
-            flame != null ? flame.getTarget() : null,
-            pos.getX(), pos.getY(), pos.getZ(), dimensionId, new Random()
-        );
+                flame != null ? flame.getTarget() : null,
+                pos.getX(),
+                pos.getY(),
+                pos.getZ(),
+                dimensionId,
+                new Random());
         if (flame != null) {
             flame.setTarget(target);
         }
@@ -192,7 +211,8 @@ public class TransportFlameBlock extends Block implements EntityBlock {
             player.drop(mapStack, false, Prediction.SERVER_ONLY);
         }
         level.playSound(null, pos, SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, SoundSource.BLOCKS, 1.0f, 1.0f);
-        player.sendOverlayMessage(Component.translatable("message.mc3ver.map_recovered").withStyle(ChatFormatting.GREEN));
+        player.sendOverlayMessage(
+                Component.translatable("message.mc3ver.map_recovered").withStyle(ChatFormatting.GREEN));
     }
 
     @Override
@@ -202,6 +222,13 @@ public class TransportFlameBlock extends Block implements EntityBlock {
         double z = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 0.2;
 
         level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, x, y, z, 0.0, 0.02, 0.0);
-        level.addParticle(ParticleTypes.PORTAL, x, y, z, (random.nextDouble() - 0.5) * 0.5, (random.nextDouble() - 0.5) * 0.5, (random.nextDouble() - 0.5) * 0.5);
+        level.addParticle(
+                ParticleTypes.PORTAL,
+                x,
+                y,
+                z,
+                (random.nextDouble() - 0.5) * 0.5,
+                (random.nextDouble() - 0.5) * 0.5,
+                (random.nextDouble() - 0.5) * 0.5);
     }
 }

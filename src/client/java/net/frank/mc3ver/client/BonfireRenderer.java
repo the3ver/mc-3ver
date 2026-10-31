@@ -29,7 +29,7 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
     private static final RenderType SMOKE_RENDER_TYPE = RenderTypes.entityTranslucent(SMOKE_TEXTURE);
     // Vanilla-Lagerfeuerflamme als eigenständige Textur; das Animationsbild wählt BonfireLogic.flameTongue
     private static final RenderType FLAME_RENDER_TYPE =
-        RenderTypes.entityTranslucentEmissive(Identifier.withDefaultNamespace("textures/block/campfire_fire.png"));
+            RenderTypes.entityTranslucentEmissive(Identifier.withDefaultNamespace("textures/block/campfire_fire.png"));
     private static final float FLAME_BASE_Y = 0.2f;
 
     public static class State extends BlockEntityRenderState {
@@ -45,8 +45,12 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
     }
 
     @Override
-    public void extractRenderState(BonfireBlockEntity bonfire, State state, float partialTick, Vec3 cameraPos,
-                                   ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+    public void extractRenderState(
+            BonfireBlockEntity bonfire,
+            State state,
+            float partialTick,
+            Vec3 cameraPos,
+            ModelFeatureRenderer.CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(bonfire, state, partialTick, cameraPos, breakProgress);
         state.lit = bonfire.getBlockState().getValue(BonfireBlock.LIT);
         state.smokeRgb = bonfire.getBlockState().getValue(BonfireBlock.COLOR).smokeRgb();
@@ -116,8 +120,8 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
         }
     }
 
-    private static void flamePlane(VertexConsumer consumer, PoseStack.Pose pose, float dx, float dz, float height,
-                                   float v0, float v1) {
+    private static void flamePlane(
+            VertexConsumer consumer, PoseStack.Pose pose, float dx, float dz, float height, float v0, float v1) {
         int color = 0xFFFFFFFF;
         int light = LightCoordsUtil.FULL_BRIGHT;
         // Vorderseite und Rückseite, damit die Flamme von allen Seiten sichtbar ist
@@ -131,14 +135,22 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
         vertex(consumer, pose, -dx, 0.0f, -dz, 0.0f, v1, color, light);
     }
 
-    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z,
-                                    float u, float v, int color, int light) {
+    private static void vertex(
+            VertexConsumer consumer,
+            PoseStack.Pose pose,
+            float x,
+            float y,
+            float z,
+            float u,
+            float v,
+            int color,
+            int light) {
         consumer.addVertex(pose, x, y, z)
-            .setColor(color)
-            .setUv(u, v)
-            .setOverlay(OverlayTexture.NO_OVERLAY)
-            .setLight(light)
-            .setNormal(pose, 0.0f, 1.0f, 0.0f);
+                .setColor(color)
+                .setUv(u, v)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(pose, 0.0f, 1.0f, 0.0f);
     }
 
     @Override
@@ -153,7 +165,8 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
 
     @Override
     public boolean shouldRender(BonfireBlockEntity bonfire, Vec3 cameraPos) {
-        return Vec3.atCenterOf(bonfire.getBlockPos()).multiply(1.0, 0.0, 1.0)
-            .closerThan(cameraPos.multiply(1.0, 0.0, 1.0), getViewDistance());
+        return Vec3.atCenterOf(bonfire.getBlockPos())
+                .multiply(1.0, 0.0, 1.0)
+                .closerThan(cameraPos.multiply(1.0, 0.0, 1.0), getViewDistance());
     }
 }

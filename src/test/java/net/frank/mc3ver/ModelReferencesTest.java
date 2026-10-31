@@ -1,10 +1,11 @@
 package net.frank.mc3ver;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -13,19 +14,19 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-// Fängt Vanilla-Umbenennungen bei Versionswechseln ab: fehlende Texturen zeigt das Spiel sonst nur als lila-schwarze Kachel
+// Fängt Vanilla-Umbenennungen bei Versionswechseln ab: fehlende Texturen zeigt das Spiel sonst nur als lila-schwarze
+// Kachel
 public class ModelReferencesTest {
 
     private static final Path ASSETS = Paths.get("").toAbsolutePath().resolve("src/main/resources/assets");
 
     @Test
     void testVanillaAssetsOnTestClasspath() {
-        assertNotNull(ModelReferencesTest.class.getResource("/assets/minecraft/textures/item/stick.png"),
-            "Vanilla-Client-Assets müssen im Test-Classpath liegen, sonst prüft der Test nichts");
+        assertNotNull(
+                ModelReferencesTest.class.getResource("/assets/minecraft/textures/item/stick.png"),
+                "Vanilla-Client-Assets müssen im Test-Classpath liegen, sonst prüft der Test nichts");
     }
 
     @Test
@@ -33,9 +34,11 @@ public class ModelReferencesTest {
         List<String> missing = new ArrayList<>();
         try (Stream<Path> files = Files.walk(ASSETS.resolve("mc3ver/models"))) {
             for (Path file : files.filter(f -> f.toString().endsWith(".json")).toList()) {
-                JsonObject model = JsonParser.parseString(Files.readString(file)).getAsJsonObject();
+                JsonObject model =
+                        JsonParser.parseString(Files.readString(file)).getAsJsonObject();
                 String name = ASSETS.relativize(file).toString().replace('\\', '/');
-                if (model.has("parent") && !model.get("parent").getAsString().startsWith("builtin/")
+                if (model.has("parent")
+                        && !model.get("parent").getAsString().startsWith("builtin/")
                         && !exists("models", model.get("parent").getAsString(), ".json")) {
                     missing.add(name + " -> parent " + model.get("parent").getAsString());
                 }
@@ -54,7 +57,8 @@ public class ModelReferencesTest {
 
     private static String texturePath(JsonElement value) {
         if (value.isJsonPrimitive()) return value.getAsString();
-        if (value.isJsonObject() && value.getAsJsonObject().has("sprite")) return value.getAsJsonObject().get("sprite").getAsString();
+        if (value.isJsonObject() && value.getAsJsonObject().has("sprite"))
+            return value.getAsJsonObject().get("sprite").getAsString();
         return null;
     }
 

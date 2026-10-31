@@ -1,5 +1,6 @@
 package net.frank.mc3ver.bonfire;
 
+import java.util.function.UnaryOperator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -37,23 +38,23 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.function.UnaryOperator;
-
 // Ein Block pro Feld des 3x3-Signalfeuers; nur die Mitte trägt die BlockEntity für die Rauchsäule
 public class BonfireBlock extends BaseEntityBlock {
 
     public static final EnumProperty<BonfireLogic.Part> PART = EnumProperty.create("part", BonfireLogic.Part.class);
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final EnumProperty<BonfireLogic.SmokeColor> COLOR = EnumProperty.create("color", BonfireLogic.SmokeColor.class);
+    public static final EnumProperty<BonfireLogic.SmokeColor> COLOR =
+            EnumProperty.create("color", BonfireLogic.SmokeColor.class);
 
     private static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 7.0, 16.0);
 
     public BonfireBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any()
-            .setValue(PART, BonfireLogic.Part.CENTER)
-            .setValue(LIT, true)
-            .setValue(COLOR, BonfireLogic.SmokeColor.NONE));
+        this.registerDefaultState(this.stateDefinition
+                .any()
+                .setValue(PART, BonfireLogic.Part.CENTER)
+                .setValue(LIT, true)
+                .setValue(COLOR, BonfireLogic.SmokeColor.NONE));
     }
 
     @Override
@@ -91,8 +92,14 @@ public class BonfireBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
-                                          InteractionHand hand, BlockHitResult hit) {
+    protected InteractionResult useItemOn(
+            ItemStack stack,
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            BlockHitResult hit) {
         boolean lit = state.getValue(LIT);
         BlockPos center = centerOf(pos, state);
 
@@ -115,7 +122,8 @@ public class BonfireBlock extends BaseEntityBlock {
                 updateAllParts(level, center, s -> s.setValue(LIT, false));
                 level.playSound(null, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0f, 1.0f);
                 if (stack.is(Items.WATER_BUCKET)) {
-                    player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, new ItemStack(Items.BUCKET)));
+                    player.setItemInHand(
+                            hand, ItemUtils.createFilledResult(stack, player, new ItemStack(Items.BUCKET)));
                 } else {
                     stack.hurtAndBreak(1, player, hand);
                 }
@@ -125,7 +133,8 @@ public class BonfireBlock extends BaseEntityBlock {
 
         DyeColor dye = stack.get(DataComponents.DYE);
         if (dye != null) {
-            BonfireLogic.SmokeColor color = BonfireLogic.SmokeColor.fromDyeName(dye.getName()).orElseThrow();
+            BonfireLogic.SmokeColor color =
+                    BonfireLogic.SmokeColor.fromDyeName(dye.getName()).orElseThrow();
             if (color == state.getValue(COLOR)) {
                 return InteractionResult.PASS;
             }
@@ -141,8 +150,13 @@ public class BonfireBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity,
-                                InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+    protected void entityInside(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Entity entity,
+            InsideBlockEffectApplier effectApplier,
+            boolean isPrecise) {
         if (state.getValue(LIT) && entity instanceof LivingEntity) {
             entity.hurt(level.damageSources().campfire(), BonfireLogic.FIRE_DAMAGE);
         }
@@ -151,8 +165,15 @@ public class BonfireBlock extends BaseEntityBlock {
 
     // Fehlt ein Nachbarfeld (abgebaut, gesprengt), zerfällt der Rest Feld für Feld mit
     @Override
-    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos,
-                                     Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+    protected BlockState updateShape(
+            BlockState state,
+            LevelReader level,
+            ScheduledTickAccess ticks,
+            BlockPos pos,
+            Direction direction,
+            BlockPos neighborPos,
+            BlockState neighborState,
+            RandomSource random) {
         if (direction.getAxis().isHorizontal()
                 && state.getValue(PART).hasNeighbor(direction.getStepX(), direction.getStepZ())
                 && !neighborState.is(this)) {
@@ -176,22 +197,35 @@ public class BonfireBlock extends BaseEntityBlock {
     // Wie CampfireBlock.makeParticles, aber mit demselben Wind wie die Rauchfahne des Renderers
     // Partikel lassen sich nur clientseitig einfärben; der Client ersetzt diesen Spawner in Mc3verClient
     public interface SmokeSpawner {
-        void spawn(Level level, SimpleParticleType type, double x, double y, double z,
-                   double xd, double yd, double zd, BonfireLogic.SmokeColor color);
+        void spawn(
+                Level level,
+                SimpleParticleType type,
+                double x,
+                double y,
+                double z,
+                double xd,
+                double yd,
+                double zd,
+                BonfireLogic.SmokeColor color);
     }
 
     public static SmokeSpawner smokeSpawner = (level, type, x, y, z, xd, yd, zd, color) ->
-        level.addAlwaysVisibleParticle(type, true, x, y, z, xd, yd, zd);
+            level.addAlwaysVisibleParticle(type, true, x, y, z, xd, yd, zd);
 
-    private static void addWindblownSmoke(Level level, BlockPos pos, BlockState state, RandomSource random,
-                                          SimpleParticleType type) {
+    private static void addWindblownSmoke(
+            Level level, BlockPos pos, BlockState state, RandomSource random, SimpleParticleType type) {
         double[] velocity = BonfireLogic.smokeParticleVelocity(
-            BonfireLogic.windAt(level.getGameTime()), BonfireLogic.SIGNAL_SMOKE_RISE);
-        smokeSpawner.spawn(level, type,
-            pos.getX() + 0.5 + random.nextDouble() / 3.0 * (random.nextBoolean() ? 1 : -1),
-            pos.getY() + random.nextDouble() + random.nextDouble(),
-            pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (random.nextBoolean() ? 1 : -1),
-            velocity[0], velocity[1], velocity[2], state.getValue(COLOR));
+                BonfireLogic.windAt(level.getGameTime()), BonfireLogic.SIGNAL_SMOKE_RISE);
+        smokeSpawner.spawn(
+                level,
+                type,
+                pos.getX() + 0.5 + random.nextDouble() / 3.0 * (random.nextBoolean() ? 1 : -1),
+                pos.getY() + random.nextDouble() + random.nextDouble(),
+                pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (random.nextBoolean() ? 1 : -1),
+                velocity[0],
+                velocity[1],
+                velocity[2],
+                state.getValue(COLOR));
     }
 
     @Override
@@ -201,17 +235,29 @@ public class BonfireBlock extends BaseEntityBlock {
         }
         if (state.getValue(PART) == BonfireLogic.Part.CENTER) {
             if (random.nextInt(5) == 0) {
-                level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                    SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS,
-                    1.5f + random.nextFloat(), random.nextFloat() * 0.7f + 0.6f, false);
+                level.playLocalSound(
+                        pos.getX() + 0.5,
+                        pos.getY() + 0.5,
+                        pos.getZ() + 0.5,
+                        SoundEvents.CAMPFIRE_CRACKLE,
+                        SoundSource.BLOCKS,
+                        1.5f + random.nextFloat(),
+                        random.nextFloat() * 0.7f + 0.6f,
+                        false);
             }
             addWindblownSmoke(level, pos, state, random, ParticleTypes.CAMPFIRE_SIGNAL_SMOKE);
         } else if (random.nextInt(4) == 0) {
             addWindblownSmoke(level, pos, state, random, ParticleTypes.CAMPFIRE_COSY_SMOKE);
         }
         if (random.nextInt(6) == 0) {
-            level.addParticle(ParticleTypes.LAVA, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                random.nextFloat() / 2.0f, 5.0E-5, random.nextFloat() / 2.0f);
+            level.addParticle(
+                    ParticleTypes.LAVA,
+                    pos.getX() + 0.5,
+                    pos.getY() + 0.5,
+                    pos.getZ() + 0.5,
+                    random.nextFloat() / 2.0f,
+                    5.0E-5,
+                    random.nextFloat() / 2.0f);
         }
     }
 }

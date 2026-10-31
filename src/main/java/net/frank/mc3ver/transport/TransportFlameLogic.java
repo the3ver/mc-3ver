@@ -1,20 +1,19 @@
 package net.frank.mc3ver.transport;
 
-import net.frank.mc3ver.DyeColors;
-import net.minecraft.core.BlockPos;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import net.frank.mc3ver.DyeColors;
+import net.minecraft.core.BlockPos;
 
 public class TransportFlameLogic {
 
     public static final List<Integer> ALL_FLAME_COLORS = DyeColors.ALL_RGB;
 
     public static final int CHANNELING_TICKS = 50; // 2.5 seconds at 20 ticks/sec
-    public static final int COOLDOWN_TICKS = 600;  // 30 seconds at 20 ticks/sec
+    public static final int COOLDOWN_TICKS = 600; // 30 seconds at 20 ticks/sec
     public static final int TRANSPORT_MAP_MAX_STACK_SIZE = 64; // Allows multiple (up to 64) maps to fit in a bundle
 
     public enum TeleportOutcome {
@@ -25,13 +24,12 @@ public class TransportFlameLogic {
     }
 
     public static TeleportOutcome evaluateTeleport(
-        FlameTarget target,
-        boolean flameExistsInWorld,
-        int currentX,
-        int currentY,
-        int currentZ,
-        String currentDimension
-    ) {
+            FlameTarget target,
+            boolean flameExistsInWorld,
+            int currentX,
+            int currentY,
+            int currentZ,
+            String currentDimension) {
         if (target == null) {
             return TeleportOutcome.INVALID_TARGET;
         }
@@ -45,11 +43,7 @@ public class TransportFlameLogic {
     }
 
     public static double[] calculateArrivalCoordinates(FlameTarget target) {
-        return new double[]{
-            target.x() + 0.5,
-            (double) target.y(),
-            target.z() + 0.5
-        };
+        return new double[] {target.x() + 0.5, (double) target.y(), target.z() + 0.5};
     }
 
     public static int getRandomFlameColorRgb(Random random) {
@@ -67,10 +61,7 @@ public class TransportFlameLogic {
     }
 
     public record PlacementDecision(
-        PlacementActionType actionType,
-        FlameTarget targetToRelink,
-        FlameTarget newTarget
-    ) {}
+            PlacementActionType actionType, FlameTarget targetToRelink, FlameTarget newTarget) {}
 
     @FunctionalInterface
     public interface FlameChecker {
@@ -78,11 +69,13 @@ public class TransportFlameLogic {
     }
 
     public static PlacementDecision decidePlacementAction(
-        int placedX, int placedY, int placedZ, String placedDimension,
-        List<FlameTarget> playerMapTargets,
-        FlameChecker flameChecker,
-        Random random
-    ) {
+            int placedX,
+            int placedY,
+            int placedZ,
+            String placedDimension,
+            List<FlameTarget> playerMapTargets,
+            FlameChecker flameChecker,
+            Random random) {
         // 1. Check if player already has a map pointing to this exact position
         for (FlameTarget target : playerMapTargets) {
             if (target != null && target.isAt(placedX, placedY, placedZ, placedDimension)) {
@@ -93,12 +86,12 @@ public class TransportFlameLogic {
         // 2. Check if player has an extinguished old map (its flame is gone in the world)
         for (FlameTarget target : playerMapTargets) {
             if (target != null) {
-                boolean exists = flameChecker.flameExists(target.dimension(), new BlockPos(target.x(), target.y(), target.z()));
+                boolean exists =
+                        flameChecker.flameExists(target.dimension(), new BlockPos(target.x(), target.y(), target.z()));
                 if (!exists) {
                     // Relink this old map! Preserve original color & flameId
                     FlameTarget relinkedTarget = new FlameTarget(
-                        placedX, placedY, placedZ, placedDimension, target.colorRgb(), target.flameId()
-                    );
+                            placedX, placedY, placedZ, placedDimension, target.colorRgb(), target.flameId());
                     return new PlacementDecision(PlacementActionType.RELINK_OLD_MAP, target, relinkedTarget);
                 }
             }
@@ -107,15 +100,13 @@ public class TransportFlameLogic {
         // 3. No existing or extinguished map found -> create brand new map
         int newColor = getRandomFlameColorRgb(random);
         UUID newFlameId = UUID.randomUUID();
-        FlameTarget freshTarget = new FlameTarget(
-            placedX, placedY, placedZ, placedDimension, newColor, newFlameId
-        );
+        FlameTarget freshTarget = new FlameTarget(placedX, placedY, placedZ, placedDimension, newColor, newFlameId);
         return new PlacementDecision(PlacementActionType.CREATE_NEW_MAP, null, freshTarget);
     }
 
     // Karte nachholen: Rechtsklick mit leerer Hand gedrückt halten. Der Client wiederholt den Rechtsklick alle 4 Ticks.
-    public static final int RECOVERY_HOLD_TICKS = 30;  // 1.5 seconds at 20 ticks/sec
-    public static final int HOLD_MAX_GAP_TICKS = 8;    // longer pause counts as letting go
+    public static final int RECOVERY_HOLD_TICKS = 30; // 1.5 seconds at 20 ticks/sec
+    public static final int HOLD_MAX_GAP_TICKS = 8; // longer pause counts as letting go
 
     public static boolean carriesMapFor(List<FlameTarget> playerMapTargets, int x, int y, int z, String dimension) {
         for (FlameTarget target : playerMapTargets) {
@@ -127,7 +118,8 @@ public class TransportFlameLogic {
     }
 
     // Flammen aus älteren Versionen kennen ihr Ziel nicht; sie bekommen beim ersten Nachholen eine neue Farbe und ID
-    public static FlameTarget resolveFlameTarget(FlameTarget stored, int x, int y, int z, String dimension, Random random) {
+    public static FlameTarget resolveFlameTarget(
+            FlameTarget stored, int x, int y, int z, String dimension, Random random) {
         if (stored != null && stored.isAt(x, y, z, dimension)) {
             return stored;
         }
@@ -147,7 +139,8 @@ public class TransportFlameLogic {
 
         private final Map<UUID, Hold> holds = new HashMap<>();
 
-        // Liefert den Fortschritt von 0 bis 1; bei 1 ist das Halten abgeschlossen und beginnt beim nächsten Mal von vorn
+        // Liefert den Fortschritt von 0 bis 1; bei 1 ist das Halten abgeschlossen und beginnt beim nächsten Mal von
+        // vorn
         public float update(UUID playerId, String flameKey, long gameTime) {
             Hold hold = holds.get(playerId);
             if (hold == null || !hold.flameKey().equals(flameKey) || gameTime - hold.lastTick() > HOLD_MAX_GAP_TICKS) {
@@ -188,7 +181,8 @@ public class TransportFlameLogic {
         }
         String name = cleaned.toString().strip();
         if (name.codePointCount(0, name.length()) > MAX_FLAME_NAME_LENGTH) {
-            name = name.substring(0, name.offsetByCodePoints(0, MAX_FLAME_NAME_LENGTH)).strip();
+            name = name.substring(0, name.offsetByCodePoints(0, MAX_FLAME_NAME_LENGTH))
+                    .strip();
         }
         return name.isEmpty() ? null : name;
     }
@@ -198,14 +192,7 @@ public class TransportFlameLogic {
         return currentName == null && (placer == null || placer.equals(player));
     }
 
-    public record FlameTarget(
-        int x,
-        int y,
-        int z,
-        String dimension,
-        int colorRgb,
-        java.util.UUID flameId
-    ) {
+    public record FlameTarget(int x, int y, int z, String dimension, int colorRgb, java.util.UUID flameId) {
         public boolean isAt(int otherX, int otherY, int otherZ, String otherDimension) {
             return x == otherX && y == otherY && z == otherZ && otherDimension.equals(dimension);
         }
@@ -213,6 +200,5 @@ public class TransportFlameLogic {
         public String formatCoordinates() {
             return String.format("X: %d, Y: %d, Z: %d", x, y, z);
         }
-
     }
 }

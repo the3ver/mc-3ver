@@ -1,9 +1,9 @@
 package net.frank.mc3ver.transport;
 
-import net.frank.mc3ver.teleport.Dimensions;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.frank.mc3ver.Mc3verMod;
+import net.frank.mc3ver.teleport.Dimensions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
@@ -19,10 +19,8 @@ public final class TransportFlameNaming {
 
     public record OpenNameScreenPayload(BlockPos pos) implements CustomPacketPayload {
         public static final Type<OpenNameScreenPayload> TYPE = new Type<>(Mc3verMod.id("open_flame_name_screen"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, OpenNameScreenPayload> CODEC = StreamCodec.composite(
-            BlockPos.STREAM_CODEC, OpenNameScreenPayload::pos,
-            OpenNameScreenPayload::new
-        );
+        public static final StreamCodec<RegistryFriendlyByteBuf, OpenNameScreenPayload> CODEC =
+                StreamCodec.composite(BlockPos.STREAM_CODEC, OpenNameScreenPayload::pos, OpenNameScreenPayload::new);
 
         @Override
         public Type<OpenNameScreenPayload> type() {
@@ -33,10 +31,11 @@ public final class TransportFlameNaming {
     public record SetNamePayload(BlockPos pos, String name) implements CustomPacketPayload {
         public static final Type<SetNamePayload> TYPE = new Type<>(Mc3verMod.id("set_flame_name"));
         public static final StreamCodec<RegistryFriendlyByteBuf, SetNamePayload> CODEC = StreamCodec.composite(
-            BlockPos.STREAM_CODEC, SetNamePayload::pos,
-            ByteBufCodecs.stringUtf8(TransportFlameLogic.MAX_FLAME_NAME_LENGTH * 4), SetNamePayload::name,
-            SetNamePayload::new
-        );
+                BlockPos.STREAM_CODEC,
+                SetNamePayload::pos,
+                ByteBufCodecs.stringUtf8(TransportFlameLogic.MAX_FLAME_NAME_LENGTH * 4),
+                SetNamePayload::name,
+                SetNamePayload::new);
 
         @Override
         public Type<SetNamePayload> type() {
@@ -51,8 +50,9 @@ public final class TransportFlameNaming {
     public static void register() {
         PayloadTypeRegistry.clientboundPlay().register(OpenNameScreenPayload.TYPE, OpenNameScreenPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(SetNamePayload.TYPE, SetNamePayload.CODEC);
-        ServerPlayNetworking.registerGlobalReceiver(SetNamePayload.TYPE,
-            (payload, context) -> handleSetName(context.player(), payload.pos(), payload.name()));
+        ServerPlayNetworking.registerGlobalReceiver(
+                SetNamePayload.TYPE,
+                (payload, context) -> handleSetName(context.player(), payload.pos(), payload.name()));
     }
 
     public static boolean mayName(ServerPlayer player, TransportFlameBlockEntity flame) {
@@ -73,7 +73,8 @@ public final class TransportFlameNaming {
         if (name == null) return;
 
         applyName(player, flame, name);
-        player.sendSystemMessage(Component.translatable("message.mc3ver.flame_named", name).withStyle(ChatFormatting.GREEN));
+        player.sendSystemMessage(
+                Component.translatable("message.mc3ver.flame_named", name).withStyle(ChatFormatting.GREEN));
     }
 
     // Setzt den Namen an der Flamme und an allen Karten des Spielers, die auf sie zeigen

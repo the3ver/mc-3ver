@@ -1,7 +1,6 @@
 package net.frank.mc3ver.tent;
 
 import com.mojang.serialization.MapCodec;
-
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.DyeColor;
@@ -17,7 +16,7 @@ public class TentDyeRecipe extends CustomRecipe {
 
     public static final TentDyeRecipe INSTANCE = new TentDyeRecipe();
     public static final RecipeSerializer<TentDyeRecipe> SERIALIZER =
-        new RecipeSerializer<>(MapCodec.unit(INSTANCE), StreamCodec.unit(INSTANCE));
+            new RecipeSerializer<>(MapCodec.unit(INSTANCE), StreamCodec.unit(INSTANCE));
 
     public static ItemStack dye(ItemStack tent, DyeColor color) {
         ItemStack result = tent.copyWithCount(1);
@@ -63,7 +62,7 @@ public class TentDyeRecipe extends CustomRecipe {
         if (tent == null || dyeStack == null) {
             return null;
         }
-        return new ItemStack[]{tent, dyeStack};
+        return new ItemStack[] {tent, dyeStack};
     }
 
     @Override

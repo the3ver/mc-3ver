@@ -30,16 +30,19 @@ public class TransportFlameNameScreen extends Screen {
         int centerX = width / 2;
         int centerY = height / 2;
 
-        nameBox = new EditBox(font, centerX - 100, centerY - 10, 200, 20, Component.translatable("screen.mc3ver.flame_name.title"));
+        nameBox = new EditBox(
+                font, centerX - 100, centerY - 10, 200, 20, Component.translatable("screen.mc3ver.flame_name.title"));
         nameBox.setMaxLength(TransportFlameLogic.MAX_FLAME_NAME_LENGTH);
         nameBox.setHint(Component.translatable("screen.mc3ver.flame_name.hint"));
         nameBox.setResponder(value -> updateDoneButton());
         addRenderableWidget(nameBox);
 
         doneButton = addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> submit())
-            .bounds(centerX - 100, centerY + 20, 98, 20).build());
+                .bounds(centerX - 100, centerY + 20, 98, 20)
+                .build());
         addRenderableWidget(Button.builder(CommonComponents.GUI_CANCEL, button -> onClose())
-            .bounds(centerX + 2, centerY + 20, 98, 20).build());
+                .bounds(centerX + 2, centerY + 20, 98, 20)
+                .build());
 
         setInitialFocus(nameBox);
         updateDoneButton();
@@ -71,7 +74,8 @@ public class TransportFlameNameScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
         graphics.centeredText(font, title, width / 2, height / 2 - 40, 0xFFFFFFFF);
-        graphics.centeredText(font, Component.translatable("screen.mc3ver.flame_name.info"), width / 2, height / 2 - 26, 0xFFA0A0A0);
+        graphics.centeredText(
+                font, Component.translatable("screen.mc3ver.flame_name.info"), width / 2, height / 2 - 26, 0xFFA0A0A0);
     }
 
     @Override

@@ -1,12 +1,11 @@
 package net.frank.mc3ver;
 
-import net.minecraft.world.item.DyeColor;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import net.minecraft.world.item.DyeColor;
 
 // Die 16 Vanilla-Farbstofffarben als RGB ohne Alpha; einzige Quelle für Zelt, Transportflamme und Signalfeuer
 public final class DyeColors {

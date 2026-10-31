@@ -1,5 +1,6 @@
 package net.frank.mc3ver.bonfire;
 
+import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,8 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.function.Consumer;
-
 public class BonfireItem extends Item {
 
     public BonfireItem(Item.Properties properties) {
@@ -26,7 +25,12 @@ public class BonfireItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+    public void appendHoverText(
+            ItemStack stack,
+            TooltipContext context,
+            TooltipDisplay display,
+            Consumer<Component> tooltipAdder,
+            TooltipFlag flag) {
         tooltipAdder.accept(Component.translatable("tooltip.mc3ver.bonfire").withStyle(ChatFormatting.GRAY));
     }
 
@@ -52,14 +56,14 @@ public class BonfireItem extends Item {
             }
         };
 
-        BonfireLogic.PlacementStatus status = BonfireLogic.validatePlacement(
-            center.getX(), center.getY(), center.getZ(), worldView);
+        BonfireLogic.PlacementStatus status =
+                BonfireLogic.validatePlacement(center.getX(), center.getY(), center.getZ(), worldView);
 
         if (status != BonfireLogic.PlacementStatus.OK) {
             if (player != null) {
                 String key = status == BonfireLogic.PlacementStatus.OBSTRUCTED
-                    ? "message.mc3ver.bonfire_no_space"
-                    : "message.mc3ver.bonfire_uneven_ground";
+                        ? "message.mc3ver.bonfire_no_space"
+                        : "message.mc3ver.bonfire_uneven_ground";
                 player.sendOverlayMessage(Component.translatable(key).withStyle(ChatFormatting.RED));
             }
             return InteractionResult.FAIL;
@@ -72,8 +76,8 @@ public class BonfireItem extends Item {
         // Mitte zuerst, damit Randfelder beim Setzen schon einen Nachbarn vorfinden
         BlockState base = ModBonfire.BONFIRE.defaultBlockState();
         for (BonfireLogic.Part part : BonfireLogic.Part.values()) {
-            level.setBlock(center.offset(part.dx(), 0, part.dz()),
-                base.setValue(BonfireBlock.PART, part), Block.UPDATE_ALL);
+            level.setBlock(
+                    center.offset(part.dx(), 0, part.dz()), base.setValue(BonfireBlock.PART, part), Block.UPDATE_ALL);
         }
 
         level.playSound(null, center, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0f, 0.8f);

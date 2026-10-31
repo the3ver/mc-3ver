@@ -1,5 +1,8 @@
 package net.frank.mc3ver.transport;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -7,15 +10,12 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.DyedItemColor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
 // Findet die Transportkarten eines Spielers, auch die in Bündeln, und ändert sie an Ort und Stelle
 public final class TransportMapInventory {
 
     public interface MapItemRef {
         TransportFlameLogic.FlameTarget getTarget();
+
         void modify(Consumer<ItemStack> change);
 
         default void updateTarget(TransportFlameLogic.FlameTarget newTarget) {
@@ -73,12 +73,19 @@ public final class TransportMapInventory {
                                 @Override
                                 public void modify(Consumer<ItemStack> change) {
                                     BundleContents currentBundle = slotStack.get(DataComponents.BUNDLE_CONTENTS);
-                                    if (currentBundle != null && templateIndex < currentBundle.items().size()) {
-                                        List<ItemStackTemplate> updatedTemplates = new ArrayList<>(currentBundle.items());
-                                        ItemStack stackInBundle = updatedTemplates.get(templateIndex).create();
+                                    if (currentBundle != null
+                                            && templateIndex
+                                                    < currentBundle.items().size()) {
+                                        List<ItemStackTemplate> updatedTemplates =
+                                                new ArrayList<>(currentBundle.items());
+                                        ItemStack stackInBundle = updatedTemplates
+                                                .get(templateIndex)
+                                                .create();
                                         change.accept(stackInBundle);
-                                        updatedTemplates.set(templateIndex, ItemStackTemplate.fromNonEmptyStack(stackInBundle));
-                                        slotStack.set(DataComponents.BUNDLE_CONTENTS, new BundleContents(updatedTemplates));
+                                        updatedTemplates.set(
+                                                templateIndex, ItemStackTemplate.fromNonEmptyStack(stackInBundle));
+                                        slotStack.set(
+                                                DataComponents.BUNDLE_CONTENTS, new BundleContents(updatedTemplates));
                                     }
                                 }
                             });

@@ -1,12 +1,11 @@
 package net.frank.mc3ver.friend;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class FriendStoneLogicTest {
 
@@ -16,46 +15,45 @@ public class FriendStoneLogicTest {
 
     @Test
     void friendWithValidStoneMayTeleport() {
-        assertEquals(FriendStoneLogic.TeleportCheck.SUCCESS,
-            FriendStoneLogic.checkTeleport(FRANKS_STONE, ANNA, true, 2));
+        assertEquals(
+                FriendStoneLogic.TeleportCheck.SUCCESS, FriendStoneLogic.checkTeleport(FRANKS_STONE, ANNA, true, 2));
     }
 
     @Test
     void unboundStoneLeadsNowhere() {
-        assertEquals(FriendStoneLogic.TeleportCheck.UNBOUND,
-            FriendStoneLogic.checkTeleport(null, ANNA, true, 0));
+        assertEquals(FriendStoneLogic.TeleportCheck.UNBOUND, FriendStoneLogic.checkTeleport(null, ANNA, true, 0));
     }
 
     @Test
     void ownStoneLeadsNowhere() {
-        assertEquals(FriendStoneLogic.TeleportCheck.OWN_STONE,
-            FriendStoneLogic.checkTeleport(FRANKS_STONE, FRANK, true, 2));
+        assertEquals(
+                FriendStoneLogic.TeleportCheck.OWN_STONE, FriendStoneLogic.checkTeleport(FRANKS_STONE, FRANK, true, 2));
     }
 
     @Test
     void offlineFriendCannotBeReached() {
-        assertEquals(FriendStoneLogic.TeleportCheck.OFFLINE,
-            FriendStoneLogic.checkTeleport(FRANKS_STONE, ANNA, false, 0));
+        assertEquals(
+                FriendStoneLogic.TeleportCheck.OFFLINE, FriendStoneLogic.checkTeleport(FRANKS_STONE, ANNA, false, 0));
     }
 
     @Test
     void resetInvalidatesStonesFromEarlierGenerations() {
-        assertEquals(FriendStoneLogic.TeleportCheck.REVOKED,
-            FriendStoneLogic.checkTeleport(FRANKS_STONE, ANNA, true, 3));
+        assertEquals(
+                FriendStoneLogic.TeleportCheck.REVOKED, FriendStoneLogic.checkTeleport(FRANKS_STONE, ANNA, true, 3));
     }
 
     @Test
     void arrivalPrefersTheDirectNeighbors() {
         // Alles frei mit Boden: das erste Feld ist direkt östlich des Freundes
         int[] spot = FriendStoneLogic.findArrivalSpot(10, 64, 20, view(Set.of(), 63));
-        assertArrayEquals(new int[]{11, 64, 20}, spot);
+        assertArrayEquals(new int[] {11, 64, 20}, spot);
     }
 
     @Test
     void arrivalSkipsBlockedFields() {
         // Osten und Westen zugebaut: dann Süden (+Z)
         int[] spot = FriendStoneLogic.findArrivalSpot(10, 64, 20, view(Set.of("11,64,20", "9,64,20"), 63));
-        assertArrayEquals(new int[]{10, 64, 21}, spot);
+        assertArrayEquals(new int[] {10, 64, 21}, spot);
     }
 
     @Test
@@ -93,7 +91,7 @@ public class FriendStoneLogicTest {
                 return true;
             }
         };
-        assertArrayEquals(new int[]{10, 64, 20}, FriendStoneLogic.findArrivalSpot(10, 64, 20, blocked));
+        assertArrayEquals(new int[] {10, 64, 20}, FriendStoneLogic.findArrivalSpot(10, 64, 20, blocked));
     }
 
     @Test
@@ -108,8 +106,9 @@ public class FriendStoneLogicTest {
 
     @Test
     void bearingGivesRoundedDistanceInTheSameDimension() {
-        FriendStoneLogic.Bearing b = FriendStoneLogic.bearing(0, 0, "minecraft:overworld", 300, -160, "minecraft:overworld")
-            .orElseThrow();
+        FriendStoneLogic.Bearing b = FriendStoneLogic.bearing(
+                        0, 0, "minecraft:overworld", 300, -160, "minecraft:overworld")
+                .orElseThrow();
         assertEquals(340, b.distance());
         // 300 Ost, 160 Nord: 62 Grad liegt näher an Nordost (45) als an Ost (90)
         assertEquals(FriendStoneLogic.Compass.NORTH_EAST, b.direction());
@@ -117,7 +116,8 @@ public class FriendStoneLogicTest {
 
     @Test
     void noBearingAcrossDimensions() {
-        assertTrue(FriendStoneLogic.bearing(0, 0, "minecraft:overworld", 5, 5, "minecraft:the_nether").isEmpty());
+        assertTrue(FriendStoneLogic.bearing(0, 0, "minecraft:overworld", 5, 5, "minecraft:the_nether")
+                .isEmpty());
     }
 
     @Test

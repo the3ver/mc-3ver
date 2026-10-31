@@ -9,20 +9,13 @@ import net.minecraft.world.item.Item;
 
 public class ModTentItems {
 
-    public static final ResourceKey<Item> EXPLORER_TENT_KEY = ResourceKey.create(
-        Registries.ITEM,
-        Mc3verMod.id("explorer_tent")
-    );
+    public static final ResourceKey<Item> EXPLORER_TENT_KEY =
+            ResourceKey.create(Registries.ITEM, Mc3verMod.id("explorer_tent"));
 
     public static final Item EXPLORER_TENT = Registry.register(
-        BuiltInRegistries.ITEM,
-        EXPLORER_TENT_KEY,
-        new ExplorerTentItem(
-            new Item.Properties()
-                .setId(EXPLORER_TENT_KEY)
-                .stacksTo(1)
-        )
-    );
+            BuiltInRegistries.ITEM,
+            EXPLORER_TENT_KEY,
+            new ExplorerTentItem(new Item.Properties().setId(EXPLORER_TENT_KEY).stacksTo(1)));
 
     public static void register() {
         // Triggers static init

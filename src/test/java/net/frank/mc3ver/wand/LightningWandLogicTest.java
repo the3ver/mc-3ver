@@ -1,12 +1,11 @@
 package net.frank.mc3ver.wand;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 public class LightningWandLogicTest {
 
@@ -29,9 +28,12 @@ public class LightningWandLogicTest {
     @Test
     void testCanUse() {
         org.junit.jupiter.api.Assertions.assertTrue(LightningWandLogic.canUse(false, false));
-        org.junit.jupiter.api.Assertions.assertFalse(LightningWandLogic.canUse(true, false), "Cannot use while cooldown is active");
-        org.junit.jupiter.api.Assertions.assertFalse(LightningWandLogic.canUse(false, true), "Cannot use while spectator");
-        org.junit.jupiter.api.Assertions.assertFalse(LightningWandLogic.canUse(true, true), "Cannot use while cooldown and spectator");
+        org.junit.jupiter.api.Assertions.assertFalse(
+                LightningWandLogic.canUse(true, false), "Cannot use while cooldown is active");
+        org.junit.jupiter.api.Assertions.assertFalse(
+                LightningWandLogic.canUse(false, true), "Cannot use while spectator");
+        org.junit.jupiter.api.Assertions.assertFalse(
+                LightningWandLogic.canUse(true, true), "Cannot use while cooldown and spectator");
     }
 
     @Test
@@ -40,15 +42,20 @@ public class LightningWandLogicTest {
         assertEquals(6.4f, LightningWandLogic.calculateDamage(8.0f, 0.20f, 1), 0.001f);
         assertEquals(5.12f, LightningWandLogic.calculateDamage(8.0f, 0.20f, 2), 0.001f);
         assertEquals(4.096f, LightningWandLogic.calculateDamage(8.0f, 0.20f, 3), 0.001f);
-        assertEquals(1.0f, LightningWandLogic.calculateDamage(8.0f, 0.20f, 100), 0.001f, "Damage should not fall below 1.0");
+        assertEquals(
+                1.0f, LightningWandLogic.calculateDamage(8.0f, 0.20f, 100), 0.001f, "Damage should not fall below 1.0");
     }
 
     @Test
     void testIsWithinRange() {
-        org.junit.jupiter.api.Assertions.assertTrue(LightningWandLogic.isWithinRange(0.0, 0.0, 0.0, 3.0, 0.0, 4.0, 5.0));
-        org.junit.jupiter.api.Assertions.assertFalse(LightningWandLogic.isWithinRange(0.0, 0.0, 0.0, 3.0, 0.0, 4.01, 5.0));
-        org.junit.jupiter.api.Assertions.assertTrue(LightningWandLogic.isWithinRange(10.0, 20.0, 30.0, 10.0, 25.0, 30.0, 8.0));
-        org.junit.jupiter.api.Assertions.assertFalse(LightningWandLogic.isWithinRange(10.0, 20.0, 30.0, 10.0, 29.0, 30.0, 8.0));
+        org.junit.jupiter.api.Assertions.assertTrue(
+                LightningWandLogic.isWithinRange(0.0, 0.0, 0.0, 3.0, 0.0, 4.0, 5.0));
+        org.junit.jupiter.api.Assertions.assertFalse(
+                LightningWandLogic.isWithinRange(0.0, 0.0, 0.0, 3.0, 0.0, 4.01, 5.0));
+        org.junit.jupiter.api.Assertions.assertTrue(
+                LightningWandLogic.isWithinRange(10.0, 20.0, 30.0, 10.0, 25.0, 30.0, 8.0));
+        org.junit.jupiter.api.Assertions.assertFalse(
+                LightningWandLogic.isWithinRange(10.0, 20.0, 30.0, 10.0, 29.0, 30.0, 8.0));
     }
 
     @Test
@@ -69,28 +76,23 @@ public class LightningWandLogicTest {
     void testIsRayAimingAtTarget() {
         // Direct hit along Z
         org.junit.jupiter.api.Assertions.assertTrue(
-            LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 0, 1.6, 10, 20.0, 1.0)
-        );
+                LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 0, 1.6, 10, 20.0, 1.0));
 
         // Within tolerance (0.8 blocks off to the side)
         org.junit.jupiter.api.Assertions.assertTrue(
-            LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 0.8, 1.6, 10, 20.0, 1.0)
-        );
+                LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 0.8, 1.6, 10, 20.0, 1.0));
 
         // Outside tolerance (2.5 blocks off to the side)
         org.junit.jupiter.api.Assertions.assertFalse(
-            LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 2.5, 1.6, 10, 20.0, 1.0)
-        );
+                LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 2.5, 1.6, 10, 20.0, 1.0));
 
         // Behind player
         org.junit.jupiter.api.Assertions.assertFalse(
-            LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 0, 1.6, -5, 20.0, 1.0)
-        );
+                LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 0, 1.6, -5, 20.0, 1.0));
 
         // Beyond max range
         org.junit.jupiter.api.Assertions.assertFalse(
-            LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 0, 1.6, 25, 20.0, 1.0)
-        );
+                LightningWandLogic.isRayAimingAtTarget(0, 1.6, 0, 0, 0, 1, 0, 1.6, 25, 20.0, 1.0));
     }
 
     @Test
@@ -114,8 +116,13 @@ public class LightningWandLogicTest {
         assertEquals(0.0f, LightningWandLogic.calculateChargeRatio(0, 100), 0.001f);
         assertEquals(0.5f, LightningWandLogic.calculateChargeRatio(50, 100), 0.001f);
         assertEquals(1.0f, LightningWandLogic.calculateChargeRatio(100, 100), 0.001f);
-        assertEquals(1.0f, LightningWandLogic.calculateChargeRatio(150, 100), 0.001f, "Charge ratio should be capped at 1.0");
-        assertEquals(0.0f, LightningWandLogic.calculateChargeRatio(-10, 100), 0.001f, "Charge ratio should not be negative");
+        assertEquals(
+                1.0f,
+                LightningWandLogic.calculateChargeRatio(150, 100),
+                0.001f,
+                "Charge ratio should be capped at 1.0");
+        assertEquals(
+                0.0f, LightningWandLogic.calculateChargeRatio(-10, 100), 0.001f, "Charge ratio should not be negative");
     }
 
     @Test
@@ -143,6 +150,7 @@ public class LightningWandLogicTest {
         assertEquals(0.0f, LightningWandLogic.calculateExtraDamage(5.0f, 5.0f), 0.001f);
         assertEquals(0.0f, LightningWandLogic.calculateExtraDamage(3.0f, 5.0f), 0.001f);
     }
+
     @Test
     void aimedTargetIsTheClosestOneAlongTheRay() {
         // aimDistance > 0: anvisiert, Wert = Abstand entlang des Strahls; -1: nicht anvisiert
@@ -160,7 +168,8 @@ public class LightningWandLogicTest {
     void chainJumpsToTheNearestTargetInsideTheRadius() {
         // Quadrierte Abstände; Radius 8 heißt bis 64
         Map<String, Double> distSq = Map.of("near", 9.0, "far", 49.0, "outside", 81.0);
-        assertEquals("near", LightningWandLogic.pickNearestInRange(List.of("far", "near", "outside"), distSq::get, 8.0));
+        assertEquals(
+                "near", LightningWandLogic.pickNearestInRange(List.of("far", "near", "outside"), distSq::get, 8.0));
         assertEquals("far", LightningWandLogic.pickNearestInRange(List.of("far", "outside"), distSq::get, 8.0));
         assertNull(LightningWandLogic.pickNearestInRange(List.of("outside"), distSq::get, 8.0));
     }

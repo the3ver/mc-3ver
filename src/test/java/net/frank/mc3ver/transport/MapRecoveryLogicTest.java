@@ -1,13 +1,12 @@
 package net.frank.mc3ver.transport;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class MapRecoveryLogicTest {
 
@@ -16,10 +15,8 @@ public class MapRecoveryLogicTest {
     @Test
     void testCarriesMapForMatchesOnlyThisFlame() {
         UUID id = UUID.randomUUID();
-        List<TransportFlameLogic.FlameTarget> targets = Arrays.asList(
-            null,
-            new TransportFlameLogic.FlameTarget(1, 64, 1, OVERWORLD, 0xF9FFFE, id)
-        );
+        List<TransportFlameLogic.FlameTarget> targets =
+                Arrays.asList(null, new TransportFlameLogic.FlameTarget(1, 64, 1, OVERWORLD, 0xF9FFFE, id));
         assertTrue(TransportFlameLogic.carriesMapFor(targets, 1, 64, 1, OVERWORLD));
         assertFalse(TransportFlameLogic.carriesMapFor(targets, 2, 64, 1, OVERWORLD));
         assertFalse(TransportFlameLogic.carriesMapFor(targets, 1, 64, 1, "minecraft:the_nether"));
@@ -32,7 +29,8 @@ public class MapRecoveryLogicTest {
         TransportFlameLogic.FlameTarget stored = new TransportFlameLogic.FlameTarget(4, 70, 4, OVERWORLD, 0x169C9C, id);
         assertSame(stored, TransportFlameLogic.resolveFlameTarget(stored, 4, 70, 4, OVERWORLD, new Random(1)));
 
-        TransportFlameLogic.FlameTarget moved = TransportFlameLogic.resolveFlameTarget(stored, 5, 70, 4, OVERWORLD, new Random(1));
+        TransportFlameLogic.FlameTarget moved =
+                TransportFlameLogic.resolveFlameTarget(stored, 5, 70, 4, OVERWORLD, new Random(1));
         assertTrue(moved.isAt(5, 70, 4, OVERWORLD));
         assertEquals(0x169C9C, moved.colorRgb());
         assertEquals(id, moved.flameId());
@@ -40,7 +38,8 @@ public class MapRecoveryLogicTest {
 
     @Test
     void testResolveFlameTargetCreatesIdentityForOldFlames() {
-        TransportFlameLogic.FlameTarget fresh = TransportFlameLogic.resolveFlameTarget(null, 4, 70, 4, OVERWORLD, new Random(1));
+        TransportFlameLogic.FlameTarget fresh =
+                TransportFlameLogic.resolveFlameTarget(null, 4, 70, 4, OVERWORLD, new Random(1));
         assertTrue(fresh.isAt(4, 70, 4, OVERWORLD));
         assertTrue(TransportFlameLogic.isValidFlameColorRgb(fresh.colorRgb()));
         assertNotNull(fresh.flameId());

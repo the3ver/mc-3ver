@@ -1,11 +1,10 @@
 package net.frank.mc3ver.bonfire;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class BonfireLogicTest {
 
@@ -35,8 +34,11 @@ public class BonfireLogicTest {
 
     @Test
     void fromOffsetFindsPartsInsideAndRejectsOutside() {
-        assertEquals(BonfireLogic.Part.CENTER, BonfireLogic.Part.fromOffset(0, 0).orElseThrow());
-        assertEquals(BonfireLogic.Part.NORTH_EAST, BonfireLogic.Part.fromOffset(1, -1).orElseThrow());
+        assertEquals(
+                BonfireLogic.Part.CENTER, BonfireLogic.Part.fromOffset(0, 0).orElseThrow());
+        assertEquals(
+                BonfireLogic.Part.NORTH_EAST,
+                BonfireLogic.Part.fromOffset(1, -1).orElseThrow());
         assertTrue(BonfireLogic.Part.fromOffset(2, 0).isEmpty());
     }
 
@@ -60,33 +62,37 @@ public class BonfireLogicTest {
 
     @Test
     void placementOnFlatFreeGroundIsOk() {
-        assertEquals(BonfireLogic.PlacementStatus.OK,
-            BonfireLogic.validatePlacement(0, 64, 0, flatWorld(Set.of(), Set.of())));
+        assertEquals(
+                BonfireLogic.PlacementStatus.OK,
+                BonfireLogic.validatePlacement(0, 64, 0, flatWorld(Set.of(), Set.of())));
     }
 
     @Test
     void blockInTheCornerObstructsPlacement() {
-        assertEquals(BonfireLogic.PlacementStatus.OBSTRUCTED,
-            BonfireLogic.validatePlacement(0, 64, 0, flatWorld(Set.of("1,64,1"), Set.of())));
+        assertEquals(
+                BonfireLogic.PlacementStatus.OBSTRUCTED,
+                BonfireLogic.validatePlacement(0, 64, 0, flatWorld(Set.of("1,64,1"), Set.of())));
     }
 
     @Test
     void holeInTheGroundIsUneven() {
-        assertEquals(BonfireLogic.PlacementStatus.UNEVEN_GROUND,
-            BonfireLogic.validatePlacement(0, 64, 0, flatWorld(Set.of(), Set.of("-1,0"))));
+        assertEquals(
+                BonfireLogic.PlacementStatus.UNEVEN_GROUND,
+                BonfireLogic.validatePlacement(0, 64, 0, flatWorld(Set.of(), Set.of("-1,0"))));
     }
 
     @Test
     void obstructionIsReportedBeforeUnevenGround() {
-        assertEquals(BonfireLogic.PlacementStatus.OBSTRUCTED,
-            BonfireLogic.validatePlacement(0, 64, 0, flatWorld(Set.of("0,64,0"), Set.of("1,1"))));
+        assertEquals(
+                BonfireLogic.PlacementStatus.OBSTRUCTED,
+                BonfireLogic.validatePlacement(0, 64, 0, flatWorld(Set.of("0,64,0"), Set.of("1,1"))));
     }
 
     @Test
     void everyVanillaDyeHasASmokeColor() {
         for (net.minecraft.world.item.DyeColor dye : net.minecraft.world.item.DyeColor.values()) {
-            BonfireLogic.SmokeColor color = BonfireLogic.SmokeColor.fromDyeName(dye.getName()).orElseThrow(
-                () -> new AssertionError("Keine Rauchfarbe für " + dye.getName()));
+            BonfireLogic.SmokeColor color = BonfireLogic.SmokeColor.fromDyeName(dye.getName())
+                    .orElseThrow(() -> new AssertionError("Keine Rauchfarbe für " + dye.getName()));
             assertEquals(dye.getName(), color.getSerializedName());
         }
         assertEquals(net.minecraft.world.item.DyeColor.values().length + 1, BonfireLogic.SmokeColor.values().length);
@@ -250,8 +256,10 @@ public class BonfireLogicTest {
         double low = 0.0;
         double high = 0.0;
         for (int i = 0; i < 64; i++) {
-            low += BonfireLogic.plumePuff(0, lifetime * 0.2 + i * lifetime, east).x();
-            high += BonfireLogic.plumePuff(0, lifetime * 0.8 + i * lifetime, east).x();
+            low += BonfireLogic.plumePuff(0, lifetime * 0.2 + i * lifetime, east)
+                    .x();
+            high += BonfireLogic.plumePuff(0, lifetime * 0.8 + i * lifetime, east)
+                    .x();
         }
         assertTrue(low / 64 > 0.0);
         assertTrue(high / 64 > 4.0 * (low / 64));

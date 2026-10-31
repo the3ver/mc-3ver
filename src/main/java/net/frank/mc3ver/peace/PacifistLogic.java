@@ -6,7 +6,11 @@ public final class PacifistLogic {
     public static final int BROKEN_PEACE_LOCK_TICKS = 600;
     public static final int EFFECT_COLOR = 0xF2F2F2;
 
-    public enum ToggleResult { ACTIVATED, DEACTIVATED, LOCKED }
+    public enum ToggleResult {
+        ACTIVATED,
+        DEACTIVATED,
+        LOCKED
+    }
 
     private PacifistLogic() {}
 

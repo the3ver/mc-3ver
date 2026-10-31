@@ -1,7 +1,6 @@
 package net.frank.mc3ver.tent;
 
 import java.util.List;
-
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
@@ -11,8 +10,7 @@ public final class TentChestStorage {
 
     public static final int SIZE = 27;
 
-    private TentChestStorage() {
-    }
+    private TentChestStorage() {}
 
     public static void store(ItemStack carrier, List<ItemStack> items) {
         boolean allEmpty = true;
@@ -31,7 +29,8 @@ public final class TentChestStorage {
 
     public static NonNullList<ItemStack> restore(ItemStack carrier) {
         NonNullList<ItemStack> list = NonNullList.withSize(SIZE, ItemStack.EMPTY);
-        carrier.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(list);
+        carrier.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY)
+                .copyInto(list);
         return list;
     }
 }

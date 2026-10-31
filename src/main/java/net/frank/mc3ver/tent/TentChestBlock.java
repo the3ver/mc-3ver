@@ -2,6 +2,8 @@ package net.frank.mc3ver.tent;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -14,8 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -32,10 +32,11 @@ public class TentChestBlock extends BaseEntityBlock {
 
     public TentChestBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any()
-            .setValue(FACING, Direction.NORTH)
-            .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE)
-            .setValue(OPEN, false));
+        this.registerDefaultState(this.stateDefinition
+                .any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE)
+                .setValue(OPEN, false));
     }
 
     @Override
@@ -45,16 +46,14 @@ public class TentChestBlock extends BaseEntityBlock {
 
     public static VoxelShape getChestShape(Direction tentFacing) {
         Direction rightDir = tentFacing.getClockWise();
-        VoxelShape body = switch (rightDir) {
-            case EAST -> Block.box(1, 0, 2, 14, 11, 14);
-            case WEST -> Block.box(2, 0, 2, 15, 11, 14);
-            case SOUTH -> Block.box(2, 0, 1, 14, 11, 14);
-            default -> Block.box(2, 0, 2, 14, 11, 15);
-        };
-        return Shapes.or(
-            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_RIGHT, tentFacing),
-            body
-        );
+        VoxelShape body =
+                switch (rightDir) {
+                    case EAST -> Block.box(1, 0, 2, 14, 11, 14);
+                    case WEST -> Block.box(2, 0, 2, 15, 11, 14);
+                    case SOUTH -> Block.box(2, 0, 1, 14, 11, 14);
+                    default -> Block.box(2, 0, 2, 14, 11, 15);
+                };
+        return Shapes.or(TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_RIGHT, tentFacing), body);
     }
 
     @Override
@@ -75,7 +74,8 @@ public class TentChestBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (player.isShiftKeyDown()) {
             if (!level.isClientSide()) {
                 ModTentBlocks.dismantleTent(level, pos, player);

@@ -1,5 +1,7 @@
 package net.frank.mc3ver.tree;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import net.fabricmc.fabric.api.item.v1.BlockTransformerHelper;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
@@ -32,17 +34,17 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
-
 public class PearTreeBlocks {
 
     // Wood and Set Types
-    public static final BlockSetType PEAR_SET_TYPE = BlockSetTypeBuilder.copyOf(BlockSetType.OAK).register(Mc3verMod.id("pear"));
-    public static final WoodType PEAR_WOOD_TYPE = WoodTypeBuilder.copyOf(WoodType.OAK).register(Mc3verMod.id("pear"), PEAR_SET_TYPE);
+    public static final BlockSetType PEAR_SET_TYPE =
+            BlockSetTypeBuilder.copyOf(BlockSetType.OAK).register(Mc3verMod.id("pear"));
+    public static final WoodType PEAR_WOOD_TYPE =
+            WoodTypeBuilder.copyOf(WoodType.OAK).register(Mc3verMod.id("pear"), PEAR_SET_TYPE);
 
     // Registriert einen Block; der ResourceKey entsteht aus dem Namen und wird als ID in die Properties gesetzt
-    private static Block block(String name, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
+    private static Block block(
+            String name, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Mc3verMod.id(name));
         return Registry.register(BuiltInRegistries.BLOCK, key, factory.apply(properties.setId(key)));
     }
@@ -50,7 +52,8 @@ public class PearTreeBlocks {
     // Registriert das Item zu einem Block unter demselben Namen
     private static Item blockItem(Block block, BiFunction<Block, Item.Properties, Item> factory) {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, BuiltInRegistries.BLOCK.getKey(block));
-        Item.Properties properties = PearTreeItems.fuelAndCompost(key.identifier().getPath(), new Item.Properties().setId(key));
+        Item.Properties properties =
+                PearTreeItems.fuelAndCompost(key.identifier().getPath(), new Item.Properties().setId(key));
         return Registry.register(BuiltInRegistries.ITEM, key, factory.apply(block, properties));
     }
 
@@ -61,76 +64,88 @@ public class PearTreeBlocks {
     // Gemeinsame Eigenschaften der Holzblöcke wie bei Eiche
     private static BlockBehaviour.Properties wood(float hardness, float resistance) {
         return BlockBehaviour.Properties.of()
-            .mapColor(MapColor.WOOD)
-            .instrument(NoteBlockInstrument.BASS)
-            .strength(hardness, resistance)
-            .sound(SoundType.WOOD);
+                .mapColor(MapColor.WOOD)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(hardness, resistance)
+                .sound(SoundType.WOOD);
     }
 
     // Blocks
-    public static final Block PEAR_LOG = block("pear_log", RotatedPillarBlock::new, wood(2.0F, 2.0F).ignitedByLava());
-    public static final Block STRIPPED_PEAR_LOG = block("stripped_pear_log", RotatedPillarBlock::new, wood(2.0F, 2.0F).ignitedByLava());
-    public static final Block PEAR_WOOD = block("pear_wood", RotatedPillarBlock::new, wood(2.0F, 2.0F).ignitedByLava());
-    public static final Block STRIPPED_PEAR_WOOD = block("stripped_pear_wood", RotatedPillarBlock::new, wood(2.0F, 2.0F).ignitedByLava());
-    public static final Block PEAR_PLANKS = block("pear_planks", Block::new, wood(2.0F, 3.0F).ignitedByLava());
-    public static final Block PEAR_STAIRS = block("pear_stairs",
-        p -> new StairBlock(PEAR_PLANKS.defaultBlockState(), p), wood(2.0F, 3.0F).ignitedByLava());
-    public static final Block PEAR_SLAB = block("pear_slab", SlabBlock::new, wood(2.0F, 3.0F).ignitedByLava());
-    public static final Block PEAR_FENCE = block("pear_fence", FenceBlock::new, wood(2.0F, 3.0F).ignitedByLava());
-    public static final Block PEAR_FENCE_GATE = block("pear_fence_gate",
-        p -> new FenceGateBlock(PEAR_WOOD_TYPE, p), wood(2.0F, 3.0F).ignitedByLava());
-    public static final Block PEAR_DOOR = block("pear_door",
-        p -> new DoorBlock(PEAR_SET_TYPE, p),
-        wood(3.0F, 3.0F)
-            .noOcclusion()
-            .ignitedByLava()
-            .pushReaction(PushReaction.POPPED));
-    public static final Block PEAR_TRAPDOOR = block("pear_trapdoor",
-        p -> new TrapDoorBlock(PEAR_SET_TYPE, p),
-        wood(3.0F, 3.0F)
-            .noOcclusion()
-            .isValidSpawn(Blocks::never)
-            .ignitedByLava());
-    public static final Block PEAR_PRESSURE_PLATE = block("pear_pressure_plate",
-        p -> new PressurePlateBlock(PEAR_SET_TYPE, p),
-        BlockBehaviour.Properties.of()
-            .mapColor(MapColor.WOOD)
-            .instrument(NoteBlockInstrument.BASS)
-            .forceSolidOff()
-            .noCollision()
-            .strength(0.5F)
-            .sound(SoundType.WOOD)
-            .ignitedByLava()
-            .pushReaction(PushReaction.POPPED));
-    public static final Block PEAR_BUTTON = block("pear_button",
-        p -> new ButtonBlock(PEAR_SET_TYPE, 30, p),
-        BlockBehaviour.Properties.of()
-            .noCollision()
-            .strength(0.5F)
-            .sound(SoundType.WOOD)
-            .pushReaction(PushReaction.POPPED));
-    public static final Block PEAR_LEAVES = block("pear_leaves", PearLeavesBlock::new,
-        BlockBehaviour.Properties.of()
-            .mapColor(MapColor.PLANT)
-            .strength(0.2F)
-            .randomTicks()
-            .sound(SoundType.GRASS)
-            .noOcclusion()
-            .isValidSpawn(Blocks::ocelotOrParrot)
-            .isSuffocating(Blocks::never)
-            .isViewBlocking((state, level, pos, box) -> false)
-            .ignitedByLava()
-            .pushReaction(PushReaction.POPPED)
-            .isRedstoneConductor(Blocks::never));
-    public static final Block PEAR_SAPLING = block("pear_sapling",
-        p -> new SaplingBlock(PearTreeSaplingGenerator.PEAR_TREE_GROWER, p),
-        BlockBehaviour.Properties.of()
-            .mapColor(MapColor.PLANT)
-            .noCollision()
-            .randomTicks()
-            .instabreak()
-            .sound(SoundType.GRASS)
-            .pushReaction(PushReaction.POPPED));
+    public static final Block PEAR_LOG =
+            block("pear_log", RotatedPillarBlock::new, wood(2.0F, 2.0F).ignitedByLava());
+    public static final Block STRIPPED_PEAR_LOG =
+            block("stripped_pear_log", RotatedPillarBlock::new, wood(2.0F, 2.0F).ignitedByLava());
+    public static final Block PEAR_WOOD =
+            block("pear_wood", RotatedPillarBlock::new, wood(2.0F, 2.0F).ignitedByLava());
+    public static final Block STRIPPED_PEAR_WOOD = block(
+            "stripped_pear_wood", RotatedPillarBlock::new, wood(2.0F, 2.0F).ignitedByLava());
+    public static final Block PEAR_PLANKS =
+            block("pear_planks", Block::new, wood(2.0F, 3.0F).ignitedByLava());
+    public static final Block PEAR_STAIRS = block(
+            "pear_stairs",
+            p -> new StairBlock(PEAR_PLANKS.defaultBlockState(), p),
+            wood(2.0F, 3.0F).ignitedByLava());
+    public static final Block PEAR_SLAB =
+            block("pear_slab", SlabBlock::new, wood(2.0F, 3.0F).ignitedByLava());
+    public static final Block PEAR_FENCE =
+            block("pear_fence", FenceBlock::new, wood(2.0F, 3.0F).ignitedByLava());
+    public static final Block PEAR_FENCE_GATE = block(
+            "pear_fence_gate",
+            p -> new FenceGateBlock(PEAR_WOOD_TYPE, p),
+            wood(2.0F, 3.0F).ignitedByLava());
+    public static final Block PEAR_DOOR = block(
+            "pear_door",
+            p -> new DoorBlock(PEAR_SET_TYPE, p),
+            wood(3.0F, 3.0F).noOcclusion().ignitedByLava().pushReaction(PushReaction.POPPED));
+    public static final Block PEAR_TRAPDOOR = block(
+            "pear_trapdoor",
+            p -> new TrapDoorBlock(PEAR_SET_TYPE, p),
+            wood(3.0F, 3.0F).noOcclusion().isValidSpawn(Blocks::never).ignitedByLava());
+    public static final Block PEAR_PRESSURE_PLATE = block(
+            "pear_pressure_plate",
+            p -> new PressurePlateBlock(PEAR_SET_TYPE, p),
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
+                    .instrument(NoteBlockInstrument.BASS)
+                    .forceSolidOff()
+                    .noCollision()
+                    .strength(0.5F)
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()
+                    .pushReaction(PushReaction.POPPED));
+    public static final Block PEAR_BUTTON = block(
+            "pear_button",
+            p -> new ButtonBlock(PEAR_SET_TYPE, 30, p),
+            BlockBehaviour.Properties.of()
+                    .noCollision()
+                    .strength(0.5F)
+                    .sound(SoundType.WOOD)
+                    .pushReaction(PushReaction.POPPED));
+    public static final Block PEAR_LEAVES = block(
+            "pear_leaves",
+            PearLeavesBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
+                    .strength(0.2F)
+                    .randomTicks()
+                    .sound(SoundType.GRASS)
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::ocelotOrParrot)
+                    .isSuffocating(Blocks::never)
+                    .isViewBlocking((state, level, pos, box) -> false)
+                    .ignitedByLava()
+                    .pushReaction(PushReaction.POPPED)
+                    .isRedstoneConductor(Blocks::never));
+    public static final Block PEAR_SAPLING = block(
+            "pear_sapling",
+            p -> new SaplingBlock(PearTreeSaplingGenerator.PEAR_TREE_GROWER, p),
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
+                    .noCollision()
+                    .randomTicks()
+                    .instabreak()
+                    .sound(SoundType.GRASS)
+                    .pushReaction(PushReaction.POPPED));
 
     // BlockItems
     public static final Item PEAR_LOG_ITEM = blockItem(PEAR_LOG);
@@ -168,6 +183,5 @@ public class PearTreeBlocks {
         flammable.add(PEAR_DOOR, 5, 20);
         flammable.add(PEAR_TRAPDOOR, 5, 20);
         flammable.add(PEAR_LEAVES, 30, 60);
-
     }
 }

@@ -3,18 +3,18 @@ package net.frank.mc3ver.tent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.ContainerUser;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -38,8 +38,7 @@ public class TentChestBlockEntity extends RandomizableContainerBlockEntity {
         }
 
         @Override
-        protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int oldCount, int newCount) {
-        }
+        protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int oldCount, int newCount) {}
 
         @Override
         public boolean isOwnContainer(Player player) {
@@ -119,14 +118,20 @@ public class TentChestBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     public void startOpen(ContainerUser user) {
         if (!this.remove && !user.getLivingEntity().isSpectator()) {
-            this.openersCounter.incrementOpeners(user.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState(), user.getContainerInteractionRange());
+            this.openersCounter.incrementOpeners(
+                    user.getLivingEntity(),
+                    this.getLevel(),
+                    this.getBlockPos(),
+                    this.getBlockState(),
+                    user.getContainerInteractionRange());
         }
     }
 
     @Override
     public void stopOpen(ContainerUser user) {
         if (!this.remove && !user.getLivingEntity().isSpectator()) {
-            this.openersCounter.decrementOpeners(user.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState());
+            this.openersCounter.decrementOpeners(
+                    user.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState());
         }
     }
 
@@ -152,7 +157,14 @@ public class TentChestBlockEntity extends RandomizableContainerBlockEntity {
             return;
         }
         BlockPos pos = this.worldPosition;
-        this.level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, sound, SoundSource.BLOCKS,
-            0.5f, this.level.getRandom().nextFloat() * 0.1f + 0.9f);
+        this.level.playSound(
+                null,
+                pos.getX() + 0.5,
+                pos.getY() + 0.5,
+                pos.getZ() + 0.5,
+                sound,
+                SoundSource.BLOCKS,
+                0.5f,
+                this.level.getRandom().nextFloat() * 0.1f + 0.9f);
     }
 }

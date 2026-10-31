@@ -21,10 +21,8 @@ public class TentPoleBlock extends HorizontalDirectionalBlock {
 
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
 
-    protected static final VoxelShape SHAPE = Shapes.or(
-        Block.box(6.0, 0.0, 6.0, 10.0, 16.0, 10.0),
-        Block.box(4.0, 0.0, 4.0, 12.0, 3.0, 12.0)
-    );
+    protected static final VoxelShape SHAPE =
+            Shapes.or(Block.box(6.0, 0.0, 6.0, 10.0, 16.0, 10.0), Block.box(4.0, 0.0, 4.0, 12.0, 3.0, 12.0));
 
     public TentPoleBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -42,7 +40,8 @@ public class TentPoleBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (player.isShiftKeyDown()) {
             if (!level.isClientSide()) {
                 ModTentBlocks.dismantleTent(level, pos, player);

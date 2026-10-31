@@ -32,15 +32,14 @@ public class WindWandItem extends Item {
 
         // Sound auf allen Seiten abspielen
         level.playSound(
-            null,
-            player.getX(),
-            player.getY(),
-            player.getZ(),
-            SoundEvents.WIND_CHARGE_THROW,
-            SoundSource.PLAYERS,
-            0.5f,
-            0.4f / (level.getRandom().nextFloat() * 0.4f + 0.8f)
-        );
+                null,
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                SoundEvents.WIND_CHARGE_THROW,
+                SoundSource.PLAYERS,
+                0.5f,
+                0.4f / (level.getRandom().nextFloat() * 0.4f + 0.8f));
 
         // Cooldown setzen
         player.getCooldowns().addCooldown(stack, WindWandLogic.COOLDOWN_TICKS);
@@ -55,22 +54,10 @@ public class WindWandItem extends Item {
             double spreadZ = (random.nextFloat() - 0.5f) * WindWandLogic.DEFAULT_INACCURACY * 2.0;
 
             double[] velocity = WindWandLogic.calculateVelocity(
-                lookVec.x,
-                lookVec.y,
-                lookVec.z,
-                spreadX,
-                spreadY,
-                spreadZ,
-                WindWandLogic.PROJECTILE_SPEED
-            );
+                    lookVec.x, lookVec.y, lookVec.z, spreadX, spreadY, spreadZ, WindWandLogic.PROJECTILE_SPEED);
 
             WindCharge windCharge = new WindCharge(
-                player,
-                serverLevel,
-                player.getX(),
-                player.getEyePosition().y(),
-                player.getZ()
-            );
+                    player, serverLevel, player.getX(), player.getEyePosition().y(), player.getZ());
 
             windCharge.shoot(velocity[0], velocity[1], velocity[2], WindWandLogic.PROJECTILE_SPEED, 0.0f);
             serverLevel.addFreshEntity(windCharge);
@@ -78,11 +65,12 @@ public class WindWandItem extends Item {
             // Haltbarkeit um 1 reduzieren
             if (player instanceof ServerPlayer serverPlayer) {
                 stack.hurtAndBreak(
-                    1,
-                    serverLevel,
-                    serverPlayer,
-                    item -> player.onEquippedItemBroken(item, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND)
-                );
+                        1,
+                        serverLevel,
+                        serverPlayer,
+                        item -> player.onEquippedItemBroken(
+                                item,
+                                hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
             }
         }
 

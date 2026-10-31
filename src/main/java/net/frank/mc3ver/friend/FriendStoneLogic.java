@@ -8,8 +8,8 @@ import java.util.UUID;
 // Spiellogik des Freundschaftssteins ohne Weltzugriff: ein geprägter Stein führt immer zu dem, der ihn geprägt hat
 public final class FriendStoneLogic {
 
-    public static final int CHANNELING_TICKS = 50;  // 2,5 Sekunden
-    public static final int COOLDOWN_TICKS = 600;   // 30 Sekunden
+    public static final int CHANNELING_TICKS = 50; // 2,5 Sekunden
+    public static final int COOLDOWN_TICKS = 600; // 30 Sekunden
     public static final int UNBOUND_STACK_SIZE = 16;
     public static final int DISTANCE_UPDATE_TICKS = 10;
 
@@ -55,9 +55,9 @@ public final class FriendStoneLogic {
     public static List<int[]> arrivalCandidates(int friendX, int friendY, int friendZ) {
         int[][] offsets = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
         List<int[]> candidates = new ArrayList<>();
-        for (int dy : new int[]{0, 1, -1}) {
+        for (int dy : new int[] {0, 1, -1}) {
             for (int[] offset : offsets) {
-                candidates.add(new int[]{friendX + offset[0], friendY + dy, friendZ + offset[1]});
+                candidates.add(new int[] {friendX + offset[0], friendY + dy, friendZ + offset[1]});
             }
         }
         return candidates;
@@ -70,11 +70,18 @@ public final class FriendStoneLogic {
                 return c;
             }
         }
-        return new int[]{friendX, friendY, friendZ};
+        return new int[] {friendX, friendY, friendZ};
     }
 
     public enum Compass {
-        NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST;
+        NORTH,
+        NORTH_EAST,
+        EAST,
+        SOUTH_EAST,
+        SOUTH,
+        SOUTH_WEST,
+        WEST,
+        NORTH_WEST;
 
         public String translationKey() {
             return "direction.mc3ver." + name().toLowerCase(java.util.Locale.ROOT);
@@ -91,8 +98,8 @@ public final class FriendStoneLogic {
     public record Bearing(int distance, Compass direction) {}
 
     // Leer, wenn der Freund in einer anderen Dimension ist; dann zeigt die Anzeige nur die Dimension
-    public static Optional<Bearing> bearing(double fromX, double fromZ, String fromDimension,
-                                            double toX, double toZ, String toDimension) {
+    public static Optional<Bearing> bearing(
+            double fromX, double fromZ, String fromDimension, double toX, double toZ, String toDimension) {
         if (!fromDimension.equals(toDimension)) {
             return Optional.empty();
         }

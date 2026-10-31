@@ -12,13 +12,18 @@ final class TentClient {
 
     static void register() {
         // Färbung der Zeltplane in der Welt
-        BlockColorRegistry.register((state, world, pos, tints) -> {
-            if (state != null && state.hasProperty(TentCanvasBlock.COLOR)) {
-                DyeColor dyeColor = state.getValue(TentCanvasBlock.COLOR);
-                tints.add(ExplorerTentLogic.resolveBlockColorRgb(dyeColor.getName()));
-            } else {
-                tints.add(ExplorerTentLogic.getColorRgb("white"));
-            }
-        }, ModTentBlocks.TENT_CANVAS, ModTentBlocks.TENT_FURNACE, ModTentBlocks.TENT_FLAP, ModTentBlocks.TENT_CHEST);
+        BlockColorRegistry.register(
+                (state, world, pos, tints) -> {
+                    if (state != null && state.hasProperty(TentCanvasBlock.COLOR)) {
+                        DyeColor dyeColor = state.getValue(TentCanvasBlock.COLOR);
+                        tints.add(ExplorerTentLogic.resolveBlockColorRgb(dyeColor.getName()));
+                    } else {
+                        tints.add(ExplorerTentLogic.getColorRgb("white"));
+                    }
+                },
+                ModTentBlocks.TENT_CANVAS,
+                ModTentBlocks.TENT_FURNACE,
+                ModTentBlocks.TENT_FLAP,
+                ModTentBlocks.TENT_CHEST);
     }
 }

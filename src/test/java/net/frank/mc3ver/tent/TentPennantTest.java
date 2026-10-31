@@ -1,16 +1,17 @@
 package net.frank.mc3ver.tent;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 public class TentPennantTest {
 
     private static final java.nio.file.Path ASSETS =
-        java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+            java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
 
     private static java.awt.image.BufferedImage texture() throws Exception {
-        return javax.imageio.ImageIO.read(ASSETS.resolve("textures/block/tent_pennant.png").toFile());
+        return javax.imageio.ImageIO.read(
+                ASSETS.resolve("textures/block/tent_pennant.png").toFile());
     }
 
     @Test
@@ -44,16 +45,23 @@ public class TentPennantTest {
     @Test
     void pennantTapersFromPoleToTip() throws Exception {
         com.google.gson.JsonObject model = com.google.gson.JsonParser.parseString(
-            java.nio.file.Files.readString(ASSETS.resolve("models/block/tent_canvas_roof_front.json"))).getAsJsonObject();
+                        java.nio.file.Files.readString(ASSETS.resolve("models/block/tent_canvas_roof_front.json")))
+                .getAsJsonObject();
         java.util.List<double[]> strips = new java.util.ArrayList<>();
         for (com.google.gson.JsonElement el : model.getAsJsonArray("elements")) {
             com.google.gson.JsonObject e = el.getAsJsonObject();
             if (!e.toString().contains("#pennant")) continue;
             com.google.gson.JsonArray from = e.getAsJsonArray("from");
             com.google.gson.JsonArray to = e.getAsJsonArray("to");
-            strips.add(new double[]{from.get(0).getAsDouble(), to.get(0).getAsDouble(), to.get(1).getAsDouble() - from.get(1).getAsDouble()});
+            strips.add(new double[] {
+                from.get(0).getAsDouble(),
+                to.get(0).getAsDouble(),
+                to.get(1).getAsDouble() - from.get(1).getAsDouble()
+            });
             for (String face : e.getAsJsonObject("faces").keySet()) {
-                assertTrue(e.getAsJsonObject("faces").getAsJsonObject(face).has("tintindex"), "Wimpel in Zeltfarbe: " + face);
+                assertTrue(
+                        e.getAsJsonObject("faces").getAsJsonObject(face).has("tintindex"),
+                        "Wimpel in Zeltfarbe: " + face);
             }
         }
         assertTrue(strips.size() >= 4, "Wimpel besteht aus mindestens 4 gestuften Streifen");

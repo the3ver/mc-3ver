@@ -1,8 +1,8 @@
 package net.frank.mc3ver.tent;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 public class ExplorerTentLogicTest {
 
@@ -14,31 +14,36 @@ public class ExplorerTentLogicTest {
         assertEquals(24, ExplorerTentLogic.TOTAL_BLOCK_COUNT, "Gesamtanzahl an Blockpositionen sollte 24 sein");
 
         // Anchor an (100, 64, 200) mit Blickrichtung SOUTH (vorwärts = +Z)
-        ExplorerTentLogic.BlockCoord originSouth = ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.SOUTH, 0, 0, 0);
+        ExplorerTentLogic.BlockCoord originSouth =
+                ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.SOUTH, 0, 0, 0);
         assertEquals(100, originSouth.x());
         assertEquals(64, originSouth.y());
         assertEquals(200, originSouth.z());
 
         // relX=0, relY=0, relZ=2 bei SOUTH
-        ExplorerTentLogic.BlockCoord forwardPos = ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.SOUTH, 0, 0, 2);
+        ExplorerTentLogic.BlockCoord forwardPos =
+                ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.SOUTH, 0, 0, 2);
         assertEquals(100, forwardPos.x());
         assertEquals(64, forwardPos.y());
         assertEquals(202, forwardPos.z());
 
         // Blickrichtung NORTH (vorwärts = -Z)
-        ExplorerTentLogic.BlockCoord forwardNorth = ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.NORTH, 0, 0, 2);
+        ExplorerTentLogic.BlockCoord forwardNorth =
+                ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.NORTH, 0, 0, 2);
         assertEquals(100, forwardNorth.x());
         assertEquals(64, forwardNorth.y());
         assertEquals(198, forwardNorth.z());
 
         // Blickrichtung EAST (vorwärts = +X)
-        ExplorerTentLogic.BlockCoord forwardEast = ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.EAST, 0, 0, 2);
+        ExplorerTentLogic.BlockCoord forwardEast =
+                ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.EAST, 0, 0, 2);
         assertEquals(102, forwardEast.x());
         assertEquals(64, forwardEast.y());
         assertEquals(200, forwardEast.z());
 
         // Blickrichtung WEST (vorwärts = -X)
-        ExplorerTentLogic.BlockCoord forwardWest = ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.WEST, 0, 0, 2);
+        ExplorerTentLogic.BlockCoord forwardWest =
+                ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.WEST, 0, 0, 2);
         assertEquals(98, forwardWest.x());
         assertEquals(64, forwardWest.y());
         assertEquals(200, forwardWest.z());
@@ -60,14 +65,19 @@ public class ExplorerTentLogicTest {
         };
 
         // 1. Erfolgreicher Aufbau auf freier, ebener Fläche
-        ExplorerTentLogic.PlacementResult successResult = ExplorerTentLogic.validatePlacement(100, 64, 200, ExplorerTentLogic.Facing.NORTH, clearWorld);
-        assertEquals(ExplorerTentLogic.PlacementStatus.SUCCESS, successResult.status(), "Auf ebener freier Fläche sollte Platzierung erfolgreich sein");
+        ExplorerTentLogic.PlacementResult successResult =
+                ExplorerTentLogic.validatePlacement(100, 64, 200, ExplorerTentLogic.Facing.NORTH, clearWorld);
+        assertEquals(
+                ExplorerTentLogic.PlacementStatus.SUCCESS,
+                successResult.status(),
+                "Auf ebener freier Fläche sollte Platzierung erfolgreich sein");
 
         // 2. Fehler: Ungleichmäßiger Boden (z.B. Loch bei relX=1, relZ=2, y=63)
         ExplorerTentLogic.WorldView unevenGroundWorld = new ExplorerTentLogic.WorldView() {
             @Override
             public boolean isSolid(int x, int y, int z) {
-                ExplorerTentLogic.BlockCoord hole = ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.NORTH, 1, -1, 2);
+                ExplorerTentLogic.BlockCoord hole =
+                        ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.NORTH, 1, -1, 2);
                 if (x == hole.x() && y == hole.y() && z == hole.z()) {
                     return false; // Loch im Boden
                 }
@@ -79,8 +89,12 @@ public class ExplorerTentLogicTest {
                 return y >= 64;
             }
         };
-        ExplorerTentLogic.PlacementResult unevenResult = ExplorerTentLogic.validatePlacement(100, 64, 200, ExplorerTentLogic.Facing.NORTH, unevenGroundWorld);
-        assertEquals(ExplorerTentLogic.PlacementStatus.UNEVEN_GROUND, unevenResult.status(), "Loch im Boden sollte UNEVEN_GROUND liefern");
+        ExplorerTentLogic.PlacementResult unevenResult =
+                ExplorerTentLogic.validatePlacement(100, 64, 200, ExplorerTentLogic.Facing.NORTH, unevenGroundWorld);
+        assertEquals(
+                ExplorerTentLogic.PlacementStatus.UNEVEN_GROUND,
+                unevenResult.status(),
+                "Loch im Boden sollte UNEVEN_GROUND liefern");
 
         // 3. Fehler: Blockierung im Zeltvolumen (z.B. Baumstamm bei relX=0, relZ=1, y=64)
         ExplorerTentLogic.WorldView obstructedWorld = new ExplorerTentLogic.WorldView() {
@@ -91,15 +105,20 @@ public class ExplorerTentLogicTest {
 
             @Override
             public boolean isReplaceable(int x, int y, int z) {
-                ExplorerTentLogic.BlockCoord obst = ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.NORTH, 0, 0, 1);
+                ExplorerTentLogic.BlockCoord obst =
+                        ExplorerTentLogic.toWorldPos(100, 64, 200, ExplorerTentLogic.Facing.NORTH, 0, 0, 1);
                 if (x == obst.x() && y == obst.y() && z == obst.z()) {
                     return false; // Fester Block im Weg
                 }
                 return y >= 64;
             }
         };
-        ExplorerTentLogic.PlacementResult obstResult = ExplorerTentLogic.validatePlacement(100, 64, 200, ExplorerTentLogic.Facing.NORTH, obstructedWorld);
-        assertEquals(ExplorerTentLogic.PlacementStatus.OBSTRUCTED, obstResult.status(), "Hindernis im Zeltvolumen sollte OBSTRUCTED liefern");
+        ExplorerTentLogic.PlacementResult obstResult =
+                ExplorerTentLogic.validatePlacement(100, 64, 200, ExplorerTentLogic.Facing.NORTH, obstructedWorld);
+        assertEquals(
+                ExplorerTentLogic.PlacementStatus.OBSTRUCTED,
+                obstResult.status(),
+                "Hindernis im Zeltvolumen sollte OBSTRUCTED liefern");
     }
 
     @Test
@@ -196,20 +215,56 @@ public class ExplorerTentLogicTest {
         assertEquals(1, roofBackCount, "Es muss 1 hinteren Giebel geben");
 
         // Spezifische Positions-Checks
-        assertEquals(ExplorerTentLogic.TentPart.ENTRANCE_FLAP, ExplorerTentLogic.getTentPart(0, 0, 0), "Eingang bei (0,0,0) muss die Eingangsplane sein");
-        assertEquals(ExplorerTentLogic.TentPart.WALL_FRONT_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 0), "Vorne links muss Stoff-Eingangsplane sein");
-        assertEquals(ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 0), "Vorne rechts muss Stoff-Eingangsplane sein");
-        assertEquals(ExplorerTentLogic.TentPart.WALL_CORNER_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 3), "Hinten links muss Stoff-Ecke sein");
-        assertEquals(ExplorerTentLogic.TentPart.WALL_CORNER_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 3), "Hinten rechts muss Stoff-Ecke sein");
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 0), "Vorne links oben muss Dacheingangsecke sein");
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 0), "Vorne rechts oben muss Dacheingangsecke sein");
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_CORNER_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 3), "Hinten links oben muss Dachecke sein");
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 3), "Hinten rechts oben muss Dachecke sein");
-        assertEquals(ExplorerTentLogic.TentPart.SLEEPING_BAG_FOOT, ExplorerTentLogic.getTentPart(0, 0, 1), "Schlafsack-Fuß bei (0,0,1)");
-        assertEquals(ExplorerTentLogic.TentPart.SLEEPING_BAG_HEAD, ExplorerTentLogic.getTentPart(0, 0, 2), "Schlafsack-Kopf bei (0,0,2)");
-        assertEquals(ExplorerTentLogic.TentPart.WALL_BACK, ExplorerTentLogic.getTentPart(0, 0, 3), "Rückwand bei (0,0,3)");
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_RIDGE, ExplorerTentLogic.getTentPart(0, 1, 1), "First bei (0,1,1)");
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_RIDGE, ExplorerTentLogic.getTentPart(0, 1, 2), "First bei (0,1,2)");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ENTRANCE_FLAP,
+                ExplorerTentLogic.getTentPart(0, 0, 0),
+                "Eingang bei (0,0,0) muss die Eingangsplane sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_FRONT_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 0, 0),
+                "Vorne links muss Stoff-Eingangsplane sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT,
+                ExplorerTentLogic.getTentPart(1, 0, 0),
+                "Vorne rechts muss Stoff-Eingangsplane sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_CORNER_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 0, 3),
+                "Hinten links muss Stoff-Ecke sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_CORNER_RIGHT,
+                ExplorerTentLogic.getTentPart(1, 0, 3),
+                "Hinten rechts muss Stoff-Ecke sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 1, 0),
+                "Vorne links oben muss Dacheingangsecke sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT,
+                ExplorerTentLogic.getTentPart(1, 1, 0),
+                "Vorne rechts oben muss Dacheingangsecke sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_CORNER_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 1, 3),
+                "Hinten links oben muss Dachecke sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT,
+                ExplorerTentLogic.getTentPart(1, 1, 3),
+                "Hinten rechts oben muss Dachecke sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.SLEEPING_BAG_FOOT,
+                ExplorerTentLogic.getTentPart(0, 0, 1),
+                "Schlafsack-Fuß bei (0,0,1)");
+        assertEquals(
+                ExplorerTentLogic.TentPart.SLEEPING_BAG_HEAD,
+                ExplorerTentLogic.getTentPart(0, 0, 2),
+                "Schlafsack-Kopf bei (0,0,2)");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_BACK, ExplorerTentLogic.getTentPart(0, 0, 3), "Rückwand bei (0,0,3)");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_RIDGE, ExplorerTentLogic.getTentPart(0, 1, 1), "First bei (0,1,1)");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_RIDGE, ExplorerTentLogic.getTentPart(0, 1, 2), "First bei (0,1,2)");
     }
 
     @Test
@@ -221,7 +276,8 @@ public class ExplorerTentLogicTest {
 
         // 1. Anchor-Rückrechnung aus Schlafsack-Kopfteil
         ExplorerTentLogic.BlockCoord headPos = ExplorerTentLogic.toWorldPos(anchorX, anchorY, anchorZ, facing, 0, 0, 2);
-        ExplorerTentLogic.BlockCoord recoveredAnchor = ExplorerTentLogic.getAnchorFromHead(headPos.x(), headPos.y(), headPos.z(), facing);
+        ExplorerTentLogic.BlockCoord recoveredAnchor =
+                ExplorerTentLogic.getAnchorFromHead(headPos.x(), headPos.y(), headPos.z(), facing);
         assertEquals(anchorX, recoveredAnchor.x());
         assertEquals(anchorY, recoveredAnchor.y());
         assertEquals(anchorZ, recoveredAnchor.z());
@@ -233,7 +289,8 @@ public class ExplorerTentLogicTest {
                 for (int relZ = 0; relZ < ExplorerTentLogic.LENGTH; relZ++) {
                     ExplorerTentLogic.TentPart part = ExplorerTentLogic.getTentPart(relX, relY, relZ);
                     if (part != ExplorerTentLogic.TentPart.AIR) {
-                        ExplorerTentLogic.BlockCoord pos = ExplorerTentLogic.toWorldPos(anchorX, anchorY, anchorZ, facing, relX, relY, relZ);
+                        ExplorerTentLogic.BlockCoord pos =
+                                ExplorerTentLogic.toWorldPos(anchorX, anchorY, anchorZ, facing, relX, relY, relZ);
                         worldBlocks.put(pos, part);
                     }
                 }
@@ -248,7 +305,8 @@ public class ExplorerTentLogicTest {
 
             @Override
             public boolean isSleepingBagHead(int x, int y, int z) {
-                return worldBlocks.get(new ExplorerTentLogic.BlockCoord(x, y, z)) == ExplorerTentLogic.TentPart.SLEEPING_BAG_HEAD;
+                return worldBlocks.get(new ExplorerTentLogic.BlockCoord(x, y, z))
+                        == ExplorerTentLogic.TentPart.SLEEPING_BAG_HEAD;
             }
 
             @Override
@@ -259,17 +317,21 @@ public class ExplorerTentLogicTest {
 
         // 3. Teste Abbau von verschiedenen Positionen:
         // A. Klick auf Dach links oben
-        ExplorerTentLogic.BlockCoord roofPos = ExplorerTentLogic.toWorldPos(anchorX, anchorY, anchorZ, facing, -1, 1, 3);
-        java.util.List<ExplorerTentLogic.BlockCoord> blocksFromRoof = ExplorerTentLogic.collectTentBlocks(roofPos.x(), roofPos.y(), roofPos.z(), structureView);
+        ExplorerTentLogic.BlockCoord roofPos =
+                ExplorerTentLogic.toWorldPos(anchorX, anchorY, anchorZ, facing, -1, 1, 3);
+        java.util.List<ExplorerTentLogic.BlockCoord> blocksFromRoof =
+                ExplorerTentLogic.collectTentBlocks(roofPos.x(), roofPos.y(), roofPos.z(), structureView);
         assertEquals(24, blocksFromRoof.size(), "Sollte alle 24 platzierten Zeltblöcke erfassen");
 
         // B. Klick auf vorderen Eckpfosten
         ExplorerTentLogic.BlockCoord polePos = ExplorerTentLogic.toWorldPos(anchorX, anchorY, anchorZ, facing, 1, 0, 0);
-        java.util.List<ExplorerTentLogic.BlockCoord> blocksFromPole = ExplorerTentLogic.collectTentBlocks(polePos.x(), polePos.y(), polePos.z(), structureView);
+        java.util.List<ExplorerTentLogic.BlockCoord> blocksFromPole =
+                ExplorerTentLogic.collectTentBlocks(polePos.x(), polePos.y(), polePos.z(), structureView);
         assertEquals(24, blocksFromPole.size(), "Sollte auch vom Pfosten aus alle 24 Zeltblöcke erfassen");
 
         // C. Klick auf Schlafsack selbst
-        java.util.List<ExplorerTentLogic.BlockCoord> blocksFromBed = ExplorerTentLogic.collectTentBlocks(headPos.x(), headPos.y(), headPos.z(), structureView);
+        java.util.List<ExplorerTentLogic.BlockCoord> blocksFromBed =
+                ExplorerTentLogic.collectTentBlocks(headPos.x(), headPos.y(), headPos.z(), structureView);
         assertEquals(24, blocksFromBed.size(), "Sollte vom Schlafsack aus alle 24 Zeltblöcke erfassen");
     }
 
@@ -277,11 +339,15 @@ public class ExplorerTentLogicTest {
     void testSleepingLogicAndRespawnPreservation() {
         // 1. Tag und kein Gewitter -> Schlafen nicht möglich
         ExplorerTentLogic.SleepDecision dayDecision = ExplorerTentLogic.evaluateSleep(false, false, false);
-        assertEquals(ExplorerTentLogic.SleepStatus.NOT_POSSIBLE_NOW, dayDecision.status(), "Tagsüber ohne Gewitter kein Schlaf");
+        assertEquals(
+                ExplorerTentLogic.SleepStatus.NOT_POSSIBLE_NOW,
+                dayDecision.status(),
+                "Tagsüber ohne Gewitter kein Schlaf");
 
         // 2. Monster in der Nähe bei Nacht -> Monster-Warnung
         ExplorerTentLogic.SleepDecision monsterDecision = ExplorerTentLogic.evaluateSleep(true, false, true);
-        assertEquals(ExplorerTentLogic.SleepStatus.MONSTERS_NEARBY, monsterDecision.status(), "Monster verhindern Schlaf");
+        assertEquals(
+                ExplorerTentLogic.SleepStatus.MONSTERS_NEARBY, monsterDecision.status(), "Monster verhindern Schlaf");
 
         // 3. Nacht ohne Monster -> Erfolgreich
         ExplorerTentLogic.SleepDecision nightSuccess = ExplorerTentLogic.evaluateSleep(true, false, false);
@@ -293,14 +359,16 @@ public class ExplorerTentLogicTest {
         // 4. Gewitter am Tag ohne Monster -> Erfolgreich
         ExplorerTentLogic.SleepDecision thunderSuccess = ExplorerTentLogic.evaluateSleep(false, true, false);
         assertEquals(ExplorerTentLogic.SleepStatus.SUCCESS, thunderSuccess.status(), "Schlaf bei Gewitter möglich");
-        assertTrue(thunderSuccess.preserveSpawnPoint(), "Heimat-Spawnpunkt MUSS auch bei Gewitter unangetastet bleiben!");
+        assertTrue(
+                thunderSuccess.preserveSpawnPoint(), "Heimat-Spawnpunkt MUSS auch bei Gewitter unangetastet bleiben!");
     }
 
     @Test
     void testSleepingBagIsRecognizedAsBedByVanillaSleepTick() {
         // LivingEntity.tick() weckt Schlafende sofort, wenn der Block an sleepingPos kein BedBlock ist
-        assertTrue(net.minecraft.world.level.block.BedBlock.class.isAssignableFrom(TentSleepingBagBlock.class),
-            "Schlafsack muss von BedBlock erben, sonst bricht Vanilla den Schlaf im ersten Tick ab");
+        assertTrue(
+                net.minecraft.world.level.block.BedBlock.class.isAssignableFrom(TentSleepingBagBlock.class),
+                "Schlafsack muss von BedBlock erben, sonst bricht Vanilla den Schlaf im ersten Tick ab");
     }
 
     @Test
@@ -308,10 +376,12 @@ public class ExplorerTentLogicTest {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
 
-        assertTrue(TentSleepingBagBlock.allowsSettingSpawn(net.minecraft.world.level.block.Blocks.BED.red()),
-            "Vanilla-Betten müssen den Spawnpunkt weiterhin setzen");
-        assertTrue(TentSleepingBagBlock.allowsSettingSpawn(net.minecraft.world.level.block.Blocks.STONE),
-            "Nicht-Zelt-Blöcke dürfen nicht blockiert werden");
+        assertTrue(
+                TentSleepingBagBlock.allowsSettingSpawn(net.minecraft.world.level.block.Blocks.BED.red()),
+                "Vanilla-Betten müssen den Spawnpunkt weiterhin setzen");
+        assertTrue(
+                TentSleepingBagBlock.allowsSettingSpawn(net.minecraft.world.level.block.Blocks.STONE),
+                "Nicht-Zelt-Blöcke dürfen nicht blockiert werden");
     }
 
     @Test
@@ -340,9 +410,15 @@ public class ExplorerTentLogicTest {
         assertTrue(java.nio.file.Files.exists(itemModelJson), "models/item/explorer_tent.json muss existieren");
 
         // 3. Blockstates
-        assertTrue(java.nio.file.Files.exists(resourcesDir.resolve("assets/mc3ver/blockstates/tent_canvas.json")), "blockstates/tent_canvas.json fehlt");
-        assertTrue(java.nio.file.Files.exists(resourcesDir.resolve("assets/mc3ver/blockstates/tent_pole.json")), "blockstates/tent_pole.json fehlt");
-        assertTrue(java.nio.file.Files.exists(resourcesDir.resolve("assets/mc3ver/blockstates/tent_sleeping_bag.json")), "blockstates/tent_sleeping_bag.json fehlt");
+        assertTrue(
+                java.nio.file.Files.exists(resourcesDir.resolve("assets/mc3ver/blockstates/tent_canvas.json")),
+                "blockstates/tent_canvas.json fehlt");
+        assertTrue(
+                java.nio.file.Files.exists(resourcesDir.resolve("assets/mc3ver/blockstates/tent_pole.json")),
+                "blockstates/tent_pole.json fehlt");
+        assertTrue(
+                java.nio.file.Files.exists(resourcesDir.resolve("assets/mc3ver/blockstates/tent_sleeping_bag.json")),
+                "blockstates/tent_sleeping_bag.json fehlt");
 
         // 4. Rezept
         java.nio.file.Path recipeJson = resourcesDir.resolve("data/mc3ver/recipe/explorer_tent_white.json");
@@ -360,26 +436,33 @@ public class ExplorerTentLogicTest {
         assertTrue(enContent.contains("\"block.mc3ver.tent_canvas\""), "EN Übersetzung für tent_canvas fehlt");
         assertTrue(deContent.contains("\"block.mc3ver.tent_pole\""), "DE Übersetzung für tent_pole fehlt");
         assertTrue(enContent.contains("\"block.mc3ver.tent_pole\""), "EN Übersetzung für tent_pole fehlt");
-        assertTrue(deContent.contains("\"block.mc3ver.tent_sleeping_bag\""), "DE Übersetzung für tent_sleeping_bag fehlt");
-        assertTrue(enContent.contains("\"block.mc3ver.tent_sleeping_bag\""), "EN Übersetzung für tent_sleeping_bag fehlt");
+        assertTrue(
+                deContent.contains("\"block.mc3ver.tent_sleeping_bag\""), "DE Übersetzung für tent_sleeping_bag fehlt");
+        assertTrue(
+                enContent.contains("\"block.mc3ver.tent_sleeping_bag\""), "EN Übersetzung für tent_sleeping_bag fehlt");
     }
 
     @Test
     void testExplorerTentRecipeSyntax() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path recipeJson = baseDir.resolve("src/main/resources/data/mc3ver/recipe/explorer_tent_white.json");
+        java.nio.file.Path recipeJson =
+                baseDir.resolve("src/main/resources/data/mc3ver/recipe/explorer_tent_white.json");
         String content = java.nio.file.Files.readString(recipeJson);
 
-        com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+        com.google.gson.JsonObject json =
+                com.google.gson.JsonParser.parseString(content).getAsJsonObject();
         assertEquals("minecraft:crafting_shaped", json.get("type").getAsString());
 
         com.google.gson.JsonObject key = json.getAsJsonObject("key");
-        assertTrue(key.get("W").isJsonPrimitive() && key.get("W").getAsString().equals("minecraft:white_wool"),
-            "Wolle muss als 'minecraft:white_wool' String definiert sein");
-        assertTrue(key.get("S").isJsonPrimitive() && key.get("S").getAsString().equals("minecraft:stick"),
-            "Stick muss als 'minecraft:stick' String definiert sein");
-        assertTrue(key.get("B").isJsonPrimitive() && key.get("B").getAsString().equals("#minecraft:beds"),
-            "Betten müssen als '#minecraft:beds' String definiert sein");
+        assertTrue(
+                key.get("W").isJsonPrimitive() && key.get("W").getAsString().equals("minecraft:white_wool"),
+                "Wolle muss als 'minecraft:white_wool' String definiert sein");
+        assertTrue(
+                key.get("S").isJsonPrimitive() && key.get("S").getAsString().equals("minecraft:stick"),
+                "Stick muss als 'minecraft:stick' String definiert sein");
+        assertTrue(
+                key.get("B").isJsonPrimitive() && key.get("B").getAsString().equals("#minecraft:beds"),
+                "Betten müssen als '#minecraft:beds' String definiert sein");
 
         com.google.gson.JsonObject result = json.getAsJsonObject("result");
         assertEquals("mc3ver:explorer_tent", result.get("id").getAsString());
@@ -391,9 +474,11 @@ public class ExplorerTentLogicTest {
 
         // 1. Visuelle Prüfung: Eingangsdach (tent_canvas_roof_front.json)
         // Muss bei Y >= 14.0 liegen, damit der Spieler (Höhe 1.80m = 12.8px) niemals mit dem Kopf in der Decke steckt
-        java.nio.file.Path frontModel = baseDir.resolve("src/main/resources/assets/mc3ver/models/block/tent_canvas_roof_front.json");
+        java.nio.file.Path frontModel =
+                baseDir.resolve("src/main/resources/assets/mc3ver/models/block/tent_canvas_roof_front.json");
         String frontContent = java.nio.file.Files.readString(frontModel);
-        com.google.gson.JsonObject frontJson = com.google.gson.JsonParser.parseString(frontContent).getAsJsonObject();
+        com.google.gson.JsonObject frontJson =
+                com.google.gson.JsonParser.parseString(frontContent).getAsJsonObject();
         com.google.gson.JsonArray frontElements = frontJson.getAsJsonArray("elements");
 
         for (com.google.gson.JsonElement el : frontElements) {
@@ -407,9 +492,11 @@ public class ExplorerTentLogicTest {
         }
 
         // 2. Visuelle Prüfung: Firstdach (tent_canvas_roof_ridge.json)
-        java.nio.file.Path ridgeModel = baseDir.resolve("src/main/resources/assets/mc3ver/models/block/tent_canvas_roof_ridge.json");
+        java.nio.file.Path ridgeModel =
+                baseDir.resolve("src/main/resources/assets/mc3ver/models/block/tent_canvas_roof_ridge.json");
         String ridgeContent = java.nio.file.Files.readString(ridgeModel);
-        com.google.gson.JsonObject ridgeJson = com.google.gson.JsonParser.parseString(ridgeContent).getAsJsonObject();
+        com.google.gson.JsonObject ridgeJson =
+                com.google.gson.JsonParser.parseString(ridgeContent).getAsJsonObject();
         com.google.gson.JsonArray ridgeElements = ridgeJson.getAsJsonArray("elements");
 
         for (com.google.gson.JsonElement el : ridgeElements) {
@@ -425,16 +512,21 @@ public class ExplorerTentLogicTest {
         // 3. Physische Kollisionsprüfung Dachplane:
         // Eingang (ROOF_FRONT) und First (ROOF_RIDGE) MÜSSEN eine solide Dachplane besitzen (Y=14..16),
         // damit man nicht von oben durchfallen oder von unten hinausspringen kann!
-        assertTrue(ExplorerTentLogic.hasSolidRoofPlane(ExplorerTentLogic.TentPart.ROOF_FRONT),
-            "ROOF_FRONT muss eine feste Dachplane besitzen");
-        assertTrue(ExplorerTentLogic.hasSolidRoofPlane(ExplorerTentLogic.TentPart.ROOF_RIDGE),
-            "ROOF_RIDGE muss eine feste Dachplane besitzen");
-        assertEquals(14.0, ExplorerTentLogic.getRoofCollisionMinY(),
-            "Dach-Kollision muss bei Y=14.0 beginnen (1.875m über Boden, Spielerhöhe ist 1.80m)");
+        assertTrue(
+                ExplorerTentLogic.hasSolidRoofPlane(ExplorerTentLogic.TentPart.ROOF_FRONT),
+                "ROOF_FRONT muss eine feste Dachplane besitzen");
+        assertTrue(
+                ExplorerTentLogic.hasSolidRoofPlane(ExplorerTentLogic.TentPart.ROOF_RIDGE),
+                "ROOF_RIDGE muss eine feste Dachplane besitzen");
+        assertEquals(
+                14.0,
+                ExplorerTentLogic.getRoofCollisionMinY(),
+                "Dach-Kollision muss bei Y=14.0 beginnen (1.875m über Boden, Spielerhöhe ist 1.80m)");
 
         // 4. Schlafsack darf den Spieler nicht anheben (keine Fuß-/Kopf-Kollisionshindernisse)
-        assertFalse(ExplorerTentLogic.hasSleepingBagObstacleCollision(),
-            "Schlafsack darf keine Hindernis-Kollision haben, um den Spieler nicht in die Decke zu drücken");
+        assertFalse(
+                ExplorerTentLogic.hasSleepingBagObstacleCollision(),
+                "Schlafsack darf keine Hindernis-Kollision haben, um den Spieler nicht in die Decke zu drücken");
 
         // 5. Wände und geschlossene Dachseiten müssen geschlossene Begrenzungen sein
         assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.WALL_LEFT));
@@ -470,7 +562,8 @@ public class ExplorerTentLogicTest {
             assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
 
             String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+            com.google.gson.JsonObject json =
+                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
             com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
             assertNotNull(elements, "Modell " + modelName + " muss eigene elements definieren (kein cube_all)");
 
@@ -483,8 +576,9 @@ public class ExplorerTentLogicTest {
                 double thickZ = Math.abs(to.get(2).getAsDouble() - from.get(2).getAsDouble());
                 double minThickness = Math.min(thickX, thickZ);
 
-                assertTrue(minThickness <= 2.0,
-                    "Wand in " + modelName + " muss dünn sein (Dicke <= 2.0, war: " + minThickness + ")");
+                assertTrue(
+                        minThickness <= 2.0,
+                        "Wand in " + modelName + " muss dünn sein (Dicke <= 2.0, war: " + minThickness + ")");
             }
         }
     }
@@ -504,7 +598,9 @@ public class ExplorerTentLogicTest {
             "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black"
         };
         for (String colorName : expectedColors) {
-            assertTrue(ExplorerTentLogic.ALL_DYE_COLORS.contains(colorName), "Farbe " + colorName + " muss unterstützt werden");
+            assertTrue(
+                    ExplorerTentLogic.ALL_DYE_COLORS.contains(colorName),
+                    "Farbe " + colorName + " muss unterstützt werden");
             int rgb = ExplorerTentLogic.getColorRgb(colorName);
             assertTrue(rgb > 0, "RGB-Wert für " + colorName + " muss positiv sein");
         }
@@ -529,11 +625,20 @@ public class ExplorerTentLogicTest {
         // 3. Farberkennung bei Zelt-Abbau (findTentColor)
         ExplorerTentLogic.TentStructureView coloredView = new ExplorerTentLogic.TentStructureView() {
             @Override
-            public boolean isTentBlock(int x, int y, int z) { return true; }
+            public boolean isTentBlock(int x, int y, int z) {
+                return true;
+            }
+
             @Override
-            public boolean isSleepingBagHead(int x, int y, int z) { return false; }
+            public boolean isSleepingBagHead(int x, int y, int z) {
+                return false;
+            }
+
             @Override
-            public ExplorerTentLogic.Facing getFacing(int x, int y, int z) { return ExplorerTentLogic.Facing.NORTH; }
+            public ExplorerTentLogic.Facing getFacing(int x, int y, int z) {
+                return ExplorerTentLogic.Facing.NORTH;
+            }
+
             @Override
             public String getColor(int x, int y, int z) {
                 if (x == 10 && y == 64 && z == 10) return "yellow";
@@ -542,21 +647,28 @@ public class ExplorerTentLogicTest {
         };
 
         java.util.List<ExplorerTentLogic.BlockCoord> coords = java.util.List.of(
-            new ExplorerTentLogic.BlockCoord(0, 64, 0),
-            new ExplorerTentLogic.BlockCoord(10, 64, 10),
-            new ExplorerTentLogic.BlockCoord(20, 64, 20)
-        );
+                new ExplorerTentLogic.BlockCoord(0, 64, 0),
+                new ExplorerTentLogic.BlockCoord(10, 64, 10),
+                new ExplorerTentLogic.BlockCoord(20, 64, 20));
 
         assertEquals("yellow", ExplorerTentLogic.findTentColor(coords, coloredView));
 
         // Fallback wenn keine Farbe gefunden wird
         ExplorerTentLogic.TentStructureView defaultView = new ExplorerTentLogic.TentStructureView() {
             @Override
-            public boolean isTentBlock(int x, int y, int z) { return true; }
+            public boolean isTentBlock(int x, int y, int z) {
+                return true;
+            }
+
             @Override
-            public boolean isSleepingBagHead(int x, int y, int z) { return false; }
+            public boolean isSleepingBagHead(int x, int y, int z) {
+                return false;
+            }
+
             @Override
-            public ExplorerTentLogic.Facing getFacing(int x, int y, int z) { return ExplorerTentLogic.Facing.NORTH; }
+            public ExplorerTentLogic.Facing getFacing(int x, int y, int z) {
+                return ExplorerTentLogic.Facing.NORTH;
+            }
         };
         assertEquals("white", ExplorerTentLogic.findTentColor(coords, defaultView));
     }
@@ -569,10 +681,13 @@ public class ExplorerTentLogicTest {
         for (String colorName : ExplorerTentLogic.ALL_DYE_COLORS) {
             // 1. Crafting-Rezept mit Wolle
             java.nio.file.Path craftPath = recipeDir.resolve("explorer_tent_" + colorName + ".json");
-            assertTrue(java.nio.file.Files.exists(craftPath), "Crafting-Rezept für " + colorName + " muss existieren: " + craftPath);
+            assertTrue(
+                    java.nio.file.Files.exists(craftPath),
+                    "Crafting-Rezept für " + colorName + " muss existieren: " + craftPath);
 
             String craftContent = java.nio.file.Files.readString(craftPath);
-            com.google.gson.JsonObject craftJson = com.google.gson.JsonParser.parseString(craftContent).getAsJsonObject();
+            com.google.gson.JsonObject craftJson =
+                    com.google.gson.JsonParser.parseString(craftContent).getAsJsonObject();
             assertEquals("minecraft:crafting_shaped", craftJson.get("type").getAsString());
 
             com.google.gson.JsonObject key = craftJson.getAsJsonObject("key");
@@ -584,11 +699,14 @@ public class ExplorerTentLogicTest {
             com.google.gson.JsonObject components = result.getAsJsonObject("components");
             assertNotNull(components, "Resultat muss components für Färbung haben");
             int expectedRgb = ExplorerTentLogic.getColorRgb(colorName);
-            int actualRgb = components.has("minecraft:dyed_color") && components.get("minecraft:dyed_color").isJsonObject()
-                ? components.getAsJsonObject("minecraft:dyed_color").get("rgb").getAsInt()
-                : components.get("minecraft:dyed_color").getAsInt();
+            int actualRgb = components.has("minecraft:dyed_color")
+                            && components.get("minecraft:dyed_color").isJsonObject()
+                    ? components
+                            .getAsJsonObject("minecraft:dyed_color")
+                            .get("rgb")
+                            .getAsInt()
+                    : components.get("minecraft:dyed_color").getAsInt();
             assertEquals(expectedRgb, actualRgb, "RGB für " + colorName + " muss übereinstimmen");
-
         }
     }
 
@@ -598,7 +716,8 @@ public class ExplorerTentLogicTest {
         net.minecraft.server.Bootstrap.bootStrap();
 
         assertNotNull(TentCanvasBlock.COLOR, "TentCanvasBlock muss ein COLOR Property besitzen");
-        assertEquals(16, TentCanvasBlock.COLOR.getPossibleValues().size(), "COLOR Property muss 16 DyeColors unterstützen");
+        assertEquals(
+                16, TentCanvasBlock.COLOR.getPossibleValues().size(), "COLOR Property muss 16 DyeColors unterstützen");
         assertTrue(TentCanvasBlock.COLOR.getPossibleValues().contains(net.minecraft.world.item.DyeColor.WHITE));
         assertTrue(TentCanvasBlock.COLOR.getPossibleValues().contains(net.minecraft.world.item.DyeColor.RED));
         assertEquals("color", TentCanvasBlock.COLOR.getName());
@@ -636,7 +755,8 @@ public class ExplorerTentLogicTest {
             assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
 
             String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+            com.google.gson.JsonObject json =
+                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
             com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
             assertNotNull(elements, "Modell " + modelName + " muss elements haben");
 
@@ -646,10 +766,10 @@ public class ExplorerTentLogicTest {
                 com.google.gson.JsonObject faces = elObj.getAsJsonObject("faces");
                 for (String faceName : faces.keySet()) {
                     com.google.gson.JsonObject faceObj = faces.getAsJsonObject(faceName);
-                    assertTrue(faceObj.has("tintindex"),
-                        "Face " + faceName + " in " + modelName + " muss tintindex: 0 haben für Färbung");
-                    assertEquals(0, faceObj.get("tintindex").getAsInt(),
-                        "tintindex in " + modelName + " muss 0 sein");
+                    assertTrue(
+                            faceObj.has("tintindex"),
+                            "Face " + faceName + " in " + modelName + " muss tintindex: 0 haben für Färbung");
+                    assertEquals(0, faceObj.get("tintindex").getAsInt(), "tintindex in " + modelName + " muss 0 sein");
                 }
             }
         }
@@ -662,29 +782,36 @@ public class ExplorerTentLogicTest {
         assertTrue(java.nio.file.Files.exists(bsPath), "blockstates/tent_canvas.json muss existieren");
 
         String content = java.nio.file.Files.readString(bsPath);
-        com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
-        assertTrue(json.has("multipart"), "blockstates/tent_canvas.json muss multipart nutzen, um mit dem COLOR-Property kompatibel zu sein");
+        com.google.gson.JsonObject json =
+                com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+        assertTrue(
+                json.has("multipart"),
+                "blockstates/tent_canvas.json muss multipart nutzen, um mit dem COLOR-Property kompatibel zu sein");
 
         com.google.gson.JsonArray multipart = json.getAsJsonArray("multipart");
         assertNotNull(multipart);
 
         // Prüfe, dass alle 11 Teile für alle 4 Blickrichtungen abgedeckt sind
         for (TentCanvasBlock.CanvasPart part : TentCanvasBlock.CanvasPart.values()) {
-            for (String facing : new String[]{"north", "east", "south", "west"}) {
+            for (String facing : new String[] {"north", "east", "south", "west"}) {
                 boolean found = false;
                 for (com.google.gson.JsonElement elem : multipart) {
                     com.google.gson.JsonObject clause = elem.getAsJsonObject();
                     if (clause.has("when")) {
                         com.google.gson.JsonObject when = clause.getAsJsonObject("when");
-                        if (facing.equals(when.get("facing").getAsString()) &&
-                            part.getSerializedName().equals(when.get("part").getAsString())) {
+                        if (facing.equals(when.get("facing").getAsString())
+                                && part.getSerializedName()
+                                        .equals(when.get("part").getAsString())) {
                             found = true;
                             assertTrue(clause.has("apply"));
                             break;
                         }
                     }
                 }
-                assertTrue(found, "Multipart muss Bedingung für part=" + part.getSerializedName() + ", facing=" + facing + " haben");
+                assertTrue(
+                        found,
+                        "Multipart muss Bedingung für part=" + part.getSerializedName() + ", facing=" + facing
+                                + " haben");
             }
         }
     }
@@ -698,18 +825,28 @@ public class ExplorerTentLogicTest {
 
             ExplorerTentLogic.TentStructureView view = new ExplorerTentLogic.TentStructureView() {
                 @Override
-                public boolean isTentBlock(int x, int y, int z) { return true; }
+                public boolean isTentBlock(int x, int y, int z) {
+                    return true;
+                }
+
                 @Override
-                public boolean isSleepingBagHead(int x, int y, int z) { return false; }
+                public boolean isSleepingBagHead(int x, int y, int z) {
+                    return false;
+                }
+
                 @Override
-                public ExplorerTentLogic.Facing getFacing(int x, int y, int z) { return ExplorerTentLogic.Facing.NORTH; }
+                public ExplorerTentLogic.Facing getFacing(int x, int y, int z) {
+                    return ExplorerTentLogic.Facing.NORTH;
+                }
+
                 @Override
-                public String getColor(int x, int y, int z) { return colorName; }
+                public String getColor(int x, int y, int z) {
+                    return colorName;
+                }
             };
 
-            java.util.List<ExplorerTentLogic.BlockCoord> blocks = java.util.List.of(
-                new ExplorerTentLogic.BlockCoord(0, 0, 0)
-            );
+            java.util.List<ExplorerTentLogic.BlockCoord> blocks =
+                    java.util.List.of(new ExplorerTentLogic.BlockCoord(0, 0, 0));
 
             String foundColor = ExplorerTentLogic.findTentColor(blocks, view);
             assertEquals(colorName, foundColor);
@@ -736,7 +873,8 @@ public class ExplorerTentLogicTest {
         assertTrue(java.nio.file.Files.exists(itemJsonPath), "assets/mc3ver/items/explorer_tent.json muss existieren");
 
         String content = java.nio.file.Files.readString(itemJsonPath);
-        com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+        com.google.gson.JsonObject json =
+                com.google.gson.JsonParser.parseString(content).getAsJsonObject();
         com.google.gson.JsonObject model = json.getAsJsonObject("model");
         assertNotNull(model, "item definition muss model haben");
         com.google.gson.JsonArray tints = model.getAsJsonArray("tints");
@@ -759,7 +897,8 @@ public class ExplorerTentLogicTest {
             assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
 
             String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+            com.google.gson.JsonObject json =
+                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
             com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
             assertNotNull(elements, "Modell " + modelName + " muss elements haben");
 
@@ -777,7 +916,9 @@ public class ExplorerTentLogicTest {
                 double toY = to.get(1).getAsDouble();
 
                 double thicknessY = toY - fromY;
-                assertTrue(thicknessY <= 2.0, "Jede Dachstufe in " + modelName + " muss dünn sein (<= 2.0px, war: " + thicknessY + ")");
+                assertTrue(
+                        thicknessY <= 2.0,
+                        "Jede Dachstufe in " + modelName + " muss dünn sein (<= 2.0px, war: " + thicknessY + ")");
 
                 if (toY >= 15.9) {
                     hasTopStep = true;
@@ -786,15 +927,19 @@ public class ExplorerTentLogicTest {
                 // Im Innenbereich (zur Zeltmitte hin) darf die Plane nicht bei y=0 liegen (muss hohl sein)
                 boolean isInnerRegion = isLeft ? (fromX >= 8.0) : (toX <= 8.0);
                 if (isInnerRegion) {
-                    assertTrue(fromY >= 8.0, "Innenbereich von " + modelName + " muss nach unten hohl sein (fromY >= 8.0, war: " + fromY + ")");
+                    assertTrue(
+                            fromY >= 8.0,
+                            "Innenbereich von " + modelName + " muss nach unten hohl sein (fromY >= 8.0, war: " + fromY
+                                    + ")");
                 }
 
                 // Alle Faces müssen weiterhin tintindex: 0 haben
                 com.google.gson.JsonObject faces = obj.getAsJsonObject("faces");
                 for (String faceName : faces.keySet()) {
                     com.google.gson.JsonObject faceObj = faces.getAsJsonObject(faceName);
-                    assertTrue(faceObj.has("tintindex") && faceObj.get("tintindex").getAsInt() == 0,
-                        "Face " + faceName + " in " + modelName + " muss tintindex: 0 besitzen");
+                    assertTrue(
+                            faceObj.has("tintindex") && faceObj.get("tintindex").getAsInt() == 0,
+                            "Face " + faceName + " in " + modelName + " muss tintindex: 0 besitzen");
                 }
             }
 
@@ -808,52 +953,55 @@ public class ExplorerTentLogicTest {
         net.minecraft.server.Bootstrap.bootStrap();
 
         net.minecraft.world.phys.shapes.VoxelShape leftRoofShape =
-            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_LEFT, net.minecraft.core.Direction.NORTH);
+                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_LEFT, net.minecraft.core.Direction.NORTH);
 
-        assertNotEquals(net.minecraft.world.phys.shapes.Shapes.block(), leftRoofShape,
-            "ROOF_LEFT darf kein massiver Vollblock sein");
+        assertNotEquals(
+                net.minecraft.world.phys.shapes.Shapes.block(),
+                leftRoofShape,
+                "ROOF_LEFT darf kein massiver Vollblock sein");
 
-        // Ein stehender Spieler am inneren Rand (x = 12..15, y = 0..12, z = 4..12) darf keine Kollision mit dem Dach haben
-        net.minecraft.world.phys.AABB innerHeadBox = new net.minecraft.world.phys.AABB(
-            12.0 / 16.0, 0.0, 4.0 / 16.0,
-            15.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0
-        );
+        // Ein stehender Spieler am inneren Rand (x = 12..15, y = 0..12, z = 4..12) darf keine Kollision mit dem Dach
+        // haben
+        net.minecraft.world.phys.AABB innerHeadBox =
+                new net.minecraft.world.phys.AABB(12.0 / 16.0, 0.0, 4.0 / 16.0, 15.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
 
         boolean collision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            leftRoofShape,
-            net.minecraft.world.phys.shapes.Shapes.create(innerHeadBox),
-            net.minecraft.world.phys.shapes.BooleanOp.AND
-        );
+                leftRoofShape,
+                net.minecraft.world.phys.shapes.Shapes.create(innerHeadBox),
+                net.minecraft.world.phys.shapes.BooleanOp.AND);
 
         assertFalse(collision, "Kopfraum an der Innenseite der Dachschräge (ROOF_LEFT) muss frei sein");
 
         // Auch für ROOF_RIGHT (facing NORTH: Innenrand liegt bei x = 1..4)
         net.minecraft.world.phys.shapes.VoxelShape rightRoofShape =
-            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_RIGHT, net.minecraft.core.Direction.NORTH);
+                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_RIGHT, net.minecraft.core.Direction.NORTH);
 
-        assertNotEquals(net.minecraft.world.phys.shapes.Shapes.block(), rightRoofShape,
-            "ROOF_RIGHT darf kein massiver Vollblock sein");
+        assertNotEquals(
+                net.minecraft.world.phys.shapes.Shapes.block(),
+                rightRoofShape,
+                "ROOF_RIGHT darf kein massiver Vollblock sein");
 
-        net.minecraft.world.phys.AABB rightHeadBox = new net.minecraft.world.phys.AABB(
-            1.0 / 16.0, 0.0, 4.0 / 16.0,
-            4.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0
-        );
+        net.minecraft.world.phys.AABB rightHeadBox =
+                new net.minecraft.world.phys.AABB(1.0 / 16.0, 0.0, 4.0 / 16.0, 4.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
 
         boolean collisionRight = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            rightRoofShape,
-            net.minecraft.world.phys.shapes.Shapes.create(rightHeadBox),
-            net.minecraft.world.phys.shapes.BooleanOp.AND
-        );
+                rightRoofShape,
+                net.minecraft.world.phys.shapes.Shapes.create(rightHeadBox),
+                net.minecraft.world.phys.shapes.BooleanOp.AND);
 
         assertFalse(collisionRight, "Kopfraum an der Innenseite der Dachschräge (ROOF_RIGHT) muss frei sein");
     }
 
     @Test
     void testRoofCornersInTentLogic() {
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_CORNER_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 3),
-            "Hinten links oben (-1, 1, 3) muss ROOF_CORNER_LEFT sein");
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 3),
-            "Hinten rechts oben (1, 1, 3) muss ROOF_CORNER_RIGHT sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_CORNER_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 1, 3),
+                "Hinten links oben (-1, 1, 3) muss ROOF_CORNER_LEFT sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT,
+                ExplorerTentLogic.getTentPart(1, 1, 3),
+                "Hinten rechts oben (1, 1, 3) muss ROOF_CORNER_RIGHT sein");
 
         assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 0));
         assertEquals(ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 1));
@@ -872,17 +1020,15 @@ public class ExplorerTentLogicTest {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
         java.nio.file.Path modelsDir = baseDir.resolve("src/main/resources/assets/mc3ver/models/block");
 
-        String[] cornerModels = {
-            "tent_canvas_roof_corner_left.json",
-            "tent_canvas_roof_corner_right.json"
-        };
+        String[] cornerModels = {"tent_canvas_roof_corner_left.json", "tent_canvas_roof_corner_right.json"};
 
         for (String modelName : cornerModels) {
             java.nio.file.Path modelPath = modelsDir.resolve(modelName);
             assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
 
             String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+            com.google.gson.JsonObject json =
+                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
             com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
             assertNotNull(elements, "Modell " + modelName + " muss elements haben");
 
@@ -910,10 +1056,10 @@ public class ExplorerTentLogicTest {
                 com.google.gson.JsonObject faces = elObj.getAsJsonObject("faces");
                 for (String faceName : faces.keySet()) {
                     com.google.gson.JsonObject faceObj = faces.getAsJsonObject(faceName);
-                    assertTrue(faceObj.has("tintindex"),
-                        "Face " + faceName + " in " + modelName + " muss tintindex haben");
-                    assertEquals(0, faceObj.get("tintindex").getAsInt(),
-                        "tintindex in " + modelName + " muss 0 sein");
+                    assertTrue(
+                            faceObj.has("tintindex"),
+                            "Face " + faceName + " in " + modelName + " muss tintindex haben");
+                    assertEquals(0, faceObj.get("tintindex").getAsInt(), "tintindex in " + modelName + " muss 0 sein");
                 }
             }
 
@@ -927,53 +1073,47 @@ public class ExplorerTentLogicTest {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
 
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_CORNER_LEFT, TentCanvasBlock.CanvasPart.ROOF_CORNER_LEFT.toTentPart());
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT, TentCanvasBlock.CanvasPart.ROOF_CORNER_RIGHT.toTentPart());
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_CORNER_LEFT, TentCanvasBlock.CanvasPart.ROOF_CORNER_LEFT.toTentPart());
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_CORNER_RIGHT,
+                TentCanvasBlock.CanvasPart.ROOF_CORNER_RIGHT.toTentPart());
 
-        net.minecraft.world.phys.shapes.VoxelShape leftShape =
-            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_CORNER_LEFT, net.minecraft.core.Direction.NORTH);
+        net.minecraft.world.phys.shapes.VoxelShape leftShape = TentCanvasBlock.getWallShape(
+                TentCanvasBlock.CanvasPart.ROOF_CORNER_LEFT, net.minecraft.core.Direction.NORTH);
 
-        net.minecraft.world.phys.AABB backWallBox = new net.minecraft.world.phys.AABB(
-            2.0 / 16.0, 0.0, 14.0 / 16.0,
-            14.0 / 16.0, 12.0 / 16.0, 16.0 / 16.0
-        );
+        net.minecraft.world.phys.AABB backWallBox =
+                new net.minecraft.world.phys.AABB(2.0 / 16.0, 0.0, 14.0 / 16.0, 14.0 / 16.0, 12.0 / 16.0, 16.0 / 16.0);
         boolean backCollision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            leftShape,
-            net.minecraft.world.phys.shapes.Shapes.create(backWallBox),
-            net.minecraft.world.phys.shapes.BooleanOp.AND
-        );
+                leftShape,
+                net.minecraft.world.phys.shapes.Shapes.create(backWallBox),
+                net.minecraft.world.phys.shapes.BooleanOp.AND);
         assertTrue(backCollision, "ROOF_CORNER_LEFT muss eine geschlossene Rückwand-Kollision an z=14..16 besitzen");
 
-        net.minecraft.world.phys.AABB innerHeadBox = new net.minecraft.world.phys.AABB(
-            12.0 / 16.0, 0.0, 4.0 / 16.0,
-            15.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0
-        );
+        net.minecraft.world.phys.AABB innerHeadBox =
+                new net.minecraft.world.phys.AABB(12.0 / 16.0, 0.0, 4.0 / 16.0, 15.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
         boolean headCollision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            leftShape,
-            net.minecraft.world.phys.shapes.Shapes.create(innerHeadBox),
-            net.minecraft.world.phys.shapes.BooleanOp.AND
-        );
+                leftShape,
+                net.minecraft.world.phys.shapes.Shapes.create(innerHeadBox),
+                net.minecraft.world.phys.shapes.BooleanOp.AND);
         assertFalse(headCollision, "Kopfraum im Zeltinneren bei ROOF_CORNER_LEFT muss frei sein");
 
-        net.minecraft.world.phys.shapes.VoxelShape rightShape =
-            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_CORNER_RIGHT, net.minecraft.core.Direction.NORTH);
+        net.minecraft.world.phys.shapes.VoxelShape rightShape = TentCanvasBlock.getWallShape(
+                TentCanvasBlock.CanvasPart.ROOF_CORNER_RIGHT, net.minecraft.core.Direction.NORTH);
 
         boolean rightBackCollision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            rightShape,
-            net.minecraft.world.phys.shapes.Shapes.create(backWallBox),
-            net.minecraft.world.phys.shapes.BooleanOp.AND
-        );
-        assertTrue(rightBackCollision, "ROOF_CORNER_RIGHT muss eine geschlossene Rückwand-Kollision an z=14..16 besitzen");
+                rightShape,
+                net.minecraft.world.phys.shapes.Shapes.create(backWallBox),
+                net.minecraft.world.phys.shapes.BooleanOp.AND);
+        assertTrue(
+                rightBackCollision, "ROOF_CORNER_RIGHT muss eine geschlossene Rückwand-Kollision an z=14..16 besitzen");
 
-        net.minecraft.world.phys.AABB rightHeadBox = new net.minecraft.world.phys.AABB(
-            1.0 / 16.0, 0.0, 4.0 / 16.0,
-            4.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0
-        );
+        net.minecraft.world.phys.AABB rightHeadBox =
+                new net.minecraft.world.phys.AABB(1.0 / 16.0, 0.0, 4.0 / 16.0, 4.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
         boolean rightHeadCollision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            rightShape,
-            net.minecraft.world.phys.shapes.Shapes.create(rightHeadBox),
-            net.minecraft.world.phys.shapes.BooleanOp.AND
-        );
+                rightShape,
+                net.minecraft.world.phys.shapes.Shapes.create(rightHeadBox),
+                net.minecraft.world.phys.shapes.BooleanOp.AND);
         assertFalse(rightHeadCollision, "Kopfraum im Zeltinneren bei ROOF_CORNER_RIGHT muss frei sein");
     }
 
@@ -994,7 +1134,8 @@ public class ExplorerTentLogicTest {
             assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
 
             String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+            com.google.gson.JsonObject json =
+                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
             com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
             assertNotNull(elements, "Modell " + modelName + " muss elements haben");
 
@@ -1003,8 +1144,11 @@ public class ExplorerTentLogicTest {
                 com.google.gson.JsonObject elObj = el.getAsJsonObject();
                 com.google.gson.JsonArray from = elObj.getAsJsonArray("from");
                 double fromZ = from.get(2).getAsDouble();
-                assertTrue(fromZ >= 13.9,
-                    "Element in " + modelName + " darf nicht nach hinten über die Rückwand hinausragen (fromZ >= 14, war: " + fromZ + ")");
+                assertTrue(
+                        fromZ >= 13.9,
+                        "Element in " + modelName
+                                + " darf nicht nach hinten über die Rückwand hinausragen (fromZ >= 14, war: " + fromZ
+                                + ")");
             }
         }
     }
@@ -1012,19 +1156,31 @@ public class ExplorerTentLogicTest {
     @Test
     void testFrontEntranceCanvasPartsInLogic() {
         // Eingang seitlich begrenzt: links und rechts an relZ=0 muss Stoff sein, Mitte (relX=0) frei
-        assertEquals(ExplorerTentLogic.TentPart.WALL_FRONT_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 0),
-            "Eingang links unten (-1, 0, 0) muss WALL_FRONT_LEFT sein");
-        assertEquals(ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 0),
-            "Eingang rechts unten (1, 0, 0) muss WALL_FRONT_RIGHT sein");
-        assertEquals(ExplorerTentLogic.TentPart.ENTRANCE_FLAP, ExplorerTentLogic.getTentPart(0, 0, 0),
-            "Mittelgang unten (0, 0, 0) ist die Eingangsplane");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_FRONT_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 0, 0),
+                "Eingang links unten (-1, 0, 0) muss WALL_FRONT_LEFT sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT,
+                ExplorerTentLogic.getTentPart(1, 0, 0),
+                "Eingang rechts unten (1, 0, 0) muss WALL_FRONT_RIGHT sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ENTRANCE_FLAP,
+                ExplorerTentLogic.getTentPart(0, 0, 0),
+                "Mittelgang unten (0, 0, 0) ist die Eingangsplane");
 
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 0),
-            "Eingang links oben (-1, 1, 0) muss ROOF_FRONT_LEFT sein");
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT, ExplorerTentLogic.getTentPart(1, 1, 0),
-            "Eingang rechts oben (1, 1, 0) muss ROOF_FRONT_RIGHT sein");
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT, ExplorerTentLogic.getTentPart(0, 1, 0),
-            "Mittelgang oben (0, 1, 0) muss ROOF_FRONT bleiben");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 1, 0),
+                "Eingang links oben (-1, 1, 0) muss ROOF_FRONT_LEFT sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT,
+                ExplorerTentLogic.getTentPart(1, 1, 0),
+                "Eingang rechts oben (1, 1, 0) muss ROOF_FRONT_RIGHT sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_FRONT,
+                ExplorerTentLogic.getTentPart(0, 1, 0),
+                "Mittelgang oben (0, 1, 0) muss ROOF_FRONT bleiben");
 
         // Innenbereich neben Schlafmatte: links Ofen am Fußende (nicht am Kissen), rechts Werkbank am Kopfende
         assertEquals(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 1));
@@ -1055,7 +1211,8 @@ public class ExplorerTentLogicTest {
             assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
 
             String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+            com.google.gson.JsonObject json =
+                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
             com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
             assertNotNull(elements, "Modell " + modelName + " muss elements haben");
 
@@ -1087,7 +1244,9 @@ public class ExplorerTentLogicTest {
             }
 
             assertTrue(hasFrontFlapAtZ14, modelName + " muss eine vordere Zeltplane an z=14..16 besitzen");
-            assertTrue(hasFullDepthSideOrSlope, modelName + " muss die Seitenwand/Dachschräge über die gesamte Blocktiefe führen");
+            assertTrue(
+                    hasFullDepthSideOrSlope,
+                    modelName + " muss die Seitenwand/Dachschräge über die gesamte Blocktiefe führen");
         }
     }
 
@@ -1096,77 +1255,101 @@ public class ExplorerTentLogicTest {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
 
-        assertEquals(ExplorerTentLogic.TentPart.WALL_FRONT_LEFT, TentCanvasBlock.CanvasPart.WALL_FRONT_LEFT.toTentPart());
-        assertEquals(ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT, TentCanvasBlock.CanvasPart.WALL_FRONT_RIGHT.toTentPart());
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT, TentCanvasBlock.CanvasPart.ROOF_FRONT_LEFT.toTentPart());
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT, TentCanvasBlock.CanvasPart.ROOF_FRONT_RIGHT.toTentPart());
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_FRONT_LEFT, TentCanvasBlock.CanvasPart.WALL_FRONT_LEFT.toTentPart());
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_FRONT_RIGHT, TentCanvasBlock.CanvasPart.WALL_FRONT_RIGHT.toTentPart());
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_FRONT_LEFT, TentCanvasBlock.CanvasPart.ROOF_FRONT_LEFT.toTentPart());
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_FRONT_RIGHT, TentCanvasBlock.CanvasPart.ROOF_FRONT_RIGHT.toTentPart());
 
         // WALL_FRONT_LEFT Kollision
-        net.minecraft.world.phys.shapes.VoxelShape wallFrontLeftShape =
-            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_FRONT_LEFT, net.minecraft.core.Direction.NORTH);
+        net.minecraft.world.phys.shapes.VoxelShape wallFrontLeftShape = TentCanvasBlock.getWallShape(
+                TentCanvasBlock.CanvasPart.WALL_FRONT_LEFT, net.minecraft.core.Direction.NORTH);
 
-        net.minecraft.world.phys.AABB frontFlapBoxLeft = new net.minecraft.world.phys.AABB(
-            2.0 / 16.0, 0.0, 14.0 / 16.0,
-            16.0 / 16.0, 16.0 / 16.0, 16.0 / 16.0
-        );
-        assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            wallFrontLeftShape, net.minecraft.world.phys.shapes.Shapes.create(frontFlapBoxLeft), net.minecraft.world.phys.shapes.BooleanOp.AND
-        ), "WALL_FRONT_LEFT muss an z=14..16 kollidieren");
+        net.minecraft.world.phys.AABB frontFlapBoxLeft =
+                new net.minecraft.world.phys.AABB(2.0 / 16.0, 0.0, 14.0 / 16.0, 16.0 / 16.0, 16.0 / 16.0, 16.0 / 16.0);
+        assertTrue(
+                net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                        wallFrontLeftShape,
+                        net.minecraft.world.phys.shapes.Shapes.create(frontFlapBoxLeft),
+                        net.minecraft.world.phys.shapes.BooleanOp.AND),
+                "WALL_FRONT_LEFT muss an z=14..16 kollidieren");
 
-        net.minecraft.world.phys.AABB interiorBoxLeft = new net.minecraft.world.phys.AABB(
-            3.0 / 16.0, 0.0, 2.0 / 16.0,
-            15.0 / 16.0, 16.0 / 16.0, 12.0 / 16.0
-        );
-        assertFalse(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            wallFrontLeftShape, net.minecraft.world.phys.shapes.Shapes.create(interiorBoxLeft), net.minecraft.world.phys.shapes.BooleanOp.AND
-        ), "WALL_FRONT_LEFT muss im Innenraum frei sein");
+        net.minecraft.world.phys.AABB interiorBoxLeft =
+                new net.minecraft.world.phys.AABB(3.0 / 16.0, 0.0, 2.0 / 16.0, 15.0 / 16.0, 16.0 / 16.0, 12.0 / 16.0);
+        assertFalse(
+                net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                        wallFrontLeftShape,
+                        net.minecraft.world.phys.shapes.Shapes.create(interiorBoxLeft),
+                        net.minecraft.world.phys.shapes.BooleanOp.AND),
+                "WALL_FRONT_LEFT muss im Innenraum frei sein");
 
         // ROOF_FRONT_LEFT Kollision
-        net.minecraft.world.phys.shapes.VoxelShape roofFrontLeftShape =
-            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_FRONT_LEFT, net.minecraft.core.Direction.NORTH);
+        net.minecraft.world.phys.shapes.VoxelShape roofFrontLeftShape = TentCanvasBlock.getWallShape(
+                TentCanvasBlock.CanvasPart.ROOF_FRONT_LEFT, net.minecraft.core.Direction.NORTH);
 
-        assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            roofFrontLeftShape, net.minecraft.world.phys.shapes.Shapes.create(frontFlapBoxLeft), net.minecraft.world.phys.shapes.BooleanOp.AND
-        ), "ROOF_FRONT_LEFT muss an z=14..16 kollidieren");
+        assertTrue(
+                net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                        roofFrontLeftShape,
+                        net.minecraft.world.phys.shapes.Shapes.create(frontFlapBoxLeft),
+                        net.minecraft.world.phys.shapes.BooleanOp.AND),
+                "ROOF_FRONT_LEFT muss an z=14..16 kollidieren");
 
-        net.minecraft.world.phys.AABB innerHeadBoxLeft = new net.minecraft.world.phys.AABB(
-            12.0 / 16.0, 0.0, 4.0 / 16.0,
-            15.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0
-        );
-        assertFalse(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            roofFrontLeftShape, net.minecraft.world.phys.shapes.Shapes.create(innerHeadBoxLeft), net.minecraft.world.phys.shapes.BooleanOp.AND
-        ), "ROOF_FRONT_LEFT muss Kopffreiheit im Innenraum bieten");
+        net.minecraft.world.phys.AABB innerHeadBoxLeft =
+                new net.minecraft.world.phys.AABB(12.0 / 16.0, 0.0, 4.0 / 16.0, 15.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
+        assertFalse(
+                net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                        roofFrontLeftShape,
+                        net.minecraft.world.phys.shapes.Shapes.create(innerHeadBoxLeft),
+                        net.minecraft.world.phys.shapes.BooleanOp.AND),
+                "ROOF_FRONT_LEFT muss Kopffreiheit im Innenraum bieten");
     }
 
     @Test
     void testCraftingTablePartInTentLogic() {
-        assertEquals(ExplorerTentLogic.TentPart.WALL_CHEST_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 1),
-            "relX=1, relY=0, relZ=1 (neben Fußende) muss die Truhe sein");
-        assertEquals(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT, ExplorerTentLogic.getTentPart(1, 0, 2),
-            "relX=1, relY=0, relZ=2 (neben Kopfende) muss WALL_CRAFTING_TABLE_RIGHT sein");
-        assertTrue(ExplorerTentLogic.isCraftingTable(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT),
-            "WALL_CRAFTING_TABLE_RIGHT muss als Craftingtable erkannt werden");
-        assertFalse(ExplorerTentLogic.isCraftingTable(ExplorerTentLogic.TentPart.WALL_RIGHT),
-            "WALL_RIGHT darf kein Craftingtable sein");
-        assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT),
-            "WALL_CRAFTING_TABLE_RIGHT muss solide Kollision haben");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_CHEST_RIGHT,
+                ExplorerTentLogic.getTentPart(1, 0, 1),
+                "relX=1, relY=0, relZ=1 (neben Fußende) muss die Truhe sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT,
+                ExplorerTentLogic.getTentPart(1, 0, 2),
+                "relX=1, relY=0, relZ=2 (neben Kopfende) muss WALL_CRAFTING_TABLE_RIGHT sein");
+        assertTrue(
+                ExplorerTentLogic.isCraftingTable(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT),
+                "WALL_CRAFTING_TABLE_RIGHT muss als Craftingtable erkannt werden");
+        assertFalse(
+                ExplorerTentLogic.isCraftingTable(ExplorerTentLogic.TentPart.WALL_RIGHT),
+                "WALL_RIGHT darf kein Craftingtable sein");
+        assertTrue(
+                ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT),
+                "WALL_CRAFTING_TABLE_RIGHT muss solide Kollision haben");
     }
 
     @Test
     void testCraftingTableModelExistsAndValid() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelPath = baseDir.resolve("src/main/resources/assets/mc3ver/models/block/tent_canvas_wall_crafting_table_right.json");
+        java.nio.file.Path modelPath = baseDir.resolve(
+                "src/main/resources/assets/mc3ver/models/block/tent_canvas_wall_crafting_table_right.json");
 
         assertTrue(java.nio.file.Files.exists(modelPath), "tent_canvas_wall_crafting_table_right.json muss existieren");
 
         String content = java.nio.file.Files.readString(modelPath);
-        com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+        com.google.gson.JsonObject json =
+                com.google.gson.JsonParser.parseString(content).getAsJsonObject();
         com.google.gson.JsonObject textures = json.getAsJsonObject("textures");
         assertNotNull(textures, "textures Objekt muss vorhanden sein");
         assertEquals("mc3ver:block/tent_canvas", textures.get("canvas").getAsString());
-        assertEquals("minecraft:block/crafting_table_top", textures.get("table_top").getAsString());
-        assertEquals("minecraft:block/crafting_table_front", textures.get("table_front").getAsString());
-        assertEquals("minecraft:block/crafting_table_side", textures.get("table_side").getAsString());
+        assertEquals(
+                "minecraft:block/crafting_table_top", textures.get("table_top").getAsString());
+        assertEquals(
+                "minecraft:block/crafting_table_front",
+                textures.get("table_front").getAsString());
+        assertEquals(
+                "minecraft:block/crafting_table_side",
+                textures.get("table_side").getAsString());
         assertEquals("minecraft:block/oak_planks", textures.get("table_bottom").getAsString());
 
         com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
@@ -1201,9 +1384,12 @@ public class ExplorerTentLogicTest {
                 foundTable = true;
                 com.google.gson.JsonObject faces = elObj.getAsJsonObject("faces");
                 assertTrue(faces.has("up"), "Tisch muss 'up' Face haben");
-                assertEquals("#table_top", faces.getAsJsonObject("up").get("texture").getAsString());
+                assertEquals(
+                        "#table_top", faces.getAsJsonObject("up").get("texture").getAsString());
                 assertTrue(faces.has("west"), "Tisch muss 'west' Face haben");
-                assertEquals("#table_front", faces.getAsJsonObject("west").get("texture").getAsString());
+                assertEquals(
+                        "#table_front",
+                        faces.getAsJsonObject("west").get("texture").getAsString());
             }
         }
 
@@ -1216,36 +1402,41 @@ public class ExplorerTentLogicTest {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
 
-        assertEquals(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT,
-            TentCanvasBlock.CanvasPart.WALL_CRAFTING_TABLE_RIGHT.toTentPart());
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT,
+                TentCanvasBlock.CanvasPart.WALL_CRAFTING_TABLE_RIGHT.toTentPart());
 
         // Kollision für WALL_CRAFTING_TABLE_RIGHT
-        net.minecraft.world.phys.shapes.VoxelShape shapeNorth =
-            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_CRAFTING_TABLE_RIGHT, net.minecraft.core.Direction.NORTH);
+        net.minecraft.world.phys.shapes.VoxelShape shapeNorth = TentCanvasBlock.getWallShape(
+                TentCanvasBlock.CanvasPart.WALL_CRAFTING_TABLE_RIGHT, net.minecraft.core.Direction.NORTH);
 
         // Wand bei x=14..16, z=0..16, y=0..16
-        net.minecraft.world.phys.AABB wallBox = new net.minecraft.world.phys.AABB(
-            14.0 / 16.0, 0.0, 0.0,
-            16.0 / 16.0, 16.0 / 16.0, 16.0 / 16.0
-        );
-        assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            shapeNorth, net.minecraft.world.phys.shapes.Shapes.create(wallBox), net.minecraft.world.phys.shapes.BooleanOp.AND
-        ), "WALL_CRAFTING_TABLE_RIGHT muss an der Außenwand kollidieren");
+        net.minecraft.world.phys.AABB wallBox =
+                new net.minecraft.world.phys.AABB(14.0 / 16.0, 0.0, 0.0, 16.0 / 16.0, 16.0 / 16.0, 16.0 / 16.0);
+        assertTrue(
+                net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                        shapeNorth,
+                        net.minecraft.world.phys.shapes.Shapes.create(wallBox),
+                        net.minecraft.world.phys.shapes.BooleanOp.AND),
+                "WALL_CRAFTING_TABLE_RIGHT muss an der Außenwand kollidieren");
 
         // Tisch bei x=0..14, y=0..14, z=1..15
         net.minecraft.world.phys.AABB tableBox = new net.minecraft.world.phys.AABB(
-            1.0 / 16.0, 1.0 / 16.0, 2.0 / 16.0,
-            13.0 / 16.0, 13.0 / 16.0, 14.0 / 16.0
-        );
-        assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            shapeNorth, net.minecraft.world.phys.shapes.Shapes.create(tableBox), net.minecraft.world.phys.shapes.BooleanOp.AND
-        ), "WALL_CRAFTING_TABLE_RIGHT muss am Tisch kollidieren");
+                1.0 / 16.0, 1.0 / 16.0, 2.0 / 16.0, 13.0 / 16.0, 13.0 / 16.0, 14.0 / 16.0);
+        assertTrue(
+                net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                        shapeNorth,
+                        net.minecraft.world.phys.shapes.Shapes.create(tableBox),
+                        net.minecraft.world.phys.shapes.BooleanOp.AND),
+                "WALL_CRAFTING_TABLE_RIGHT muss am Tisch kollidieren");
 
         // Blockstate tent_canvas.json prüfen
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path blockstatePath = baseDir.resolve("src/main/resources/assets/mc3ver/blockstates/tent_canvas.json");
+        java.nio.file.Path blockstatePath =
+                baseDir.resolve("src/main/resources/assets/mc3ver/blockstates/tent_canvas.json");
         String content = java.nio.file.Files.readString(blockstatePath);
-        com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(content).getAsJsonObject();
+        com.google.gson.JsonObject json =
+                com.google.gson.JsonParser.parseString(content).getAsJsonObject();
         com.google.gson.JsonArray multipart = json.getAsJsonArray("multipart");
 
         java.util.Set<String> foundFacings = new java.util.HashSet<>();
@@ -1253,11 +1444,14 @@ public class ExplorerTentLogicTest {
             com.google.gson.JsonObject rule = ruleEl.getAsJsonObject();
             if (rule.has("when")) {
                 com.google.gson.JsonObject when = rule.getAsJsonObject("when");
-                if (when.has("part") && "wall_crafting_table_right".equals(when.get("part").getAsString())) {
+                if (when.has("part")
+                        && "wall_crafting_table_right".equals(when.get("part").getAsString())) {
                     if (when.has("facing")) {
                         foundFacings.add(when.get("facing").getAsString());
                         com.google.gson.JsonObject apply = rule.getAsJsonObject("apply");
-                        assertEquals("mc3ver:block/tent_canvas_wall_crafting_table_right", apply.get("model").getAsString());
+                        assertEquals(
+                                "mc3ver:block/tent_canvas_wall_crafting_table_right",
+                                apply.get("model").getAsString());
                     }
                 }
             }
@@ -1274,28 +1468,36 @@ public class ExplorerTentLogicTest {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
 
-        assertTrue(TentCanvasBlock.hasMenuProvider(TentCanvasBlock.CanvasPart.WALL_CRAFTING_TABLE_RIGHT),
-            "WALL_CRAFTING_TABLE_RIGHT muss einen MenuProvider besitzen");
-        assertFalse(TentCanvasBlock.hasMenuProvider(TentCanvasBlock.CanvasPart.WALL_RIGHT),
-            "Normaler Wandteil darf keinen MenuProvider besitzen");
+        assertTrue(
+                TentCanvasBlock.hasMenuProvider(TentCanvasBlock.CanvasPart.WALL_CRAFTING_TABLE_RIGHT),
+                "WALL_CRAFTING_TABLE_RIGHT muss einen MenuProvider besitzen");
+        assertFalse(
+                TentCanvasBlock.hasMenuProvider(TentCanvasBlock.CanvasPart.WALL_RIGHT),
+                "Normaler Wandteil darf keinen MenuProvider besitzen");
 
         net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(10, 64, 20);
         net.minecraft.world.MenuProvider provider = TentCanvasBlock.createCraftingMenuProvider(null, pos);
         assertNotNull(provider, "createCraftingMenuProvider darf nicht null liefern");
-        assertEquals(net.minecraft.network.chat.Component.translatable("container.crafting"), provider.getDisplayName());
+        assertEquals(
+                net.minecraft.network.chat.Component.translatable("container.crafting"), provider.getDisplayName());
     }
 
     @Test
     void testFurnaceSitsOnLeftWallNextToFoot() {
-        assertEquals(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 1),
-            "relX=-1, relY=0, relZ=1 (links neben Fußende) muss WALL_FURNACE_LEFT sein");
-        assertEquals(ExplorerTentLogic.TentPart.WALL_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 2),
-            "Neben dem Kissen (-1, 0, 2) darf kein Ofen stehen");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 0, 1),
+                "relX=-1, relY=0, relZ=1 (links neben Fußende) muss WALL_FURNACE_LEFT sein");
+        assertEquals(
+                ExplorerTentLogic.TentPart.WALL_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 0, 2),
+                "Neben dem Kissen (-1, 0, 2) darf kein Ofen stehen");
         assertTrue(ExplorerTentLogic.isFurnace(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT));
         assertFalse(ExplorerTentLogic.isFurnace(ExplorerTentLogic.TentPart.WALL_LEFT));
         assertFalse(ExplorerTentLogic.isFurnace(ExplorerTentLogic.TentPart.WALL_CRAFTING_TABLE_RIGHT));
-        assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT),
-            "Ofen-Wandteil muss solide Kollision haben");
+        assertTrue(
+                ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT),
+                "Ofen-Wandteil muss solide Kollision haben");
     }
 
     @Test
@@ -1304,10 +1506,18 @@ public class ExplorerTentLogicTest {
         net.minecraft.server.Bootstrap.bootStrap();
 
         // Ofen hängt an der linken Wand, seine Front zeigt zum Mittelgang (rechts von der Zelt-Blickrichtung)
-        assertEquals(net.minecraft.core.Direction.EAST, TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.NORTH));
-        assertEquals(net.minecraft.core.Direction.SOUTH, TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.EAST));
-        assertEquals(net.minecraft.core.Direction.WEST, TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.SOUTH));
-        assertEquals(net.minecraft.core.Direction.NORTH, TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.WEST));
+        assertEquals(
+                net.minecraft.core.Direction.EAST,
+                TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.NORTH));
+        assertEquals(
+                net.minecraft.core.Direction.SOUTH,
+                TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.EAST));
+        assertEquals(
+                net.minecraft.core.Direction.WEST,
+                TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.SOUTH));
+        assertEquals(
+                net.minecraft.core.Direction.NORTH,
+                TentFurnaceBlock.getFrontDirection(net.minecraft.core.Direction.WEST));
     }
 
     @Test
@@ -1315,56 +1525,77 @@ public class ExplorerTentLogicTest {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
 
-        net.minecraft.world.phys.shapes.VoxelShape shapeNorth = TentFurnaceBlock.getFurnaceShape(net.minecraft.core.Direction.NORTH);
+        net.minecraft.world.phys.shapes.VoxelShape shapeNorth =
+                TentFurnaceBlock.getFurnaceShape(net.minecraft.core.Direction.NORTH);
 
         // Linke Außenwand bei x=0..2
         net.minecraft.world.phys.AABB wallBox = new net.minecraft.world.phys.AABB(0.0, 0.0, 0.0, 2.0 / 16.0, 1.0, 1.0);
-        assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            shapeNorth, net.minecraft.world.phys.shapes.Shapes.create(wallBox), net.minecraft.world.phys.shapes.BooleanOp.AND
-        ), "Ofen-Wandteil muss an der linken Außenwand kollidieren");
+        assertTrue(
+                net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                        shapeNorth,
+                        net.minecraft.world.phys.shapes.Shapes.create(wallBox),
+                        net.minecraft.world.phys.shapes.BooleanOp.AND),
+                "Ofen-Wandteil muss an der linken Außenwand kollidieren");
 
         // Ofenkörper im Inneren bei x=2..16
         net.minecraft.world.phys.AABB furnaceBox = new net.minecraft.world.phys.AABB(
-            4.0 / 16.0, 2.0 / 16.0, 4.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
-        assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-            shapeNorth, net.minecraft.world.phys.shapes.Shapes.create(furnaceBox), net.minecraft.world.phys.shapes.BooleanOp.AND
-        ), "Ofenkörper muss Kollision haben");
+                4.0 / 16.0, 2.0 / 16.0, 4.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
+        assertTrue(
+                net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                        shapeNorth,
+                        net.minecraft.world.phys.shapes.Shapes.create(furnaceBox),
+                        net.minecraft.world.phys.shapes.BooleanOp.AND),
+                "Ofenkörper muss Kollision haben");
     }
 
     @Test
     void testTentFurnaceResourcesExist() throws Exception {
-        java.nio.file.Path res = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+        java.nio.file.Path res =
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
 
         java.nio.file.Path blockstate = res.resolve("blockstates/tent_furnace.json");
         assertTrue(java.nio.file.Files.exists(blockstate), "blockstates/tent_furnace.json muss existieren");
-        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(blockstate))
-            .getAsJsonObject().getAsJsonObject("variants");
-        for (String facing : new String[]{"north", "east", "south", "west"}) {
-            for (String lit : new String[]{"false", "true"}) {
-                assertTrue(variants.has("facing=" + facing + ",lit=" + lit),
-                    "Blockstate muss Variante facing=" + facing + ",lit=" + lit + " definieren");
+        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
+                        java.nio.file.Files.readString(blockstate))
+                .getAsJsonObject()
+                .getAsJsonObject("variants");
+        for (String facing : new String[] {"north", "east", "south", "west"}) {
+            for (String lit : new String[] {"false", "true"}) {
+                assertTrue(
+                        variants.has("facing=" + facing + ",lit=" + lit),
+                        "Blockstate muss Variante facing=" + facing + ",lit=" + lit + " definieren");
             }
         }
 
         String baseModel = java.nio.file.Files.readString(res.resolve("models/block/tent_furnace_left.json"));
         assertTrue(baseModel.contains("\"tintindex\": 0"), "tent_furnace_left muss die Zeltplane einfärbbar machen");
-        assertTrue(baseModel.contains("\"minecraft:block/furnace_front\""), "tent_furnace_left muss die Ofenfront verwenden");
+        assertTrue(
+                baseModel.contains("\"minecraft:block/furnace_front\""),
+                "tent_furnace_left muss die Ofenfront verwenden");
 
         // Brennender Ofen erbt das Grundmodell und tauscht nur die Front
         String litModel = java.nio.file.Files.readString(res.resolve("models/block/tent_furnace_left_on.json"));
-        assertTrue(litModel.contains("\"mc3ver:block/tent_furnace_left\""), "tent_furnace_left_on muss vom Grundmodell erben");
-        assertTrue(litModel.contains("\"minecraft:block/furnace_front_on\""), "tent_furnace_left_on muss die brennende Ofenfront verwenden");
+        assertTrue(
+                litModel.contains("\"mc3ver:block/tent_furnace_left\""),
+                "tent_furnace_left_on muss vom Grundmodell erben");
+        assertTrue(
+                litModel.contains("\"minecraft:block/furnace_front_on\""),
+                "tent_furnace_left_on muss die brennende Ofenfront verwenden");
 
-        for (String lang : new String[]{"de_de", "en_us"}) {
+        for (String lang : new String[] {"de_de", "en_us"}) {
             String content = java.nio.file.Files.readString(res.resolve("lang/" + lang + ".json"));
-            assertTrue(content.contains("\"block.mc3ver.tent_furnace\""), lang + " muss block.mc3ver.tent_furnace übersetzen");
+            assertTrue(
+                    content.contains("\"block.mc3ver.tent_furnace\""),
+                    lang + " muss block.mc3ver.tent_furnace übersetzen");
         }
     }
 
     @Test
     void testStovepipeRoofSitsAboveFurnace() {
-        assertEquals(ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT, ExplorerTentLogic.getTentPart(-1, 1, 1),
-            "Direkt über dem Ofen (-1, 1, 1) muss die Dachschräge mit Ofenrohr sitzen");
+        assertEquals(
+                ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT,
+                ExplorerTentLogic.getTentPart(-1, 1, 1),
+                "Direkt über dem Ofen (-1, 1, 1) muss die Dachschräge mit Ofenrohr sitzen");
         assertEquals(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT, ExplorerTentLogic.getTentPart(-1, 0, 1));
         assertTrue(ExplorerTentLogic.hasFullBlockCollision(ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT));
         assertEquals(ExplorerTentLogic.TentPart.ROOF_PIPE_LEFT, TentCanvasBlock.CanvasPart.ROOF_PIPE_LEFT.toTentPart());
@@ -1376,10 +1607,14 @@ public class ExplorerTentLogicTest {
         net.minecraft.server.Bootstrap.bootStrap();
 
         for (net.minecraft.core.Direction facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
-            net.minecraft.world.phys.shapes.VoxelShape slope = TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_LEFT, facing);
-            net.minecraft.world.phys.shapes.VoxelShape pipe = TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_PIPE_LEFT, facing);
-            assertFalse(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(slope, pipe, net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME),
-                "Dachschräge mit Ofenrohr muss dieselbe Kollision wie ROOF_LEFT haben (" + facing + ")");
+            net.minecraft.world.phys.shapes.VoxelShape slope =
+                    TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_LEFT, facing);
+            net.minecraft.world.phys.shapes.VoxelShape pipe =
+                    TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_PIPE_LEFT, facing);
+            assertFalse(
+                    net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                            slope, pipe, net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME),
+                    "Dachschräge mit Ofenrohr muss dieselbe Kollision wie ROOF_LEFT haben (" + facing + ")");
         }
     }
 
@@ -1404,12 +1639,14 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testFurnaceAndPipeKeepOriginalColors() throws Exception {
-        java.nio.file.Path models = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
+        java.nio.file.Path models =
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
 
         // Ofenkörper und Rohr dürfen nicht in Zeltfarbe getönt werden, nur die Zeltplane
-        for (String model : new String[]{"tent_furnace_left", "tent_canvas_roof_pipe_left"}) {
+        for (String model : new String[] {"tent_furnace_left", "tent_canvas_roof_pipe_left"}) {
             com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(
-                java.nio.file.Files.readString(models.resolve(model + ".json"))).getAsJsonObject();
+                            java.nio.file.Files.readString(models.resolve(model + ".json")))
+                    .getAsJsonObject();
             boolean hasPipe = false;
             for (com.google.gson.JsonElement el : json.getAsJsonArray("elements")) {
                 com.google.gson.JsonObject faces = el.getAsJsonObject().getAsJsonObject("faces");
@@ -1417,17 +1654,23 @@ public class ExplorerTentLogicTest {
                     com.google.gson.JsonObject f = faces.getAsJsonObject(face);
                     String texture = f.get("texture").getAsString();
                     if (texture.equals("#pipe")) hasPipe = true;
-                    assertEquals(texture.equals("#canvas"), f.has("tintindex"),
-                        model + ": nur #canvas darf getönt sein, Face " + face + " nutzt " + texture);
+                    assertEquals(
+                            texture.equals("#canvas"),
+                            f.has("tintindex"),
+                            model + ": nur #canvas darf getönt sein, Face " + face + " nutzt " + texture);
                 }
             }
             assertTrue(hasPipe, model + " muss ein Rohrstück (#pipe) enthalten");
-            assertEquals("minecraft:block/anvil", json.getAsJsonObject("textures").get("pipe").getAsString());
+            assertEquals(
+                    "minecraft:block/anvil",
+                    json.getAsJsonObject("textures").get("pipe").getAsString());
         }
 
-        String canvasStates = java.nio.file.Files.readString(models.getParent().getParent().resolve("blockstates/tent_canvas.json"));
-        assertTrue(canvasStates.contains("mc3ver:block/tent_canvas_roof_pipe_left"),
-            "tent_canvas Blockstate muss das Ofenrohr-Dachmodell verwenden");
+        String canvasStates =
+                java.nio.file.Files.readString(models.getParent().getParent().resolve("blockstates/tent_canvas.json"));
+        assertTrue(
+                canvasStates.contains("mc3ver:block/tent_canvas_roof_pipe_left"),
+                "tent_canvas Blockstate muss das Ofenrohr-Dachmodell verwenden");
     }
 
     @Test
@@ -1474,11 +1717,15 @@ public class ExplorerTentLogicTest {
         for (TentCanvasBlock.CanvasPart canvasPart : TentCanvasBlock.CanvasPart.values()) {
             assertTrue(seen.add(canvasPart.toTentPart()), "Doppelte Zuordnung für " + canvasPart);
             assertEquals(canvasPart.name(), canvasPart.toTentPart().name(), "CanvasPart und TentPart heißen gleich");
-            assertEquals(java.util.Optional.of(canvasPart), TentCanvasBlock.CanvasPart.fromTentPart(canvasPart.toTentPart()),
-                "fromTentPart muss die Zuordnung umkehren: " + canvasPart);
+            assertEquals(
+                    java.util.Optional.of(canvasPart),
+                    TentCanvasBlock.CanvasPart.fromTentPart(canvasPart.toTentPart()),
+                    "fromTentPart muss die Zuordnung umkehren: " + canvasPart);
         }
-        assertTrue(TentCanvasBlock.CanvasPart.fromTentPart(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT).isEmpty(),
-            "Eigene Blöcke (Ofen) sind keine Zeltplane");
+        assertTrue(
+                TentCanvasBlock.CanvasPart.fromTentPart(ExplorerTentLogic.TentPart.WALL_FURNACE_LEFT)
+                        .isEmpty(),
+                "Eigene Blöcke (Ofen) sind keine Zeltplane");
     }
 
     private static double averageBrightness(java.awt.image.BufferedImage img, int fromX, int toX) {
@@ -1496,32 +1743,49 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testCanvasTexturesHaveSeamsAndDarkerRoof() throws Exception {
-        java.nio.file.Path textures = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/textures/block");
-        java.awt.image.BufferedImage wall = javax.imageio.ImageIO.read(textures.resolve("tent_canvas.png").toFile());
-        java.awt.image.BufferedImage roof = javax.imageio.ImageIO.read(textures.resolve("tent_canvas_roof.png").toFile());
+        java.nio.file.Path textures =
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/textures/block");
+        java.awt.image.BufferedImage wall =
+                javax.imageio.ImageIO.read(textures.resolve("tent_canvas.png").toFile());
+        java.awt.image.BufferedImage roof = javax.imageio.ImageIO.read(
+                textures.resolve("tent_canvas_roof.png").toFile());
 
         assertEquals(16, roof.getWidth());
         assertEquals(16, roof.getHeight());
-        assertTrue(averageBrightness(roof, 0, 15) < averageBrightness(wall, 0, 15) * 0.9,
-            "Dachplane muss sichtbar dunkler sein als die Wandplane");
+        assertTrue(
+                averageBrightness(roof, 0, 15) < averageBrightness(wall, 0, 15) * 0.9,
+                "Dachplane muss sichtbar dunkler sein als die Wandplane");
 
-        for (java.awt.image.BufferedImage img : new java.awt.image.BufferedImage[]{wall, roof}) {
+        for (java.awt.image.BufferedImage img : new java.awt.image.BufferedImage[] {wall, roof}) {
             double fabric = averageBrightness(img, 4, 11);
-            assertTrue(averageBrightness(img, 15, 15) < fabric - 16, "Falz an der Blockkante muss dunkler als der Stoff sein");
-            assertTrue(averageBrightness(img, 1, 1) < fabric - 4, "Steppnaht neben der Kante muss sich vom Stoff abheben");
+            assertTrue(
+                    averageBrightness(img, 15, 15) < fabric - 16,
+                    "Falz an der Blockkante muss dunkler als der Stoff sein");
+            assertTrue(
+                    averageBrightness(img, 1, 1) < fabric - 4, "Steppnaht neben der Kante muss sich vom Stoff abheben");
         }
     }
 
     @Test
     void testRoofModelsUseRoofCanvasAndWallsUseWallCanvas() throws Exception {
-        java.nio.file.Path models = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
+        java.nio.file.Path models =
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
         try (java.util.stream.Stream<java.nio.file.Path> files = java.nio.file.Files.list(models)) {
-            for (java.nio.file.Path model : files.filter(f -> f.getFileName().toString().startsWith("tent_canvas_")).toList()) {
+            for (java.nio.file.Path model : files.filter(
+                            f -> f.getFileName().toString().startsWith("tent_canvas_"))
+                    .toList()) {
                 String name = model.getFileName().toString();
                 String canvas = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(model))
-                    .getAsJsonObject().getAsJsonObject("textures").get("canvas").getAsString();
-                assertEquals(name.startsWith("tent_canvas_roof_") ? "mc3ver:block/tent_canvas_roof" : "mc3ver:block/tent_canvas",
-                    canvas, name + " nutzt die falsche Planen-Textur");
+                        .getAsJsonObject()
+                        .getAsJsonObject("textures")
+                        .get("canvas")
+                        .getAsString();
+                assertEquals(
+                        name.startsWith("tent_canvas_roof_")
+                                ? "mc3ver:block/tent_canvas_roof"
+                                : "mc3ver:block/tent_canvas",
+                        canvas,
+                        name + " nutzt die falsche Planen-Textur");
             }
         }
     }
@@ -1543,31 +1807,43 @@ public class ExplorerTentLogicTest {
         }
         // Gleiche Kollision wie die normale rechte Dachschräge
         for (net.minecraft.core.Direction facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
-            assertFalse(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_RIGHT, facing),
-                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_LANTERN_RIGHT, facing),
-                net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME), "Kollision Laternen-Dachschräge " + facing);
+            assertFalse(
+                    net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_RIGHT, facing),
+                            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.ROOF_LANTERN_RIGHT, facing),
+                            net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME),
+                    "Kollision Laternen-Dachschräge " + facing);
         }
     }
 
     @Test
     void testLanternResources() throws Exception {
-        java.nio.file.Path res = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+        java.nio.file.Path res =
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
         String model = java.nio.file.Files.readString(res.resolve("models/block/tent_canvas_roof_lantern_right.json"));
-        assertTrue(model.contains("\"minecraft:block/lantern\""), "Laternenmodell muss die Vanilla-Laternentextur nutzen");
+        assertTrue(
+                model.contains("\"minecraft:block/lantern\""), "Laternenmodell muss die Vanilla-Laternentextur nutzen");
         assertTrue(model.contains("\"mc3ver:block/tent_canvas_roof\""), "Dachschräge muss die Dachplane nutzen");
         // Laterne hängt unter der Schräge über der Werkbank, nicht außerhalb des Blocks
-        com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(model).getAsJsonObject().getAsJsonArray("elements");
+        com.google.gson.JsonArray elements =
+                com.google.gson.JsonParser.parseString(model).getAsJsonObject().getAsJsonArray("elements");
         for (com.google.gson.JsonElement el : elements) {
             com.google.gson.JsonObject e = el.getAsJsonObject();
             if (e.toString().contains("#lantern")) {
-                assertTrue(e.getAsJsonArray("from").get(2).getAsDouble() >= 0 && e.getAsJsonArray("to").get(2).getAsDouble() <= 16,
-                    "Laterne muss innerhalb des Dachblocks hängen");
-                assertTrue(e.getAsJsonArray("to").get(1).getAsDouble() <= 10.5, "Laterne muss unter der Dachschräge hängen");
+                assertTrue(
+                        e.getAsJsonArray("from").get(2).getAsDouble() >= 0
+                                && e.getAsJsonArray("to").get(2).getAsDouble() <= 16,
+                        "Laterne muss innerhalb des Dachblocks hängen");
+                assertTrue(
+                        e.getAsJsonArray("to").get(1).getAsDouble() <= 10.5,
+                        "Laterne muss unter der Dachschräge hängen");
             }
         }
         String states = java.nio.file.Files.readString(res.resolve("blockstates/tent_canvas.json"));
-        assertEquals(4, states.split("\"part\": \"roof_lantern_right\"", -1).length - 1, "4 Blockstate-Einträge (je Richtung)");
+        assertEquals(
+                4,
+                states.split("\"part\": \"roof_lantern_right\"", -1).length - 1,
+                "4 Blockstate-Einträge (je Richtung)");
     }
 
     @Test
@@ -1576,13 +1852,18 @@ public class ExplorerTentLogicTest {
         net.minecraft.server.Bootstrap.bootStrap();
 
         for (net.minecraft.core.Direction facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
-            assertTrue(TentFlapBlock.getCollision(facing, true).isEmpty(), "Offene Plane darf nicht blockieren (" + facing + ")");
+            assertTrue(
+                    TentFlapBlock.getCollision(facing, true).isEmpty(),
+                    "Offene Plane darf nicht blockieren (" + facing + ")");
             net.minecraft.world.phys.shapes.VoxelShape closed = TentFlapBlock.getCollision(facing, false);
             assertFalse(closed.isEmpty(), "Geschlossene Plane muss blockieren (" + facing + ")");
             // Geschlossene Plane liegt an der Außenkante des Eingangs, wie die Rückwand an ihrer Kante
-            assertFalse(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(closed,
-                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing),
-                net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME), "Plane an der Außenkante (" + facing + ")");
+            assertFalse(
+                    net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                            closed,
+                            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing),
+                            net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME),
+                    "Plane an der Außenkante (" + facing + ")");
         }
         assertTrue(TentFlapBlock.isPassable(true), "Mobs dürfen durch die offene Plane");
         assertFalse(TentFlapBlock.isPassable(false), "Mobs dürfen nicht durch die geschlossene Plane");
@@ -1590,31 +1871,51 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testEntranceFlapResources() throws Exception {
-        java.nio.file.Path res = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+        java.nio.file.Path res =
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
         com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-            java.nio.file.Files.readString(res.resolve("blockstates/tent_flap.json"))).getAsJsonObject().getAsJsonObject("variants");
-        for (String facing : new String[]{"north", "east", "south", "west"}) {
-            assertEquals("mc3ver:block/tent_flap_closed", variants.getAsJsonObject("facing=" + facing + ",open=false").get("model").getAsString());
-            assertEquals("mc3ver:block/tent_flap_open", variants.getAsJsonObject("facing=" + facing + ",open=true").get("model").getAsString());
+                        java.nio.file.Files.readString(res.resolve("blockstates/tent_flap.json")))
+                .getAsJsonObject()
+                .getAsJsonObject("variants");
+        for (String facing : new String[] {"north", "east", "south", "west"}) {
+            assertEquals(
+                    "mc3ver:block/tent_flap_closed",
+                    variants.getAsJsonObject("facing=" + facing + ",open=false")
+                            .get("model")
+                            .getAsString());
+            assertEquals(
+                    "mc3ver:block/tent_flap_open",
+                    variants.getAsJsonObject("facing=" + facing + ",open=true")
+                            .get("model")
+                            .getAsString());
         }
-        for (String model : new String[]{"tent_flap_closed", "tent_flap_open"}) {
+        for (String model : new String[] {"tent_flap_closed", "tent_flap_open"}) {
             String content = java.nio.file.Files.readString(res.resolve("models/block/" + model + ".json"));
             assertTrue(content.contains("\"tintindex\": 0"), model + " muss in Zeltfarbe getönt sein");
         }
-        for (String lang : new String[]{"de_de", "en_us"}) {
-            assertTrue(java.nio.file.Files.readString(res.resolve("lang/" + lang + ".json")).contains("\"block.mc3ver.tent_flap\""));
+        for (String lang : new String[] {"de_de", "en_us"}) {
+            assertTrue(java.nio.file.Files.readString(res.resolve("lang/" + lang + ".json"))
+                    .contains("\"block.mc3ver.tent_flap\""));
         }
 
         // Plane reicht vom Boden bis unter das Dach (Dachunterkante im Block darüber bei y=30)
         assertEquals(0.0, modelBound(res, "tent_flap_closed", 1, true), 1e-9, "Geschlossene Plane beginnt am Boden");
-        assertEquals(30.0, modelBound(res, "tent_flap_closed", 1, false), 1e-9, "Geschlossene Plane reicht bis unter das Dach");
+        assertEquals(
+                30.0,
+                modelBound(res, "tent_flap_closed", 1, false),
+                1e-9,
+                "Geschlossene Plane reicht bis unter das Dach");
         assertEquals(30.0, modelBound(res, "tent_flap_open", 1, false), 1e-9, "Aufgerollte Plane hängt unter dem Dach");
-        assertTrue(modelBound(res, "tent_flap_open", 1, true) >= 24.0, "Aufgerollte Plane darf nicht in den Durchgang hängen");
+        assertTrue(
+                modelBound(res, "tent_flap_open", 1, true) >= 24.0,
+                "Aufgerollte Plane darf nicht in den Durchgang hängen");
     }
 
     private static double modelBound(java.nio.file.Path res, String model, int axis, boolean min) throws Exception {
         com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(
-            java.nio.file.Files.readString(res.resolve("models/block/" + model + ".json"))).getAsJsonObject().getAsJsonArray("elements");
+                        java.nio.file.Files.readString(res.resolve("models/block/" + model + ".json")))
+                .getAsJsonObject()
+                .getAsJsonArray("elements");
         double bound = min ? Double.MAX_VALUE : -Double.MAX_VALUE;
         for (com.google.gson.JsonElement el : elements) {
             double from = el.getAsJsonObject().getAsJsonArray("from").get(axis).getAsDouble();
@@ -1629,7 +1930,8 @@ public class ExplorerTentLogicTest {
         bootstrapWithItemComponents();
 
         // Beliebiges Vanilla-Item als Träger, das Zelt-Item lässt sich im Test nicht registrieren
-        net.minecraft.world.item.ItemStack carrier = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.PAPER);
+        net.minecraft.world.item.ItemStack carrier =
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.PAPER);
         java.util.List<net.minecraft.world.item.ItemStack> items = new java.util.ArrayList<>();
         for (int i = 0; i < TentChestStorage.SIZE; i++) items.add(net.minecraft.world.item.ItemStack.EMPTY);
         items.set(0, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND, 5));
@@ -1646,26 +1948,34 @@ public class ExplorerTentLogicTest {
         java.util.List<net.minecraft.world.item.ItemStack> empty = new java.util.ArrayList<>();
         for (int i = 0; i < TentChestStorage.SIZE; i++) empty.add(net.minecraft.world.item.ItemStack.EMPTY);
         TentChestStorage.store(carrier, empty);
-        assertFalse(carrier.has(net.minecraft.core.component.DataComponents.CONTAINER), "Leere Truhe darf keinen Inhalt speichern");
+        assertFalse(
+                carrier.has(net.minecraft.core.component.DataComponents.CONTAINER),
+                "Leere Truhe darf keinen Inhalt speichern");
     }
 
     @Test
     void testDyeingKeepsChestContentsAndSetsExactColor() {
         bootstrapWithItemComponents();
 
-        net.minecraft.world.item.ItemStack carrier = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.PAPER);
+        net.minecraft.world.item.ItemStack carrier =
+                new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.PAPER);
         java.util.List<net.minecraft.world.item.ItemStack> items = new java.util.ArrayList<>();
         for (int i = 0; i < TentChestStorage.SIZE; i++) items.add(net.minecraft.world.item.ItemStack.EMPTY);
         items.set(3, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.TORCH, 32));
         TentChestStorage.store(carrier, items);
-        carrier.set(net.minecraft.core.component.DataComponents.DYED_COLOR,
-            new net.minecraft.world.item.component.DyedItemColor(ExplorerTentLogic.getColorRgb("white")));
+        carrier.set(
+                net.minecraft.core.component.DataComponents.DYED_COLOR,
+                new net.minecraft.world.item.component.DyedItemColor(ExplorerTentLogic.getColorRgb("white")));
 
         net.minecraft.world.item.ItemStack dyed = TentDyeRecipe.dye(carrier, net.minecraft.world.item.DyeColor.RED);
-        assertEquals(ExplorerTentLogic.getColorRgb("red"), dyed.get(net.minecraft.core.component.DataComponents.DYED_COLOR).rgb(),
-            "Färben setzt die exakte Zeltfarbe statt zu mischen");
-        assertTrue(net.minecraft.world.item.ItemStack.matches(items.get(3), TentChestStorage.restore(dyed).get(3)),
-            "Truheninhalt muss beim Färben erhalten bleiben");
+        assertEquals(
+                ExplorerTentLogic.getColorRgb("red"),
+                dyed.get(net.minecraft.core.component.DataComponents.DYED_COLOR).rgb(),
+                "Färben setzt die exakte Zeltfarbe statt zu mischen");
+        assertTrue(
+                net.minecraft.world.item.ItemStack.matches(
+                        items.get(3), TentChestStorage.restore(dyed).get(3)),
+                "Truheninhalt muss beim Färben erhalten bleiben");
         assertEquals(1, dyed.getCount());
     }
 
@@ -1676,13 +1986,20 @@ public class ExplorerTentLogicTest {
 
         for (net.minecraft.core.Direction facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
             net.minecraft.world.phys.shapes.VoxelShape shape = TentChestBlock.getChestShape(facing);
-            assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(shape,
-                TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_RIGHT, facing),
-                net.minecraft.world.phys.shapes.BooleanOp.AND), "Truhe hat die rechte Zeltwand (" + facing + ")");
-            net.minecraft.world.phys.AABB center = new net.minecraft.world.phys.AABB(6 / 16.0, 2 / 16.0, 6 / 16.0, 10 / 16.0, 8 / 16.0, 10 / 16.0);
-            assertTrue(net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(shape,
-                net.minecraft.world.phys.shapes.Shapes.create(center), net.minecraft.world.phys.shapes.BooleanOp.AND),
-                "Kistenkörper in der Blockmitte (" + facing + ")");
+            assertTrue(
+                    net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                            shape,
+                            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_RIGHT, facing),
+                            net.minecraft.world.phys.shapes.BooleanOp.AND),
+                    "Truhe hat die rechte Zeltwand (" + facing + ")");
+            net.minecraft.world.phys.AABB center =
+                    new net.minecraft.world.phys.AABB(6 / 16.0, 2 / 16.0, 6 / 16.0, 10 / 16.0, 8 / 16.0, 10 / 16.0);
+            assertTrue(
+                    net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                            shape,
+                            net.minecraft.world.phys.shapes.Shapes.create(center),
+                            net.minecraft.world.phys.shapes.BooleanOp.AND),
+                    "Kistenkörper in der Blockmitte (" + facing + ")");
             assertTrue(shape.max(net.minecraft.core.Direction.Axis.Y) <= 1.0);
         }
     }
@@ -1691,32 +2008,49 @@ public class ExplorerTentLogicTest {
     void testChestDyeRecipeAndResources() throws Exception {
         java.nio.file.Path base = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources");
         java.nio.file.Path recipes = base.resolve("data/mc3ver/recipe");
-        assertEquals("mc3ver:tent_dye", com.google.gson.JsonParser.parseString(
-            java.nio.file.Files.readString(recipes.resolve("explorer_tent_dye.json"))).getAsJsonObject().get("type").getAsString());
+        assertEquals(
+                "mc3ver:tent_dye",
+                com.google.gson.JsonParser.parseString(
+                                java.nio.file.Files.readString(recipes.resolve("explorer_tent_dye.json")))
+                        .getAsJsonObject()
+                        .get("type")
+                        .getAsString());
         try (java.util.stream.Stream<java.nio.file.Path> files = java.nio.file.Files.list(recipes)) {
-            assertEquals(0, files.filter(f -> f.getFileName().toString().startsWith("explorer_tent_dye_")).count(),
-                "Die alten Einzel-Färberezepte verlieren den Truheninhalt und müssen weg sein");
+            assertEquals(
+                    0,
+                    files.filter(f -> f.getFileName().toString().startsWith("explorer_tent_dye_"))
+                            .count(),
+                    "Die alten Einzel-Färberezepte verlieren den Truheninhalt und müssen weg sein");
         }
 
         java.nio.file.Path assets = base.resolve("assets/mc3ver");
         com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-            java.nio.file.Files.readString(assets.resolve("blockstates/tent_chest.json"))).getAsJsonObject().getAsJsonObject("variants");
-        for (String facing : new String[]{"north", "east", "south", "west"}) {
-            assertEquals("mc3ver:block/tent_chest_right", variants.getAsJsonObject("facing=" + facing + ",open=false").get("model").getAsString());
+                        java.nio.file.Files.readString(assets.resolve("blockstates/tent_chest.json")))
+                .getAsJsonObject()
+                .getAsJsonObject("variants");
+        for (String facing : new String[] {"north", "east", "south", "west"}) {
+            assertEquals(
+                    "mc3ver:block/tent_chest_right",
+                    variants.getAsJsonObject("facing=" + facing + ",open=false")
+                            .get("model")
+                            .getAsString());
         }
         String model = java.nio.file.Files.readString(assets.resolve("models/block/tent_chest_right.json"));
         assertTrue(model.contains("\"tintindex\": 0"), "Zeltwand hinter der Truhe in Zeltfarbe");
-        for (String lang : new String[]{"de_de", "en_us"}) {
-            assertTrue(java.nio.file.Files.readString(assets.resolve("lang/" + lang + ".json")).contains("\"block.mc3ver.tent_chest\""));
+        for (String lang : new String[] {"de_de", "en_us"}) {
+            assertTrue(java.nio.file.Files.readString(assets.resolve("lang/" + lang + ".json"))
+                    .contains("\"block.mc3ver.tent_chest\""));
         }
     }
 
     @Test
     void testStakesAndGuyLinesOutsideTheTent() throws Exception {
-        java.nio.file.Path models = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
-        for (String side : new String[]{"front_left", "corner_left", "front_right", "corner_right"}) {
+        java.nio.file.Path models =
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
+        for (String side : new String[] {"front_left", "corner_left", "front_right", "corner_right"}) {
             com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(
-                java.nio.file.Files.readString(models.resolve("tent_canvas_wall_" + side + ".json"))).getAsJsonObject();
+                            java.nio.file.Files.readString(models.resolve("tent_canvas_wall_" + side + ".json")))
+                    .getAsJsonObject();
             boolean left = side.endsWith("left");
             boolean stakeOutside = false;
             boolean hasRope = false;
@@ -1727,7 +2061,11 @@ public class ExplorerTentLogicTest {
                 double toX = e.getAsJsonArray("to").get(0).getAsDouble();
                 if (text.contains("#stake")) {
                     stakeOutside = left ? toX <= 0 : fromX >= 16;
-                    assertEquals(0.0, e.getAsJsonArray("from").get(1).getAsDouble(), 1e-9, "Hering steckt im Boden (" + side + ")");
+                    assertEquals(
+                            0.0,
+                            e.getAsJsonArray("from").get(1).getAsDouble(),
+                            1e-9,
+                            "Hering steckt im Boden (" + side + ")");
                 }
                 if (text.contains("#rope")) {
                     hasRope = true;
@@ -1744,16 +2082,19 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testPennantOnFrontGable() throws Exception {
-        java.nio.file.Path assets = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+        java.nio.file.Path assets =
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
         String roofFront = java.nio.file.Files.readString(assets.resolve("models/block/tent_canvas_roof_front.json"));
         assertTrue(roofFront.contains("\"mc3ver:block/tent_pennant\""), "Giebel muss den Wimpel tragen");
         assertTrue(roofFront.contains("#pole"), "Wimpel braucht eine Stange");
 
-        java.awt.image.BufferedImage pennant = javax.imageio.ImageIO.read(assets.resolve("textures/block/tent_pennant.png").toFile());
+        java.awt.image.BufferedImage pennant = javax.imageio.ImageIO.read(
+                assets.resolve("textures/block/tent_pennant.png").toFile());
         assertEquals(16, pennant.getWidth());
         assertEquals(0, pennant.getHeight() % 16, "Animierte Textur besteht aus 16x16-Frames");
         assertTrue(pennant.getHeight() / 16 >= 2, "Wimpel flattert: mindestens 2 Frames");
-        assertTrue(java.nio.file.Files.readString(assets.resolve("textures/block/tent_pennant.png.mcmeta")).contains("\"animation\""));
+        assertTrue(java.nio.file.Files.readString(assets.resolve("textures/block/tent_pennant.png.mcmeta"))
+                .contains("\"animation\""));
     }
 
     private static boolean itemComponentsBound = false;
@@ -1763,9 +2104,11 @@ public class ExplorerTentLogicTest {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
         if (!itemComponentsBound) {
-            net.minecraft.core.HolderLookup.Provider lookup = net.minecraft.data.registries.VanillaRegistries.createWorldLookup();
-            net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(lookup)
-                .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
+            net.minecraft.core.HolderLookup.Provider lookup =
+                    net.minecraft.data.registries.VanillaRegistries.createWorldLookup();
+            net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_INITIALIZERS
+                    .build(lookup)
+                    .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
             itemComponentsBound = true;
         }
     }
@@ -1781,27 +2124,44 @@ public class ExplorerTentLogicTest {
     void testChestOpenVariantsAndLidModel() throws Exception {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
-        java.nio.file.Path assets = java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
+        java.nio.file.Path assets =
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
         com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-            java.nio.file.Files.readString(assets.resolve("blockstates/tent_chest.json"))).getAsJsonObject().getAsJsonObject("variants");
-        for (String facing : new String[]{"north", "east", "south", "west"}) {
-            assertEquals("mc3ver:block/tent_chest_right", variants.getAsJsonObject("facing=" + facing + ",open=false").get("model").getAsString());
-            assertEquals("mc3ver:block/tent_chest_right_open", variants.getAsJsonObject("facing=" + facing + ",open=true").get("model").getAsString());
+                        java.nio.file.Files.readString(assets.resolve("blockstates/tent_chest.json")))
+                .getAsJsonObject()
+                .getAsJsonObject("variants");
+        for (String facing : new String[] {"north", "east", "south", "west"}) {
+            assertEquals(
+                    "mc3ver:block/tent_chest_right",
+                    variants.getAsJsonObject("facing=" + facing + ",open=false")
+                            .get("model")
+                            .getAsString());
+            assertEquals(
+                    "mc3ver:block/tent_chest_right_open",
+                    variants.getAsJsonObject("facing=" + facing + ",open=true")
+                            .get("model")
+                            .getAsString());
         }
-        com.google.gson.JsonObject rot = lidElement(assets.resolve("models/block/tent_chest_right_open.json")).getAsJsonObject("rotation");
+        com.google.gson.JsonObject rot = lidElement(assets.resolve("models/block/tent_chest_right_open.json"))
+                .getAsJsonObject("rotation");
         assertNotNull(rot, "Offener Deckel ist gedreht");
         assertEquals("z", rot.get("axis").getAsString());
         assertEquals(-45, rot.get("angle").getAsInt());
         assertEquals(14, rot.getAsJsonArray("origin").get(0).getAsDouble());
-        assertNull(lidElement(assets.resolve("models/block/tent_chest_right.json")).get("rotation"), "Geschlossener Deckel ist nicht gedreht");
+        assertNull(
+                lidElement(assets.resolve("models/block/tent_chest_right.json")).get("rotation"),
+                "Geschlossener Deckel ist nicht gedreht");
         assertEquals("open", TentChestBlock.OPEN.getName());
     }
 
     private static com.google.gson.JsonObject lidElement(java.nio.file.Path model) throws Exception {
-        for (com.google.gson.JsonElement e : com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(model))
-                .getAsJsonObject().getAsJsonArray("elements")) {
+        for (com.google.gson.JsonElement e : com.google.gson.JsonParser.parseString(
+                        java.nio.file.Files.readString(model))
+                .getAsJsonObject()
+                .getAsJsonArray("elements")) {
             com.google.gson.JsonObject o = e.getAsJsonObject();
-            if (o.getAsJsonArray("from").get(1).getAsDouble() == 9 && o.getAsJsonArray("to").get(1).getAsDouble() == 11) {
+            if (o.getAsJsonArray("from").get(1).getAsDouble() == 9
+                    && o.getAsJsonArray("to").get(1).getAsDouble() == 11) {
                 return o;
             }
         }

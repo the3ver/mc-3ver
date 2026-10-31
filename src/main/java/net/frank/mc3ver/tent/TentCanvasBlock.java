@@ -1,5 +1,6 @@
 package net.frank.mc3ver.tent;
 
+import java.util.Optional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -24,8 +25,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import java.util.Optional;
 
 public class TentCanvasBlock extends HorizontalDirectionalBlock {
 
@@ -140,30 +139,30 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
 
     public static VoxelShape getRoofSlopeShape(Direction outerDir) {
         return switch (outerDir) {
-            case WEST -> Shapes.or(
-                Block.box(0.0, 0.0, 0.0, 3.0, 16.0, 16.0),
-                Block.box(3.0, 6.0, 0.0, 7.0, 16.0, 16.0),
-                Block.box(7.0, 10.0, 0.0, 11.0, 16.0, 16.0),
-                Block.box(11.0, 14.0, 0.0, 16.0, 16.0, 16.0)
-            );
-            case EAST -> Shapes.or(
-                Block.box(13.0, 0.0, 0.0, 16.0, 16.0, 16.0),
-                Block.box(9.0, 6.0, 0.0, 13.0, 16.0, 16.0),
-                Block.box(5.0, 10.0, 0.0, 9.0, 16.0, 16.0),
-                Block.box(0.0, 14.0, 0.0, 5.0, 16.0, 16.0)
-            );
-            case NORTH -> Shapes.or(
-                Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 3.0),
-                Block.box(0.0, 6.0, 3.0, 16.0, 16.0, 7.0),
-                Block.box(0.0, 10.0, 7.0, 16.0, 16.0, 11.0),
-                Block.box(0.0, 14.0, 11.0, 16.0, 16.0, 16.0)
-            );
-            case SOUTH -> Shapes.or(
-                Block.box(0.0, 0.0, 13.0, 16.0, 16.0, 16.0),
-                Block.box(0.0, 6.0, 9.0, 16.0, 16.0, 13.0),
-                Block.box(0.0, 10.0, 5.0, 16.0, 16.0, 9.0),
-                Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 5.0)
-            );
+            case WEST ->
+                Shapes.or(
+                        Block.box(0.0, 0.0, 0.0, 3.0, 16.0, 16.0),
+                        Block.box(3.0, 6.0, 0.0, 7.0, 16.0, 16.0),
+                        Block.box(7.0, 10.0, 0.0, 11.0, 16.0, 16.0),
+                        Block.box(11.0, 14.0, 0.0, 16.0, 16.0, 16.0));
+            case EAST ->
+                Shapes.or(
+                        Block.box(13.0, 0.0, 0.0, 16.0, 16.0, 16.0),
+                        Block.box(9.0, 6.0, 0.0, 13.0, 16.0, 16.0),
+                        Block.box(5.0, 10.0, 0.0, 9.0, 16.0, 16.0),
+                        Block.box(0.0, 14.0, 0.0, 5.0, 16.0, 16.0));
+            case NORTH ->
+                Shapes.or(
+                        Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 3.0),
+                        Block.box(0.0, 6.0, 3.0, 16.0, 16.0, 7.0),
+                        Block.box(0.0, 10.0, 7.0, 16.0, 16.0, 11.0),
+                        Block.box(0.0, 14.0, 11.0, 16.0, 16.0, 16.0));
+            case SOUTH ->
+                Shapes.or(
+                        Block.box(0.0, 0.0, 13.0, 16.0, 16.0, 16.0),
+                        Block.box(0.0, 6.0, 9.0, 16.0, 16.0, 13.0),
+                        Block.box(0.0, 10.0, 5.0, 16.0, 16.0, 9.0),
+                        Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 5.0));
             default -> Shapes.block();
         };
     }
@@ -180,10 +179,11 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
 
     public TentCanvasBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any()
-            .setValue(FACING, Direction.NORTH)
-            .setValue(PART, CanvasPart.WALL_LEFT)
-            .setValue(COLOR, DyeColor.WHITE));
+        this.registerDefaultState(this.stateDefinition
+                .any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(PART, CanvasPart.WALL_LEFT)
+                .setValue(COLOR, DyeColor.WHITE));
     }
 
     @Override
@@ -197,7 +197,8 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    protected VoxelShape getCollisionShape(
+            BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (context == CollisionContext.empty()) {
             return getRainShape(state.getValue(PART), state.getValue(FACING));
         }
@@ -209,16 +210,16 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     }
 
     public static MenuProvider createCraftingMenuProvider(Level level, BlockPos pos) {
-        ContainerLevelAccess access = level != null && pos != null ? ContainerLevelAccess.create(level, pos) : ContainerLevelAccess.NULL;
+        ContainerLevelAccess access =
+                level != null && pos != null ? ContainerLevelAccess.create(level, pos) : ContainerLevelAccess.NULL;
         return new SimpleMenuProvider(
-            (syncId, inv, p) -> new CraftingMenu(syncId, inv, access) {
-                @Override
-                public boolean stillValid(Player player) {
-                    return stillValid(access, player, ModTentBlocks.TENT_CANVAS);
-                }
-            },
-            Component.translatable("container.crafting")
-        );
+                (syncId, inv, p) -> new CraftingMenu(syncId, inv, access) {
+                    @Override
+                    public boolean stillValid(Player player) {
+                        return stillValid(access, player, ModTentBlocks.TENT_CANVAS);
+                    }
+                },
+                Component.translatable("container.crafting"));
     }
 
     @Override
@@ -230,7 +231,8 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (player.isShiftKeyDown()) {
             if (!level.isClientSide()) {
                 ModTentBlocks.dismantleTent(level, pos, player);

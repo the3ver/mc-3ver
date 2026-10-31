@@ -1,8 +1,8 @@
 package net.frank.mc3ver.tent;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 public class TentRainSplashTest {
 
@@ -35,7 +35,9 @@ public class TentRainSplashTest {
                 }
             }
         }
-        assertTrue(leaks.isEmpty(), leaks.size() + " Spalten ohne Dachoberkante, z. B. " + leaks.subList(0, Math.min(5, leaks.size())));
+        assertTrue(
+                leaks.isEmpty(),
+                leaks.size() + " Spalten ohne Dachoberkante, z. B. " + leaks.subList(0, Math.min(5, leaks.size())));
     }
 
     @Test
@@ -46,8 +48,9 @@ public class TentRainSplashTest {
         // Die Regenkappe gilt nur für Abfragen ohne Entity, Spieler und Mobs stoßen weiter an die echte Plane
         for (TentCanvasBlock.CanvasPart part : TentCanvasBlock.CanvasPart.values()) {
             for (net.minecraft.core.Direction facing : net.minecraft.core.Direction.Plane.HORIZONTAL) {
-                assertTrue(TentCanvasBlock.getWallShape(part, facing).max(net.minecraft.core.Direction.Axis.Y) <= 1.0,
-                    part + " darf für Entities nicht über den Block hinausragen");
+                assertTrue(
+                        TentCanvasBlock.getWallShape(part, facing).max(net.minecraft.core.Direction.Axis.Y) <= 1.0,
+                        part + " darf für Entities nicht über den Block hinausragen");
             }
         }
     }

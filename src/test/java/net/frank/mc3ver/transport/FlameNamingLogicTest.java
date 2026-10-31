@@ -1,10 +1,9 @@
 package net.frank.mc3ver.transport;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class FlameNamingLogicTest {
 
@@ -31,7 +30,9 @@ public class FlameNamingLogicTest {
     @Test
     void testSanitizeCutsToMaxLength() {
         String longName = "x".repeat(TransportFlameLogic.MAX_FLAME_NAME_LENGTH + 10);
-        assertEquals(TransportFlameLogic.MAX_FLAME_NAME_LENGTH, TransportFlameLogic.sanitizeFlameName(longName).length());
+        assertEquals(
+                TransportFlameLogic.MAX_FLAME_NAME_LENGTH,
+                TransportFlameLogic.sanitizeFlameName(longName).length());
     }
 
     @Test

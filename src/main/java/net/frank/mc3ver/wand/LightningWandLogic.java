@@ -32,10 +32,7 @@ public class LightningWandLogic {
     }
 
     public static boolean isWithinRange(
-        double x1, double y1, double z1,
-        double x2, double y2, double z2,
-        double maxRange
-    ) {
+            double x1, double y1, double z1, double x2, double y2, double z2, double maxRange) {
         double dx = x2 - x1;
         double dy = y2 - y1;
         double dz = z2 - z1;
@@ -55,12 +52,17 @@ public class LightningWandLogic {
     }
 
     public static boolean isRayAimingAtTarget(
-        double eyeX, double eyeY, double eyeZ,
-        double lookX, double lookY, double lookZ,
-        double targetX, double targetY, double targetZ,
-        double maxRange,
-        double tolerance
-    ) {
+            double eyeX,
+            double eyeY,
+            double eyeZ,
+            double lookX,
+            double lookY,
+            double lookZ,
+            double targetX,
+            double targetY,
+            double targetZ,
+            double maxRange,
+            double tolerance) {
         double vx = targetX - eyeX;
         double vy = targetY - eyeY;
         double vz = targetZ - eyeZ;
@@ -91,13 +93,19 @@ public class LightningWandLogic {
     }
 
     public static double calculateAimDistance(
-        double eyeX, double eyeY, double eyeZ,
-        double lookX, double lookY, double lookZ,
-        double targetX, double targetY, double targetZ,
-        double maxRange,
-        double tolerance
-    ) {
-        if (!isRayAimingAtTarget(eyeX, eyeY, eyeZ, lookX, lookY, lookZ, targetX, targetY, targetZ, maxRange, tolerance)) {
+            double eyeX,
+            double eyeY,
+            double eyeZ,
+            double lookX,
+            double lookY,
+            double lookZ,
+            double targetX,
+            double targetY,
+            double targetZ,
+            double maxRange,
+            double tolerance) {
+        if (!isRayAimingAtTarget(
+                eyeX, eyeY, eyeZ, lookX, lookY, lookZ, targetX, targetY, targetZ, maxRange, tolerance)) {
             return -1.0;
         }
         double vx = targetX - eyeX;
@@ -123,7 +131,8 @@ public class LightningWandLogic {
         return Math.min(1.0f, (float) chargeTicks / (float) maxChargeTicks);
     }
 
-    public static float calculateChargedDamage(float baseDamage, float maxMultiplier, int chargeTicks, int maxChargeTicks) {
+    public static float calculateChargedDamage(
+            float baseDamage, float maxMultiplier, int chargeTicks, int maxChargeTicks) {
         float ratio = calculateChargeRatio(chargeTicks, maxChargeTicks);
         float multiplier = 1.0f + ratio * (maxMultiplier - 1.0f);
         return baseDamage * multiplier;
@@ -138,7 +147,8 @@ public class LightningWandLogic {
         return Math.max(0.0f, wandDamage - thunderHitDamage);
     }
 
-    // Erstes Ziel: das Kandidat-Ziel mit dem kürzesten Abstand entlang der Blickrichtung (aimDistance > 0 heißt anvisiert)
+    // Erstes Ziel: das Kandidat-Ziel mit dem kürzesten Abstand entlang der Blickrichtung (aimDistance > 0 heißt
+    // anvisiert)
     public static <T> T pickAimedTarget(List<T> candidates, ToDoubleFunction<T> aimDistance) {
         T best = null;
         double closest = Double.MAX_VALUE;

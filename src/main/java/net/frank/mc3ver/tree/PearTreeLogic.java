@@ -44,7 +44,8 @@ public class PearTreeLogic {
         return null;
     }
 
-    // Dropchancen des Birnenlaubs je Glücksstufe, wie Vanilla-Eichenlaub (Birne = Apfel) (Index = Fortune-Level, letzter Wert gilt darüber hinaus).
+    // Dropchancen des Birnenlaubs je Glücksstufe, wie Vanilla-Eichenlaub (Birne = Apfel) (Index = Fortune-Level,
+    // letzter Wert gilt darüber hinaus).
     // Einzige Quelle für loot_table/blocks/pear_leaves.json, ein Test hält beide synchron.
     public static final float[] SAPLING_DROP_CHANCES = {0.05f, 0.0625f, 0.083333336f, 0.1f};
     public static final float[] STICK_DROP_CHANCES = {0.02f, 0.022222223f, 0.025f, 0.033333335f, 0.1f};
@@ -53,11 +54,16 @@ public class PearTreeLogic {
     public static int getFuelDurationTicks(String itemName) {
         if ("pear_boat".equals(itemName) || "pear_chest_boat".equals(itemName)) {
             return PearBoatLogic.BOAT_FUEL_DURATION_TICKS;
-        } else if ("pear_log".equals(itemName) || "stripped_pear_log".equals(itemName)
-                || "pear_wood".equals(itemName) || "stripped_pear_wood".equals(itemName)
-                || "pear_planks".equals(itemName) || "pear_stairs".equals(itemName)
-                || "pear_fence".equals(itemName) || "pear_fence_gate".equals(itemName)
-                || "pear_trapdoor".equals(itemName) || "pear_pressure_plate".equals(itemName)) {
+        } else if ("pear_log".equals(itemName)
+                || "stripped_pear_log".equals(itemName)
+                || "pear_wood".equals(itemName)
+                || "stripped_pear_wood".equals(itemName)
+                || "pear_planks".equals(itemName)
+                || "pear_stairs".equals(itemName)
+                || "pear_fence".equals(itemName)
+                || "pear_fence_gate".equals(itemName)
+                || "pear_trapdoor".equals(itemName)
+                || "pear_pressure_plate".equals(itemName)) {
             return 300;
         } else if ("pear_door".equals(itemName)) {
             return 200;
@@ -83,12 +89,11 @@ public class PearTreeLogic {
 
     public static java.util.List<String> getTargetBiomeIds() {
         return java.util.List.of(
-            "minecraft:plains",
-            "minecraft:sunflower_plains",
-            "minecraft:forest",
-            "minecraft:flower_forest",
-            "minecraft:meadow",
-            "minecraft:birch_forest"
-        );
+                "minecraft:plains",
+                "minecraft:sunflower_plains",
+                "minecraft:forest",
+                "minecraft:flower_forest",
+                "minecraft:meadow",
+                "minecraft:birch_forest");
     }
 }

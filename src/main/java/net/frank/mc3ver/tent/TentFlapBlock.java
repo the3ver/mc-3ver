@@ -29,10 +29,11 @@ public class TentFlapBlock extends HorizontalDirectionalBlock {
 
     public TentFlapBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any()
-            .setValue(FACING, Direction.NORTH)
-            .setValue(OPEN, true)
-            .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE));
+        this.registerDefaultState(this.stateDefinition
+                .any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(OPEN, true)
+                .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE));
     }
 
     @Override
@@ -55,7 +56,8 @@ public class TentFlapBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    protected VoxelShape getCollisionShape(
+            BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return getCollision(state.getValue(FACING), state.getValue(OPEN));
     }
 
@@ -65,7 +67,8 @@ public class TentFlapBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (player.isShiftKeyDown()) {
             if (!level.isClientSide()) {
                 ModTentBlocks.dismantleTent(level, pos, player);
@@ -75,7 +78,8 @@ public class TentFlapBlock extends HorizontalDirectionalBlock {
         if (!level.isClientSide()) {
             boolean open = !state.getValue(OPEN);
             level.setBlock(pos, state.setValue(OPEN, open), Block.UPDATE_ALL);
-            level.playSound(null, pos, open ? SoundEvents.WOOL_BREAK : SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.8f, 1.1f);
+            level.playSound(
+                    null, pos, open ? SoundEvents.WOOL_BREAK : SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.8f, 1.1f);
         }
         return InteractionResult.SUCCESS;
     }

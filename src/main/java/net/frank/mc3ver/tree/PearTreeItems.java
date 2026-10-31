@@ -1,5 +1,6 @@
 package net.frank.mc3ver.tree;
 
+import java.util.List;
 import net.frank.mc3ver.Mc3verMod;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,8 +17,6 @@ import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProvider;
 
-import java.util.List;
-
 public class PearTreeItems {
 
     // Hängt Brennstoff- und Kompost-Komponente an, sofern PearTreeLogic für den Namen einen Wert kennt
@@ -33,78 +32,66 @@ public class PearTreeItems {
         return properties;
     }
 
-    public static final ResourceKey<Item> PEAR_KEY = ResourceKey.create(
-        Registries.ITEM,
-        Mc3verMod.id("pear")
-    );
+    public static final ResourceKey<Item> PEAR_KEY = ResourceKey.create(Registries.ITEM, Mc3verMod.id("pear"));
 
     public static final FoodProperties PEAR_FOOD = new FoodProperties.Builder()
-        .nutrition(PearTreeLogic.PEAR_NUTRITION)
-        .saturationModifier(PearTreeLogic.PEAR_SATURATION_MODIFIER)
-        .build();
+            .nutrition(PearTreeLogic.PEAR_NUTRITION)
+            .saturationModifier(PearTreeLogic.PEAR_SATURATION_MODIFIER)
+            .build();
 
     public static final Item PEAR = Registry.register(
-        BuiltInRegistries.ITEM,
-        PEAR_KEY,
-        new Item(fuelAndCompost("pear", new Item.Properties().setId(PEAR_KEY).food(PEAR_FOOD)))
-    );
+            BuiltInRegistries.ITEM,
+            PEAR_KEY,
+            new Item(
+                    fuelAndCompost("pear", new Item.Properties().setId(PEAR_KEY).food(PEAR_FOOD))));
 
-    public static final ResourceKey<Item> GOLDEN_PEAR_KEY = ResourceKey.create(
-        Registries.ITEM,
-        Mc3verMod.id("golden_pear")
-    );
+    public static final ResourceKey<Item> GOLDEN_PEAR_KEY =
+            ResourceKey.create(Registries.ITEM, Mc3verMod.id("golden_pear"));
 
     public static final FoodProperties GOLDEN_PEAR_FOOD = new FoodProperties.Builder()
-        .nutrition(PearTreeLogic.GOLDEN_PEAR_NUTRITION)
-        .saturationModifier(PearTreeLogic.GOLDEN_PEAR_SATURATION_MODIFIER)
-        .alwaysEdible()
-        .build();
+            .nutrition(PearTreeLogic.GOLDEN_PEAR_NUTRITION)
+            .saturationModifier(PearTreeLogic.GOLDEN_PEAR_SATURATION_MODIFIER)
+            .alwaysEdible()
+            .build();
 
     public static final Consumable GOLDEN_PEAR_CONSUMABLE = Consumables.defaultFood()
-        .onConsume(new ApplyStatusEffectsConsumeEffect(List.of(
-            new MobEffectInstance(MobEffects.JUMP_BOOST, PearTreeLogic.JUMP_BOOST_DURATION_TICKS, 1),
-            new MobEffectInstance(MobEffects.SPEED, PearTreeLogic.SPEED_DURATION_TICKS, 1),
-            new MobEffectInstance(MobEffects.SLOW_FALLING, PearTreeLogic.SLOW_FALLING_DURATION_TICKS, 0)
-        )))
-        .build();
+            .onConsume(new ApplyStatusEffectsConsumeEffect(List.of(
+                    new MobEffectInstance(MobEffects.JUMP_BOOST, PearTreeLogic.JUMP_BOOST_DURATION_TICKS, 1),
+                    new MobEffectInstance(MobEffects.SPEED, PearTreeLogic.SPEED_DURATION_TICKS, 1),
+                    new MobEffectInstance(MobEffects.SLOW_FALLING, PearTreeLogic.SLOW_FALLING_DURATION_TICKS, 0))))
+            .build();
 
     public static final Item GOLDEN_PEAR = Registry.register(
-        BuiltInRegistries.ITEM,
-        GOLDEN_PEAR_KEY,
-        new Item(new Item.Properties()
-            .setId(GOLDEN_PEAR_KEY)
-            .food(GOLDEN_PEAR_FOOD, GOLDEN_PEAR_CONSUMABLE)
-            .rarity(Rarity.RARE)
-        )
-    );
+            BuiltInRegistries.ITEM,
+            GOLDEN_PEAR_KEY,
+            new Item(new Item.Properties()
+                    .setId(GOLDEN_PEAR_KEY)
+                    .food(GOLDEN_PEAR_FOOD, GOLDEN_PEAR_CONSUMABLE)
+                    .rarity(Rarity.RARE)));
 
-    public static final ResourceKey<Item> PEAR_BOAT_KEY = ResourceKey.create(
-        Registries.ITEM,
-        Mc3verMod.id("pear_boat")
-    );
+    public static final ResourceKey<Item> PEAR_BOAT_KEY =
+            ResourceKey.create(Registries.ITEM, Mc3verMod.id("pear_boat"));
 
     public static final Item PEAR_BOAT = Registry.register(
-        BuiltInRegistries.ITEM,
-        PEAR_BOAT_KEY,
-        new BoatItem(
-            PearTreeEntities.PEAR_BOAT_ENTITY_TYPE,
-            fuelAndCompost("pear_boat", new Item.Properties().setId(PEAR_BOAT_KEY).stacksTo(1))
-        )
-    );
+            BuiltInRegistries.ITEM,
+            PEAR_BOAT_KEY,
+            new BoatItem(
+                    PearTreeEntities.PEAR_BOAT_ENTITY_TYPE,
+                    fuelAndCompost(
+                            "pear_boat",
+                            new Item.Properties().setId(PEAR_BOAT_KEY).stacksTo(1))));
 
-    public static final ResourceKey<Item> PEAR_CHEST_BOAT_KEY = ResourceKey.create(
-        Registries.ITEM,
-        Mc3verMod.id("pear_chest_boat")
-    );
+    public static final ResourceKey<Item> PEAR_CHEST_BOAT_KEY =
+            ResourceKey.create(Registries.ITEM, Mc3verMod.id("pear_chest_boat"));
 
     public static final Item PEAR_CHEST_BOAT = Registry.register(
-        BuiltInRegistries.ITEM,
-        PEAR_CHEST_BOAT_KEY,
-        new BoatItem(
-            PearTreeEntities.PEAR_CHEST_BOAT_ENTITY_TYPE,
-            fuelAndCompost("pear_chest_boat", new Item.Properties().setId(PEAR_CHEST_BOAT_KEY).stacksTo(1))
-        )
-    );
+            BuiltInRegistries.ITEM,
+            PEAR_CHEST_BOAT_KEY,
+            new BoatItem(
+                    PearTreeEntities.PEAR_CHEST_BOAT_ENTITY_TYPE,
+                    fuelAndCompost(
+                            "pear_chest_boat",
+                            new Item.Properties().setId(PEAR_CHEST_BOAT_KEY).stacksTo(1))));
 
     public static void register() {
         PearTreeEntities.register();

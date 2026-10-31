@@ -1,13 +1,12 @@
 package net.frank.mc3ver.tent;
 
-import net.frank.mc3ver.DyeColors;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import net.frank.mc3ver.DyeColors;
 
 public class ExplorerTentLogic {
 
@@ -155,18 +154,35 @@ public class ExplorerTentLogic {
 
     public static boolean hasFullBlockCollision(TentPart part) {
         return switch (part) {
-            case WALL_SIDE, WALL_LEFT, WALL_RIGHT, WALL_FRONT_LEFT, WALL_FRONT_RIGHT,
-                 WALL_CORNER_LEFT, WALL_CORNER_RIGHT, WALL_CRAFTING_TABLE_RIGHT, WALL_FURNACE_LEFT, WALL_CHEST_RIGHT, WALL_BACK,
-                 ROOF_LEFT, ROOF_PIPE_LEFT, ROOF_RIGHT, ROOF_FRONT_LEFT, ROOF_FRONT_RIGHT,
-                 ROOF_CORNER_LEFT, ROOF_CORNER_RIGHT, ROOF_BACK, ROOF_LANTERN_RIGHT, POLE -> true;
+            case WALL_SIDE,
+                    WALL_LEFT,
+                    WALL_RIGHT,
+                    WALL_FRONT_LEFT,
+                    WALL_FRONT_RIGHT,
+                    WALL_CORNER_LEFT,
+                    WALL_CORNER_RIGHT,
+                    WALL_CRAFTING_TABLE_RIGHT,
+                    WALL_FURNACE_LEFT,
+                    WALL_CHEST_RIGHT,
+                    WALL_BACK,
+                    ROOF_LEFT,
+                    ROOF_PIPE_LEFT,
+                    ROOF_RIGHT,
+                    ROOF_FRONT_LEFT,
+                    ROOF_FRONT_RIGHT,
+                    ROOF_CORNER_LEFT,
+                    ROOF_CORNER_RIGHT,
+                    ROOF_BACK,
+                    ROOF_LANTERN_RIGHT,
+                    POLE -> true;
             default -> false;
         };
     }
 
-
     public record BlockCoord(int x, int y, int z) {}
 
-    public static BlockCoord toWorldPos(int anchorX, int anchorY, int anchorZ, Facing facing, int relX, int relY, int relZ) {
+    public static BlockCoord toWorldPos(
+            int anchorX, int anchorY, int anchorZ, Facing facing, int relX, int relY, int relZ) {
         int worldY = anchorY + relY;
         int worldX;
         int worldZ;
@@ -199,6 +215,7 @@ public class ExplorerTentLogic {
 
     public interface WorldView {
         boolean isSolid(int x, int y, int z);
+
         boolean isReplaceable(int x, int y, int z);
     }
 
@@ -222,7 +239,8 @@ public class ExplorerTentLogic {
         }
     }
 
-    public static PlacementResult validatePlacement(int anchorX, int anchorY, int anchorZ, Facing facing, WorldView world) {
+    public static PlacementResult validatePlacement(
+            int anchorX, int anchorY, int anchorZ, Facing facing, WorldView world) {
         // 1. Boden-Prüfung: Alle 12 Blöcke unter dem Zelt (relY = -1) müssen fest sein
         for (int relX = -1; relX <= 1; relX++) {
             for (int relZ = 0; relZ < LENGTH; relZ++) {
@@ -266,8 +284,11 @@ public class ExplorerTentLogic {
 
     public interface TentStructureView {
         boolean isTentBlock(int x, int y, int z);
+
         boolean isSleepingBagHead(int x, int y, int z);
+
         Facing getFacing(int x, int y, int z);
+
         default String getColor(int x, int y, int z) {
             return null;
         }
@@ -283,7 +304,8 @@ public class ExplorerTentLogic {
         return DEFAULT_COLOR_NAME;
     }
 
-    public static List<BlockCoord> collectTentBlocks(int clickedX, int clickedY, int clickedZ, TentStructureView world) {
+    public static List<BlockCoord> collectTentBlocks(
+            int clickedX, int clickedY, int clickedZ, TentStructureView world) {
         // Suche im Umkreis nach dem Kopfteil des Schlafsacks (maximaler Abstand eines Zeltblocks zum Kopf ist 2)
         BlockCoord foundHead = null;
         Facing foundFacing = null;
@@ -335,11 +357,7 @@ public class ExplorerTentLogic {
     }
 
     public record SleepDecision(
-        SleepStatus status,
-        boolean preserveSpawnPoint,
-        boolean resetRestTimer,
-        boolean grantRestedBuff
-    ) {}
+            SleepStatus status, boolean preserveSpawnPoint, boolean resetRestTimer, boolean grantRestedBuff) {}
 
     public static SleepDecision evaluateSleep(boolean isNight, boolean isThundering, boolean monstersNearby) {
         if (!isNight && !isThundering) {
@@ -351,6 +369,3 @@ public class ExplorerTentLogic {
         return new SleepDecision(SleepStatus.SUCCESS, true, true, true);
     }
 }
-
-
-

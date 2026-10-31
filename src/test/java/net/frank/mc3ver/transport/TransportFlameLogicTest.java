@@ -1,9 +1,9 @@
 package net.frank.mc3ver.transport;
 
-import org.junit.jupiter.api.Test;
-import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Random;
+import org.junit.jupiter.api.Test;
 
 public class TransportFlameLogicTest {
 
@@ -11,18 +11,21 @@ public class TransportFlameLogicTest {
     void testGetRandomColorReturnsValidRgbColor() {
         Random random = new Random(42);
         int colorRgb = TransportFlameLogic.getRandomFlameColorRgb(random);
-        
-        assertTrue(TransportFlameLogic.isValidFlameColorRgb(colorRgb), "Color must be one of the predefined 16 flame colors");
-        assertTrue(TransportFlameLogic.ALL_FLAME_COLORS.contains(colorRgb), "Color list must contain the generated color");
-        assertEquals(16, TransportFlameLogic.ALL_FLAME_COLORS.size(), "There should be exactly 16 distinct flame colors");
+
+        assertTrue(
+                TransportFlameLogic.isValidFlameColorRgb(colorRgb),
+                "Color must be one of the predefined 16 flame colors");
+        assertTrue(
+                TransportFlameLogic.ALL_FLAME_COLORS.contains(colorRgb), "Color list must contain the generated color");
+        assertEquals(
+                16, TransportFlameLogic.ALL_FLAME_COLORS.size(), "There should be exactly 16 distinct flame colors");
     }
 
     @Test
     void testFlameTargetDataAndFormatting() {
         java.util.UUID flameId = java.util.UUID.randomUUID();
-        TransportFlameLogic.FlameTarget target = new TransportFlameLogic.FlameTarget(
-            120, 64, -350, "minecraft:overworld", 0x3AB3DA, flameId
-        );
+        TransportFlameLogic.FlameTarget target =
+                new TransportFlameLogic.FlameTarget(120, 64, -350, "minecraft:overworld", 0x3AB3DA, flameId);
 
         assertEquals(120, target.x());
         assertEquals(64, target.y());
@@ -42,37 +45,40 @@ public class TransportFlameLogicTest {
     @Test
     void testTeleportDecisionLogic() {
         java.util.UUID flameId = java.util.UUID.randomUUID();
-        TransportFlameLogic.FlameTarget target = new TransportFlameLogic.FlameTarget(
-            100, 64, 200, "minecraft:overworld", 0x3AB3DA, flameId
-        );
+        TransportFlameLogic.FlameTarget target =
+                new TransportFlameLogic.FlameTarget(100, 64, 200, "minecraft:overworld", 0x3AB3DA, flameId);
 
         // Null target
-        assertEquals(TransportFlameLogic.TeleportOutcome.INVALID_TARGET,
-            TransportFlameLogic.evaluateTeleport(null, true, 0, 64, 0, "minecraft:overworld"));
+        assertEquals(
+                TransportFlameLogic.TeleportOutcome.INVALID_TARGET,
+                TransportFlameLogic.evaluateTeleport(null, true, 0, 64, 0, "minecraft:overworld"));
 
         // Flame not existing in world anymore
-        assertEquals(TransportFlameLogic.TeleportOutcome.FLAME_EXTINGUISHED,
-            TransportFlameLogic.evaluateTeleport(target, false, 0, 64, 0, "minecraft:overworld"));
+        assertEquals(
+                TransportFlameLogic.TeleportOutcome.FLAME_EXTINGUISHED,
+                TransportFlameLogic.evaluateTeleport(target, false, 0, 64, 0, "minecraft:overworld"));
 
         // Player already at destination
-        assertEquals(TransportFlameLogic.TeleportOutcome.ALREADY_AT_TARGET,
-            TransportFlameLogic.evaluateTeleport(target, true, 100, 64, 200, "minecraft:overworld"));
+        assertEquals(
+                TransportFlameLogic.TeleportOutcome.ALREADY_AT_TARGET,
+                TransportFlameLogic.evaluateTeleport(target, true, 100, 64, 200, "minecraft:overworld"));
 
         // Valid teleport across dimensions
-        assertEquals(TransportFlameLogic.TeleportOutcome.SUCCESS,
-            TransportFlameLogic.evaluateTeleport(target, true, 100, 64, 200, "minecraft:the_nether"));
+        assertEquals(
+                TransportFlameLogic.TeleportOutcome.SUCCESS,
+                TransportFlameLogic.evaluateTeleport(target, true, 100, 64, 200, "minecraft:the_nether"));
 
         // Valid teleport within same dimension from far away
-        assertEquals(TransportFlameLogic.TeleportOutcome.SUCCESS,
-            TransportFlameLogic.evaluateTeleport(target, true, 500, 70, -300, "minecraft:overworld"));
+        assertEquals(
+                TransportFlameLogic.TeleportOutcome.SUCCESS,
+                TransportFlameLogic.evaluateTeleport(target, true, 500, 70, -300, "minecraft:overworld"));
     }
 
     @Test
     void testArrivalCoordinatesCalculation() {
         java.util.UUID flameId = java.util.UUID.randomUUID();
-        TransportFlameLogic.FlameTarget target = new TransportFlameLogic.FlameTarget(
-            15, 64, -80, "minecraft:overworld", 0x3AB3DA, flameId
-        );
+        TransportFlameLogic.FlameTarget target =
+                new TransportFlameLogic.FlameTarget(15, 64, -80, "minecraft:overworld", 0x3AB3DA, flameId);
 
         double[] pos = TransportFlameLogic.calculateArrivalCoordinates(target);
         assertEquals(15.5, pos[0], 0.001);
@@ -83,61 +89,76 @@ public class TransportFlameLogicTest {
     @Test
     void testDyedItemColorCompatibility() {
         int color = 0x3AB3DA;
-        net.minecraft.world.item.component.DyedItemColor dyedColor = new net.minecraft.world.item.component.DyedItemColor(color);
+        net.minecraft.world.item.component.DyedItemColor dyedColor =
+                new net.minecraft.world.item.component.DyedItemColor(color);
         assertEquals(color, dyedColor.rgb());
     }
 
     @Test
     void testTransportMapMaxStackSize() {
-        assertEquals(64, TransportFlameLogic.TRANSPORT_MAP_MAX_STACK_SIZE,
-            "Transport map should have a max stack size of 64 so up to 64 maps can fit into a bundle");
+        assertEquals(
+                64,
+                TransportFlameLogic.TRANSPORT_MAP_MAX_STACK_SIZE,
+                "Transport map should have a max stack size of 64 so up to 64 maps can fit into a bundle");
     }
 
     @Test
     void testTransportMapBundleWeight() {
-        org.apache.commons.lang3.math.Fraction itemWeight = org.apache.commons.lang3.math.Fraction.getFraction(1, TransportFlameLogic.TRANSPORT_MAP_MAX_STACK_SIZE);
-        assertEquals(org.apache.commons.lang3.math.Fraction.getFraction(1, 64), itemWeight,
-            "Each transport map must occupy exactly 1/64 of a bundle");
-        
-        org.apache.commons.lang3.math.Fraction fullBundleWeight = itemWeight.multiplyBy(org.apache.commons.lang3.math.Fraction.getFraction(64, 1));
-        assertEquals(org.apache.commons.lang3.math.Fraction.ONE, fullBundleWeight,
-            "64 transport maps must fill exactly one bundle");
+        org.apache.commons.lang3.math.Fraction itemWeight =
+                org.apache.commons.lang3.math.Fraction.getFraction(1, TransportFlameLogic.TRANSPORT_MAP_MAX_STACK_SIZE);
+        assertEquals(
+                org.apache.commons.lang3.math.Fraction.getFraction(1, 64),
+                itemWeight,
+                "Each transport map must occupy exactly 1/64 of a bundle");
+
+        org.apache.commons.lang3.math.Fraction fullBundleWeight =
+                itemWeight.multiplyBy(org.apache.commons.lang3.math.Fraction.getFraction(64, 1));
+        assertEquals(
+                org.apache.commons.lang3.math.Fraction.ONE,
+                fullBundleWeight,
+                "64 transport maps must fill exactly one bundle");
     }
 
     @Test
     void testDecidePlacementAction_WhenPlayerAlreadyHasMapToSamePosition_KeepsExistingMap() {
         java.util.UUID flameId = java.util.UUID.randomUUID();
-        TransportFlameLogic.FlameTarget existing = new TransportFlameLogic.FlameTarget(
-            100, 64, 200, "minecraft:overworld", 0x3AB3DA, flameId
-        );
+        TransportFlameLogic.FlameTarget existing =
+                new TransportFlameLogic.FlameTarget(100, 64, 200, "minecraft:overworld", 0x3AB3DA, flameId);
 
         TransportFlameLogic.PlacementDecision decision = TransportFlameLogic.decidePlacementAction(
-            100, 64, 200, "minecraft:overworld",
-            java.util.List.of(existing),
-            (dim, pos) -> true, // Flame exists
-            new java.util.Random(1)
-        );
+                100,
+                64,
+                200,
+                "minecraft:overworld",
+                java.util.List.of(existing),
+                (dim, pos) -> true, // Flame exists
+                new java.util.Random(1));
 
-        assertEquals(TransportFlameLogic.PlacementActionType.KEEP_EXISTING_MAP, decision.actionType(),
-            "If player already has a map to this exact location, keep existing map");
+        assertEquals(
+                TransportFlameLogic.PlacementActionType.KEEP_EXISTING_MAP,
+                decision.actionType(),
+                "If player already has a map to this exact location, keep existing map");
     }
 
     @Test
     void testDecidePlacementAction_WhenPlayerHasExtinguishedOldMap_RelinksOldMap() {
         java.util.UUID flameId = java.util.UUID.randomUUID();
-        TransportFlameLogic.FlameTarget oldMap = new TransportFlameLogic.FlameTarget(
-            100, 64, 200, "minecraft:overworld", 0x3AB3DA, flameId
-        );
+        TransportFlameLogic.FlameTarget oldMap =
+                new TransportFlameLogic.FlameTarget(100, 64, 200, "minecraft:overworld", 0x3AB3DA, flameId);
 
         TransportFlameLogic.PlacementDecision decision = TransportFlameLogic.decidePlacementAction(
-            150, 70, 250, "minecraft:overworld",
-            java.util.List.of(oldMap),
-            (dim, pos) -> false, // Flame at old location does NOT exist (it was broken/extinguished)
-            new java.util.Random(1)
-        );
+                150,
+                70,
+                250,
+                "minecraft:overworld",
+                java.util.List.of(oldMap),
+                (dim, pos) -> false, // Flame at old location does NOT exist (it was broken/extinguished)
+                new java.util.Random(1));
 
-        assertEquals(TransportFlameLogic.PlacementActionType.RELINK_OLD_MAP, decision.actionType(),
-            "Must relink extinguished old map instead of generating a new map");
+        assertEquals(
+                TransportFlameLogic.PlacementActionType.RELINK_OLD_MAP,
+                decision.actionType(),
+                "Must relink extinguished old map instead of generating a new map");
         assertEquals(oldMap, decision.targetToRelink(), "Target to relink must be the old map");
         assertEquals(150, decision.newTarget().x());
         assertEquals(70, decision.newTarget().y());
@@ -150,19 +171,22 @@ public class TransportFlameLogicTest {
     @Test
     void testDecidePlacementAction_WhenPlayerHasOnlyActiveMapsToOtherFlames_CreatesNewMap() {
         java.util.UUID flameId = java.util.UUID.randomUUID();
-        TransportFlameLogic.FlameTarget activeMap = new TransportFlameLogic.FlameTarget(
-            100, 64, 200, "minecraft:overworld", 0x3AB3DA, flameId
-        );
+        TransportFlameLogic.FlameTarget activeMap =
+                new TransportFlameLogic.FlameTarget(100, 64, 200, "minecraft:overworld", 0x3AB3DA, flameId);
 
         TransportFlameLogic.PlacementDecision decision = TransportFlameLogic.decidePlacementAction(
-            150, 70, 250, "minecraft:overworld",
-            java.util.List.of(activeMap),
-            (dim, pos) -> true, // Flame at (100, 64, 200) is ALIVE and existing!
-            new java.util.Random(42)
-        );
+                150,
+                70,
+                250,
+                "minecraft:overworld",
+                java.util.List.of(activeMap),
+                (dim, pos) -> true, // Flame at (100, 64, 200) is ALIVE and existing!
+                new java.util.Random(42));
 
-        assertEquals(TransportFlameLogic.PlacementActionType.CREATE_NEW_MAP, decision.actionType(),
-            "Must create a new map because existing map belongs to an active flame");
+        assertEquals(
+                TransportFlameLogic.PlacementActionType.CREATE_NEW_MAP,
+                decision.actionType(),
+                "Must create a new map because existing map belongs to an active flame");
         assertNull(decision.targetToRelink());
         assertEquals(150, decision.newTarget().x());
         assertEquals(70, decision.newTarget().y());
@@ -173,24 +197,27 @@ public class TransportFlameLogicTest {
     @Test
     void testDecidePlacementAction_WhenPlayerHasBothActiveAndExtinguishedMaps_RelinksOnlyExtinguishedMap() {
         java.util.UUID activeFlameId = java.util.UUID.randomUUID();
-        TransportFlameLogic.FlameTarget activeMap = new TransportFlameLogic.FlameTarget(
-            100, 64, 200, "minecraft:overworld", 0x3AB3DA, activeFlameId
-        );
+        TransportFlameLogic.FlameTarget activeMap =
+                new TransportFlameLogic.FlameTarget(100, 64, 200, "minecraft:overworld", 0x3AB3DA, activeFlameId);
 
         java.util.UUID extinguishedFlameId = java.util.UUID.randomUUID();
-        TransportFlameLogic.FlameTarget extinguishedMap = new TransportFlameLogic.FlameTarget(
-            300, 70, 400, "minecraft:overworld", 0xB02E26, extinguishedFlameId
-        );
+        TransportFlameLogic.FlameTarget extinguishedMap =
+                new TransportFlameLogic.FlameTarget(300, 70, 400, "minecraft:overworld", 0xB02E26, extinguishedFlameId);
 
         TransportFlameLogic.PlacementDecision decision = TransportFlameLogic.decidePlacementAction(
-            500, 64, 500, "minecraft:overworld",
-            java.util.List.of(activeMap, extinguishedMap),
-            (dim, pos) -> pos.getX() == 100, // Flame at 100 exists, flame at 300 does not
-            new java.util.Random(42)
-        );
+                500,
+                64,
+                500,
+                "minecraft:overworld",
+                java.util.List.of(activeMap, extinguishedMap),
+                (dim, pos) -> pos.getX() == 100, // Flame at 100 exists, flame at 300 does not
+                new java.util.Random(42));
 
         assertEquals(TransportFlameLogic.PlacementActionType.RELINK_OLD_MAP, decision.actionType());
-        assertEquals(extinguishedMap, decision.targetToRelink(), "Must pick the extinguished map to relink, not the active map");
+        assertEquals(
+                extinguishedMap,
+                decision.targetToRelink(),
+                "Must pick the extinguished map to relink, not the active map");
         assertEquals(500, decision.newTarget().x());
         assertEquals(0xB02E26, decision.newTarget().colorRgb(), "Must preserve extinguished map's color");
         assertEquals(extinguishedFlameId, decision.newTarget().flameId(), "Must preserve extinguished map's flameId");
@@ -199,8 +226,7 @@ public class TransportFlameLogicTest {
     @Test
     void testFlameTargetIsAtMatchesPositionAndDimension() {
         TransportFlameLogic.FlameTarget target = new TransportFlameLogic.FlameTarget(
-            5, 70, -3, "minecraft:overworld", 0x3AB3DA, java.util.UUID.randomUUID()
-        );
+                5, 70, -3, "minecraft:overworld", 0x3AB3DA, java.util.UUID.randomUUID());
         assertTrue(target.isAt(5, 70, -3, "minecraft:overworld"));
         assertFalse(target.isAt(5, 71, -3, "minecraft:overworld"));
         assertFalse(target.isAt(5, 70, -3, "minecraft:the_nether"));

@@ -1,11 +1,10 @@
 package net.frank.mc3ver.bonfire;
 
+import java.util.Locale;
+import java.util.Optional;
 import net.frank.mc3ver.DyeColors;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.DyeColor;
-
-import java.util.Locale;
-import java.util.Optional;
 
 // Spiellogik des 3x3-Signalfeuers ohne Weltzugriff, damit sie sich ohne laufendes Spiel testen lässt
 public final class BonfireLogic {
@@ -197,7 +196,7 @@ public final class BonfireLogic {
 
     // Geschwindigkeit eines Rauchpartikels, das mit SIGNAL_SMOKE_RISE aufsteigt und vom Wind mitgenommen wird
     public static double[] smokeParticleVelocity(Wind wind, double rise) {
-        return new double[]{wind.x() * rise, rise, wind.z() * rise};
+        return new double[] {wind.x() * rise, rise, wind.z() * rise};
     }
 
     // x/z relativ zur Blockmitte, y relativ zur Blockunterkante; size in Blöcken, roll in Grad
@@ -233,8 +232,8 @@ public final class BonfireLogic {
         double height = FLAME_BASE_HEIGHT * (center ? 1.0 : 0.72) * flicker;
         double width = FLAME_WIDTH * (center ? 1.0 : 0.8);
         int frame = (int) Math.floorMod((long) Math.floor(time / FLAME_FRAME_TICKS) + index * 3L, FLAME_FRAMES);
-        return new FlameTongue(Math.cos(angle) * radius, Math.sin(angle) * radius, height, width,
-            (float) (index * 37.0), frame);
+        return new FlameTongue(
+                Math.cos(angle) * radius, Math.sin(angle) * radius, height, width, (float) (index * 37.0), frame);
     }
 
     private static double frac(double value) {

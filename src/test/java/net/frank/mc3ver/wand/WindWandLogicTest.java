@@ -1,8 +1,8 @@
 package net.frank.mc3ver.wand;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class WindWandLogicTest {
 
@@ -54,8 +54,10 @@ public class WindWandLogicTest {
     @Test
     void testCanUse() {
         org.junit.jupiter.api.Assertions.assertTrue(WindWandLogic.canUse(false, false));
-        org.junit.jupiter.api.Assertions.assertFalse(WindWandLogic.canUse(true, false), "Cannot use while cooldown is active");
+        org.junit.jupiter.api.Assertions.assertFalse(
+                WindWandLogic.canUse(true, false), "Cannot use while cooldown is active");
         org.junit.jupiter.api.Assertions.assertFalse(WindWandLogic.canUse(false, true), "Cannot use while spectator");
-        org.junit.jupiter.api.Assertions.assertFalse(WindWandLogic.canUse(true, true), "Cannot use while cooldown and spectator");
+        org.junit.jupiter.api.Assertions.assertFalse(
+                WindWandLogic.canUse(true, true), "Cannot use while cooldown and spectator");
     }
 }

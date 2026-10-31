@@ -10,7 +10,6 @@ import net.minecraft.util.Unit;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
@@ -20,22 +19,17 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BedPart;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.List;
-
 // Erbt von BedBlock: LivingEntity.tick() weckt Schlafende sofort, wenn der Block an sleepingPos kein BedBlock ist
 public class TentSleepingBagBlock extends BedBlock {
 
     protected static final VoxelShape FOOT_SHAPE = Block.box(1.0, 0.0, 0.0, 15.0, 3.0, 16.0);
-    protected static final VoxelShape HEAD_SHAPE = Shapes.or(
-        Block.box(1.0, 0.0, 0.0, 15.0, 3.0, 16.0),
-        Block.box(2.0, 3.0, 6.0, 14.0, 6.0, 15.0)
-    );
+    protected static final VoxelShape HEAD_SHAPE =
+            Shapes.or(Block.box(1.0, 0.0, 0.0, 15.0, 3.0, 16.0), Block.box(2.0, 3.0, 6.0, 14.0, 6.0, 15.0));
 
     public TentSleepingBagBlock(BlockBehaviour.Properties properties) {
         super(DyeColor.WHITE, properties);
@@ -52,12 +46,14 @@ public class TentSleepingBagBlock extends BedBlock {
     }
 
     @Override
-    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+    protected VoxelShape getCollisionShape(
+            BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Shapes.empty();
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (player.isShiftKeyDown()) {
             if (!level.isClientSide()) {
                 ModTentBlocks.dismantleTent(level, pos, player);
@@ -79,7 +75,8 @@ public class TentSleepingBagBlock extends BedBlock {
         }
 
         if (player instanceof ServerPlayer serverPlayer) {
-            Either<Player.BedSleepingProblem, Unit> result = serverPlayer.startSleepInBed(this, level.getBlockState(targetPos), getBedRule(level, targetPos), targetPos);
+            Either<Player.BedSleepingProblem, Unit> result = serverPlayer.startSleepInBed(
+                    this, level.getBlockState(targetPos), getBedRule(level, targetPos), targetPos);
 
             result.ifLeft(problem -> {
                 Component message = problem.message();
@@ -94,7 +91,8 @@ public class TentSleepingBagBlock extends BedBlock {
 
                 // Entdecker-Buff und Meldung
                 serverPlayer.addEffect(new MobEffectInstance(MobEffects.SPEED, 20 * 60, 0));
-                serverPlayer.sendSystemMessage(Component.translatable("message.mc3ver.tent_sleeping").withStyle(ChatFormatting.AQUA));
+                serverPlayer.sendSystemMessage(
+                        Component.translatable("message.mc3ver.tent_sleeping").withStyle(ChatFormatting.AQUA));
             }
         }
 
