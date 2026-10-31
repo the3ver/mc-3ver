@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.2] - 2026-10-31
+
+### 🐛 Fehlerbehebungen
+
+- Die Willkommensnachricht zeigte die Version eines anderen Mods (z. B. `v5.1.20+5af7744b5d` von fabric-dimensions-v1): Alle Mods teilen sich einen Classloader, gelesen wurde die erste `fabric.mod.json`. Jetzt wird die mit der ID `mc3ver` gewählt.
+
 ## [0.8.1] - 2026-10-31
 
 ### 🐛 Fehlerbehebungen
