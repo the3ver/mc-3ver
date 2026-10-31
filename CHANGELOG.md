@@ -4,6 +4,16 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.5] - 2026-10-31
+
+### 🐛 Fehlerbehebungen
+
+- Birnenlaub war grau statt grün: Es nutzt die graue Eichenlaub-Textur, aber keine Färbung. Jetzt bekommt es die Laubfarbe des Bioms, auch als Item im Inventar.
+
+### ✨ Neu hinzugefügt
+
+- Birnbäume haben leicht unterschiedliche Laubtöne: Je nach Ort ist eine Krone bis zu 12 % heller oder dunkler, mit weichem Übergang.
+
 ## [0.8.4] - 2026-10-31
 
 ### ✨ Neu hinzugefügt

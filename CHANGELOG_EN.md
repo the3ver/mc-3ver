@@ -4,6 +4,16 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.5] - 2026-10-31
+
+### 🐛 Bug Fixes
+
+- Pear leaves were gray instead of green: they use the gray oak leaves texture but had no tint. They now take the biome foliage color, also as an item in the inventory.
+
+### ✨ Added
+
+- Pear trees vary slightly in leaf shade: depending on location a crown is up to 12 % lighter or darker, with smooth transitions.
+
 ## [0.8.4] - 2026-10-31
 
 ### ✨ Added

@@ -87,6 +87,48 @@ public class PearTreeLogic {
         };
     }
 
+    // Laub ist mal heller, mal dunkler: weiches Rauschen über die Position (x, z), damit eine Krone einheitlich wirkt
+    public static final float LEAF_SHADE_VARIATION = 0.12f;
+    static final int LEAF_SHADE_CELL = 8;
+
+    public static int leafColor(int foliageRgb, int x, int z) {
+        return applyShade(foliageRgb, leafShade(x, z));
+    }
+
+    public static float leafShade(int x, int z) {
+        int cellX = Math.floorDiv(x, LEAF_SHADE_CELL);
+        int cellZ = Math.floorDiv(z, LEAF_SHADE_CELL);
+        float tx = smooth((float) Math.floorMod(x, LEAF_SHADE_CELL) / LEAF_SHADE_CELL);
+        float tz = smooth((float) Math.floorMod(z, LEAF_SHADE_CELL) / LEAF_SHADE_CELL);
+        float top = lerp(cornerNoise(cellX, cellZ), cornerNoise(cellX + 1, cellZ), tx);
+        float bottom = lerp(cornerNoise(cellX, cellZ + 1), cornerNoise(cellX + 1, cellZ + 1), tx);
+        return 1 + LEAF_SHADE_VARIATION * lerp(top, bottom, tz);
+    }
+
+    public static int applyShade(int rgb, float shade) {
+        int r = Math.min(255, Math.round(((rgb >> 16) & 0xFF) * shade));
+        int g = Math.min(255, Math.round(((rgb >> 8) & 0xFF) * shade));
+        int b = Math.min(255, Math.round((rgb & 0xFF) * shade));
+        return (r << 16) | (g << 8) | b;
+    }
+
+    // Wert in [-1, 1], fest je Rasterpunkt
+    private static float cornerNoise(int cellX, int cellZ) {
+        int h = cellX * 0x27D4EB2D ^ cellZ * 0x165667B1;
+        h ^= h >>> 15;
+        h *= 0x2C1B3C6D;
+        h ^= h >>> 12;
+        return (h & 0xFFFF) / 32767.5f - 1;
+    }
+
+    private static float smooth(float t) {
+        return t * t * (3 - 2 * t);
+    }
+
+    private static float lerp(float a, float b, float t) {
+        return a + (b - a) * t;
+    }
+
     public static java.util.List<String> getTargetBiomeIds() {
         return java.util.List.of(
                 "minecraft:plains",
