@@ -2,7 +2,9 @@ package net.frank.mc3ver.grove;
 
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.core.QuartPos;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.RandomState;
@@ -26,23 +28,36 @@ final class GroveDepthCache {
 
     private GroveDepthCache() {}
 
+    /** Für Features: alles kommt aus der Weltgenerierungs-Region. */
     static GroveShapeLogic.DepthGrid grid(WorldGenLevel level, ChunkGenerator generator) {
-        long seed = level.getSeed();
+        return grid(
+                level.getSeed(),
+                generator,
+                level,
+                level.getLevel().getChunkSource().randomState(),
+                level::getUncachedNoiseBiome);
+    }
+
+    /** Für Strukturen und Features gleich: Seed, Generator, Welthöhe, Rauschzustand und Biomquelle. */
+    static GroveShapeLogic.DepthGrid grid(
+            long seed,
+            ChunkGenerator generator,
+            LevelHeightAccessor heightAccessor,
+            RandomState randomState,
+            BiomeResolver biomes) {
         if (seed != cachedSeed || DEPTHS.size() > MAX_ENTRIES || SURFACE_GROVE.size() > MAX_ENTRIES) {
             DEPTHS.clear();
             SURFACE_GROVE.clear();
             cachedSeed = seed;
         }
-        RandomState randomState = level.getLevel().getChunkSource().randomState();
         GroveShapeLogic.Probe probe = (x, z) -> {
             int cellX = Math.floorDiv(x, CELL);
             int cellZ = Math.floorDiv(z, CELL);
             return SURFACE_GROVE.computeIfAbsent(key(cellX, cellZ), k -> {
                 int cx = cellX * CELL + CELL / 2;
                 int cz = cellZ * CELL + CELL / 2;
-                int y = generator.getBaseHeight(cx, cz, Heightmap.Types.WORLD_SURFACE_WG, level, randomState);
-                return level.getUncachedNoiseBiome(
-                                QuartPos.fromBlock(cx), QuartPos.fromBlock(y), QuartPos.fromBlock(cz))
+                int y = generator.getBaseHeight(cx, cz, Heightmap.Types.WORLD_SURFACE_WG, heightAccessor, randomState);
+                return biomes.getNoiseBiome(QuartPos.fromBlock(cx), QuartPos.fromBlock(y), QuartPos.fromBlock(cz))
                         .is(ModGrove.PEAR_GROVE);
             });
         };
