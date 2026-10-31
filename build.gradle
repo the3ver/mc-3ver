@@ -74,6 +74,11 @@ spotless {
 	}
 }
 
+// Konsole des Dev-Servers per Pipe bedienbar, z. B. für /locate in Agenten-Tests
+tasks.named('runServer') {
+	standardInput = System.in
+}
+
 // Mutation Testing nur auf den reinen *Logic-Klassen; die übrigen Klassen brauchen das laufende Spiel.
 // Lokal: ./gradlew pitest, Bericht in build/reports/pitest. In CI wöchentlich (mutation.yml).
 pitest {
