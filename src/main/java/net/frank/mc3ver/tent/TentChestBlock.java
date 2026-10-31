@@ -46,13 +46,12 @@ public class TentChestBlock extends BaseEntityBlock {
 
     public static VoxelShape getChestShape(Direction tentFacing) {
         Direction rightDir = tentFacing.getClockWise();
-        VoxelShape body =
-                switch (rightDir) {
-                    case EAST -> Block.box(1, 0, 2, 14, 11, 14);
-                    case WEST -> Block.box(2, 0, 2, 15, 11, 14);
-                    case SOUTH -> Block.box(2, 0, 1, 14, 11, 14);
-                    default -> Block.box(2, 0, 2, 14, 11, 15);
-                };
+        VoxelShape body = switch (rightDir) {
+            case EAST -> Block.box(1, 0, 2, 14, 11, 14);
+            case WEST -> Block.box(2, 0, 2, 15, 11, 14);
+            case SOUTH -> Block.box(2, 0, 1, 14, 11, 14);
+            default -> Block.box(2, 0, 2, 14, 11, 15);
+        };
         return Shapes.or(TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_RIGHT, tentFacing), body);
     }
 
