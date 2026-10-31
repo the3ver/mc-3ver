@@ -4,105 +4,31 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
-## [0.8.17] - 2026-10-31
+## [0.9.0] - 2026-10-31
 
 ### ✨ Neu hinzugefügt
+* **Biom Birnenhain:** Seltenes neues Overworld-Biom rund um den Birnbaum, in warmem Gold-Grün mit türkisfarbenem Wasser und Meadow-Musik. Es ersetzt in einer seltenen TerraBlender-Region Forest und Flower Forest. Zu finden mit `/locate biome mc3ver:pear_grove`.
+* **Zonen:** Am Rand stehen einzelne Birnbäume, weiter innen Gruppen aus 3 bis 5 Bäumen, im Inneren dichter Wald mit Farnen und Flecken aus grober Erde und Podsol. Die Zonen richten sich nach dem Abstand zum Biomrand und passen so zu jeder Hain-Form.
+* **Pflanzen:** Laubbüsche aus Birnenholz und -laub. Ein eigener Blumen-Mix aus Löwenzahn, Margerite, Kornblume und Mohn, am dichtesten auf der offenen Wiese.
+* **Herzstück:** Am tiefsten Punkt des Hains steht ein alter Birnbaum mit 2×2-Stamm, ausladender, lichter Krone, dicken Wurzeln und Bienennestern. Ihn umgibt ein Ring dichten Waldes. Daneben liegen ein kleiner See mit Lehmgrund, Kiesrand und Seerosen, eine Quelle am bemoosten Fels, Moos, Pilze und Trittsteine. Zu finden mit `/locate structure mc3ver:pear_grove_heart`.
+* **Truhe am alten Baum:** Zwischen den Wurzeln steht eine Truhe mit Birnen, Setzlingen, Honigwaben und Knochenmehl. Selten liegt dazu eine goldene Birne, ein Freundschaftsstein, ein Windstab oder ein Blitzstab darin.
+* **Gartenmauern:** Am Rand des Hains stehen selten Reste verfallener Bruchsteinmauern, die an einen alten Obstgarten erinnern.
+* **Laubtöne:** Birnbäume sind je nach Ort leicht heller oder dunkler belaubt.
 
-- Birnenhain: Selten Reste verfallener Gartenmauern aus Bruchstein, teils bemoost und mit Lücken, nur am Rand und zwischen den Baumgruppen. Sie deuten einen alten Obstgarten an.
-
-## [0.8.16] - 2026-10-31
+### 🔄 Geändert
+* **Neue Abhängigkeit:** Die Mod benötigt jetzt zusätzlich **TerraBlender** (26.3.0.0.9 oder neuer), auf Client und Server.
 
 ### 🐛 Fehlerbehebungen
-
-- Der See am alten Birnbaum schwebte über abfallendem Gelände, der Quellfels ebenso. Jetzt liegt der See auf der tiefsten Geländestelle und gräbt sich in höheres Gelände ein. Der Fels steht auf seinem Boden, mindestens auf Seehöhe.
-
-## [0.8.15] - 2026-10-31
-
-### 🔄 Geändert
-
-- Birnenhain: Um die Lichtung des alten Birnbaums liegt immer ein 24 Blöcke breiter Ring dichten Waldes, auch wo der Hain dort schon flacher wird.
-
-## [0.8.14] - 2026-10-31
-
-### 🔄 Geändert
-
-- Alter Birnbaum: Die Krone lädt weiter aus und ist lichter. 5 bis 7 lange Äste reichen schräg nach oben, an ihren Enden sitzen lockere Laubwolken. Wurzeln sind 3 bis 4 Blöcke lang und sinken alle in den Boden.
-
-## [0.8.13] - 2026-10-31
-
-### ✨ Neu hinzugefügt
-
-- Birnenhain (in Arbeit): Herzstück am tiefsten Punkt des Hains mit altem Birnbaum (2×2-Stamm, breite Krone, Wurzeln, Bienennester), Truhe zwischen den Wurzeln, kleinem See mit Seerosen, Quelle am Fels, Moos und Trittsteinen. Zu finden mit `/locate structure mc3ver:pear_grove_heart`. In der Truhe liegen Birnen, Setzlinge, Honigwaben und Knochenmehl, selten dazu eine goldene Birne, ein Freundschaftsstein, ein Windstab oder ein Blitzstab.
-
-## [0.8.12] - 2026-10-31
+* **Birnenlaub:** Das Laub nutzt die graue Eichenlaub-Textur, war aber nicht eingefärbt und erschien grau. Jetzt hat es die Laubfarbe des Bioms, auch als Item im Inventar.
 
 ### 🔧 Intern
+* Die Hain-Logik steckt in testbaren Klassen ohne laufendes Spiel: `GroveShapeLogic` (Tiefe, Herz), `GroveZoneLogic` (Zonen, Dichte), `OldPearTreeLogic` (Bauplan des Herzstücks), `GardenWallLogic`.
+* `runServer` nimmt Konsolenbefehle über die Standardeingabe an, für Weltgenerierungs-Tests per Skript.
+* Spec und Plan liegen in `tasks/birnenhain-spec.md` und `tasks/birnenhain-plan.md`.
 
-- Birnenhain (in Arbeit): `OldPearTreeLogic` erzeugt den Bauplan des Herzstücks. Dazu gehören der alte Birnbaum mit 2×2-Stamm, Krone, Wurzeln, Truhe und Bienenstöcken, der See mit Lehm, Kies und Seerosen, die Quelle am Fels, Moos, Pilze und die Trittsteine. Noch nicht in der Welt platziert.
-
-## [0.8.11] - 2026-10-31
-
-### ✨ Neu hinzugefügt
-
-- Birnenhain (in Arbeit): Laubbüsche aus Birnenholz und -laub, vor allem zwischen den Baumgruppen. Farne im dichten Wald. Eigener Blumen-Mix aus Löwenzahn, Margerite, Kornblume und Mohn, am meisten auf der offenen Wiese am Rand.
-
-## [0.8.10] - 2026-10-31
-
-### 🐛 Fehlerbehebungen
-
-- Birnenhain in hügeligem Gelände hatte fast keine Bäume: Die Tiefe wurde auf Meereshöhe gemessen, dort liegen im Berg Höhlenbiome. Jetzt zählt das Biom an der berechneten Oberfläche.
-
-## [0.8.9] - 2026-10-31
-
-### 🔄 Geändert
-
-- Birnenhain (in Arbeit): Zonen richten sich nach dem Abstand zum Biomrand statt nach festen Radien. Außen einzelne Bäume, innen dichter Wald, am tiefsten Punkt eine Lichtung für den alten Baum. Passt zu jeder Hain-Form.
-
-## [0.8.8] - 2026-10-31
-
-### 🔄 Geändert
-
-- Birnenhain (in Arbeit): ersetzt jetzt Forest und Flower Forest in einer seltenen TerraBlender-Region (Gewicht 3). Haine werden dadurch größer.
-
-## [0.8.7] - 2026-10-31
-
-### ✨ Neu hinzugefügt
-
-- Birnenhain (in Arbeit): Bäume stehen nach Zonen. Außen einzeln, dann in Gruppen aus 3 bis 5, innen dichter Wald mit Flecken aus grober Erde und Podsol, um den Platz des alten Baums frei.
-
-## [0.8.6] - 2026-10-31
-
-### 🐛 Fehlerbehebungen
-
-- Birnenlaub war nach 0.8.5 unsichtbar: Der Farbton hatte Alpha 0, Laub wird ausgeschnitten gerendert. Jetzt mit vollem Alpha.
-
-## [0.8.5] - 2026-10-31
-
-### 🐛 Fehlerbehebungen
-
-- Birnenlaub war grau statt grün: Es nutzt die graue Eichenlaub-Textur, aber keine Färbung. Jetzt bekommt es die Laubfarbe des Bioms, auch als Item im Inventar.
-
-### ✨ Neu hinzugefügt
-
-- Birnbäume haben leicht unterschiedliche Laubtöne: Je nach Ort ist eine Krone bis zu 12 % heller oder dunkler, mit weichem Übergang.
-
-## [0.8.4] - 2026-10-31
-
-### ✨ Neu hinzugefügt
-
-- Neues Biom **Birnenhain** (in Arbeit): ersetzt per TerraBlender einen Teil der Flower Forests. Warmes Gold-Grün, türkisfarbenes Wasser, Meadow-Musik, Birnbäume und Wiesenblumen. Benötigt jetzt TerraBlender.
-
-## [0.8.3] - 2026-10-31
-
-### 🔧 Intern
-
-- Birnenhain (in Arbeit): `GroveZoneLogic` teilt den Hain in Rand, Gruppen, dichten Wald und Herz und legt die Baumdichte je Zone fest.
+---
 
 ## [0.8.2] - 2026-10-31
-
-### 🔧 Intern
-
-- Birnenhain (in Arbeit): TerraBlender als Abhängigkeit für Overworld-Biome, `GroveCenterLogic` bestimmt die Hain-Mittelpunkte und den Standort des alten Birnbaums.
 
 ### 🐛 Fehlerbehebungen
 

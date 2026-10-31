@@ -21,7 +21,7 @@
 
 - **Minecraft Version:** `26.3` (Java Edition)
 - **Mod Loader:** `Fabric Loader` (>= 0.19.0)
-- **Erforderliche Abhängigkeit:** `Fabric API` (für 26.3)
+- **Erforderliche Abhängigkeiten:** `Fabric API` (für 26.3) und `TerraBlender` (26.3.0.0.9 oder neuer, für das Biom Birnenhain)
 - **Java Runtime:** `Java 25 (LTS)`
 - **Mapping:** Unobfuscated (Native Identifiers)
 - **Lizenziert unter:** MIT License
@@ -40,13 +40,14 @@
    - Klicke auf **Installieren**.
 3. Es wird automatisch ein neues Profil namens `fabric-loader-26.3` im Minecraft Launcher angelegt.
 
-#### Schritt 2: Fabric API herunterladen
+#### Schritt 2: Fabric API und TerraBlender herunterladen
 1. Besuche [Modrinth Fabric API](https://modrinth.com/mod/fabric-api/versions?g=26.3) oder [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files).
 2. Lade die passende `.jar`-Datei für **Minecraft 26.3** herunter (z. B. `fabric-api-0.165.0+26.3.jar`).
+3. Lade **TerraBlender** für Fabric und Minecraft 26.3 von [Modrinth](https://modrinth.com/mod/terrablender/versions?g=26.3&l=fabric) herunter (z. B. `TerraBlender-fabric-26.3-26.3.0.0.9.jar`).
 
 #### Schritt 3: WorldExplorerMod herunterladen
 1. Gehe zu den [GitHub Releases von WorldExplorerMod](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.8.0.jar` herunter.
+2. Lade die Datei `mc-3ver-0.9.0.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -54,7 +55,7 @@
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.8.0.jar`** in diesen `mods`-Ordner.
+3. Kopiere die **`fabric-api-...jar`**, die **`TerraBlender-fabric-...jar`** und die **`mc-3ver-0.9.0.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
@@ -69,8 +70,8 @@
    - Wähle Minecraft Version: `26.3`
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
-   - Installiere **Fabric API** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.8.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Installiere **Fabric API** und **TerraBlender** über den integrierten Mod-Download-Manager des Launchers.
+   - Ziehe die heruntergeladene `mc-3ver-0.9.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
@@ -78,7 +79,7 @@
 ### Variante C: Dedizierter Server (Multiplayer)
 
 1. Richte einen Minecraft 26.3 Fabric-Server ein.
-2. Platziere `fabric-api-...jar` und `mc-3ver-0.8.0.jar` im `mods/`-Ordner auf dem Server.
+2. Platziere `fabric-api-...jar`, `TerraBlender-fabric-...jar` und `mc-3ver-0.9.0.jar` im `mods/`-Ordner auf dem Server. Spieler brauchen TerraBlender auch im Client.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
@@ -113,6 +114,11 @@
 * **🌳 Birnbaum & Birnenholz-Set (Pear Tree & Wood Set):**
   * Neuer Baumtyp mit eigenen Holzblöcken, Blättern und optisch unterscheidbaren Setzlingen.
   * Vollwertiges Holz-Bauset im Schweizer Birnbaum-Design: Treppen, Stufen, Zäune, Tore, Türen mit Glaseinsatz, Falltüren, Druckplatten, Knöpfe sowie Birnenholzboote und Birnenholztruhenboote.
+* **🌳 Biom Birnenhain (Pear Grove):**
+  * Seltenes Overworld-Biom in warmem Gold-Grün mit türkisfarbenem Wasser. Außen stehen einzelne Birnbäume, dann Gruppen, innen dichter Wald mit Farnen. Dazu Laubbüsche, Wiesenblumen und selten Reste alter Gartenmauern.
+  * **Herzstück:** Am tiefsten Punkt steht ein alter Birnbaum mit ausladender Krone, Wurzeln und Bienennestern, umgeben von dichtem Wald. Daneben ein kleiner See mit Seerosen und eine Quelle am Fels. Zwischen den Wurzeln steht eine Truhe mit Birnen, Setzlingen, Honigwaben und Knochenmehl, selten auch mit goldener Birne, Freundschaftsstein, Windstab oder Blitzstab.
+  * **Finden:** `/locate biome mc3ver:pear_grove` und `/locate structure mc3ver:pear_grove_heart`.
+  * Benötigt **TerraBlender**.
 * **🏳️ Weiße Fahne (Pazifist-Modus):**
   * Rechtsklick hisst die Fahne: Der Dauer-Effekt *Friedfertig* sorgt dafür, dass Monster dich nicht angreifen und dir keinen Schaden zufügen.
   * Greifst du selbst ein Monster an, ist der Frieden gebrochen: Effekt weg, Fahne 30 Sekunden gesperrt.

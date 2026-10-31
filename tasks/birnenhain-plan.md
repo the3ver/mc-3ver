@@ -82,11 +82,14 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 - Im Vegetations-Feature (kennt die Zone), Bauplan in `GardenWallLogic`: 3 bis 7 Blöcke Bruchstein, stellenweise 2 hoch, teils bemoost, mit Lücken. Chance pro Chunk 6 % am Rand, 4 % in der Gruppen-Zone.
 - Verify: selten sichtbar, nie im Wald oder am Herzstück.
 
-## Task 10: Abschluss
+## Task 10: Abschluss (erledigt)
 
-- Version erhöhen (`--docs`), CHANGELOG (de, en), README und `docs/` ergänzen.
-- `bash scripts/check.sh` grün, PR mit Screenshots aller Zonen und des Herzstücks.
+- Version 0.9.0, CHANGELOG (de, en) zu einem Eintrag zusammengefasst, README und `docs/` mit TerraBlender als Pflicht-Abhängigkeit.
+- `bash scripts/check.sh` grün, PR mit Screenshots vom Herzstück.
 
-## Offene Punkte
+## Stand nach Phase 1
 
-- Radien, Farben, Seltenheit: Startwerte, Abstimmung im Spiel nach Task 5 und Task 8.
+- Im Spiel abgestimmt: Krone (ausladender, lichter), Waldring um die Lichtung, See und Quellfels am Gelände.
+- Weiter Startwerte: Laubfarben und ±12 % Helligkeit, Region-Gewicht 3, Zonenschwellen 16/32, Mauer-Chance 6 %/4 %.
+- Bekannt und akzeptiert: Hain-Streifen an TerraBlender-Regionsgrenzen; Haine unter 32 Tiefe ohne Herz.
+- Nächste Phasen laut Spec: Phase 2 (Fallobst, Birnblüten-Blume, Pollenpartikel), Phase 3 (Kreaturen).

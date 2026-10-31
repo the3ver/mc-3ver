@@ -4,105 +4,31 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.8.17] - 2026-10-31
+## [0.9.0] - 2026-10-31
 
 ### ✨ Added
+* **Pear Grove biome:** rare new overworld biome around the pear tree, warm golden-green with turquoise water and meadow music. It replaces Forest and Flower Forest in a rare TerraBlender region. Find it with `/locate biome mc3ver:pear_grove`.
+* **Zones:** single pear trees at the edge, groups of 3 to 5 further in, a dense forest with ferns and patches of coarse dirt and podzol inside. Zones follow the distance to the biome edge, so they fit any grove shape.
+* **Plants:** pear leaf bushes. An own flower mix of dandelion, oxeye daisy, cornflower and poppy, densest on the open meadow.
+* **Grove heart:** at the deepest point of the grove stands an old pear tree with a 2×2 trunk, a wide, light crown, thick roots and bee nests. A ring of dense forest surrounds it. Next to it lie a small pond with a clay bed, gravel rim and lily pads, a spring on a mossy rock, moss, mushrooms and stepping stones. Find it with `/locate structure mc3ver:pear_grove_heart`.
+* **Chest at the old tree:** between the roots stands a chest with pears, saplings, honeycomb and bone meal. Rarely it also holds a golden pear, a friendship stone, a wind wand or a lightning wand.
+* **Garden walls:** at the grove edge, rare remains of ruined cobblestone walls recall an old orchard.
+* **Leaf shades:** pear trees are slightly lighter or darker depending on location.
 
-- Pear Grove: rare remains of ruined garden walls made of cobblestone, partly mossy and with gaps, only at the edge and between tree groups. They hint at an old orchard.
-
-## [0.8.16] - 2026-10-31
+### 🔄 Changed
+* **New dependency:** the mod now also requires **TerraBlender** (26.3.0.0.9 or newer), on client and server.
 
 ### 🐛 Bug Fixes
-
-- The pond at the old pear tree floated over falling terrain, and so did the spring rock. The pond now sits on the lowest ground and digs into higher terrain. The rock stands on its own ground, at least at pond level.
-
-## [0.8.15] - 2026-10-31
-
-### 🔄 Changed
-
-- Pear Grove: a 24-block ring of dense forest always surrounds the old pear tree's clearing, even where the grove gets shallow there.
-
-## [0.8.14] - 2026-10-31
-
-### 🔄 Changed
-
-- Old pear tree: the crown spreads wider and is lighter. 5 to 7 long branches reach outward and up, with loose leaf clusters at their ends. Roots are 3 to 4 blocks long and all sink into the ground.
-
-## [0.8.13] - 2026-10-31
-
-### ✨ Added
-
-- Pear Grove (work in progress): heart at the deepest point of the grove with an old pear tree (2×2 trunk, wide crown, roots, bee nests), a chest between the roots, a small pond with lily pads, a spring on a rock, moss and stepping stones. Find it with `/locate structure mc3ver:pear_grove_heart`. The chest holds pears, saplings, honeycomb and bone meal, rarely also a golden pear, a friendship stone, a wind wand or a lightning wand.
-
-## [0.8.12] - 2026-10-31
+* **Pear leaves:** the leaves use the gray oak leaves texture but had no tint and looked gray. They now take the biome foliage color, also as an item in the inventory.
 
 ### 🔧 Internal
+* Grove logic lives in classes testable without the game: `GroveShapeLogic` (depth, heart), `GroveZoneLogic` (zones, density), `OldPearTreeLogic` (heart blueprint), `GardenWallLogic`.
+* `runServer` takes console commands from standard input, for scripted world generation tests.
+* Spec and plan are in `tasks/birnenhain-spec.md` and `tasks/birnenhain-plan.md`.
 
-- Pear Grove (work in progress): `OldPearTreeLogic` builds the blueprint of the grove heart. It covers the old pear tree with a 2×2 trunk, crown, roots, chest and beehives, the pond with clay, gravel and lily pads, the spring on a rock, moss, mushrooms and stepping stones. Not yet placed in the world.
-
-## [0.8.11] - 2026-10-31
-
-### ✨ Added
-
-- Pear Grove (work in progress): pear leaf bushes, mostly between tree groups. Ferns in the dense forest. Own flower mix of dandelion, oxeye daisy, cornflower and poppy, densest on the open meadow at the edge.
-
-## [0.8.10] - 2026-10-31
-
-### 🐛 Bug Fixes
-
-- Pear Groves on hilly terrain had almost no trees: depth was measured at sea level, where cave biomes sit inside hills. The biome at the computed surface now counts.
-
-## [0.8.9] - 2026-10-31
-
-### 🔄 Changed
-
-- Pear Grove (work in progress): zones follow the distance to the biome edge instead of fixed radii. Single trees outside, dense forest inside, a clearing for the old tree at the deepest point. Works for any grove shape.
-
-## [0.8.8] - 2026-10-31
-
-### 🔄 Changed
-
-- Pear Grove (work in progress): now replaces Forest and Flower Forest in a rare TerraBlender region (weight 3), so groves are larger.
-
-## [0.8.7] - 2026-10-31
-
-### ✨ Added
-
-- Pear Grove (work in progress): trees follow zones. Single trees at the edge, then groups of 3 to 5, a dense forest with coarse dirt and podzol patches inside, and a clearing where the old tree will stand.
-
-## [0.8.6] - 2026-10-31
-
-### 🐛 Bug Fixes
-
-- Pear leaves were invisible after 0.8.5: the tint had alpha 0 and leaves render as cutout. The tint is now fully opaque.
-
-## [0.8.5] - 2026-10-31
-
-### 🐛 Bug Fixes
-
-- Pear leaves were gray instead of green: they use the gray oak leaves texture but had no tint. They now take the biome foliage color, also as an item in the inventory.
-
-### ✨ Added
-
-- Pear trees vary slightly in leaf shade: depending on location a crown is up to 12 % lighter or darker, with smooth transitions.
-
-## [0.8.4] - 2026-10-31
-
-### ✨ Added
-
-- New biome **Pear Grove** (work in progress): replaces part of the Flower Forests via TerraBlender. Warm golden-green grass, turquoise water, meadow music, pear trees and meadow flowers. Now requires TerraBlender.
-
-## [0.8.3] - 2026-10-31
-
-### 🔧 Internal
-
-- Pear Grove (work in progress): `GroveZoneLogic` splits the grove into edge, groups, dense forest and heart and sets tree density per zone.
+---
 
 ## [0.8.2] - 2026-10-31
-
-### 🔧 Internal
-
-- Pear Grove (work in progress): TerraBlender dependency for overworld biomes, `GroveCenterLogic` places grove centers and the old pear tree.
 
 ### 🐛 Bug Fixes
 
