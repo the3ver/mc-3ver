@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Build + Tests mit knapper Ausgabe fuer Agenten. Gruen: eine Zeile. Rot: nur Compilerfehler und fehlgeschlagene Tests.
+# Formatierung wird vorher automatisch angewendet statt als Fehler gemeldet (kein LLM-Durchlauf fuer Leerzeichen).
 # Aufruf: scripts/check.sh          (Exit 0 gruen, 1 rot)
 #         scripts/check.sh --hook   (Claude-Stop-Hook: liest JSON von stdin, ueberspringt unveraenderte Staende, Exit 2 bei rot)
 set -uo pipefail
@@ -32,7 +33,7 @@ fi
 
 log="$stamp_dir/last.log"
 start=$SECONDS
-./gradlew check clientClasses --console=plain -q >"$log" 2>&1
+./gradlew spotlessApply check clientClasses --console=plain -q >"$log" 2>&1
 status=$?
 secs=$((SECONDS - start))
 
@@ -67,11 +68,12 @@ fi
 
 {
   echo "CHECK ROT nach ${secs}s (volles Log: $log)"
-  # Gradle wiederholt Compilerfehler eingerueckt in der Zusammenfassung, daher nur Zeilen ab Spalte 0
-  compile_rx='^[^[:space:]].*\.java:[0-9]+: (error|Fehler)'
+  # Gradle wiederholt Compilerfehler eingerueckt in der Zusammenfassung, daher nur Zeilen ab Spalte 0.
+  # Warnungen zaehlen mit, weil -Werror sie (Error Prone) zu Fehlern macht.
+  compile_rx='^[^[:space:]].*\.java:[0-9]+: (error|Fehler|warning|Warnung)'
   if grep -qE "$compile_rx" "$log"; then
     # Testergebnisse stammen dann noch vom letzten Lauf und waeren irrefuehrend
-    grep -E -A2 "$compile_rx" "$log" | head -40
+    grep -E -A5 "$compile_rx" "$log" | grep -vE '^--$' | head -40
   elif [ "${failed:-0}" != "0" ]; then
     echo "$failed von $tests Tests fehlgeschlagen:"
     tail -n +2 <<<"$summary" | head -40

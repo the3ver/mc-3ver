@@ -2,6 +2,7 @@ plugins {
 	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 	id 'com.diffplug.spotless' version '8.0.0'
+	id 'net.ltgt.errorprone' version '5.1.0'
 }
 
 repositories {
@@ -42,6 +43,8 @@ dependencies {
 	testImplementation "org.junit.jupiter:junit-jupiter:5.12.2"
 	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 	testImplementation "com.tngtech.archunit:archunit-junit5:1.4.1"
+
+	errorprone "com.google.errorprone:error_prone_core:2.51.0"
 }
 
 spotless {
@@ -70,6 +73,14 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 25
+	// Error-Prone-Funde brechen den Build, damit Agenten sie sofort im Loop sehen
+	it.options.compilerArgs.add("-Werror")
+	it.options.errorprone {
+		// Minecraft vergleicht Registry-Singletons (Block, Item, Entity, BlockEntity) absichtlich per Identität
+		disable("ReferenceEquality")
+		// Mixin ruft @Inject-Methoden über Bytecode-Injektion auf
+		option("UnusedMethod:ExemptingMethodAnnotations", "org.spongepowered.asm.mixin.injection.Inject")
+	}
 }
 
 java {
