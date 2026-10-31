@@ -4,6 +4,12 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.10] - 2026-10-31
+
+### 🐛 Bug Fixes
+
+- Pear Groves on hilly terrain had almost no trees: depth was measured at sea level, where cave biomes sit inside hills. The biome at the computed surface now counts.
+
 ## [0.8.9] - 2026-10-31
 
 ### 🔄 Changed

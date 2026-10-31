@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.10] - 2026-10-31
+
+### 🐛 Fehlerbehebungen
+
+- Birnenhain in hügeligem Gelände hatte fast keine Bäume: Die Tiefe wurde auf Meereshöhe gemessen, dort liegen im Berg Höhlenbiome. Jetzt zählt das Biom an der berechneten Oberfläche.
+
 ## [0.8.9] - 2026-10-31
 
 ### 🔄 Geändert

@@ -63,7 +63,7 @@ public record GroveTreesFeature(Holder<Feature> tree) implements Feature {
 
     // Zone gilt für den ganzen Chunk, gemessen an seiner Mitte (= Rasterpunkt)
     private static GroveZoneLogic.Zone zoneOfChunk(WorldGenLevel level, ChunkGenerator generator, BlockPos origin) {
-        GroveShapeLogic.DepthGrid grid = GroveDepthCache.grid(level, generator.getSeaLevel());
+        GroveShapeLogic.DepthGrid grid = GroveDepthCache.grid(level, generator);
         int x = origin.getX() + 8;
         int z = origin.getZ() + 8;
         double toTree = Double.POSITIVE_INFINITY;
