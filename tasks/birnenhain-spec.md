@@ -1,0 +1,124 @@
+# Spec: Biom Birnenhain (`mc3ver:pear_grove`)
+
+Eigenes Overworld-Biom rund um den Birnbaum. Außen stehen die Bäume einzeln, nach innen in Gruppen, dann als dichter Wald. Nahe der Mitte steht ein alter Birnbaum an einem kleinen See mit Quelle.
+
+## Phasen
+
+| Phase | Inhalt |
+|---|---|
+| 1 | Biom-Definition, Einbindung in die Overworld, Zonen-Verteilung der Bäume, Laubbüsche, Vanilla-Vegetation, Herzstück (alter Baum, See, Quelle, Truhe, Bienen), Gartenmauern, Trittsteine |
+| 2 | Neue Blöcke und Effekte: Fallobst-Birne (Deko-Block), Birnblüten-Blume, goldene Pollenpartikel |
+| 3 | Eigene Kreaturen |
+
+Dieses Dokument legt alle Phasen fest. Der Umsetzungsplan in `birnenhain-plan.md` deckt Phase 1 ab.
+
+## Klima und Atmosphäre
+
+| Eigenschaft | Wert | Vorbild |
+|---|---|---|
+| Temperatur | 0.8 | Plains |
+| Niederschlag (`downfall`) | 0.5 | zwischen Plains (0.4) und Forest (0.8) |
+| Niederschlag | Regen, auf Berghöhe Schnee (Vanilla-Verhalten bei 0.8) | Plains |
+| Grasfarbe | warmes Gold-Grün, fest gesetzt (Startwert `#A4B94E`) | eigener Ton |
+| Laubfarbe | passend zum Gras (Startwert `#93AE47`) | eigener Ton |
+| Wasserfarbe | warm-türkis (Startwert `#3FB8C4`) | heller als Vanilla `#3F76E4` |
+| Wasser-Nebelfarbe | dunkleres Türkis (Startwert `#0E4A52`) | |
+| Himmel, Nebel | Vanilla-Werte für Temperatur 0.8 | Plains |
+| Licht | hell und offen, nur im dichten Kern Schatten durch Baumdichte | Birch Forest |
+| Ambient-Sound | Vanilla, Bienen am alten Baum summen von selbst | |
+| Musik | ruhige Vanilla-Tracks aus Meadow und Forest | Meadow |
+| Partikel | Phase 2: wenige goldene Pollen | Cherry Grove (Blütenblätter) |
+
+Die Farbwerte sind Startwerte und werden im Spiel abgestimmt. Die Feldnamen (seit 1.21.11 teils unter `attributes` statt `effects`) beim Umsetzen gegen das Vanilla-`meadow.json` von 26.3 abgleichen.
+
+## Gelände
+
+- Sanft wellig wie Meadow, ab und zu flache Senken. Die Höhe kommt aus den Klima-Parametern der Biom-Einbindung (Erosion, Weirdness), nicht aus dem Biom selbst.
+- Oberfläche: Grasblock. Im dichten Kern Flecken aus grober Erde und Podsol. Moos nur am alten Baum.
+- Untergrund, Höhlen, Erze: Vanilla-Overworld-Standard wie bei Meadow.
+
+## Verbreitung
+
+- Selten, etwa so häufig wie Flower Forest. Ein Spieler muss suchen, aber nicht jeder Seed hat einen Hain in Laufweite.
+- Klima-Nachbarschaft: Plains, Meadow, Forest. Dort wächst der Birnbaum schon heute.
+- Der Birnbaum wächst weiter in seinen bisherigen Biomen. Der Hain ersetzt das nicht.
+
+## Zonen
+
+Die Baumdichte hängt vom Abstand zum Hain-Mittelpunkt ab. Der Mittelpunkt ist ein Punkt im Biom, nicht der alte Baum: der alte Baum steht 8 bis 20 Blöcke daneben, damit er nicht genau in der Mitte liegt.
+
+| Zone | Abstand zum Mittelpunkt (Startwert) | Bäume | Boden |
+|---|---|---|---|
+| Rand | über 96 | einzeln, etwa 1 Baum pro 2 Chunks | Gras, viel offene Wiese |
+| Gruppen | 56 bis 96 | Gruppen aus 3 bis 5 Bäumen, Lücken dazwischen | Gras, Laubbüsche |
+| Dichter Wald | 20 bis 56 | etwa 8 bis 10 Bäume pro Chunk | grobe Erde und Podsol in Flecken, Farne |
+| Herz | unter 20 um den alten Baum | keine normalen Bäume | siehe Herzstück |
+
+Liegt kein Mittelpunkt in Reichweite (kleiner Biom-Ausläufer), gilt die Rand-Zone. Radien sind Startwerte und werden im Spiel abgestimmt.
+
+## Vegetation
+
+| Element | Phase | Verteilung |
+|---|---|---|
+| Birnbaum (bestehendes Feature) | 1 | nach Zonen, siehe oben |
+| Laubbüsche (1 Birnenstamm + Birnenlaub, wie Dschungel-Büsche) | 1 | Gruppen-Zone und Waldrand |
+| Kurzgras, hohes Gras | 1 | überall, wie Plains |
+| Farne | 1 | dichter Wald |
+| Blumen: Löwenzahn, Margerite, Kornblume, Mohn | 1 | überall, mehr am Rand als im Wald |
+| Fallobst-Birne (Deko-Block) | 2 | unter Birnbäumen, vereinzelt |
+| Birnblüten-Blume (weiß-rosa) | 2 | nur am alten Baum |
+
+## Herzstück
+
+Ein Herzstück pro Hain, als eigene Struktur.
+
+**Alter Birnbaum**
+- 2×2-Stamm aus Birnenholz, 12 bis 15 Blöcke hoch.
+- Breite Krone aus Birnenlaub, deutlich breiter als der normale Birnbaum.
+- Dicke Wurzeln über dem Boden, die vom Stamm wegführen.
+- Bienenstöcke in der Krone, mit Bienen.
+- Eine Truhe zwischen den Wurzeln, halb verdeckt.
+- Moosteppich, Moosblöcke und braune Pilze zwischen den Wurzeln.
+
+**See**
+- 5 bis 10 Blöcke Durchmesser, unregelmäßiger Rand.
+- Lehm am Grund, Kiesrand, Seerosen.
+- Liegt direkt neben dem alten Baum.
+
+**Quelle**
+- Kleiner moosbewachsener Felsblock (Bruchstein, bemooster Bruchstein, Stein) am Seeufer.
+- Aus dem Fels rinnt fließendes Wasser in den See.
+
+**Trittsteine**
+- Lückenhafter Pfad aus Steinplatten oder Pfadblöcken.
+- Nur auf den letzten 8 bis 12 Blöcken vor dem alten Baum. Von außen verrät der Pfad nichts.
+
+**Truhen-Loot (Vorschlag, im Plan abstimmen)**
+- Birnen, Birnensetzlinge, Honigwaben, Knochenmehl als Grundstock.
+- Selten: goldene Birne.
+
+## Gartenmauern
+
+- Kurze Reste einer Bruchsteinmauer (3 bis 7 Blöcke lang, 1 bis 2 hoch), teils bemoost, mit Lücken.
+- Selten, nur in der Rand- und Gruppen-Zone. Deuten einen alten Obstgarten an.
+
+## Mobs
+
+- Phase 1: Vanilla-Spawns wie Plains (Schaf, Schwein, Huhn, Kuh, Pferd, Kaninchen), Bienen kommen aus den Bienenstöcken.
+- Phase 3: eigene Kreaturen, eigene Spec.
+
+## Technische Entscheidungen
+
+**Biom-Einbindung.** Fabric API 26.3 (`fabric-biome-api-v1` 20.1.1) bietet nur `NetherBiomes` und `TheEndBiomes`, keine API für Overworld-Biome. Optionen:
+
+| Option | Vorteil | Nachteil |
+|---|---|---|
+| TerraBlender (Fabric-Build für 26.3, Stand Beta) | übliche Lösung, verträgt sich mit anderen Biom-Mods, Seltenheit über Region-Gewicht | neue Abhängigkeit für Client und Server, Beta-Status |
+| Eigener Mixin in `OverworldBiomeBuilder` | keine Abhängigkeit | bricht bei MC-Updates, Konflikte mit anderen Biom-Mods |
+| Datapack-Override von `minecraft:overworld` | kein Code | ersetzt die ganze Biom-Verteilung, unverträglich mit anderen Mods |
+
+Empfehlung: TerraBlender. Entscheidet Frank vor Task 1 des Plans.
+
+**Zonen.** Vanilla-Features kennen keinen Abstand zum Biomrand. Deshalb bestimmt eine reine Logik-Klasse die Hain-Mittelpunkte aus Seed und einem Raster (wie Vanilla `RandomSpreadStructurePlacement`). Ein Mittelpunkt zählt nur, wenn das Biom dort Birnenhain ist. Das Baum-Feature und die Herzstück-Struktur fragen beide dieselbe Logik und sind dadurch konsistent.
+
+**Herzstück.** Struktur mit einem im Code erzeugten Strukturteil. Der Bauplan (welcher Block wo) entsteht in einer reinen Logik-Klasse und ist ohne laufendes Spiel testbar. Keine NBT-Vorlage, weil See und Wurzeln zufällig geformt sein sollen.
