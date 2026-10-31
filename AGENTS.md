@@ -9,6 +9,7 @@ Modulare Minecraft Java Edition Modifikation für Minecraft 26.3 basierend auf F
 - **Build-System:** Gradle (Wrapper `gradlew` / `gradlew.bat`)
 
 ## Commands
-- Build: `.\gradlew.bat build` (oder `./gradlew build`)
-- Tests: `.\gradlew.bat test` (oder `./gradlew test`)
-- Run Client: `.\gradlew.bat runClient`
+- Prüfen (Compile, Tests, Architekturregeln, knappe Ausgabe): `bash scripts/check.sh`. Läuft lokal auch als Claude-Stop-Hook.
+- Version setzen: `bash scripts/bump-version.sh X.Y.Z` (beim Release mit `--docs`). Einzige Quelle ist `gradle.properties`.
+- Build: `./gradlew build`
+- Run Client: `./gradlew runClient`
