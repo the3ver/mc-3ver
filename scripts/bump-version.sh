@@ -2,7 +2,7 @@
 # Setzt die Mod-Version. Einzige Quelle ist gradle.properties; Mc3verMod und fabric.mod.json lesen sie beim Build.
 # Aufruf: scripts/bump-version.sh <neue-version> [--docs]
 #   --docs zieht README.md und docs/ mit (erst beim Release, Pages deployt bei jedem Push auf main).
-# Die CHANGELOG-Eintraege schreibt weiterhin ein Mensch oder Agent, das Skript legt nur die Ueberschriften an.
+# Die CHANGELOG-Eintraege schreibt weiterhin ein Mensch oder Agent; das Skript legt die Ueberschriften an und zeigt einen git-cliff-Entwurf.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -27,5 +27,10 @@ if [ "${2:-}" = "--docs" ]; then
 fi
 
 echo "Version $old -> $new"
+if command -v uvx >/dev/null; then
+  echo
+  echo "Rohentwurf aus den Commits seit v$old (cliff.toml), als Vorlage für die Changelog-Texte:"
+  uvx git-cliff --unreleased 2>/dev/null
+fi
 rest=$(git grep -nF "$old" -- . ':!CHANGELOG*.md' ':!settings.gradle' || true)
 [ -z "$rest" ] || { echo "Alte Version steht noch in:"; echo "$rest"; }
