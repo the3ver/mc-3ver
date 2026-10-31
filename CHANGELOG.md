@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.6] - 2026-10-31
+
+### 🐛 Fehlerbehebungen
+
+- Birnenlaub war nach 0.8.5 unsichtbar: Der Farbton hatte Alpha 0, Laub wird ausgeschnitten gerendert. Jetzt mit vollem Alpha.
+
 ## [0.8.5] - 2026-10-31
 
 ### 🐛 Fehlerbehebungen

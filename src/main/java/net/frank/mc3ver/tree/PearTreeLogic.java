@@ -91,8 +91,9 @@ public class PearTreeLogic {
     public static final float LEAF_SHADE_VARIATION = 0.12f;
     static final int LEAF_SHADE_CELL = 8;
 
+    // ARGB mit vollem Alpha: Laub rendert als cutout, Alpha 0 würde jedes Blatt wegschneiden
     public static int leafColor(int foliageRgb, int x, int z) {
-        return applyShade(foliageRgb, leafShade(x, z));
+        return 0xFF000000 | applyShade(foliageRgb, leafShade(x, z));
     }
 
     public static float leafShade(int x, int z) {

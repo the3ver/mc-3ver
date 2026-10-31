@@ -7,8 +7,8 @@ import net.minecraft.client.renderer.BiomeColors;
 
 final class PearLeavesClient {
 
-    // Vanilla-Standard für Laub ohne Welt (wie das oak_leaves-Item)
-    private static final int DEFAULT_FOLIAGE = 0x48B518;
+    // Vanilla-Standard für Laub ohne Welt (wie das oak_leaves-Item), ARGB mit vollem Alpha
+    private static final int DEFAULT_FOLIAGE = 0xFF48B518;
 
     private PearLeavesClient() {}
 

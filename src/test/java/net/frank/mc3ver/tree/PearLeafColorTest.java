@@ -26,6 +26,14 @@ class PearLeafColorTest {
         assertTrue(green > ((color >> 16) & 0xFF) && green > (color & 0xFF), "Laub bleibt grün");
     }
 
+    // Bug: Laub rendert als cutout, Alpha 0 im Farbton schneidet jedes Blatt weg
+    @Test
+    void leafColorIsFullyOpaque() {
+        for (int x = -40; x <= 40; x += 9) {
+            assertEquals(0xFF, PearTreeLogic.leafColor(FOLIAGE, x, -x) >>> 24, "Alpha bei " + x);
+        }
+    }
+
     @Test
     void leafItemIsTintedInTheInventory() throws Exception {
         JsonObject model = JsonParser.parseString(
@@ -86,7 +94,7 @@ class PearLeafColorTest {
     @Test
     void leafColorIsTheShadedFoliage() {
         assertEquals(
-                PearTreeLogic.applyShade(FOLIAGE, PearTreeLogic.leafShade(10, 20)),
+                0xFF000000 | PearTreeLogic.applyShade(FOLIAGE, PearTreeLogic.leafShade(10, 20)),
                 PearTreeLogic.leafColor(FOLIAGE, 10, 20));
     }
 }
