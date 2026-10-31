@@ -42,12 +42,15 @@ public class Mc3verMod implements ModInitializer {
         }
     }
 
+    // Alle Mods teilen sich einen Classloader, die erste fabric.mod.json gehört oft einem anderen Mod
     static String findModVersion(List<String> modJsons) {
-        if (modJsons.isEmpty()) {
-            throw new IllegalStateException("fabric.mod.json fehlt im Classpath");
+        for (String modJson : modJsons) {
+            JsonObject json = JsonParser.parseString(modJson).getAsJsonObject();
+            if (json.has("id") && MOD_ID.equals(json.get("id").getAsString())) {
+                return json.get("version").getAsString();
+            }
         }
-        JsonObject json = JsonParser.parseString(modJsons.get(0)).getAsJsonObject();
-        return json.get("version").getAsString();
+        throw new IllegalStateException("fabric.mod.json von " + MOD_ID + " fehlt im Classpath");
     }
 
     @Override
