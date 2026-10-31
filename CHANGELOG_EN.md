@@ -4,6 +4,12 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.12] - 2026-10-31
+
+### 🔧 Internal
+
+- Pear Grove (work in progress): `OldPearTreeLogic` builds the blueprint of the grove heart. It covers the old pear tree with a 2×2 trunk, crown, roots, chest and beehives, the pond with clay, gravel and lily pads, the spring on a rock, moss, mushrooms and stepping stones. Not yet placed in the world.
+
 ## [0.8.11] - 2026-10-31
 
 ### ✨ Added

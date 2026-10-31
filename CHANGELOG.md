@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.12] - 2026-10-31
+
+### 🔧 Intern
+
+- Birnenhain (in Arbeit): `OldPearTreeLogic` erzeugt den Bauplan des Herzstücks. Dazu gehören der alte Birnbaum mit 2×2-Stamm, Krone, Wurzeln, Truhe und Bienenstöcken, der See mit Lehm, Kies und Seerosen, die Quelle am Fels, Moos, Pilze und die Trittsteine. Noch nicht in der Welt platziert.
+
 ## [0.8.11] - 2026-10-31
 
 ### ✨ Neu hinzugefügt

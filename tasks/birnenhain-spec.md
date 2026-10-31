@@ -96,6 +96,14 @@ Ein Herzstück pro Hain, als eigene Struktur.
 - Lückenhafter Pfad aus Steinplatten oder Pfadblöcken.
 - Nur auf den letzten 8 bis 12 Blöcken vor dem alten Baum. Von außen verrät der Pfad nichts.
 
+**Umsetzung Bauplan (Task 7, Startwerte in `OldPearTreeLogic`)**
+- Krone: Ellipsoid, Radius 6 bis 7, reicht 5 Blöcke unter die Stammspitze; 4 kurze Äste; Rand mit Lücken.
+- Wurzeln: 5 bis 6, je von einem anderen Stammblock, 2 bis 4 lang, das äußere Ende sinkt in den Boden.
+- See: Radius 3 bis 4 (5 bis 9 Blöcke breit), unregelmäßiger Rand, beginnt 7 Blöcke von der Stammmitte; Mitte 2 tief.
+- Quelle: Fels auf der dem Baum abgewandten Seeseite, Wasser oben auf dem Fels zum See hin.
+- Bienenstöcke: 1 bis 2 direkt unter der Krone am Stamm, an gegenüberliegenden Seiten.
+- Moos und Pilze im Umkreis von 5 Blöcken; Trittsteine ab 6 Blöcken, auf der dem See abgewandten Seite.
+
 **Truhen-Loot (Vorschlag, im Plan abstimmen)**
 - Birnen, Birnensetzlinge, Honigwaben, Knochenmehl als Grundstock.
 - Selten: goldene Birne.

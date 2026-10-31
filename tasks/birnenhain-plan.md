@@ -64,7 +64,7 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 - Platzierte Features für Gras, Farne, Blumen-Mix nach Spec, dem Biom zuordnen.
 - Verify: Datagen-Gleichstand (`runDatagen`), im Spiel sichtbar.
 
-## Task 7: `OldPearTreeLogic` – Bauplan Herzstück
+## Task 7: `OldPearTreeLogic` – Bauplan Herzstück (erledigt)
 
 - Liefert eine Liste (relative Position, Blockrolle) für Stamm 2×2, Krone, Wurzeln, See, Kiesrand, Lehmgrund, Seerosen, Quellfels, Wasserquelle, Trittsteine, Truhe, Bienenstöcke, Moos, Pilze.
 - Rollen als eigenes Enum, die Zuordnung Rolle → Block passiert außerhalb der Logik.
