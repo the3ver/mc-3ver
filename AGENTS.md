@@ -20,3 +20,4 @@ Modulare Minecraft Java Edition Modifikation für Minecraft 26.3 basierend auf F
 
 ## Git
 - `main` ist per Ruleset geschützt (`.github/rulesets/main.json`): Änderungen nur per Pull Request, Checks `build` und `semgrep` müssen grün sein. Arbeit auf einem Branch committen, pushen, PR öffnen.
+- Nach dem Öffnen eines PR in Claude Desktop ohne Rückfrage Auto-fix einschalten (`set_monitor` mit `auto_fix` und `address_comments`). Mergen entscheidet Frank.
