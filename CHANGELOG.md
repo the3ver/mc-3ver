@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.17] - 2026-10-31
+
+### ✨ Neu hinzugefügt
+
+- Birnenhain: Selten Reste verfallener Gartenmauern aus Bruchstein, teils bemoost und mit Lücken, nur am Rand und zwischen den Baumgruppen. Sie deuten einen alten Obstgarten an.
+
 ## [0.8.16] - 2026-10-31
 
 ### 🐛 Fehlerbehebungen

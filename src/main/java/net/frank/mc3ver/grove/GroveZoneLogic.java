@@ -36,9 +36,10 @@ public class GroveZoneLogic {
             float flowerPatchesPerChunk,
             float wallChance) {}
 
-    // Büsche vor allem zwischen den Gruppen, Farne nur im dichten Wald, Blumen am meisten auf der offenen Wiese
-    private static final Density EDGE_DENSITY = new Density(0.5f, 1, 1, 0, 0f, 0.3f, 0f, 1.5f, 0f);
-    private static final Density GROUPS_DENSITY = new Density(0.5f, 3, 5, 4, 0f, 1f, 0f, 1f, 0f);
+    // Büsche vor allem zwischen den Gruppen, Farne nur im dichten Wald, Blumen am meisten auf der offenen Wiese,
+    // Mauerreste selten und nur draußen, wo der alte Obstgarten lag
+    private static final Density EDGE_DENSITY = new Density(0.5f, 1, 1, 0, 0f, 0.3f, 0f, 1.5f, 0.06f);
+    private static final Density GROUPS_DENSITY = new Density(0.5f, 3, 5, 4, 0f, 1f, 0f, 1f, 0.04f);
     private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f, 0f);
     private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f, 0f, 0f, 1f, 0f);
 

@@ -92,6 +92,17 @@ class GroveZoneLogicTest {
         assertEquals(0f, GroveZoneLogic.densityOf(Zone.HEART).bushesPerChunk(), "Herz bleibt frei");
     }
 
+    // Gartenmauern deuten den alten Obstgarten draußen an: selten, nur am Rand und zwischen den Gruppen
+    @Test
+    void gardenWallsOnlyOutsideTheForest() {
+        for (Zone zone : new Zone[] {Zone.EDGE, Zone.GROUPS}) {
+            float chance = GroveZoneLogic.densityOf(zone).wallChance();
+            assertTrue(chance > 0 && chance <= 0.1f, zone + ": " + chance);
+        }
+        assertEquals(0f, GroveZoneLogic.densityOf(Zone.FOREST).wallChance());
+        assertEquals(0f, GroveZoneLogic.densityOf(Zone.HEART).wallChance());
+    }
+
     @Test
     void countForRoundsByChance() {
         assertEquals(0, GroveZoneLogic.countFor(0.5f, 0.5f));

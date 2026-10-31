@@ -77,9 +77,9 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 - Loot-Table `chests/pear_grove_heart` von Hand (die Loot-Builder-API von 26.3 hat neue Zahlen-Provider; wie andere Sonderfälle in `src/main/resources`, ein Test sichert den Inhalt).
 - Verify: `/locate structure mc3ver:pear_grove_heart`; Truhe, Bienen, fließendes Wasser im Spiel prüfen.
 
-## Task 9: Gartenmauern
+## Task 9: Gartenmauern (erledigt)
 
-- Kleines Feature: 3 bis 7 Blöcke Bruchstein, teils bemoost, mit Lücken, nur Rand- und Gruppen-Zone.
+- Im Vegetations-Feature (kennt die Zone), Bauplan in `GardenWallLogic`: 3 bis 7 Blöcke Bruchstein, stellenweise 2 hoch, teils bemoost, mit Lücken. Chance pro Chunk 6 % am Rand, 4 % in der Gruppen-Zone.
 - Verify: selten sichtbar, nie im Wald oder am Herzstück.
 
 ## Task 10: Abschluss

@@ -2,11 +2,14 @@ package net.frank.mc3ver.grove;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 import net.frank.mc3ver.grove.GroveZoneLogic.Density;
 import net.frank.mc3ver.tree.PearTreeBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -46,6 +49,10 @@ public record GroveVegetationFeature(
     @Override
     public boolean place(WorldGenLevel level, ChunkGenerator generator, RandomSource random, BlockPos origin) {
         Density density = GroveZoneLogic.densityOf(zoneOfChunk(level, generator, origin));
+
+        if (random.nextFloat() < density.wallChance()) {
+            placeWall(level, origin.offset(random.nextInt(16), 0, random.nextInt(16)), random);
+        }
 
         if (random.nextFloat() < density.groundPatchChance()) {
             placeGroundPatch(level, origin.offset(random.nextInt(16), 0, random.nextInt(16)), random);
@@ -149,6 +156,31 @@ public record GroveVegetationFeature(
                 if (level.getBlockState(ground).is(Blocks.GRASS_BLOCK)) {
                     level.setBlock(ground, random.nextBoolean() ? coarseDirt : podzol, 2);
                 }
+            }
+        }
+    }
+
+    // Rest einer Gartenmauer in x- oder z-Richtung; jeder Stein folgt dem Gelände und steht nur auf natürlichem
+    // Boden (seit 26.3 gehört Gras nicht mehr zu #dirt, sondern zu #substrate_overworld).
+    // Höhe ohne Pflanzen (OCEAN_FLOOR_WG): Grashalme aus früheren Features werden ersetzt, nicht überbaut
+    private static void placeWall(WorldGenLevel level, BlockPos start, RandomSource random) {
+        boolean alongX = random.nextBoolean();
+        // Bodenhöhe je Mauerstelle vor dem ersten Stein merken: danach zählt die Höhenkarte den Stein mit
+        Map<Integer, Integer> grounds = new HashMap<>();
+        for (GardenWallLogic.Stone stone : GardenWallLogic.wall(random.nextLong())) {
+            int x = start.getX() + (alongX ? stone.along() : 0);
+            int z = start.getZ() + (alongX ? 0 : stone.along());
+            int ground =
+                    grounds.computeIfAbsent(stone.along(), a -> level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x, z));
+            BlockPos pos = new BlockPos(x, ground + stone.dy(), z);
+            if (level.getBlockState(new BlockPos(x, ground - 1, z)).is(BlockTags.SUBSTRATE_OVERWORLD)
+                    && level.getBlockState(pos).canBeReplaced()) {
+                level.setBlock(
+                        pos,
+                        stone.mossy()
+                                ? Blocks.MOSSY_COBBLESTONE.defaultBlockState()
+                                : Blocks.COBBLESTONE.defaultBlockState(),
+                        2);
             }
         }
     }

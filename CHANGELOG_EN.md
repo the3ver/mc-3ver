@@ -4,6 +4,12 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.17] - 2026-10-31
+
+### ✨ Added
+
+- Pear Grove: rare remains of ruined garden walls made of cobblestone, partly mossy and with gaps, only at the edge and between tree groups. They hint at an old orchard.
+
 ## [0.8.16] - 2026-10-31
 
 ### 🐛 Bug Fixes
