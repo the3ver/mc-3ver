@@ -23,7 +23,7 @@ public class GroveZoneLogic {
     /**
      * Bewuchs einer Zone: Baum-Cluster pro Chunk (Nachkommastelle = Chance auf einen weiteren),
      * Bäume pro Cluster und Streuradius um den Cluster-Punkt, Chance auf einen Bodenfleck pro Chunk,
-     * Laubbüsche, Farn- und Blumenflecken pro Chunk.
+     * Laubbüsche, Farn- und Blumenflecken pro Chunk, Chance auf einen Rest Gartenmauer pro Chunk.
      */
     public record Density(
             float clustersPerChunk,
@@ -33,13 +33,14 @@ public class GroveZoneLogic {
             float groundPatchChance,
             float bushesPerChunk,
             float fernPatchesPerChunk,
-            float flowerPatchesPerChunk) {}
+            float flowerPatchesPerChunk,
+            float wallChance) {}
 
     // Büsche vor allem zwischen den Gruppen, Farne nur im dichten Wald, Blumen am meisten auf der offenen Wiese
-    private static final Density EDGE_DENSITY = new Density(0.5f, 1, 1, 0, 0f, 0.3f, 0f, 1.5f);
-    private static final Density GROUPS_DENSITY = new Density(0.5f, 3, 5, 4, 0f, 1f, 0f, 1f);
-    private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f);
-    private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f, 0f, 0f, 1f);
+    private static final Density EDGE_DENSITY = new Density(0.5f, 1, 1, 0, 0f, 0.3f, 0f, 1.5f, 0f);
+    private static final Density GROUPS_DENSITY = new Density(0.5f, 3, 5, 4, 0f, 1f, 0f, 1f, 0f);
+    private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f, 0f);
+    private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f, 0f, 0f, 1f, 0f);
 
     /**
      * Zone aus der Tiefe im Hain (Abstand zum Biomrand) und dem Abstand zum alten Baum. Das Herz hat Vorrang,
