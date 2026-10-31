@@ -30,7 +30,8 @@ public class ModGrove implements TerraBlenderApi {
 
     /** Feature-Typen; aus Mc3verMod.onInitialize, bevor Datapacks die Feature-JSONs laden. */
     public static void register() {
-        Registry.register(BuiltInRegistries.FEATURE_TYPE, Mc3verMod.id("pear_grove_trees"), GroveTreesFeature.CODEC);
+        Registry.register(
+                BuiltInRegistries.FEATURE_TYPE, Mc3verMod.id("pear_grove_vegetation"), GroveVegetationFeature.CODEC);
     }
 
     @Override

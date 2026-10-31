@@ -98,7 +98,7 @@ class GroveResourcesTest {
         List<String> grove = strings(
                 biome().getAsJsonArray("features").get(VEGETAL_DECORATION).getAsJsonArray());
 
-        assertTrue(grove.contains("mc3ver:pear_grove_trees"), "Birnbäume nach Zonen im Hain");
+        assertTrue(grove.contains("mc3ver:pear_grove_vegetation"), "Birnbäume nach Zonen im Hain");
         int last = -1;
         for (String feature : grove) {
             if (feature.startsWith(GROVE_ONLY_PREFIX)) {
@@ -113,12 +113,12 @@ class GroveResourcesTest {
 
     @Test
     void groveTreesUseThePearTreeAndOnlyRunInTheGrove() throws Exception {
-        JsonObject feature = json("data/mc3ver/worldgen/feature/pear_grove_trees.json");
-        assertEquals("mc3ver:pear_grove_trees", feature.get("type").getAsString());
+        JsonObject feature = json("data/mc3ver/worldgen/feature/pear_grove_vegetation.json");
+        assertEquals("mc3ver:pear_grove_vegetation", feature.get("type").getAsString());
         assertEquals("mc3ver:pear_tree", feature.get("tree").getAsString());
 
-        JsonObject placed = json("data/mc3ver/worldgen/placed_feature/pear_grove_trees.json");
-        assertEquals("mc3ver:pear_grove_trees", placed.get("feature").getAsString());
+        JsonObject placed = json("data/mc3ver/worldgen/placed_feature/pear_grove_vegetation.json");
+        assertEquals("mc3ver:pear_grove_vegetation", placed.get("feature").getAsString());
         List<String> placementTypes = new ArrayList<>();
         for (JsonElement p : placed.getAsJsonArray("placement")) {
             placementTypes.add(p.getAsJsonObject().get("type").getAsString());

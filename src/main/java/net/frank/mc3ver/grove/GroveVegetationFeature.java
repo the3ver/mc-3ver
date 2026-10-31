@@ -16,19 +16,19 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 
 /**
- * Birnbäume im Birnenhain nach Zonen: außen einzeln, dann in Gruppen, innen dichter Wald, ums Herz frei.
+ * Bewuchs des Birnenhains nach Zonen: Bäume außen einzeln, dann in Gruppen, innen dichter Wald, ums Herz frei.
  * Läuft einmal pro Chunk; die Zone gilt für den ganzen Chunk.
  */
-public record GroveTreesFeature(Holder<Feature> tree) implements Feature {
+public record GroveVegetationFeature(Holder<Feature> tree) implements Feature {
 
-    public static final MapCodec<GroveTreesFeature> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(Feature.CODEC.fieldOf("tree").forGetter(GroveTreesFeature::tree))
-                    .apply(instance, GroveTreesFeature::new));
+    public static final MapCodec<GroveVegetationFeature> CODEC = RecordCodecBuilder.mapCodec(
+            instance -> instance.group(Feature.CODEC.fieldOf("tree").forGetter(GroveVegetationFeature::tree))
+                    .apply(instance, GroveVegetationFeature::new));
 
     private static final int GROUND_PATCH_RADIUS = 3;
 
     @Override
-    public MapCodec<GroveTreesFeature> codec() {
+    public MapCodec<GroveVegetationFeature> codec() {
         return CODEC;
     }
 
