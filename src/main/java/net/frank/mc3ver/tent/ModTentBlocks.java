@@ -125,32 +125,30 @@ public class ModTentBlocks {
     private static final Set<BlockPos> DISMANTLING_IN_PROGRESS = new HashSet<>();
 
     public static BlockState stateFor(ExplorerTentLogic.TentPart part, Direction facing, DyeColor color) {
-        BlockState state =
-                switch (part) {
-                    case AIR -> null;
-                    case POLE -> TENT_POLE.defaultBlockState().setValue(TentPoleBlock.FACING, facing);
-                    case SLEEPING_BAG_FOOT ->
-                        TENT_SLEEPING_BAG
+        BlockState state = switch (part) {
+            case AIR -> null;
+            case POLE -> TENT_POLE.defaultBlockState().setValue(TentPoleBlock.FACING, facing);
+            case SLEEPING_BAG_FOOT ->
+                TENT_SLEEPING_BAG
+                        .defaultBlockState()
+                        .setValue(TentSleepingBagBlock.FACING, facing)
+                        .setValue(TentSleepingBagBlock.PART, BedPart.FOOT);
+            case SLEEPING_BAG_HEAD ->
+                TENT_SLEEPING_BAG
+                        .defaultBlockState()
+                        .setValue(TentSleepingBagBlock.FACING, facing)
+                        .setValue(TentSleepingBagBlock.PART, BedPart.HEAD);
+            case WALL_FURNACE_LEFT -> TENT_FURNACE.defaultBlockState().setValue(TentFurnaceBlock.FACING, facing);
+            case ENTRANCE_FLAP -> TENT_FLAP.defaultBlockState().setValue(TentFlapBlock.FACING, facing);
+            case WALL_CHEST_RIGHT -> TENT_CHEST.defaultBlockState().setValue(TentChestBlock.FACING, facing);
+            default ->
+                TentCanvasBlock.CanvasPart.fromTentPart(part)
+                        .map(canvasPart -> TENT_CANVAS
                                 .defaultBlockState()
-                                .setValue(TentSleepingBagBlock.FACING, facing)
-                                .setValue(TentSleepingBagBlock.PART, BedPart.FOOT);
-                    case SLEEPING_BAG_HEAD ->
-                        TENT_SLEEPING_BAG
-                                .defaultBlockState()
-                                .setValue(TentSleepingBagBlock.FACING, facing)
-                                .setValue(TentSleepingBagBlock.PART, BedPart.HEAD);
-                    case WALL_FURNACE_LEFT ->
-                        TENT_FURNACE.defaultBlockState().setValue(TentFurnaceBlock.FACING, facing);
-                    case ENTRANCE_FLAP -> TENT_FLAP.defaultBlockState().setValue(TentFlapBlock.FACING, facing);
-                    case WALL_CHEST_RIGHT -> TENT_CHEST.defaultBlockState().setValue(TentChestBlock.FACING, facing);
-                    default ->
-                        TentCanvasBlock.CanvasPart.fromTentPart(part)
-                                .map(canvasPart -> TENT_CANVAS
-                                        .defaultBlockState()
-                                        .setValue(TentCanvasBlock.FACING, facing)
-                                        .setValue(TentCanvasBlock.PART, canvasPart))
-                                .orElse(null);
-                };
+                                .setValue(TentCanvasBlock.FACING, facing)
+                                .setValue(TentCanvasBlock.PART, canvasPart))
+                        .orElse(null);
+        };
         if (state != null && state.hasProperty(TentCanvasBlock.COLOR)) {
             state = state.setValue(TentCanvasBlock.COLOR, color);
         }

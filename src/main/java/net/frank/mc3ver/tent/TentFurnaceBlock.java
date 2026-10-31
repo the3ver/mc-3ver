@@ -52,13 +52,12 @@ public class TentFurnaceBlock extends AbstractFurnaceBlock {
     public static double[] getPipeTopOffset(Direction tentFacing) {
         double x = PIPE_CENTER_X;
         double z = PIPE_CENTER_Z;
-        double[] rotated =
-                switch (tentFacing) {
-                    case EAST -> new double[] {16.0 - z, x};
-                    case SOUTH -> new double[] {16.0 - x, 16.0 - z};
-                    case WEST -> new double[] {z, 16.0 - x};
-                    default -> new double[] {x, z};
-                };
+        double[] rotated = switch (tentFacing) {
+            case EAST -> new double[] {16.0 - z, x};
+            case SOUTH -> new double[] {16.0 - x, 16.0 - z};
+            case WEST -> new double[] {z, 16.0 - x};
+            default -> new double[] {x, z};
+        };
         return new double[] {rotated[0] / 16.0, PIPE_TOP_Y, rotated[1] / 16.0};
     }
 
