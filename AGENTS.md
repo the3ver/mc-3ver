@@ -17,3 +17,6 @@ Modulare Minecraft Java Edition Modifikation für Minecraft 26.3 basierend auf F
 - Version setzen: `bash scripts/bump-version.sh X.Y.Z` (beim Release mit `--docs`). Einzige Quelle ist `gradle.properties`.
 - Build: `./gradlew build`
 - Run Client: `./gradlew runClient`
+
+## Git
+- `main` ist per Ruleset geschützt (`.github/rulesets/main.json`): Änderungen nur per Pull Request, Checks `build` und `semgrep` müssen grün sein. Arbeit auf einem Branch committen, pushen, PR öffnen.
