@@ -20,6 +20,13 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
+
+	runs {
+		client {
+			// Fester Name = feste Offline-UUID; sonst gehört der Einzelspieler-Spielstand seit 26.3 bei jedem Start einem neuen Spieler
+			programArgs "--username", "Frank"
+		}
+	}
 }
 
 dependencies {
