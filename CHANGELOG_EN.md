@@ -4,6 +4,17 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.1] - 2026-10-31
+
+### 🐛 Bug Fixes
+* **Pear wood and explosions:** Pear logs, wood, planks and saplings always dropped when blown up. Now some are lost, like oak.
+
+### 🔧 Internal
+* Fabric datagen now generates the loot tables of the pear wood set instead of hand-written files.
+* New automated checks: consistent formatting (Spotless), Error Prone, architecture rules (ArchUnit), resource completeness, project rules (Semgrep) and weekly mutation testing (PIT). The version lives only in `gradle.properties`.
+
+---
+
 ## [0.8.0] - 2026-10-31
 
 ### ✨ Added

@@ -4,6 +4,17 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.1] - 2026-10-31
+
+### 🐛 Fehlerbehebungen
+* **Birnenholz bei Explosionen:** Birnenstämme, -holz, -bretter und Setzlinge droppten bei Explosionen immer. Jetzt geht wie bei Eiche ein Teil verloren.
+
+### 🔧 Intern
+* Die Loot-Tabellen des Birnenholz-Sets erzeugt jetzt Fabric Datagen statt sie von Hand zu pflegen.
+* Neue automatische Prüfungen: einheitliche Formatierung (Spotless), Error Prone, Architekturregeln (ArchUnit), Vollständigkeit der Ressourcen, Projektregeln (Semgrep) und wöchentliches Mutation Testing (PIT). Die Version steht nur noch in `gradle.properties`.
+
+---
+
 ## [0.8.0] - 2026-10-31
 
 ### ✨ Neu hinzugefügt

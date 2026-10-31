@@ -8,11 +8,10 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "mc3ver:pear_fence"
+          "name": "mc3ver:pear_pressure_plate"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
-  ],
-  "random_sequence": "mc3ver:blocks/pear_fence"
+  ]
 }

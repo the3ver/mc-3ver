@@ -13,6 +13,7 @@ Modulare Minecraft Java Edition Modifikation für Minecraft 26.3 basierend auf F
 - Projektregeln stehen in `.semgrep/rules.yml`. Funde beheben; nur begründete Ausnahmen mit `// nosemgrep: <regel-id> <Grund>`.
 - Formatieren: `./gradlew spotlessApply` (palantir-java-format). Lokal formatiert ein Claude-Hook jede bearbeitete Java-Datei.
 - Teststärke messen: `bash scripts/mutation-report.sh --run` (PIT auf `*Logic`, ca. 1 min). Überlebende Mutanten zeigen Verhalten, das kein Test absichert.
+- Generierte Daten: `./gradlew runDatagen` schreibt nach `src/main/generated` (Provider in `src/datagen/java`). Diese JSONs nie von Hand ändern, sondern den Provider; Ausgabe mitcommitten, CI prüft den Gleichstand.
 - Version setzen: `bash scripts/bump-version.sh X.Y.Z` (beim Release mit `--docs`). Einzige Quelle ist `gradle.properties`.
 - Build: `./gradlew build`
 - Run Client: `./gradlew runClient`

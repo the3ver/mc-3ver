@@ -38,3 +38,6 @@ logs/
 
 # Agent sync state
 .agents/
+
+# Datagen-Cache (Fabric), die erzeugten Dateien selbst werden committet
+src/main/generated/.cache/

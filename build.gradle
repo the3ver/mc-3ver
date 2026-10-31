@@ -16,7 +16,19 @@ repositories {
 
 loom {
 	splitEnvironmentSourceSets()
+}
 
+// Generierte Daten (Loot-Tabellen usw.) entstehen per ./gradlew runDatagen in src/main/generated und werden
+// committet. Muss zwischen splitEnvironmentSourceSets und loom.mods stehen, weil es die Mod-Einstellungen anlegt. Quellcode der Provider liegt in src/datagen/java und landet nicht im Mod-JAR.
+fabricApi {
+	configureDataGeneration {
+		createSourceSet = true
+		modId = "mc3ver"
+		outputDirectory = file("src/main/generated")
+	}
+}
+
+loom {
 	mods {
 		"mc3ver" {
 			sourceSet sourceSets.main
