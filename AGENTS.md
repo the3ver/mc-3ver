@@ -9,7 +9,8 @@ Modulare Minecraft Java Edition Modifikation für Minecraft 26.3 basierend auf F
 - **Build-System:** Gradle (Wrapper `gradlew` / `gradlew.bat`)
 
 ## Commands
-- Prüfen (Compile, Tests, Architekturregeln, knappe Ausgabe): `bash scripts/check.sh`. Läuft lokal auch als Claude-Stop-Hook.
+- Prüfen (Format, Error Prone, Tests, Architektur- und Ressourcentests, Semgrep, knappe Ausgabe): `bash scripts/check.sh`. Läuft lokal auch als Claude-Stop-Hook.
+- Projektregeln stehen in `.semgrep/rules.yml`. Funde beheben; nur begründete Ausnahmen mit `// nosemgrep: <regel-id> <Grund>`.
 - Formatieren: `./gradlew spotlessApply` (palantir-java-format). Lokal formatiert ein Claude-Hook jede bearbeitete Java-Datei.
 - Version setzen: `bash scripts/bump-version.sh X.Y.Z` (beim Release mit `--docs`). Einzige Quelle ist `gradle.properties`.
 - Build: `./gradlew build`
