@@ -20,6 +20,7 @@ class GroveResourcesTest {
 
     private static final Path RESOURCES = Paths.get("").toAbsolutePath().resolve("src/main/resources");
     private static final int VEGETAL_DECORATION = 9;
+    private static final String GROVE_ONLY_PREFIX = "mc3ver:pear_grove_";
 
     private static JsonObject json(String path) throws Exception {
         return JsonParser.parseString(Files.readString(RESOURCES.resolve(path))).getAsJsonObject();
@@ -86,6 +87,7 @@ class GroveResourcesTest {
 
     // Gemeinsame Features müssen in jedem Biom gleich sortiert sein, sonst bricht die Weltgenerierung
     // mit "Feature order cycle" ab. Fabric hängt den Birnbaum in Plains ans Ende.
+    // Features, die nur im Hain stehen (mc3ver:pear_grove_*), teilt kein anderes Biom und sind frei.
     @Test
     void vegetationKeepsThePlainsFeatureOrder() throws Exception {
         List<String> plainsOrder = strings(vanillaPlains()
@@ -99,6 +101,9 @@ class GroveResourcesTest {
         assertTrue(grove.contains("mc3ver:pear_tree_placed"), "Birnbäume im Hain");
         int last = -1;
         for (String feature : grove) {
+            if (feature.startsWith(GROVE_ONLY_PREFIX)) {
+                continue;
+            }
             int index = plainsOrder.indexOf(feature);
             assertTrue(index >= 0, feature + " fehlt in Plains, Reihenfolge nicht geprüft");
             assertTrue(index > last, feature + " steht in Plains früher");
