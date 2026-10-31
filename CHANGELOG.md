@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.16] - 2026-10-31
+
+### 🐛 Fehlerbehebungen
+
+- Der See am alten Birnbaum schwebte über abfallendem Gelände, der Quellfels ebenso. Jetzt liegt der See auf der tiefsten Geländestelle und gräbt sich in höheres Gelände ein. Der Fels steht auf seinem Boden, mindestens auf Seehöhe.
+
 ## [0.8.15] - 2026-10-31
 
 ### 🔄 Geändert

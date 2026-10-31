@@ -43,8 +43,20 @@ public class PearGroveHeartStructure extends Structure {
                         context.randomState());
         BlockPos origin = new BlockPos(heart.treeX(), y, heart.treeZ());
         long layoutSeed = context.seed() ^ (gx * 341_873_128_712L) ^ (gz * 132_897_987_541L);
-        return Optional.of(
-                new GenerationStub(origin, builder -> builder.addPiece(new PearGroveHeartPiece(origin, layoutSeed))));
+        // See und Quelle richten sich nach dem Gelände, nicht nach dem Stammfuß; einmal hier aus dem Generator,
+        // damit jeder Chunk dieselben Höhen nutzt und keiner fremde Chunks liest
+        OldPearTreeLogic.Layout layout = OldPearTreeLogic.layout(layoutSeed);
+        OldPearTreeLogic.Ground ground = (dx, dz) -> context.chunkGenerator()
+                .getBaseHeight(
+                        origin.getX() + dx,
+                        origin.getZ() + dz,
+                        Heightmap.Types.WORLD_SURFACE_WG,
+                        context.heightAccessor(),
+                        context.randomState());
+        int lakeY = OldPearTreeLogic.lakeLevel(OldPearTreeLogic.lakeColumns(layout), ground);
+        int springY = OldPearTreeLogic.springLevel(OldPearTreeLogic.springColumns(layout), ground, lakeY);
+        return Optional.of(new GenerationStub(
+                origin, builder -> builder.addPiece(new PearGroveHeartPiece(origin, layoutSeed, lakeY, springY))));
     }
 
     @Override

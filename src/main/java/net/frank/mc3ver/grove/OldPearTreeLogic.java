@@ -2,9 +2,12 @@ package net.frank.mc3ver.grove;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SplittableRandom;
 import net.minecraft.core.Direction;
 
@@ -89,6 +92,46 @@ public class OldPearTreeLogic {
 
     // Stammmitte in Blockkoordinaten: zwischen Block 0 und 1; Block i hat seine Mitte bei i + 0,5
     private static final double TRUNK_CENTER = 1.0;
+
+    /** Spalte (x, z) relativ zum Stamm. */
+    public record Column(int x, int z) {}
+
+    /** Geländehöhe einer Spalte: erste Luftschicht über dem Boden, wie die Heightmap. */
+    @FunctionalInterface
+    public interface Ground {
+        int surface(int x, int z);
+    }
+
+    /** Spalten des Sees samt Kiesrand; Wasser und Rand liegen auf einer gemeinsamen Höhe. */
+    public static Set<Column> lakeColumns(Layout layout) {
+        return columnsOf(layout, EnumSet.of(Role.WATER, Role.GRAVEL, Role.CLAY, Role.LILY_PAD));
+    }
+
+    public static Set<Column> springColumns(Layout layout) {
+        return columnsOf(layout, EnumSet.of(Role.SPRING_ROCK, Role.SPRING_WATER));
+    }
+
+    /** Wasserspiegel auf der tiefsten Geländespalte: höheres Gelände wird abgetragen, nichts schwebt. */
+    public static int lakeLevel(Set<Column> lake, Ground ground) {
+        return lake.stream().mapToInt(c -> ground.surface(c.x(), c.z())).min().orElseThrow();
+    }
+
+    /** Fels steht auf seinem höchsten Geländepunkt, aber nie unter dem See, damit die Quelle hineinläuft. */
+    public static int springLevel(Set<Column> rock, Ground ground, int lakeLevel) {
+        int highest =
+                rock.stream().mapToInt(c -> ground.surface(c.x(), c.z())).max().orElse(lakeLevel);
+        return Math.max(highest, lakeLevel);
+    }
+
+    private static Set<Column> columnsOf(Layout layout, Set<Role> roles) {
+        Set<Column> columns = new LinkedHashSet<>();
+        layout.parts().forEach((pos, part) -> {
+            if (roles.contains(part.role())) {
+                columns.add(new Column(pos.x(), pos.z()));
+            }
+        });
+        return columns;
+    }
 
     private static final Direction[] SIDES = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 

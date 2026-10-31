@@ -31,41 +31,39 @@ import net.minecraft.world.level.material.Fluids;
 
 /**
  * Setzt den Bauplan aus {@link OldPearTreeLogic} in die Welt, Chunk für Chunk.
- * Baum, See und Quelle stehen auf der Höhe des Stammfußes (Wasser liegt eben); Wurzeln, Truhe, Moos und
- * Trittsteine folgen der Oberfläche ihrer Spalte.
+ * Der Baum steht auf dem Stammfuß, der See auf der tiefsten Geländestelle unter ihm (Wasser liegt eben),
+ * der Quellfels auf seinem eigenen Gelände, aber nie unter dem See. Wurzeln, Truhe, Moos und Trittsteine
+ * folgen der Oberfläche ihrer Spalte.
  */
 public class PearGroveHeartPiece extends StructurePiece {
 
-    // Diese Rollen liegen auf Stammfuß-Höhe, alle anderen auf der Oberfläche ihrer Spalte
-    private static final Set<Role> AT_TRUNK_LEVEL = EnumSet.of(
-            Role.TRUNK,
-            Role.BRANCH,
-            Role.LEAVES,
-            Role.BEEHIVE,
-            Role.WATER,
-            Role.CLAY,
-            Role.GRAVEL,
-            Role.LILY_PAD,
-            Role.SPRING_ROCK,
-            Role.SPRING_WATER);
+    private static final Set<Role> TREE = EnumSet.of(Role.TRUNK, Role.BRANCH, Role.LEAVES, Role.BEEHIVE);
     private static final Set<Role> LAKE = EnumSet.of(Role.WATER, Role.CLAY, Role.GRAVEL, Role.LILY_PAD);
-    // Über dem See wird bis zu dieser Höhe freigeräumt, falls Gelände hineinragt
-    private static final int LAKE_CLEARANCE = 4;
+    private static final Set<Role> SPRING = EnumSet.of(Role.SPRING_ROCK, Role.SPRING_WATER);
     private static final int MAX_TRUNK_FOOTING = 5;
+    // Höchstens so tief wird unter Seegrund und Fels aufgefüllt (Höhlen, Überhänge)
+    private static final int MAX_FILL = 12;
 
     private final BlockPos origin;
     private final long layoutSeed;
+    // Erste Luftschicht über Seegrund bzw. Felsfuß, vorab aus dem Generator berechnet
+    private final int lakeY;
+    private final int springY;
 
-    public PearGroveHeartPiece(BlockPos origin, long layoutSeed) {
-        super(ModGrove.HEART_PIECE, 0, boundingBox(origin, OldPearTreeLogic.layout(layoutSeed)));
+    public PearGroveHeartPiece(BlockPos origin, long layoutSeed, int lakeY, int springY) {
+        super(ModGrove.HEART_PIECE, 0, boundingBox(origin, OldPearTreeLogic.layout(layoutSeed), lakeY));
         this.origin = origin;
         this.layoutSeed = layoutSeed;
+        this.lakeY = lakeY;
+        this.springY = springY;
     }
 
     public PearGroveHeartPiece(CompoundTag tag) {
         super(ModGrove.HEART_PIECE, tag);
         this.origin = new BlockPos(tag.getIntOr("OX", 0), tag.getIntOr("OY", 0), tag.getIntOr("OZ", 0));
         this.layoutSeed = tag.getLongOr("LayoutSeed", 0L);
+        this.lakeY = tag.getIntOr("LakeY", origin.getY());
+        this.springY = tag.getIntOr("SpringY", origin.getY());
     }
 
     @Override
@@ -74,9 +72,11 @@ public class PearGroveHeartPiece extends StructurePiece {
         tag.putInt("OY", origin.getY());
         tag.putInt("OZ", origin.getZ());
         tag.putLong("LayoutSeed", layoutSeed);
+        tag.putInt("LakeY", lakeY);
+        tag.putInt("SpringY", springY);
     }
 
-    private static BoundingBox boundingBox(BlockPos origin, Layout layout) {
+    private static BoundingBox boundingBox(BlockPos origin, Layout layout, int lakeY) {
         int minX = 0;
         int maxX = 0;
         int minZ = 0;
@@ -90,7 +90,7 @@ public class PearGroveHeartPiece extends StructurePiece {
         // Spalten-Oberfläche kann vom Stammfuß abweichen: großzügig nach unten und oben
         return new BoundingBox(
                 origin.getX() + minX,
-                origin.getY() - 16,
+                Math.min(origin.getY(), lakeY) - 16,
                 origin.getZ() + minZ,
                 origin.getX() + maxX,
                 origin.getY() + layout.trunkHeight() + 8,
@@ -107,7 +107,7 @@ public class PearGroveHeartPiece extends StructurePiece {
             ChunkPos chunkPos,
             BlockPos pivot) {
         Layout layout = OldPearTreeLogic.layout(layoutSeed);
-        clearAboveLake(level, chunkBox, layout);
+        shapeGroundForLakeAndSpring(level, chunkBox, layout);
         for (Map.Entry<Pos, Part> entry : layout.parts().entrySet()) {
             Pos pos = entry.getKey();
             Part part = entry.getValue();
@@ -130,33 +130,49 @@ public class PearGroveHeartPiece extends StructurePiece {
     private BlockPos worldPos(WorldGenLevel level, Pos pos, Role role) {
         int x = origin.getX() + pos.x();
         int z = origin.getZ() + pos.z();
-        if (AT_TRUNK_LEVEL.contains(role)) {
+        if (TREE.contains(role)) {
             return new BlockPos(x, origin.getY() + pos.y(), z);
+        }
+        if (LAKE.contains(role)) {
+            return new BlockPos(x, lakeY + pos.y(), z);
+        }
+        if (SPRING.contains(role)) {
+            return new BlockPos(x, springY + pos.y(), z);
         }
         return new BlockPos(x, level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z) + pos.y(), z);
     }
 
-    // Ragt Gelände in den See, wird darüber Luft; liegt das Gelände tiefer, bekommt der See Erde als Sockel
-    private void clearAboveLake(WorldGenLevel level, BoundingBox chunkBox, Layout layout) {
-        for (Map.Entry<Pos, Part> entry : layout.parts().entrySet()) {
-            Pos pos = entry.getKey();
-            if (pos.y() != -1 || !LAKE.contains(entry.getValue().role())) {
+    // Über dem See wird höheres Gelände abgetragen; unter See und Fels werden Lücken (Höhlen, Überhänge)
+    // aufgefüllt, damit nichts schwebt. Nur Spalten dieses Chunks.
+    private void shapeGroundForLakeAndSpring(WorldGenLevel level, BoundingBox chunkBox, Layout layout) {
+        for (OldPearTreeLogic.Column column : OldPearTreeLogic.lakeColumns(layout)) {
+            int x = origin.getX() + column.x();
+            int z = origin.getZ() + column.z();
+            if (!inColumns(chunkBox, x, z)) {
                 continue;
             }
-            int x = origin.getX() + pos.x();
-            int z = origin.getZ() + pos.z();
-            for (int y = origin.getY(); y < origin.getY() + LAKE_CLEARANCE; y++) {
-                BlockPos clear = new BlockPos(x, y, z);
-                if (chunkBox.isInside(clear)) {
-                    level.setBlock(clear, Blocks.AIR.defaultBlockState(), 2);
-                }
+            int top = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z);
+            for (int y = lakeY; y < top; y++) {
+                level.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 2);
             }
-            for (int y = origin.getY() - 4; y > origin.getY() - 8; y--) {
-                BlockPos below = new BlockPos(x, y, z);
-                if (chunkBox.isInside(below) && level.getBlockState(below).canBeReplaced()) {
-                    level.setBlock(below, Blocks.DIRT.defaultBlockState(), 2);
-                }
+            fillDown(level, x, lakeY - 4, z, Blocks.DIRT.defaultBlockState());
+        }
+        for (OldPearTreeLogic.Column column : OldPearTreeLogic.springColumns(layout)) {
+            int x = origin.getX() + column.x();
+            int z = origin.getZ() + column.z();
+            if (inColumns(chunkBox, x, z)) {
+                fillDown(level, x, springY - 1, z, rock(new BlockPos(x, springY, z)));
             }
+        }
+    }
+
+    private static void fillDown(WorldGenLevel level, int x, int fromY, int z, BlockState state) {
+        for (int y = fromY; y > fromY - MAX_FILL; y--) {
+            BlockPos pos = new BlockPos(x, y, z);
+            if (!level.getBlockState(pos).canBeReplaced()) {
+                return;
+            }
+            level.setBlock(pos, state, 2);
         }
     }
 

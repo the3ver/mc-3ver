@@ -4,6 +4,12 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.16] - 2026-10-31
+
+### 🐛 Bug Fixes
+
+- The pond at the old pear tree floated over falling terrain, and so did the spring rock. The pond now sits on the lowest ground and digs into higher terrain. The rock stands on its own ground, at least at pond level.
+
 ## [0.8.15] - 2026-10-31
 
 ### 🔄 Changed

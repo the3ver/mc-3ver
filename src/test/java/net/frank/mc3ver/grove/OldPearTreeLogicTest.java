@@ -228,6 +228,35 @@ class OldPearTreeLogicTest {
                 counts.toString());
     }
 
+    // Bug: See und Quellfels lagen fest auf Stammfuß-Höhe und schwebten über abfallendem Gelände
+    @Test
+    void lakeSitsAtTheLowestGroundOfItsColumns() {
+        Layout l = layout(42);
+        java.util.Set<Column> lake = lakeColumns(l);
+        assertFalse(lake.isEmpty());
+        for (Pos p : l.positionsOf(Role.WATER)) {
+            assertTrue(lake.contains(new Column(p.x(), p.z())), "Wasserspalte fehlt: " + p);
+        }
+        for (Pos p : l.positionsOf(Role.GRAVEL)) {
+            assertTrue(lake.contains(new Column(p.x(), p.z())), "Kiesrand gehört zum See: " + p);
+        }
+        // Gelände fällt nach +x ab: der Wasserspiegel folgt der tiefsten Spalte, nichts schwebt
+        int level = lakeLevel(lake, (x, z) -> 80 - x);
+        int lowest = lake.stream().mapToInt(c -> 80 - c.x()).min().getAsInt();
+        assertEquals(lowest, level);
+    }
+
+    @Test
+    void springRockStandsOnItsOwnGroundButNeverBelowTheLake() {
+        Layout l = layout(42);
+        java.util.Set<Column> rock = springColumns(l);
+        for (Pos p : l.positionsOf(Role.SPRING_ROCK)) {
+            assertTrue(rock.contains(new Column(p.x(), p.z())), "Felsspalte fehlt: " + p);
+        }
+        assertEquals(75, springLevel(rock, (x, z) -> 75, 70), "Fels auf höherem Gelände");
+        assertEquals(70, springLevel(rock, (x, z) -> 60, 70), "Fels mindestens auf Seehöhe");
+    }
+
     @Test
     void sameSeedSameHeartDifferentSeedsDiffer() {
         assertEquals(layout(42).parts(), layout(42).parts());
