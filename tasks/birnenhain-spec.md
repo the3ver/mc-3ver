@@ -61,6 +61,7 @@ Liegt kein Mittelpunkt in Reichweite (kleiner Biom-Ausläufer), gilt die Rand-Zo
 | Element | Phase | Verteilung |
 |---|---|---|
 | Birnbaum (bestehendes Feature) | 1 | nach Zonen, siehe oben |
+| Laubfarben-Variation: Birnenlaub mal heller, mal dunkler, je nach Position | 1 | alle Birnbäume, auch außerhalb des Hains |
 | Laubbüsche (1 Birnenstamm + Birnenlaub, wie Dschungel-Büsche) | 1 | Gruppen-Zone und Waldrand |
 | Kurzgras, hohes Gras | 1 | überall, wie Plains |
 | Farne | 1 | dichter Wald |

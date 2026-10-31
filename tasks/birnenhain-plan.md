@@ -44,6 +44,14 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 - Bodenflecken (grobe Erde, Podsol) im dichten Wald.
 - Verify: im Spiel Übergang einzeln → Gruppen → dicht sichtbar; Screenshots für den PR.
 
+## Task 5a: Laubfarben-Variation am Birnbaum
+
+- Birnenlaub bekommt einen `BlockColorRegistry`-Eintrag im Client: Grundton ist die Laubfarbe des Bioms, dazu eine Helligkeitsabweichung aus der Blockposition (Startwert ±12 %). Gleiche Position, gleicher Ton; kein Blockstate, kein Speicheraufwand.
+- Gilt für alle Birnbäume, auch außerhalb des Hains.
+- Die Abweichung als reine Funktion in `PearTreeLogic` (Position → Faktor), Tests: Bereich eingehalten, deterministisch, Nachbarblöcke variieren.
+- Vorher prüfen: Birnenlaub nutzt das graue `oak_leaves`-Muster mit `tintindex`, bisher ist keine Farbe registriert.
+- Verify: im Spiel sichtbar hellere und dunklere Kronen, besonders im dichten Wald.
+
 ## Task 6: Laubbüsche und Bodenbewuchs
 
 - `pear_bush`: Baum-Feature mit 1 Stamm und Busch-Laub (wie Vanilla `jungle_bush`).
