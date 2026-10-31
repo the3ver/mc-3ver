@@ -85,7 +85,7 @@
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
           <span data-i18n="hero.btn.download">Neueste Version laden</span>
-          <span class="version-tag" id="releaseVersionTag">v0.8.0</span>
+          <span class="version-tag" id="releaseVersionTag">v0.9.0</span>
         </a>
 
         <a href="#features" class="btn btn-secondary btn-lg" id="heroInstallBtn">
@@ -176,6 +176,20 @@
           <h3 class="feature-title" data-i18n="features.peartree.title">🍐 Schweizer Birnenholz &amp; Früchte</h3>
           <p class="feature-text" data-i18n="features.peartree.desc">
             Vollwertiges Bauset im warmen Schweizer Birnbaum-Design, optisch eigene Setzlinge, saftige Birnen und die mächtige Goldene Birne (Entdeckerbirne).
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22v-8"/>
+              <circle cx="12" cy="9" r="6"/>
+              <path d="M4 22h16"/>
+            </svg>
+          </div>
+          <h3 class="feature-title" data-i18n="features.grove.title">🌳 Biom Birnenhain</h3>
+          <p class="feature-text" data-i18n="features.grove.desc">
+            Seltener Hain aus Birnbäumen: außen einzelne Bäume, innen dichter Wald. In der Mitte ein alter Birnbaum mit Bienen, Truhe, See und Quelle.
           </p>
         </div>
 
@@ -749,7 +763,7 @@
             <ul style="margin: 8px 0 16px 20px; line-height: 1.7; color: var(--text-secondary);">
               <li data-i18n-html="install.launcher.step1"><strong>Modrinth App / CurseForge App:</strong> Erstelle ein neues Profil für <strong>Minecraft 26.3</strong> mit dem <strong>Fabric Loader</strong>.</li>
               <li data-i18n-html="install.launcher.step2">Klicke im Profil auf <em>„Content hinzufügen / Mods suchen“</em> und tippe <code>WorldExplorerMod</code> ein.</li>
-              <li data-i18n-html="install.launcher.step3">Klicke auf <strong>Installieren</strong> — fertig! Die benötigte <em>Fabric API</em> wird automatisch im Hintergrund installiert.</li>
+              <li data-i18n-html="install.launcher.step3">Klicke auf <strong>Installieren</strong> — fertig! Die benötigten Mods <em>Fabric API</em> und <em>TerraBlender</em> werden automatisch im Hintergrund installiert.</li>
             </ul>
           </div>
         </div>
@@ -760,7 +774,7 @@
           <div class="step-content">
             <h3 class="step-title" data-i18n="install.step1.title">Fabric Loader & API installieren</h3>
             <p class="step-text" data-i18n-html="install.step1.desc">
-              Lade den offiziellen Fabric Installer für Minecraft 26.3 herunter und installiere die passende <strong>Fabric API</strong>.
+              Lade den offiziellen Fabric Installer für Minecraft 26.3 herunter und installiere die passende <strong>Fabric API</strong> und <strong>TerraBlender</strong>.
             </p>
             <a href="https://fabricmc.net/use/installer/" target="_blank" rel="noopener noreferrer" class="link-btn" data-i18n-html="install.step1.btn">
               Fabric Installer herunterladen &rarr;
@@ -774,7 +788,7 @@
           <div class="step-content">
             <h3 class="step-title" data-i18n="install.step2.title">WorldExplorerMod herunterladen</h3>
             <p class="step-text" data-i18n-html="install.step2.desc">
-              Lade die Datei <code class="code-badge">mc-3ver-0.8.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
+              Lade die Datei <code class="code-badge">mc-3ver-0.9.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
             </p>
             <a href="https://modrinth.com/mod/worldexplorermod" target="_blank" rel="noopener noreferrer" class="link-btn" data-i18n-html="install.step2.btn">
               Zu den Releases &rarr;
@@ -858,6 +872,11 @@
               <td><strong data-i18n="specs.row.api">Fabric API</strong></td>
               <td><code>0.165.0+26.3</code></td>
               <td data-i18n="specs.note.api">Erforderliche Basis-Bibliothek</td>
+            </tr>
+            <tr>
+              <td><strong data-i18n="specs.row.terrablender">TerraBlender</strong></td>
+              <td><code>26.3.0.0.9+</code></td>
+              <td data-i18n="specs.note.terrablender">Erforderlich für das Biom Birnenhain</td>
             </tr>
             <tr>
               <td><strong data-i18n="specs.row.java">Java Runtime</strong></td>

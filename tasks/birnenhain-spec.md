@@ -40,27 +40,31 @@ Die Farbwerte sind Startwerte und werden im Spiel abgestimmt. Die Feldnamen (sei
 ## Verbreitung
 
 - Selten, etwa so häufig wie Flower Forest. Ein Spieler muss suchen, aber nicht jeder Seed hat einen Hain in Laufweite.
+- Umsetzung (2026-10-31): In einer eigenen TerraBlender-Region (Gewicht 3, Vanilla 10) werden Forest und Flower Forest zum Birnenhain. Flower Forest allein ergab Flecken um 64×64 Blöcke, zu klein für die Zonen; Forests sind deutlich größer, das niedrige Gewicht hält den Hain selten.
+- Streifen (Entscheidung 2026-10-31): Wo eine TerraBlender-Regionsgrenze durch einen Forest läuft, entsteht ein schmaler Hain-Streifen mit gerader Kante zum normalen Forest. Diese Streifen bleiben, wie sie sind. Verworfene Alternativen: nur einen Teil des Forest-Klimas ersetzen (Region mit hohem Gewicht), Regionsgröße erhöhen (Spielereinstellung), Streifen dichter bepflanzen.
 - Klima-Nachbarschaft: Plains, Meadow, Forest. Dort wächst der Birnbaum schon heute.
 - Der Birnbaum wächst weiter in seinen bisherigen Biomen. Der Hain ersetzt das nicht.
 
 ## Zonen
 
-Die Baumdichte hängt vom Abstand zum Hain-Mittelpunkt ab. Der Mittelpunkt ist ein Punkt im Biom, nicht der alte Baum: der alte Baum steht 8 bis 20 Blöcke daneben, damit er nicht genau in der Mitte liegt.
+Die Baumdichte hängt von der Tiefe im Hain ab: dem Abstand zum Biomrand, gemessen über 8 Richtungen in 8er-Schritten (höchstens 64). So passen die Zonen zu jeder Hain-Form. Haine sind in der Praxis 4.000 bis 25.000 Blöcke² groß und höchstens 32 bis 64 Blöcke tief (Messung 2026-10-31).
 
-| Zone | Abstand zum Mittelpunkt (Startwert) | Bäume | Boden |
+| Zone | Tiefe (Startwert) | Bäume | Boden |
 |---|---|---|---|
-| Rand | über 96 | einzeln, etwa 1 Baum pro 2 Chunks | Gras, viel offene Wiese |
-| Gruppen | 56 bis 96 | Gruppen aus 3 bis 5 Bäumen, Lücken dazwischen | Gras, Laubbüsche |
-| Dichter Wald | 20 bis 56 | etwa 8 bis 10 Bäume pro Chunk | grobe Erde und Podsol in Flecken, Farne |
+| Rand | unter 16 | einzeln, etwa 1 Baum pro 2 Chunks | Gras, viel offene Wiese |
+| Gruppen | 16 bis unter 32 | Gruppen aus 3 bis 5 Bäumen, Lücken dazwischen | Gras, Laubbüsche |
+| Dichter Wald | ab 32 | etwa 8 bis 10 Bäume pro Chunk | grobe Erde und Podsol in Flecken, Farne |
 | Herz | unter 20 um den alten Baum | keine normalen Bäume | siehe Herzstück |
+| Waldring | 20 bis 44 um den alten Baum, unabhängig von der Tiefe | wie dichter Wald | wie dichter Wald |
 
-Liegt kein Mittelpunkt in Reichweite (kleiner Biom-Ausläufer), gilt die Rand-Zone. Radien sind Startwerte und werden im Spiel abgestimmt.
+Das Herz liegt am tiefsten Punkt des Hains: ein Rasterpunkt (Chunk-Mitte) mit Tiefe ab 32, ohne tieferen Punkt im Umkreis von 96 Blöcken. Der alte Baum steht 6 bis 12 Blöcke daneben, damit er nicht genau in der Mitte liegt. Haine mit weniger als 32 Tiefe haben kein Herz. Schwellen sind Startwerte und werden im Spiel abgestimmt.
 
 ## Vegetation
 
 | Element | Phase | Verteilung |
 |---|---|---|
 | Birnbaum (bestehendes Feature) | 1 | nach Zonen, siehe oben |
+| Laubfarben-Variation: Birnenlaub mal heller, mal dunkler, je nach Position | 1 | alle Birnbäume, auch außerhalb des Hains |
 | Laubbüsche (1 Birnenstamm + Birnenlaub, wie Dschungel-Büsche) | 1 | Gruppen-Zone und Waldrand |
 | Kurzgras, hohes Gras | 1 | überall, wie Plains |
 | Farne | 1 | dichter Wald |
@@ -93,9 +97,17 @@ Ein Herzstück pro Hain, als eigene Struktur.
 - Lückenhafter Pfad aus Steinplatten oder Pfadblöcken.
 - Nur auf den letzten 8 bis 12 Blöcken vor dem alten Baum. Von außen verrät der Pfad nichts.
 
-**Truhen-Loot (Vorschlag, im Plan abstimmen)**
-- Birnen, Birnensetzlinge, Honigwaben, Knochenmehl als Grundstock.
-- Selten: goldene Birne.
+**Umsetzung Bauplan (Task 7, Startwerte in `OldPearTreeLogic`)**
+- Krone (nach Spieltest ausladender und lichter): 5 bis 7 Äste, 4 bis 6 lang, schräg nach oben; an jedem Ende eine flache Laubwolke mit Radius 2 bis 4, am Rand fehlen 45 % der Blätter; Laub reicht höchstens 6 unter die Stammspitze.
+- Wurzeln: 5 bis 6, je von einem anderen Stammblock, 3 bis 4 lang, das äußere Ende sinkt in den Boden.
+- See: Radius 3 bis 4 (5 bis 9 Blöcke breit), unregelmäßiger Rand, beginnt 7 Blöcke von der Stammmitte; Mitte 2 tief.
+- Quelle: Fels auf der dem Baum abgewandten Seeseite, Wasser oben auf dem Fels zum See hin.
+- Bienenstöcke: 1 bis 2 direkt unter der Krone am Stamm, an gegenüberliegenden Seiten.
+- Moos und Pilze im Umkreis von 5 Blöcken; Trittsteine ab 6 Blöcken, auf der dem See abgewandten Seite.
+
+**Truhen-Loot (entschieden 2026-10-31)**
+- Grundstock: Birnen, Birnensetzlinge, Honigwaben, Knochenmehl.
+- Selten genau einer davon: goldene Birne, Freundschaftsstein (ungeprägt), Windstab oder Blitzstab.
 
 ## Gartenmauern
 
@@ -119,6 +131,6 @@ Ein Herzstück pro Hain, als eigene Struktur.
 
 Entscheidung (2026-10-31): TerraBlender. Artefakt `com.github.glitchfiend:TerraBlender-fabric:26.3-26.3.0.0.9` vom Forge-Maven (`maven.minecraftforge.net`), Lizenz LGPL-3.0, braucht Fabric API. Spieler müssen TerraBlender zusätzlich installieren.
 
-**Zonen.** Vanilla-Features kennen keinen Abstand zum Biomrand. Deshalb bestimmt eine reine Logik-Klasse die Hain-Mittelpunkte aus Seed und einem Raster (wie Vanilla `RandomSpreadStructurePlacement`). Ein Mittelpunkt zählt nur, wenn das Biom dort Birnenhain ist. Das Baum-Feature und die Herzstück-Struktur fragen beide dieselbe Logik und sind dadurch konsistent.
+**Zonen.** Vanilla-Features kennen keinen Abstand zum Biomrand. `GroveShapeLogic` misst ihn über Biomabfragen an der Biomquelle (unabhängig davon, welche Chunks schon generiert sind) und findet das Herz als tiefsten Punkt. Die Tiefe je Chunk-Mitte wird gecacht, weil die Herz-Suche viele Nachbarn braucht. Baum-Feature und Herzstück-Struktur nutzen dieselbe Logik. Erster Ansatz mit festem Raster für Mittelpunkte und Radien 20/56/96 verworfen: Haine sind zu klein, die meisten bekamen keinen alten Baum.
 
 **Herzstück.** Struktur mit einem im Code erzeugten Strukturteil. Der Bauplan (welcher Block wo) entsteht in einer reinen Logik-Klasse und ist ohne laufendes Spiel testbar. Keine NBT-Vorlage, weil See und Wurzeln zufällig geformt sein sollen.

@@ -4,6 +4,30 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2026-10-31
+
+### ✨ Added
+* **Pear Grove biome:** rare new overworld biome around the pear tree, warm golden-green with turquoise water and meadow music. It replaces Forest and Flower Forest in a rare TerraBlender region. Find it with `/locate biome mc3ver:pear_grove`.
+* **Zones:** single pear trees at the edge, groups of 3 to 5 further in, a dense forest with ferns and patches of coarse dirt and podzol inside. Zones follow the distance to the biome edge, so they fit any grove shape.
+* **Plants:** pear leaf bushes. An own flower mix of dandelion, oxeye daisy, cornflower and poppy, densest on the open meadow.
+* **Grove heart:** at the deepest point of the grove stands an old pear tree with a 2×2 trunk, a wide, light crown, thick roots and bee nests. A ring of dense forest surrounds it. Next to it lie a small pond with a clay bed, gravel rim and lily pads, a spring on a mossy rock, moss, mushrooms and stepping stones. Find it with `/locate structure mc3ver:pear_grove_heart`.
+* **Chest at the old tree:** between the roots stands a chest with pears, saplings, honeycomb and bone meal. Rarely it also holds a golden pear, a friendship stone, a wind wand or a lightning wand.
+* **Garden walls:** at the grove edge, rare remains of ruined cobblestone walls recall an old orchard.
+* **Leaf shades:** pear trees are slightly lighter or darker depending on location.
+
+### 🔄 Changed
+* **New dependency:** the mod now also requires **TerraBlender** (26.3.0.0.9 or newer), on client and server.
+
+### 🐛 Bug Fixes
+* **Pear leaves:** the leaves use the gray oak leaves texture but had no tint and looked gray. They now take the biome foliage color, also as an item in the inventory.
+
+### 🔧 Internal
+* Grove logic lives in classes testable without the game: `GroveShapeLogic` (depth, heart), `GroveZoneLogic` (zones, density), `OldPearTreeLogic` (heart blueprint), `GardenWallLogic`.
+* `runServer` takes console commands from standard input, for scripted world generation tests.
+* Spec and plan are in `tasks/birnenhain-spec.md` and `tasks/birnenhain-plan.md`.
+
+---
+
 ## [0.8.2] - 2026-10-31
 
 ### 🐛 Bug Fixes

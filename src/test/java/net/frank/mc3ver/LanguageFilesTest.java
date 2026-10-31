@@ -105,6 +105,7 @@ public class LanguageFilesTest {
                 "message.mc3ver.bonfire_no_space",
                 "message.mc3ver.bonfire_uneven_ground",
                 "effect.mc3ver.pacifist",
+                "biome.mc3ver.pear_grove",
                 "message.mc3ver.pacifist_on",
                 "message.mc3ver.pacifist_off",
                 "message.mc3ver.peace_broken");

@@ -4,6 +4,30 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.0] - 2026-10-31
+
+### ✨ Neu hinzugefügt
+* **Biom Birnenhain:** Seltenes neues Overworld-Biom rund um den Birnbaum, in warmem Gold-Grün mit türkisfarbenem Wasser und Meadow-Musik. Es ersetzt in einer seltenen TerraBlender-Region Forest und Flower Forest. Zu finden mit `/locate biome mc3ver:pear_grove`.
+* **Zonen:** Am Rand stehen einzelne Birnbäume, weiter innen Gruppen aus 3 bis 5 Bäumen, im Inneren dichter Wald mit Farnen und Flecken aus grober Erde und Podsol. Die Zonen richten sich nach dem Abstand zum Biomrand und passen so zu jeder Hain-Form.
+* **Pflanzen:** Laubbüsche aus Birnenholz und -laub. Ein eigener Blumen-Mix aus Löwenzahn, Margerite, Kornblume und Mohn, am dichtesten auf der offenen Wiese.
+* **Herzstück:** Am tiefsten Punkt des Hains steht ein alter Birnbaum mit 2×2-Stamm, ausladender, lichter Krone, dicken Wurzeln und Bienennestern. Ihn umgibt ein Ring dichten Waldes. Daneben liegen ein kleiner See mit Lehmgrund, Kiesrand und Seerosen, eine Quelle am bemoosten Fels, Moos, Pilze und Trittsteine. Zu finden mit `/locate structure mc3ver:pear_grove_heart`.
+* **Truhe am alten Baum:** Zwischen den Wurzeln steht eine Truhe mit Birnen, Setzlingen, Honigwaben und Knochenmehl. Selten liegt dazu eine goldene Birne, ein Freundschaftsstein, ein Windstab oder ein Blitzstab darin.
+* **Gartenmauern:** Am Rand des Hains stehen selten Reste verfallener Bruchsteinmauern, die an einen alten Obstgarten erinnern.
+* **Laubtöne:** Birnbäume sind je nach Ort leicht heller oder dunkler belaubt.
+
+### 🔄 Geändert
+* **Neue Abhängigkeit:** Die Mod benötigt jetzt zusätzlich **TerraBlender** (26.3.0.0.9 oder neuer), auf Client und Server.
+
+### 🐛 Fehlerbehebungen
+* **Birnenlaub:** Das Laub nutzt die graue Eichenlaub-Textur, war aber nicht eingefärbt und erschien grau. Jetzt hat es die Laubfarbe des Bioms, auch als Item im Inventar.
+
+### 🔧 Intern
+* Die Hain-Logik steckt in testbaren Klassen ohne laufendes Spiel: `GroveShapeLogic` (Tiefe, Herz), `GroveZoneLogic` (Zonen, Dichte), `OldPearTreeLogic` (Bauplan des Herzstücks), `GardenWallLogic`.
+* `runServer` nimmt Konsolenbefehle über die Standardeingabe an, für Weltgenerierungs-Tests per Skript.
+* Spec und Plan liegen in `tasks/birnenhain-spec.md` und `tasks/birnenhain-plan.md`.
+
+---
+
 ## [0.8.2] - 2026-10-31
 
 ### 🐛 Fehlerbehebungen

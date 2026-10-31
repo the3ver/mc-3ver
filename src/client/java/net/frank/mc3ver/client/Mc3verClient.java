@@ -11,6 +11,7 @@ public class Mc3verClient implements ClientModInitializer {
                 "WorldExplorerMod Client-Features aktiviert (Doppelsprung, Transportflammen & Birnenboote aktiv)!");
 
         PearBoatClient.register();
+        PearLeavesClient.register();
         BonfireClient.register();
         TransportClient.register();
         TentClient.register();

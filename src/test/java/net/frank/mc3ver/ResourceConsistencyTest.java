@@ -99,7 +99,11 @@ class ResourceConsistencyTest {
                 Matcher m = MOD_ID.matcher(Files.readString(file));
                 while (m.find()) {
                     String id = m.group(2);
-                    if (m.group(1) == null && !items.contains(id) && !id.startsWith("blocks/")) {
+                    // blocks/… und chests/… sind Loot-Tabellen-IDs (random_sequence), keine Items
+                    if (m.group(1) == null
+                            && !items.contains(id)
+                            && !id.startsWith("blocks/")
+                            && !id.startsWith("chests/")) {
                         unknown.add(RESOURCES.relativize(file) + " -> mc3ver:" + id);
                     }
                 }

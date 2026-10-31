@@ -33,6 +33,8 @@ const TRANSLATIONS = {
     "features.wand.desc": "Verschieße zielgerichtete Windladungen mit Abklingzeit und Haltbarkeit, um Mobs mit Windstößen zurückzustoßen oder Mechanismen auszulösen.",
     "features.peartree.title": "🍐 Schweizer Birnenholz & Früchte",
     "features.peartree.desc": "Vollwertiges Bauset im warmen Schweizer Birnbaum-Design, optisch eigene Setzlinge, saftige Birnen und die mächtige Goldene Birne (Entdeckerbirne).",
+    "features.grove.title": "🌳 Biom Birnenhain",
+    "features.grove.desc": "Seltener Hain aus Birnbäumen: außen einzelne Bäume, innen dichter Wald. In der Mitte ein alter Birnbaum mit Bienen, Truhe, See und Quelle.",
     "features.jump.title": "💨 Doppelsprung & Dreifachsprung",
     "features.jump.desc": "Erneutes Drücken der Sprungtaste in der Luft gewährt einen zweiten Sprung nach vorn. Mit Sprungkraft (z. B. durch die Entdeckerbirne) sogar einen Dreifachsprung!",
     "features.multiplayer.title": "🌐 Client & Server",
@@ -115,14 +117,14 @@ const TRANSLATIONS = {
     "install.launcher.desc": "Die einfachste Methode ohne manuelles Verschieben von Dateien. Moderne Launcher laden alle Abhängigkeiten (wie Fabric API) automatisch mit herunter:",
     "install.launcher.step1": "<strong>Modrinth App / CurseForge App:</strong> Erstelle ein neues Profil für <strong>Minecraft 26.3</strong> mit dem <strong>Fabric Loader</strong>.",
     "install.launcher.step2": "Klicke im Profil auf <em>„Content hinzufügen / Mods suchen“</em> und tippe <code>WorldExplorerMod</code> ein.",
-    "install.launcher.step3": "Klicke auf <strong>Installieren</strong> — fertig! Die benötigte <em>Fabric API</em> wird automatisch im Hintergrund installiert.",
+    "install.launcher.step3": "Klicke auf <strong>Installieren</strong> — fertig! Die benötigten Mods <em>Fabric API</em> und <em>TerraBlender</em> werden automatisch im Hintergrund installiert.",
 
     "install.manual.title": "Methode B: Manueller Download (Standard Minecraft Launcher)",
     "install.step1.title": "Fabric Loader & API installieren",
-    "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.3 herunter und installiere die passende <strong>Fabric API</strong>.",
+    "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.3 herunter und installiere die passende <strong>Fabric API</strong> und <strong>TerraBlender</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.8.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.9.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -143,6 +145,8 @@ const TRANSLATIONS = {
     "specs.note.mc": "Java Edition",
     "specs.note.loader": "Empfohlen: 0.19.3+",
     "specs.note.api": "Erforderliche Basis-Bibliothek",
+    "specs.row.terrablender": "TerraBlender",
+    "specs.note.terrablender": "Erforderlich für das Biom Birnenhain",
     "specs.note.java": "z. B. Temurin / Microsoft OpenJDK",
     "specs.note.modid": "Eindeutiger Namespace",
     "specs.note.license": "Frei für Modpacks & Weiterentwicklung",
@@ -193,6 +197,8 @@ const TRANSLATIONS = {
     "features.wand.desc": "Shoot targeted wind charges with cooldown and durability to knock back mobs or trigger mechanisms from afar.",
     "features.peartree.title": "🍐 Swiss Pear Wood & Fruit",
     "features.peartree.desc": "Complete building set in warm Swiss pear wood design, distinct saplings, juicy pears, and the powerful Golden Pear (Explorer's Pear).",
+    "features.grove.title": "🌳 Pear Grove Biome",
+    "features.grove.desc": "Rare grove of pear trees: single trees outside, dense forest inside. At its heart an old pear tree with bees, a chest, a pond and a spring.",
     "features.jump.title": "💨 Double Jump & Triple Jump",
     "features.jump.desc": "Pressing jump in mid-air grants a second forward leap. With Jump Boost (e.g. from the Golden Pear), you can even perform a Triple Jump!",
     "features.multiplayer.title": "🌐 Client & Server",
@@ -275,14 +281,14 @@ const TRANSLATIONS = {
     "install.launcher.desc": "The easiest way without moving files manually. Modern launchers automatically download all dependencies like Fabric API:",
     "install.launcher.step1": "<strong>Modrinth App / CurseForge App:</strong> Create a new profile for <strong>Minecraft 26.3</strong> using <strong>Fabric Loader</strong>.",
     "install.launcher.step2": "Click on <em>„Add Content / Search Mods“</em> and search for <code>WorldExplorerMod</code>.",
-    "install.launcher.step3": "Click <strong>Install</strong> — done! Required <em>Fabric API</em> will be installed automatically in the background.",
+    "install.launcher.step3": "Click <strong>Install</strong> — done! Required <em>Fabric API</em> and <em>TerraBlender</em> will be installed automatically in the background.",
 
     "install.manual.title": "Method B: Manual Download (Default Minecraft Launcher)",
     "install.step1.title": "Install Fabric Loader & API",
-    "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.3 and install the matching <strong>Fabric API</strong>.",
+    "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.3 and install the matching <strong>Fabric API</strong> and <strong>TerraBlender</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.8.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.9.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -303,6 +309,8 @@ const TRANSLATIONS = {
     "specs.note.mc": "Java Edition",
     "specs.note.loader": "Recommended: 0.19.3+",
     "specs.note.api": "Required base library",
+    "specs.row.terrablender": "TerraBlender",
+    "specs.note.terrablender": "Required for the Pear Grove biome",
     "specs.note.java": "e.g. Temurin / Microsoft OpenJDK",
     "specs.note.modid": "Unique namespace",
     "specs.note.license": "Free for modpacks & development",
@@ -460,7 +468,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.8.0
+    // Graceful fallback to v0.9.0
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }
