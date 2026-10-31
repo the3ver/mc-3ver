@@ -44,6 +44,8 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	// WelcomeMessageTest vergleicht Mc3verMod.MOD_VERSION mit der Version aus gradle.properties
+	systemProperty 'mc3ver.version', project.version
 }
 
 processResources {

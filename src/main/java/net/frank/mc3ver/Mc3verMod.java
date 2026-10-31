@@ -1,5 +1,12 @@
 package net.frank.mc3ver;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.resources.Identifier;
@@ -12,9 +19,22 @@ import org.slf4j.LoggerFactory;
 public class Mc3verMod implements ModInitializer {
 	public static final String MOD_ID = "mc3ver";
 	public static final String MOD_NAME = "WorldExplorerMod";
-	public static final String MOD_VERSION = "0.8.0";
+	// Einzige Quelle ist gradle.properties; processResources schreibt sie in fabric.mod.json
+	public static final String MOD_VERSION = readModVersion();
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+	private static String readModVersion() {
+		try (InputStream in = Mc3verMod.class.getResourceAsStream("/fabric.mod.json")) {
+			if (in == null) {
+				throw new IllegalStateException("fabric.mod.json fehlt im Classpath");
+			}
+			JsonObject json = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
+			return json.get("version").getAsString();
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
 
 	@Override
 	public void onInitialize() {
