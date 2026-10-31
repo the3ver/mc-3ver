@@ -68,6 +68,10 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) 
 
 - Birnenhain (in Arbeit): TerraBlender als Abhängigkeit für Overworld-Biome, `GroveCenterLogic` bestimmt die Hain-Mittelpunkte und den Standort des alten Birnbaums.
 
+### 🐛 Fehlerbehebungen
+
+- Die Willkommensnachricht zeigte die Version eines anderen Mods (z. B. `v5.1.20+5af7744b5d` von fabric-dimensions-v1): Alle Mods teilen sich einen Classloader, gelesen wurde die erste `fabric.mod.json`. Jetzt wird die mit der ID `mc3ver` gewählt.
+
 ## [0.8.1] - 2026-10-31
 
 ### 🐛 Fehlerbehebungen

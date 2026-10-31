@@ -68,6 +68,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Pear Grove (work in progress): TerraBlender dependency for overworld biomes, `GroveCenterLogic` places grove centers and the old pear tree.
 
+### 🐛 Bug Fixes
+
+- The welcome message showed another mod's version (e.g. `v5.1.20+5af7744b5d` from fabric-dimensions-v1): all mods share one class loader and the first `fabric.mod.json` was read. The one with id `mc3ver` is now chosen.
+
 ## [0.8.1] - 2026-10-31
 
 ### 🐛 Bug Fixes
