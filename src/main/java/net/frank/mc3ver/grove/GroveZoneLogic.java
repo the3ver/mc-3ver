@@ -8,6 +8,8 @@ package net.frank.mc3ver.grove;
 public class GroveZoneLogic {
 
     public static final int HEART_RADIUS = 20;
+    // Breite des dichten Waldes um die Lichtung des alten Baums
+    public static final int FOREST_RING = 24;
     public static final int GROUPS_DEPTH = 16;
     public static final int FOREST_DEPTH = 32;
 
@@ -39,12 +41,15 @@ public class GroveZoneLogic {
     private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f);
     private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f, 0f, 0f, 1f);
 
-    /** Zone aus der Tiefe im Hain (Abstand zum Biomrand) und dem Abstand zum alten Baum; das Herz hat Vorrang. */
+    /**
+     * Zone aus der Tiefe im Hain (Abstand zum Biomrand) und dem Abstand zum alten Baum. Das Herz hat Vorrang,
+     * um die Lichtung liegt immer ein Ring dichten Waldes, auch wo der Hain dort schon flacher wird.
+     */
     public static Zone zoneAt(int depth, double distanceToTree) {
         if (distanceToTree < HEART_RADIUS) {
             return Zone.HEART;
         }
-        if (depth >= FOREST_DEPTH) {
+        if (distanceToTree < HEART_RADIUS + FOREST_RING || depth >= FOREST_DEPTH) {
             return Zone.FOREST;
         }
         if (depth >= GROUPS_DEPTH) {

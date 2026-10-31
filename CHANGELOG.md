@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.15] - 2026-10-31
+
+### 🔄 Geändert
+
+- Birnenhain: Um die Lichtung des alten Birnbaums liegt immer ein 24 Blöcke breiter Ring dichten Waldes, auch wo der Hain dort schon flacher wird.
+
 ## [0.8.14] - 2026-10-31
 
 ### 🔄 Geändert

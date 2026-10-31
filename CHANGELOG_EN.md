@@ -4,6 +4,12 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.15] - 2026-10-31
+
+### 🔄 Changed
+
+- Pear Grove: a 24-block ring of dense forest always surrounds the old pear tree's clearing, even where the grove gets shallow there.
+
 ## [0.8.14] - 2026-10-31
 
 ### 🔄 Changed

@@ -27,6 +27,17 @@ class GroveZoneLogicTest {
         assertEquals(Zone.FOREST, GroveZoneLogic.zoneAt(64, 20));
     }
 
+    // Das Herz liegt mitten im Wald, auch wo der Hain um die Lichtung schon flacher wird
+    @Test
+    void denseForestRingsTheClearing() {
+        int ringEnd = GroveZoneLogic.HEART_RADIUS + GroveZoneLogic.FOREST_RING;
+        assertEquals(Zone.FOREST, GroveZoneLogic.zoneAt(0, GroveZoneLogic.HEART_RADIUS));
+        assertEquals(Zone.FOREST, GroveZoneLogic.zoneAt(8, ringEnd - 0.1));
+        assertEquals(Zone.EDGE, GroveZoneLogic.zoneAt(8, ringEnd));
+        assertEquals(Zone.GROUPS, GroveZoneLogic.zoneAt(16, ringEnd));
+        assertTrue(GroveZoneLogic.FOREST_RING >= 16, "Ring mindestens einen Chunk breit");
+    }
+
     @Test
     void densityGrowsTowardsTheMiddleAndStopsAtTheHeart() {
         double edge = expectedTrees(Zone.EDGE);

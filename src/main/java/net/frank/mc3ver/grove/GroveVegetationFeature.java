@@ -86,8 +86,8 @@ public record GroveVegetationFeature(
         int x = origin.getX() + 8;
         int z = origin.getZ() + 8;
         double toTree = Double.POSITIVE_INFINITY;
-        for (GroveShapeLogic.Heart heart :
-                GroveShapeLogic.heartsNear(grid, level.getSeed(), x, z, GroveZoneLogic.HEART_RADIUS)) {
+        for (GroveShapeLogic.Heart heart : GroveShapeLogic.heartsNear(
+                grid, level.getSeed(), x, z, GroveZoneLogic.HEART_RADIUS + GroveZoneLogic.FOREST_RING)) {
             toTree = Math.min(toTree, GroveShapeLogic.distance(heart.treeX() - x, heart.treeZ() - z));
         }
         int depth = grid.depth(GroveShapeLogic.gridOf(x), GroveShapeLogic.gridOf(z));
