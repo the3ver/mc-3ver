@@ -22,18 +22,18 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.tag }}
 
       - name: Set up JDK 25
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           java-version: '25'
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -51,7 +51,7 @@ jobs:
           echo "mc=$(grep '^minecraft_version=' gradle.properties | cut -d= -f2 | tr -d '[:space:]')" >> $GITHUB_OUTPUT
 
       - name: Publish to Modrinth
-        uses: Kira-NT/mc-publish@v3.3
+        uses: Kira-NT/mc-publish@v3.3.2
         with:
           modrinth-id: '6Gr0fyD8'
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
