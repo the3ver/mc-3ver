@@ -30,7 +30,7 @@ public final class ModBonfire {
                 .strength(2.0f)
                 .sound(SoundType.WOOD)
                 .lightLevel(state -> BonfireLogic.lightLevel(state.getValue(BonfireBlock.LIT)))
-                .pushReaction(PushReaction.BLOCK)
+                .pushReaction(PushReaction.IMMOVEABLE)
                 .noOcclusion()
         )
     );

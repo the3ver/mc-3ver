@@ -66,7 +66,7 @@ public class PearTreeLogicTest {
             java.util.List<com.google.gson.JsonObject> candidates = new java.util.ArrayList<>();
             collectConditions(pool, item, candidates);
             for (com.google.gson.JsonObject condition : candidates) {
-                if ("minecraft:table_bonus".equals(condition.get("condition").getAsString())) {
+                if ("minecraft:table_bonus".equals(condition.get("type").getAsString())) {
                     com.google.gson.JsonArray chances = condition.getAsJsonArray("chances");
                     float[] result = new float[chances.size()];
                     for (int i = 0; i < result.length; i++) result[i] = chances.get(i).getAsFloat();
@@ -82,11 +82,10 @@ public class PearTreeLogicTest {
             com.google.gson.JsonObject obj = node.getAsJsonObject();
             // Bedingungen an einem Eintrag gelten nur für dieses Item, Pool-Bedingungen für alle Einträge
             if (obj.has("type") && obj.has("name") && !item.equals(obj.get("name").getAsString())) return;
-            if (obj.has("conditions")) {
-                for (com.google.gson.JsonElement c : obj.getAsJsonArray("conditions")) out.add(c.getAsJsonObject());
-            }
+            // Seit 26.3 hat jede Bedingung ein "type"-Feld; Listen stehen in all_of/any_of unter "terms"
+            if (obj.has("type") && obj.get("type").isJsonPrimitive() && !obj.has("name")) out.add(obj);
             for (String key : obj.keySet()) {
-                if (!key.equals("conditions")) collectConditions(obj.get(key), item, out);
+                collectConditions(obj.get(key), item, out);
             }
         } else if (node.isJsonArray()) {
             for (com.google.gson.JsonElement e : node.getAsJsonArray()) collectConditions(e, item, out);
@@ -111,6 +110,45 @@ public class PearTreeLogicTest {
         assertEquals(100, PearTreeLogic.getFuelDurationTicks("pear_sapling"), "Saplings should burn for 100 ticks");
         assertEquals(0, PearTreeLogic.getFuelDurationTicks("pear"), "Pears are not fuel");
         assertEquals(0, PearTreeLogic.getFuelDurationTicks("pear_leaves"), "Leaves are not fuel");
+    }
+
+    @Test
+    void testCookingFuelKeyMatchesVanillaBurnTime() throws Exception {
+        String[] fuels = {"pear_log", "stripped_pear_log", "pear_wood", "stripped_pear_wood", "pear_planks", "pear_stairs",
+            "pear_slab", "pear_fence", "pear_fence_gate", "pear_door", "pear_trapdoor", "pear_pressure_plate",
+            "pear_button", "pear_sapling", "pear_boat", "pear_chest_boat"};
+        for (String name : fuels) {
+            var key = PearTreeLogic.getCookingFuelKey(name);
+            org.junit.jupiter.api.Assertions.assertNotNull(key, name + " braucht einen Brennstoff-Provider");
+            // Vanilla-Provider teilen die Grunddauer ("left") durch den Ofenfaktor
+            com.google.gson.JsonObject provider = vanillaJson("/data/minecraft/context_int_provider/" + key.identifier().getPath() + ".json");
+            assertEquals(PearTreeLogic.getFuelDurationTicks(name), provider.get("left").getAsInt(), name);
+        }
+        org.junit.jupiter.api.Assertions.assertNull(PearTreeLogic.getCookingFuelKey("pear"));
+        org.junit.jupiter.api.Assertions.assertNull(PearTreeLogic.getCookingFuelKey("pear_leaves"));
+    }
+
+    @Test
+    void testCompostableKeyMatchesVanillaChance() throws Exception {
+        for (String name : new String[]{"pear", "pear_leaves", "pear_sapling"}) {
+            var key = PearTreeLogic.getCompostableKey(name);
+            org.junit.jupiter.api.Assertions.assertNotNull(key, name + " muss kompostierbar sein");
+            // Gewicht der 1 im weighted_list = Chance in Prozent
+            com.google.gson.JsonObject provider = vanillaJson("/data/minecraft/context_int_provider/" + key.identifier().getPath() + ".json");
+            int percent = 0;
+            for (com.google.gson.JsonElement e : provider.getAsJsonObject("default").getAsJsonArray("distribution")) {
+                if (e.getAsJsonObject().get("data").getAsInt() == 1) percent = e.getAsJsonObject().get("weight").getAsInt();
+            }
+            assertEquals(Math.round(PearTreeLogic.getCompostChance(name) * 100), percent, name);
+        }
+        org.junit.jupiter.api.Assertions.assertNull(PearTreeLogic.getCompostableKey("pear_log"));
+    }
+
+    private static com.google.gson.JsonObject vanillaJson(String path) throws Exception {
+        try (java.io.InputStream in = PearTreeLogicTest.class.getResourceAsStream(path)) {
+            org.junit.jupiter.api.Assertions.assertNotNull(in, path + " muss im Classpath liegen");
+            return com.google.gson.JsonParser.parseString(new String(in.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8)).getAsJsonObject();
+        }
     }
 
     @Test

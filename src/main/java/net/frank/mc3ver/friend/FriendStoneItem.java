@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -87,7 +88,7 @@ public class FriendStoneItem extends ChannelTeleportItem {
         if (stack.isEmpty()) {
             player.setItemInHand(hand, bound);
         } else if (!player.getInventory().add(bound)) {
-            player.drop(bound, false);
+            player.drop(bound, false, Prediction.SERVER_ONLY);
         }
         player.sendSystemMessage(Component.translatable("message.mc3ver.friendship_stone_bound").withStyle(ChatFormatting.LIGHT_PURPLE));
         level.playSound(null, player.getX(), player.getY(), player.getZ(),

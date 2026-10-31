@@ -1,6 +1,5 @@
 package net.frank.mc3ver.tent;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -30,17 +29,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 // Ofen an der linken Zeltwand: FACING ist die Zelt-Blickrichtung (wie bei TentCanvasBlock), nicht die Ofenfront
 public class TentFurnaceBlock extends AbstractFurnaceBlock {
 
-    public static final MapCodec<TentFurnaceBlock> CODEC = simpleCodec(TentFurnaceBlock::new);
-
     public TentFurnaceBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState()
             .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE));
-    }
-
-    @Override
-    protected MapCodec<TentFurnaceBlock> codec() {
-        return CODEC;
     }
 
     @Override

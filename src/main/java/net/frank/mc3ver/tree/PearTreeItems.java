@@ -14,10 +14,24 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProvider;
 
 import java.util.List;
 
 public class PearTreeItems {
+
+    // Hängt Brennstoff- und Kompost-Komponente an, sofern PearTreeLogic für den Namen einen Wert kennt
+    static Item.Properties fuelAndCompost(String itemName, Item.Properties properties) {
+        ResourceKey<ContextIntProvider> fuel = PearTreeLogic.getCookingFuelKey(itemName);
+        if (fuel != null) {
+            properties.cookingFuel(fuel);
+        }
+        ResourceKey<ContextIntProvider> compost = PearTreeLogic.getCompostableKey(itemName);
+        if (compost != null) {
+            properties.compostable(compost);
+        }
+        return properties;
+    }
 
     public static final ResourceKey<Item> PEAR_KEY = ResourceKey.create(
         Registries.ITEM,
@@ -32,7 +46,7 @@ public class PearTreeItems {
     public static final Item PEAR = Registry.register(
         BuiltInRegistries.ITEM,
         PEAR_KEY,
-        new Item(new Item.Properties().setId(PEAR_KEY).food(PEAR_FOOD))
+        new Item(fuelAndCompost("pear", new Item.Properties().setId(PEAR_KEY).food(PEAR_FOOD)))
     );
 
     public static final ResourceKey<Item> GOLDEN_PEAR_KEY = ResourceKey.create(
@@ -74,7 +88,7 @@ public class PearTreeItems {
         PEAR_BOAT_KEY,
         new BoatItem(
             PearTreeEntities.PEAR_BOAT_ENTITY_TYPE,
-            new Item.Properties().setId(PEAR_BOAT_KEY).stacksTo(1)
+            fuelAndCompost("pear_boat", new Item.Properties().setId(PEAR_BOAT_KEY).stacksTo(1))
         )
     );
 
@@ -88,7 +102,7 @@ public class PearTreeItems {
         PEAR_CHEST_BOAT_KEY,
         new BoatItem(
             PearTreeEntities.PEAR_CHEST_BOAT_ENTITY_TYPE,
-            new Item.Properties().setId(PEAR_CHEST_BOAT_KEY).stacksTo(1)
+            fuelAndCompost("pear_chest_boat", new Item.Properties().setId(PEAR_CHEST_BOAT_KEY).stacksTo(1))
         )
     );
 

@@ -4,6 +4,21 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-10-31
+
+### ✨ Added
+* **Minecraft 26.3:** The mod now runs on Minecraft 26.3 with Fabric Loader 0.20 and Fabric API 0.165. Version 0.7.1 stays available for Minecraft 26.2.
+
+### 🐛 Bug Fixes
+* **Transport map:** On 26.3 the map showed the purple-black missing texture in the inventory because vanilla removed the `filled_map_markings` texture. The model now uses only `filled_map`. A new test checks that every texture and parent model our models reference exists.
+
+### 🔧 Internal
+* Pear tree worldgen moved to the new `worldgen/feature` format, loot tables to the new condition format (`condition`, `modifier`).
+* Pear tree items get composting and fuel through the new item components, stripping through Fabric API's `BlockTransformerHelper`. Burn times and compost chances are unchanged.
+* Gradle 9.8.2 and Loom 1.19.3. Branch `mc/26.2` keeps the 26.2 state.
+
+---
+
 ## [0.7.1] - 2026-10-28
 
 ### 🐛 Bug Fixes

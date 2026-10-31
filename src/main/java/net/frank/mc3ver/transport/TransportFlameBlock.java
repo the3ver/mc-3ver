@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Prediction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -125,7 +126,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
 
                 boolean added = player.getInventory().add(mapStack);
                 if (!added) {
-                    player.drop(mapStack, false);
+                    player.drop(mapStack, false, Prediction.SERVER_ONLY);
                 }
             }
         }
@@ -188,7 +189,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
             mapStack.set(DataComponents.CUSTOM_NAME, Component.literal(flame.getName()));
         }
         if (!player.getInventory().add(mapStack)) {
-            player.drop(mapStack, false);
+            player.drop(mapStack, false, Prediction.SERVER_ONLY);
         }
         level.playSound(null, pos, SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT, SoundSource.BLOCKS, 1.0f, 1.0f);
         player.sendOverlayMessage(Component.translatable("message.mc3ver.map_recovered").withStyle(ChatFormatting.GREEN));

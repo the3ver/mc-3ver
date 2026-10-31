@@ -1,5 +1,9 @@
 package net.frank.mc3ver.tree;
 
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProvider;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+
 public class PearTreeLogic {
 
     public static final int PEAR_NUTRITION = 4;
@@ -18,6 +22,17 @@ public class PearTreeLogic {
             return 0.30f;
         }
         return 0.0f;
+    }
+
+    // Seit 26.3 kompostiert der Composter über die Item-Komponente; Vanilla-Stufen statt eigener Zahlen
+    public static ResourceKey<ContextIntProvider> getCompostableKey(String itemName) {
+        float chance = getCompostChance(itemName);
+        if (chance == 0.65f) {
+            return ContextIntProviders.COMPOSTABLE_MEDIUM;
+        } else if (chance == 0.30f) {
+            return ContextIntProviders.COMPOSTABLE_LOW;
+        }
+        return null;
     }
 
     public static String getStrippedBlockId(String blockName) {
@@ -52,6 +67,18 @@ public class PearTreeLogic {
             return 100;
         }
         return 0;
+    }
+
+    // Seit 26.3 ist Brennstoff eine Item-Komponente; die Vanilla-Provider liefern dieselben Brenndauern
+    public static ResourceKey<ContextIntProvider> getCookingFuelKey(String itemName) {
+        return switch (getFuelDurationTicks(itemName)) {
+            case PearBoatLogic.BOAT_FUEL_DURATION_TICKS -> ContextIntProviders.COOKING_TIME_BOATS;
+            case 300 -> ContextIntProviders.COOKING_TIME_WOOD_BLOCKS;
+            case 200 -> ContextIntProviders.COOKING_TIME_WOOD_ITEMS_LARGE;
+            case 150 -> ContextIntProviders.COOKING_TIME_WOOD_SLABS;
+            case 100 -> ContextIntProviders.COOKING_TIME_WOOD_ITEMS_EXTRA_SMALL;
+            default -> null;
+        };
     }
 
     public static java.util.List<String> getTargetBiomeIds() {

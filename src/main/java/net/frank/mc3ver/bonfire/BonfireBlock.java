@@ -1,6 +1,5 @@
 package net.frank.mc3ver.bonfire;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -43,7 +42,6 @@ import java.util.function.UnaryOperator;
 // Ein Block pro Feld des 3x3-Signalfeuers; nur die Mitte trägt die BlockEntity für die Rauchsäule
 public class BonfireBlock extends BaseEntityBlock {
 
-    public static final MapCodec<BonfireBlock> CODEC = simpleCodec(BonfireBlock::new);
     public static final EnumProperty<BonfireLogic.Part> PART = EnumProperty.create("part", BonfireLogic.Part.class);
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final EnumProperty<BonfireLogic.SmokeColor> COLOR = EnumProperty.create("color", BonfireLogic.SmokeColor.class);
@@ -56,11 +54,6 @@ public class BonfireBlock extends BaseEntityBlock {
             .setValue(PART, BonfireLogic.Part.CENTER)
             .setValue(LIT, true)
             .setValue(COLOR, BonfireLogic.SmokeColor.NONE));
-    }
-
-    @Override
-    protected MapCodec<BonfireBlock> codec() {
-        return CODEC;
     }
 
     @Override

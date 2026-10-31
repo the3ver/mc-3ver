@@ -4,6 +4,21 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.0] - 2026-10-31
+
+### ✨ Neu hinzugefügt
+* **Minecraft 26.3:** Die Mod läuft jetzt auf Minecraft 26.3 mit Fabric Loader 0.20 und Fabric API 0.165. Für Minecraft 26.2 bleibt Version 0.7.1 verfügbar.
+
+### 🐛 Fehlerbehebungen
+* **Transportkarte:** Unter 26.3 zeigte die Karte im Inventar eine lila-schwarze Platzhaltertextur, weil Vanilla die Textur `filled_map_markings` entfernt hat. Das Modell nutzt jetzt nur noch `filled_map`. Ein neuer Test prüft, dass jede Textur und jedes Elternmodell, auf das unsere Modelle verweisen, existiert.
+
+### 🔧 Intern
+* Birnbaum-Worldgen auf das neue Format `worldgen/feature` umgestellt, Loot-Tables auf das neue Bedingungsformat (`condition`, `modifier`).
+* Kompost und Brennstoff der Birnbaum-Items laufen über die neuen Item-Komponenten, Entrinden über `BlockTransformerHelper` der Fabric API. Brenndauern und Kompostchancen bleiben gleich.
+* Gradle 9.8.2 und Loom 1.19.3. Branch `mc/26.2` hält den Stand für 26.2.
+
+---
+
 ## [0.7.1] - 2026-10-28
 
 ### 🐛 Fehlerbehebungen

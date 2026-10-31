@@ -4,12 +4,12 @@
 [![GitHub Release](https://img.shields.io/github/v/release/the3ver/mc-3ver?color=emerald)](https://github.com/the3ver/mc-3ver/releases)
 [![Modrinth](https://img.shields.io/badge/Modrinth-worldexplorermod-00AF5C?logo=modrinth)](https://modrinth.com/mod/worldexplorermod)
 [![CurseForge](https://img.shields.io/badge/CurseForge-1673253-f16436?logo=curseforge)](https://www.curseforge.com/minecraft/mc-mods/worldexplorermod)
-[![Minecraft](https://img.shields.io/badge/Minecraft-26.2-blue)](https://fabricmc.net/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-26.3-blue)](https://fabricmc.net/)
 [![Fabric](https://img.shields.io/badge/Loader-Fabric-lightgrey)](https://fabricmc.net/)
 [![Java](https://img.shields.io/badge/Java-25-orange)](https://adoptium.net/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**WorldExplorerMod** ist eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.2**, basierend auf dem **Fabric Mod Loader** und **Java 25**.
+**WorldExplorerMod** ist eine moderne, modulare Minecraft Java Edition Modifikation für Minecraft **26.3**, basierend auf dem **Fabric Mod Loader** und **Java 25**.
 
 🌐 **Website & Dokumentation:** [the3ver.github.io/mc-3ver](https://the3ver.github.io/mc-3ver/)  
 🟢 **Modrinth:** [modrinth.com/mod/worldexplorermod](https://modrinth.com/mod/worldexplorermod)  
@@ -19,9 +19,9 @@
 
 ## 📋 Übersicht & Voraussetzungen
 
-- **Minecraft Version:** `26.2` (Java Edition)
+- **Minecraft Version:** `26.3` (Java Edition)
 - **Mod Loader:** `Fabric Loader` (>= 0.19.0)
-- **Erforderliche Abhängigkeit:** `Fabric API` (für 26.2)
+- **Erforderliche Abhängigkeit:** `Fabric API` (für 26.3)
 - **Java Runtime:** `Java 25 (LTS)`
 - **Mapping:** Unobfuscated (Native Identifiers)
 - **Lizenziert unter:** MIT License
@@ -35,18 +35,18 @@
 #### Schritt 1: Fabric Loader installieren
 1. Öffne die Website [fabricmc.net/use/installer](https://fabricmc.net/use/installer/) und lade den **Universal (.jar)** oder **Windows (.exe)** Installer herunter.
 2. Starte den Installer:
-   - Wähle **Minecraft Version:** `26.2`
+   - Wähle **Minecraft Version:** `26.3`
    - Wähle **Loader Version:** `0.19.3` oder höher
    - Klicke auf **Installieren**.
-3. Es wird automatisch ein neues Profil namens `fabric-loader-26.2` im Minecraft Launcher angelegt.
+3. Es wird automatisch ein neues Profil namens `fabric-loader-26.3` im Minecraft Launcher angelegt.
 
 #### Schritt 2: Fabric API herunterladen
-1. Besuche [Modrinth Fabric API](https://modrinth.com/mod/fabric-api/versions?g=26.2) oder [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files).
-2. Lade die passende `.jar`-Datei für **Minecraft 26.2** herunter (z. B. `fabric-api-0.158.0+26.2.jar`).
+1. Besuche [Modrinth Fabric API](https://modrinth.com/mod/fabric-api/versions?g=26.3) oder [CurseForge](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files).
+2. Lade die passende `.jar`-Datei für **Minecraft 26.3** herunter (z. B. `fabric-api-0.165.0+26.3.jar`).
 
 #### Schritt 3: WorldExplorerMod herunterladen
 1. Gehe zu den [GitHub Releases von WorldExplorerMod](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.7.1.jar` herunter.
+2. Lade die Datei `mc-3ver-0.8.0.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -54,11 +54,11 @@
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.7.1.jar`** in diesen `mods`-Ordner.
+3. Kopiere sowohl die **`fabric-api-...jar`** als auch die **`mc-3ver-0.8.0.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
-2. Wähle unten links das Profil **fabric-loader-26.2** aus.
+2. Wähle unten links das Profil **fabric-loader-26.3** aus.
 3. Klicke auf **Spielen** – fertig!
 
 ---
@@ -66,19 +66,19 @@
 ### Variante B: Custom Launcher (Prism Launcher, Modrinth App, CurseForge)
 
 1. **Neue Instanz erstellen:**
-   - Wähle Minecraft Version: `26.2`
+   - Wähle Minecraft Version: `26.3`
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.7.1.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Ziehe die heruntergeladene `mc-3ver-0.8.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
 
 ### Variante C: Dedizierter Server (Multiplayer)
 
-1. Richte einen Minecraft 26.2 Fabric-Server ein.
-2. Platziere `fabric-api-...jar` und `mc-3ver-0.7.1.jar` im `mods/`-Ordner auf dem Server.
+1. Richte einen Minecraft 26.3 Fabric-Server ein.
+2. Platziere `fabric-api-...jar` und `mc-3ver-0.8.0.jar` im `mods/`-Ordner auf dem Server.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---

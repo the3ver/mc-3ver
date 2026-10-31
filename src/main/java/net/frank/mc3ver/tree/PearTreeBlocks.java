@@ -1,9 +1,9 @@
 package net.frank.mc3ver.tree;
 
+import net.fabricmc.fabric.api.item.v1.BlockTransformerHelper;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeBuilder;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.frank.mc3ver.Mc3verMod;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,7 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ButtonBlock;
-import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
@@ -51,7 +50,8 @@ public class PearTreeBlocks {
     // Registriert das Item zu einem Block unter demselben Namen
     private static Item blockItem(Block block, BiFunction<Block, Item.Properties, Item> factory) {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, BuiltInRegistries.BLOCK.getKey(block));
-        return Registry.register(BuiltInRegistries.ITEM, key, factory.apply(block, new Item.Properties().setId(key)));
+        Item.Properties properties = PearTreeItems.fuelAndCompost(key.identifier().getPath(), new Item.Properties().setId(key));
+        return Registry.register(BuiltInRegistries.ITEM, key, factory.apply(block, properties));
     }
 
     private static Item blockItem(Block block) {
@@ -84,7 +84,7 @@ public class PearTreeBlocks {
         wood(3.0F, 3.0F)
             .noOcclusion()
             .ignitedByLava()
-            .pushReaction(PushReaction.DESTROY));
+            .pushReaction(PushReaction.POPPED));
     public static final Block PEAR_TRAPDOOR = block("pear_trapdoor",
         p -> new TrapDoorBlock(PEAR_SET_TYPE, p),
         wood(3.0F, 3.0F)
@@ -101,14 +101,14 @@ public class PearTreeBlocks {
             .strength(0.5F)
             .sound(SoundType.WOOD)
             .ignitedByLava()
-            .pushReaction(PushReaction.DESTROY));
+            .pushReaction(PushReaction.POPPED));
     public static final Block PEAR_BUTTON = block("pear_button",
         p -> new ButtonBlock(PEAR_SET_TYPE, 30, p),
         BlockBehaviour.Properties.of()
             .noCollision()
             .strength(0.5F)
             .sound(SoundType.WOOD)
-            .pushReaction(PushReaction.DESTROY));
+            .pushReaction(PushReaction.POPPED));
     public static final Block PEAR_LEAVES = block("pear_leaves", PearLeavesBlock::new,
         BlockBehaviour.Properties.of()
             .mapColor(MapColor.PLANT)
@@ -118,9 +118,9 @@ public class PearTreeBlocks {
             .noOcclusion()
             .isValidSpawn(Blocks::ocelotOrParrot)
             .isSuffocating(Blocks::never)
-            .isViewBlocking(Blocks::never)
+            .isViewBlocking((state, level, pos, box) -> false)
             .ignitedByLava()
-            .pushReaction(PushReaction.DESTROY)
+            .pushReaction(PushReaction.POPPED)
             .isRedstoneConductor(Blocks::never));
     public static final Block PEAR_SAPLING = block("pear_sapling",
         p -> new SaplingBlock(PearTreeSaplingGenerator.PEAR_TREE_GROWER, p),
@@ -130,7 +130,7 @@ public class PearTreeBlocks {
             .randomTicks()
             .instabreak()
             .sound(SoundType.GRASS)
-            .pushReaction(PushReaction.DESTROY));
+            .pushReaction(PushReaction.POPPED));
 
     // BlockItems
     public static final Item PEAR_LOG_ITEM = blockItem(PEAR_LOG);
@@ -150,9 +150,9 @@ public class PearTreeBlocks {
     public static final Item PEAR_SAPLING_ITEM = blockItem(PEAR_SAPLING);
 
     public static void register() {
-        // Strippable Block Registry (Axe stripping)
-        StrippableBlockRegistry.register(PEAR_LOG, STRIPPED_PEAR_LOG);
-        StrippableBlockRegistry.register(PEAR_WOOD, STRIPPED_PEAR_WOOD);
+        // Axe stripping
+        BlockTransformerHelper.registerStripping(PEAR_LOG, STRIPPED_PEAR_LOG);
+        BlockTransformerHelper.registerStripping(PEAR_WOOD, STRIPPED_PEAR_WOOD);
 
         // Flammable Block Registry (Fire behavior)
         FlammableBlockRegistry flammable = FlammableBlockRegistry.getDefaultInstance();
@@ -169,9 +169,5 @@ public class PearTreeBlocks {
         flammable.add(PEAR_TRAPDOOR, 5, 20);
         flammable.add(PEAR_LEAVES, 30, 60);
 
-        // Composting (Vanilla ComposterBlock)
-        ComposterBlock.COMPOSTABLES.put(PearTreeItems.PEAR, PearTreeLogic.getCompostChance("pear"));
-        ComposterBlock.COMPOSTABLES.put(PEAR_LEAVES_ITEM, PearTreeLogic.getCompostChance("pear_leaves"));
-        ComposterBlock.COMPOSTABLES.put(PEAR_SAPLING_ITEM, PearTreeLogic.getCompostChance("pear_sapling"));
     }
 }

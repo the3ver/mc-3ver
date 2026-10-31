@@ -1,6 +1,5 @@
 package net.frank.mc3ver.tent;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -82,7 +81,6 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<CanvasPart> PART = EnumProperty.create("part", CanvasPart.class);
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
-    public static final MapCodec<TentCanvasBlock> CODEC = simpleCodec(TentCanvasBlock::new);
 
     protected static final VoxelShape SHAPE_ROOF_PLANE = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
 
@@ -186,11 +184,6 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
             .setValue(FACING, Direction.NORTH)
             .setValue(PART, CanvasPart.WALL_LEFT)
             .setValue(COLOR, DyeColor.WHITE));
-    }
-
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 
     @Override

@@ -82,8 +82,8 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
 
             poseStack.pushPose();
             poseStack.translate(0.5 + puff.x(), puff.y(), 0.5 + puff.z());
-            poseStack.mulPose(camera.orientation);
-            poseStack.mulPose(Axis.ZP.rotationDegrees(puff.roll()));
+            poseStack.rotate(camera.orientation);
+            poseStack.rotateDegrees(Axis.ZP, puff.roll());
             poseStack.scale(size, size, size);
             collector.submitCustomGeometry(poseStack, SMOKE_RENDER_TYPE, (pose, consumer) -> {
                 vertex(consumer, pose, -0.5f, -0.5f, 0.0f, u0 + 0.5f, v0 + 0.5f, color, light);
@@ -107,7 +107,7 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
 
             poseStack.pushPose();
             poseStack.translate(0.5 + tongue.x(), FLAME_BASE_Y, 0.5 + tongue.z());
-            poseStack.mulPose(Axis.YP.rotationDegrees(tongue.yaw()));
+            poseStack.rotateDegrees(Axis.YP, tongue.yaw());
             collector.submitCustomGeometry(poseStack, FLAME_RENDER_TYPE, (pose, consumer) -> {
                 flamePlane(consumer, pose, halfWidth, 0.0f, height, v0, v1);
                 flamePlane(consumer, pose, 0.0f, halfWidth, height, v0, v1);

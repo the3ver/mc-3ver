@@ -1,7 +1,6 @@
 package net.frank.mc3ver.tent;
 
 import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -32,8 +31,6 @@ import java.util.List;
 // Erbt von BedBlock: LivingEntity.tick() weckt Schlafende sofort, wenn der Block an sleepingPos kein BedBlock ist
 public class TentSleepingBagBlock extends BedBlock {
 
-    public static final MapCodec<TentSleepingBagBlock> CODEC = simpleCodec(TentSleepingBagBlock::new);
-
     protected static final VoxelShape FOOT_SHAPE = Block.box(1.0, 0.0, 0.0, 15.0, 3.0, 16.0);
     protected static final VoxelShape HEAD_SHAPE = Shapes.or(
         Block.box(1.0, 0.0, 0.0, 15.0, 3.0, 16.0),
@@ -42,12 +39,6 @@ public class TentSleepingBagBlock extends BedBlock {
 
     public TentSleepingBagBlock(BlockBehaviour.Properties properties) {
         super(DyeColor.WHITE, properties);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public MapCodec<BedBlock> codec() {
-        return (MapCodec<BedBlock>) (MapCodec<?>) CODEC;
     }
 
     // Schlafen im Zelt darf den Heimat-Spawnpunkt nie verändern (siehe EntitySleepEvents.ALLOW_SETTING_SPAWN)
@@ -88,7 +79,7 @@ public class TentSleepingBagBlock extends BedBlock {
         }
 
         if (player instanceof ServerPlayer serverPlayer) {
-            Either<Player.BedSleepingProblem, Unit> result = serverPlayer.startSleepInBed(targetPos);
+            Either<Player.BedSleepingProblem, Unit> result = serverPlayer.startSleepInBed(this, level.getBlockState(targetPos), getBedRule(level, targetPos), targetPos);
 
             result.ifLeft(problem -> {
                 Component message = problem.message();

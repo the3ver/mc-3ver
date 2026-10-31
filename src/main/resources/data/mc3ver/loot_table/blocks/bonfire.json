@@ -10,18 +10,21 @@
           "name": "mc3ver:bonfire"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "mc3ver:bonfire",
-          "properties": {
-            "part": "center"
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:match_block",
+            "blocks": "mc3ver:bonfire",
+            "state": {
+              "part": "center"
+            }
+          },
+          {
+            "type": "minecraft:survives_explosion"
           }
-        },
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+        ]
+      }
     }
   ]
 }

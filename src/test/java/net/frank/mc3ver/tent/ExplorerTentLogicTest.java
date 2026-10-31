@@ -1763,7 +1763,7 @@ public class ExplorerTentLogicTest {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
         if (!itemComponentsBound) {
-            net.minecraft.core.HolderLookup.Provider lookup = net.minecraft.data.registries.VanillaRegistries.createLookup();
+            net.minecraft.core.HolderLookup.Provider lookup = net.minecraft.data.registries.VanillaRegistries.createWorldLookup();
             net.minecraft.core.registries.BuiltInRegistries.DATA_COMPONENT_INITIALIZERS.build(lookup)
                 .forEach(net.minecraft.core.component.DataComponentInitializers.PendingComponents::apply);
             itemComponentsBound = true;

@@ -1,6 +1,5 @@
 package net.frank.mc3ver.tent;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
@@ -21,7 +20,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class TentPoleBlock extends HorizontalDirectionalBlock {
 
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
-    public static final MapCodec<TentPoleBlock> CODEC = simpleCodec(TentPoleBlock::new);
 
     protected static final VoxelShape SHAPE = Shapes.or(
         Block.box(6.0, 0.0, 6.0, 10.0, 16.0, 10.0),
@@ -31,11 +29,6 @@ public class TentPoleBlock extends HorizontalDirectionalBlock {
     public TentPoleBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-    }
-
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 
     @Override

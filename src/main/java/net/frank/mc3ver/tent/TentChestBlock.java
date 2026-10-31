@@ -1,7 +1,5 @@
 package net.frank.mc3ver.tent;
 
-import com.mojang.serialization.MapCodec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
@@ -31,7 +29,6 @@ public class TentChestBlock extends BaseEntityBlock {
 
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
-    public static final MapCodec<TentChestBlock> CODEC = simpleCodec(TentChestBlock::new);
 
     public TentChestBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -39,11 +36,6 @@ public class TentChestBlock extends BaseEntityBlock {
             .setValue(FACING, Direction.NORTH)
             .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE)
             .setValue(OPEN, false));
-    }
-
-    @Override
-    protected MapCodec<TentChestBlock> codec() {
-        return CODEC;
     }
 
     @Override

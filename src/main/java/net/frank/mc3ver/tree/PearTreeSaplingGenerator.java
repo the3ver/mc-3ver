@@ -5,18 +5,17 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.frank.mc3ver.Mc3verMod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-
-import java.util.Optional;
 
 public class PearTreeSaplingGenerator {
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> PEAR_TREE_KEY = ResourceKey.create(
-        Registries.CONFIGURED_FEATURE,
+    public static final ResourceKey<Feature> PEAR_TREE_KEY = ResourceKey.create(
+        Registries.FEATURE,
         Mc3verMod.id("pear_tree")
     );
 
@@ -27,9 +26,10 @@ public class PearTreeSaplingGenerator {
 
     public static final TreeGrower PEAR_TREE_GROWER = new TreeGrower(
         "mc3ver:pear_tree",
-        Optional.empty(),
-        Optional.of(PEAR_TREE_KEY),
-        Optional.empty()
+        WeightedList.of(PEAR_TREE_KEY),
+        WeightedList.of(),
+        WeightedList.of(),
+        PEAR_TREE_KEY
     );
 
     public static void registerWorldGen() {
