@@ -180,6 +180,7 @@ public class ExplorerTentLogicTest {
                         case ROOF_RIDGE -> roofRidgeCount++;
                         case ROOF_FRONT -> roofFrontCount++;
                         case ROOF_BACK -> roofBackCount++;
+                        case WALL_SIDE -> fail("WALL_SIDE kommt im Grundriss nicht vor");
                     }
                 }
             }

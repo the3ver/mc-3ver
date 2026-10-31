@@ -215,7 +215,7 @@ public class BonfireBlock extends BaseEntityBlock {
     private static void addWindblownSmoke(
             Level level, BlockPos pos, BlockState state, RandomSource random, SimpleParticleType type) {
         double[] velocity = BonfireLogic.smokeParticleVelocity(
-                BonfireLogic.windAt(level.getGameTime()), BonfireLogic.SIGNAL_SMOKE_RISE);
+                BonfireLogic.windAt((double) level.getGameTime()), BonfireLogic.SIGNAL_SMOKE_RISE);
         smokeSpawner.spawn(
                 level,
                 type,

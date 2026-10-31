@@ -1,7 +1,6 @@
 package net.frank.mc3ver.tent;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -72,7 +71,7 @@ public class ExplorerTentLogic {
 
         public static Facing fromDirectionName(String name) {
             try {
-                return valueOf(name.toUpperCase());
+                return valueOf(name.toUpperCase(Locale.ROOT));
             } catch (Exception e) {
                 return NORTH;
             }
@@ -328,7 +327,7 @@ public class ExplorerTentLogic {
         }
 
         if (foundHead == null || foundFacing == null) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
 
         BlockCoord anchor = getAnchorFromHead(foundHead.x(), foundHead.y(), foundHead.z(), foundFacing);

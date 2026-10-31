@@ -145,7 +145,7 @@ public class BonfireLogicTest {
         double max = 0.0;
         Set<Long> directions = new HashSet<>();
         for (long t = 0; t < 200_000; t += 500) {
-            BonfireLogic.Wind wind = BonfireLogic.windAt(t);
+            BonfireLogic.Wind wind = BonfireLogic.windAt((double) t);
             min = Math.min(min, wind.strength());
             max = Math.max(max, wind.strength());
             directions.add(Math.round(Math.toDegrees(Math.atan2(wind.z(), wind.x())) / 45.0));

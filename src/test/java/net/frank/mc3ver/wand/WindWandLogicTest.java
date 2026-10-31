@@ -25,8 +25,8 @@ public class WindWandLogicTest {
         // Look straight along X (1, 0, 0) with spread (+0.1, -0.05, +0.02) and speed 2.0
         double[] vel2 = WindWandLogic.calculateVelocity(1.0, 0.0, 0.0, 0.1, -0.05, 0.02, 2.0f);
         assertEquals((1.0 + 0.1) * 2.0, vel2[0], 0.0001);
-        assertEquals((-0.05) * 2.0, vel2[1], 0.0001);
-        assertEquals((0.02) * 2.0, vel2[2], 0.0001);
+        assertEquals(-0.05 * 2.0, vel2[1], 0.0001);
+        assertEquals(0.02 * 2.0, vel2[2], 0.0001);
 
         // Non-unit look vector (0, 3, 4) with length 5 -> normalized (0, 0.6, 0.8)
         double[] vel3 = WindWandLogic.calculateVelocity(0.0, 3.0, 4.0, 0.0, 0.0, 0.0, 10.0f);

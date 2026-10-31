@@ -81,8 +81,11 @@ public class BonfireRenderer implements BlockEntityRenderer<BonfireBlockEntity, 
             int light = LightCoordsUtil.pack(blockLight, skyLight);
             int color = (alpha << 24) | state.smokeRgb;
             float size = (float) puff.size() * state.radiusScale;
-            float u0 = (puff.variant() % 2) * 0.5f;
-            float v0 = (puff.variant() / 2) * 0.5f;
+            // 2x2-Atlas: Spalte und Zeile der Rauchvariante
+            int column = puff.variant() % 2;
+            int row = puff.variant() / 2;
+            float u0 = column * 0.5f;
+            float v0 = row * 0.5f;
 
             poseStack.pushPose();
             poseStack.translate(0.5 + puff.x(), puff.y(), 0.5 + puff.z());
