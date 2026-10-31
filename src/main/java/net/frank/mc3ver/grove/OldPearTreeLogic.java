@@ -20,9 +20,18 @@ public class OldPearTreeLogic {
 
     public static final int MIN_TRUNK_HEIGHT = 12;
     public static final int MAX_TRUNK_HEIGHT = 15;
-    public static final int MIN_CROWN_RADIUS = 6;
-    public static final int MAX_CROWN_RADIUS = 7;
-    public static final int CROWN_DEPTH = 5;
+    // Krone: lange Äste mit Laubwolken an den Enden; Laub reicht höchstens CROWN_DEPTH unter die Stammspitze
+    public static final int MIN_BRANCHES = 5;
+    public static final int MAX_BRANCHES = 7;
+    public static final int MIN_BRANCH_LENGTH = 4;
+    public static final int MAX_BRANCH_LENGTH = 6;
+    public static final int BRANCH_DROP = 5;
+    public static final int MIN_CLUSTER_RADIUS = 2;
+    public static final int MAX_CLUSTER_RADIUS = 4;
+    public static final double CLUSTER_HEIGHT = 1.6;
+    public static final double EDGE_GAP = 0.45;
+    public static final double INNER_GAP = 0.12;
+    public static final int CROWN_DEPTH = 6;
     public static final int MIN_LAKE_RADIUS = 3;
     public static final int MAX_LAKE_RADIUS = 4;
     public static final int MIN_PATH_LENGTH = 8;
@@ -91,8 +100,8 @@ public class OldPearTreeLogic {
         int lakeRadius = MIN_LAKE_RADIUS + random.nextInt(MAX_LAKE_RADIUS - MIN_LAKE_RADIUS + 1);
 
         placeTrunk(parts, height);
-        placeBranches(parts, height, random);
-        placeCrown(parts, height, random);
+        List<Pos> branchEnds = placeBranches(parts, height, random);
+        placeCrown(parts, height, branchEnds, random);
         placeRoots(parts, random);
         placeLake(parts, lakeAngle, lakeRadius, random);
         placeSpring(parts, lakeAngle, lakeRadius, random);
@@ -113,30 +122,52 @@ public class OldPearTreeLogic {
         }
     }
 
-    // Kurze waagerechte Äste unter der Kronenmitte, je Seite einer
-    private static void placeBranches(Map<Pos, Part> parts, int height, SplittableRandom random) {
-        for (Direction side : SIDES) {
-            int y = height - 4 + random.nextInt(2);
-            int length = 2 + random.nextInt(2);
-            Pos start = edgeOfTrunk(side, random.nextInt(2), y);
-            for (int i = 1; i <= length; i++) {
-                parts.putIfAbsent(
-                        start.offset(side.getStepX() * i, 0, side.getStepZ() * i), new Part(Role.BRANCH, side));
+    // Lange Äste, die schräg nach oben in alle Richtungen ausladen; an ihren Enden sitzen die Laubwolken
+    private static List<Pos> placeBranches(Map<Pos, Part> parts, int height, SplittableRandom random) {
+        List<Pos> ends = new ArrayList<>();
+        int count = MIN_BRANCHES + random.nextInt(MAX_BRANCHES - MIN_BRANCHES + 1);
+        double baseAngle = random.nextDouble() * 2 * Math.PI;
+        for (int b = 0; b < count; b++) {
+            double angle = baseAngle + b * 2 * Math.PI / count + (random.nextDouble() - 0.5) * 0.6;
+            double dx = Math.cos(angle);
+            double dz = Math.sin(angle);
+            Direction axis = Math.abs(dx) > Math.abs(dz) ? Direction.EAST : Direction.SOUTH;
+            int startY = height - BRANCH_DROP + random.nextInt(BRANCH_DROP - 1);
+            int length = MIN_BRANCH_LENGTH + random.nextInt(MAX_BRANCH_LENGTH - MIN_BRANCH_LENGTH + 1);
+            Pos end = null;
+            for (int step = 1; step <= length; step++) {
+                // Erste Schritte noch im Stamm; jede zweite Länge steigt der Ast um einen Block
+                end = new Pos((int) Math.floor(TRUNK_CENTER + dx * (step + 0.5)), startY + step / 2, (int)
+                        Math.floor(TRUNK_CENTER + dz * (step + 0.5)));
+                parts.putIfAbsent(end, new Part(Role.BRANCH, axis));
             }
+            ends.add(end);
         }
+        return ends;
     }
 
-    // Ellipsoid um die Stammspitze; am Rand fehlen zufällig Blätter, damit die Krone nicht wie eine Kugel wirkt
-    private static void placeCrown(Map<Pos, Part> parts, int height, SplittableRandom random) {
-        int radius = MIN_CROWN_RADIUS + random.nextInt(MAX_CROWN_RADIUS - MIN_CROWN_RADIUS + 1);
-        int centerY = height - 1;
-        for (int y = height - CROWN_DEPTH; y <= height + 2; y++) {
-            for (int x = -radius; x <= radius + 1; x++) {
-                for (int z = -radius; z <= radius + 1; z++) {
-                    double h = sq(x - 0.5) + sq(z - 0.5);
-                    double v = sq(y - centerY);
-                    double e = h / sq(radius) + v / sq(CROWN_DEPTH - 1);
-                    if (e <= 1 && !(e > 0.75 && random.nextDouble() < 0.35)) {
+    // Flache Laubwolken an den Astenden und auf der Stammspitze; am Wolkenrand fehlen viele Blätter, damit
+    // die Krone licht wirkt und Himmel durchscheint
+    private static void placeCrown(Map<Pos, Part> parts, int height, List<Pos> branchEnds, SplittableRandom random) {
+        for (Pos end : branchEnds) {
+            int radius = MIN_CLUSTER_RADIUS + random.nextInt(MAX_CLUSTER_RADIUS - MIN_CLUSTER_RADIUS + 1);
+            placeLeafCluster(parts, end.x() + 0.5, end.y() + 1, end.z() + 0.5, radius, height, random);
+        }
+        placeLeafCluster(parts, TRUNK_CENTER, height, TRUNK_CENTER, MAX_CLUSTER_RADIUS, height, random);
+    }
+
+    private static void placeLeafCluster(
+            Map<Pos, Part> parts, double cx, int cy, double cz, int radius, int height, SplittableRandom random) {
+        for (int y = cy - 2; y <= cy + 2; y++) {
+            if (y < height - CROWN_DEPTH) {
+                continue;
+            }
+            for (int x = (int) Math.floor(cx) - radius; x <= (int) Math.floor(cx) + radius; x++) {
+                for (int z = (int) Math.floor(cz) - radius; z <= (int) Math.floor(cz) + radius; z++) {
+                    double e =
+                            (sq(x + 0.5 - cx) + sq(z + 0.5 - cz)) / sq(radius + 0.5) + sq(y - cy) / sq(CLUSTER_HEIGHT);
+                    double gap = e > 0.6 ? EDGE_GAP : INNER_GAP;
+                    if (e <= 1 && random.nextDouble() >= gap) {
                         parts.putIfAbsent(new Pos(x, y, z), new Part(Role.LEAVES, Direction.UP));
                     }
                 }
@@ -158,9 +189,9 @@ public class OldPearTreeLogic {
         for (int r = 0; r < count; r++) {
             Direction side = SIDES[starts[r] / 2];
             Pos start = edgeOfTrunk(side, starts[r] % 2, 0);
-            int length = 2 + random.nextInt(3);
+            int length = 3 + random.nextInt(2);
             for (int i = 1; i <= length; i++) {
-                int y = i == length && length > 2 ? -1 : 0;
+                int y = i == length ? -1 : 0;
                 parts.putIfAbsent(
                         new Pos(start.x() + side.getStepX() * i, y, start.z() + side.getStepZ() * i),
                         new Part(Role.ROOT, side));

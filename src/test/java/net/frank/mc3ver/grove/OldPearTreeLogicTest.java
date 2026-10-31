@@ -48,7 +48,44 @@ class OldPearTreeLogicTest {
                     .mapToDouble(OldPearTreeLogicTest::fromTrunk)
                     .max()
                     .orElse(0);
-            assertTrue(width >= MIN_CROWN_RADIUS - 1, "Krone zu schmal: " + width);
+            assertTrue(width >= 7, "Krone lädt nicht aus: " + width);
+        });
+    }
+
+    // Licht: von oben gesehen bleibt innerhalb der Kronenfläche mindestens ein Fünftel der Spalten ohne Laub
+    @Test
+    void crownLetsLightThrough() {
+        forManySeeds(l -> {
+            java.util.Set<String> covered = new java.util.HashSet<>();
+            double radius = 0;
+            for (Pos p : l.positionsOf(Role.LEAVES)) {
+                covered.add(p.x() + "/" + p.z());
+                radius = Math.max(radius, fromTrunk(p));
+            }
+            int columns = 0;
+            int open = 0;
+            for (int x = -12; x <= 13; x++) {
+                for (int z = -12; z <= 13; z++) {
+                    if (fromTrunk(new Pos(x, 0, z)) <= radius && fromTrunk(new Pos(x, 0, z)) > 1) {
+                        columns++;
+                        if (!covered.contains(x + "/" + z)) {
+                            open++;
+                        }
+                    }
+                }
+            }
+            assertTrue(open >= columns / 5, "Krone zu dicht: " + open + " von " + columns + " Spalten offen");
+        });
+    }
+
+    @Test
+    void branchesReachOutFromTheTrunk() {
+        forManySeeds(l -> {
+            List<Pos> branches = l.positionsOf(Role.BRANCH);
+            long farReaching = branches.stream()
+                    .filter(p -> fromTrunk(p) >= MIN_BRANCH_LENGTH)
+                    .count();
+            assertTrue(farReaching >= MIN_BRANCHES - 1, "Äste zu kurz: " + farReaching);
         });
     }
 
@@ -186,8 +223,8 @@ class OldPearTreeLogicTest {
         java.util.Map<Role, Long> counts = new java.util.TreeMap<>();
         layout(42).parts().values().forEach(part -> counts.merge(part.role(), 1L, Long::sum));
         assertEquals(
-                "{TRUNK=56, BRANCH=11, LEAVES=715, ROOT=19, BEEHIVE=1, CHEST=1, MOSS_BLOCK=25, MOSS_CARPET=9,"
-                        + " MUSHROOM=4, WATER=37, CLAY=29, GRAVEL=21, LILY_PAD=3, SPRING_ROCK=9, SPRING_WATER=1, PATH=8}",
+                "{TRUNK=56, BRANCH=23, LEAVES=442, ROOT=20, BEEHIVE=1, CHEST=1, MOSS_BLOCK=24, MOSS_CARPET=8,"
+                        + " MUSHROOM=2, WATER=37, CLAY=30, GRAVEL=21, LILY_PAD=2, SPRING_ROCK=8, SPRING_WATER=1, PATH=9}",
                 counts.toString());
     }
 

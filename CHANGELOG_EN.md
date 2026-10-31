@@ -4,6 +4,12 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.14] - 2026-10-31
+
+### 🔄 Changed
+
+- Old pear tree: the crown spreads wider and is lighter. 5 to 7 long branches reach outward and up, with loose leaf clusters at their ends. Roots are 3 to 4 blocks long and all sink into the ground.
+
 ## [0.8.13] - 2026-10-31
 
 ### ✨ Added
