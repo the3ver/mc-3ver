@@ -3,6 +3,7 @@ plugins {
 	id 'maven-publish'
 	id 'com.diffplug.spotless' version '8.0.0'
 	id 'net.ltgt.errorprone' version '5.1.0'
+	id 'info.solidsoft.pitest' version '1.19.0'
 }
 
 repositories {
@@ -54,6 +55,21 @@ spotless {
 		removeUnusedImports()
 		endWithNewline()
 	}
+}
+
+// Mutation Testing nur auf den reinen *Logic-Klassen; die übrigen Klassen brauchen das laufende Spiel.
+// Lokal: ./gradlew pitest, Bericht in build/reports/pitest. In CI wöchentlich (mutation.yml).
+pitest {
+	junit5PluginVersion = '1.2.3'
+	targetClasses = ['net.frank.mc3ver.*Logic', 'net.frank.mc3ver.*Logic$*']
+	targetTests = ['net.frank.mc3ver.*']
+	threads = 4
+	outputFormats = ['HTML', 'XML']
+	timestampedReports = false
+	// Ausgangswert 2026-10-31: 77 %. Untergrenze knapp darunter, damit Rückschritte auffallen
+	mutationThreshold = 75
+	// wie im test-Block, sonst schlägt WelcomeMessageTest ohne Mutation fehl
+	jvmArgs = ["-Dmc3ver.version=${project.version}"]
 }
 
 test {
