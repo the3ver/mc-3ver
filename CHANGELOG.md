@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.2] - 2026-10-31
+
+### 🔧 Intern
+
+- Birnenhain (in Arbeit): TerraBlender als Abhängigkeit für Overworld-Biome, `GroveCenterLogic` bestimmt die Hain-Mittelpunkte und den Standort des alten Birnbaums.
+
 ## [0.8.1] - 2026-10-31
 
 ### 🐛 Fehlerbehebungen
