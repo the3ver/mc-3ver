@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.4] - 2026-10-31
+
+### ✨ Neu hinzugefügt
+
+- Neues Biom **Birnenhain** (in Arbeit): ersetzt per TerraBlender einen Teil der Flower Forests. Warmes Gold-Grün, türkisfarbenes Wasser, Meadow-Musik, Birnbäume und Wiesenblumen. Benötigt jetzt TerraBlender.
+
 ## [0.8.3] - 2026-10-31
 
 ### 🔧 Intern

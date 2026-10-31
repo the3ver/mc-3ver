@@ -71,6 +71,7 @@
   "message.mc3ver.tent_sleeping": "Good night, explorer! (Home spawn point remains untouched)",
   "item.mc3ver.white_flag": "White Flag",
   "effect.mc3ver.pacifist": "Pacifist",
+  "biome.mc3ver.pear_grove": "Pear Grove",
   "message.mc3ver.pacifist_on": "You raise the white flag. Monsters leave you alone.",
   "message.mc3ver.pacifist_off": "You lower the white flag. Monsters will attack you again.",
   "message.mc3ver.peace_broken": "You attacked a monster. The peace is broken!",
