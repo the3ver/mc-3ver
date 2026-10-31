@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.7] - 2026-10-31
+
+### ✨ Neu hinzugefügt
+
+- Birnenhain (in Arbeit): Bäume stehen nach Zonen. Außen einzeln, dann in Gruppen aus 3 bis 5, innen dichter Wald mit Flecken aus grober Erde und Podsol, um den Platz des alten Baums frei.
+
 ## [0.8.6] - 2026-10-31
 
 ### 🐛 Fehlerbehebungen

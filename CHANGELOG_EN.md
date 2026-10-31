@@ -4,6 +4,12 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.7] - 2026-10-31
+
+### ✨ Added
+
+- Pear Grove (work in progress): trees follow zones. Single trees at the edge, then groups of 3 to 5, a dense forest with coarse dirt and podzol patches inside, and a clearing where the old tree will stand.
+
 ## [0.8.6] - 2026-10-31
 
 ### 🐛 Bug Fixes

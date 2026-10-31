@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import java.util.function.Consumer;
 import net.frank.mc3ver.Mc3verMod;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
@@ -26,6 +27,11 @@ public class ModGrove implements TerraBlenderApi {
     // Gewicht relativ zur Vanilla-Region (TerraBlender-Standard 10): in etwa der Hälfte der Welt wird
     // aus Flower Forest ein Birnenhain. Startwert, wird im Spiel abgestimmt.
     public static final int REGION_WEIGHT = 10;
+
+    /** Feature-Typen; aus Mc3verMod.onInitialize, bevor Datapacks die Feature-JSONs laden. */
+    public static void register() {
+        Registry.register(BuiltInRegistries.FEATURE_TYPE, Mc3verMod.id("pear_grove_trees"), GroveTreesFeature.CODEC);
+    }
 
     @Override
     public void onTerraBlenderInitialized() {

@@ -48,6 +48,7 @@ public class Mc3verMod implements ModInitializer {
         net.frank.mc3ver.tree.PearTreeBlocks.register();
         net.frank.mc3ver.tree.PearTreeItems.register();
         net.frank.mc3ver.tree.PearTreeSaplingGenerator.registerWorldGen();
+        net.frank.mc3ver.grove.ModGrove.register();
         net.frank.mc3ver.tent.ModTentBlocks.register();
         net.frank.mc3ver.tent.ModTentItems.register();
         net.frank.mc3ver.peace.ModPeace.register();
