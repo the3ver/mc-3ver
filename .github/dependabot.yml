@@ -9,6 +9,10 @@ updates:
     groups:
       actions:
         patterns: ["*"]
+    ignore:
+      # Ab v6 ist das Caching proprietär und verlangt die Gradle-Nutzungsbedingungen; v5 bleibt MIT
+      - dependency-name: gradle/actions*
+        versions: [">= 6"]
 
   - package-ecosystem: gradle
     directory: /
