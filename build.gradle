@@ -40,6 +40,7 @@ dependencies {
 	// Unit Testing
 	testImplementation "org.junit.jupiter:junit-jupiter:5.12.2"
 	testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+	testImplementation "com.tngtech.archunit:archunit-junit5:1.4.1"
 }
 
 test {
