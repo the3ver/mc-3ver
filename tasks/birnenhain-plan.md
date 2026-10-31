@@ -4,10 +4,11 @@ Grundlage: `tasks/birnenhain-spec.md`. Neues Paket `net.frank.mc3ver.grove`. Log
 
 Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen die Patch-Version (`bash scripts/bump-version.sh`).
 
-## Task 0: Entscheidung Biom-Einbindung
+## Task 0: TerraBlender einbinden
 
-- Frank wählt TerraBlender, Mixin oder Datapack (Tabelle in der Spec).
-- Bei TerraBlender: exakte 26.3-Version auf Modrinth prüfen, in `build.gradle` und `fabric.mod.json` als Abhängigkeit eintragen.
+- Entschieden: TerraBlender (siehe Spec).
+- `build.gradle`: Forge-Maven als Repository, `implementation` auf TerraBlender-fabric, Version in `gradle.properties`.
+- Der Eintrag in `fabric.mod.json` (`depends`) kommt erst mit Task 4, wenn die Mod TerraBlender wirklich nutzt.
 - Verify: `./gradlew build` grün, `runClient` startet mit TerraBlender.
 
 ## Task 1: Vorbereitung (eigener Commit)
@@ -74,6 +75,5 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 
 ## Offene Punkte
 
-- Task 0: Einbindungsweg.
 - Truhen-Loot: Vorschlag aus der Spec bestätigen.
 - Radien, Farben, Seltenheit: Startwerte, Abstimmung im Spiel nach Task 5 und Task 8.

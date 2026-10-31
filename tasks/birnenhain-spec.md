@@ -117,7 +117,7 @@ Ein Herzstück pro Hain, als eigene Struktur.
 | Eigener Mixin in `OverworldBiomeBuilder` | keine Abhängigkeit | bricht bei MC-Updates, Konflikte mit anderen Biom-Mods |
 | Datapack-Override von `minecraft:overworld` | kein Code | ersetzt die ganze Biom-Verteilung, unverträglich mit anderen Mods |
 
-Empfehlung: TerraBlender. Entscheidet Frank vor Task 1 des Plans.
+Entscheidung (2026-10-31): TerraBlender. Artefakt `com.github.glitchfiend:TerraBlender-fabric:26.3-26.3.0.0.9` vom Forge-Maven (`maven.minecraftforge.net`), Lizenz LGPL-3.0, braucht Fabric API. Spieler müssen TerraBlender zusätzlich installieren.
 
 **Zonen.** Vanilla-Features kennen keinen Abstand zum Biomrand. Deshalb bestimmt eine reine Logik-Klasse die Hain-Mittelpunkte aus Seed und einem Raster (wie Vanilla `RandomSpreadStructurePlacement`). Ein Mittelpunkt zählt nur, wenn das Biom dort Birnenhain ist. Das Baum-Feature und die Herzstück-Struktur fragen beide dieselbe Logik und sind dadurch konsistent.
 
