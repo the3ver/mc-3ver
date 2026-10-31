@@ -1,0 +1,19 @@
+# Wöchentliche Updates, gebündelt je Ökosystem, damit nicht jede Bibliothek einen eigenen PR erzeugt.
+# Fabric-, Minecraft- und Loom-Versionen in gradle.properties pflegt Dependabot nicht; die zieht ein Mensch beim Versionswechsel.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      gradle:
+        patterns: ["*"]

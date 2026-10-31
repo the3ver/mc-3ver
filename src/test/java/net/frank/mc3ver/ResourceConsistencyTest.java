@@ -28,6 +28,8 @@ class ResourceConsistencyTest {
     private static final Path RESOURCES = Paths.get("").toAbsolutePath().resolve("src/main/resources");
     private static final Path ASSETS = RESOURCES.resolve("assets/mc3ver");
     private static final Path DATA = RESOURCES.resolve("data/mc3ver");
+    // Loot-Tabellen mit Vanilla-Verhalten erzeugt ./gradlew runDatagen hierhin
+    private static final Path GENERATED_DATA = Paths.get("").toAbsolutePath().resolve("src/main/generated/data/mc3ver");
 
     // Zeltteile entstehen nur beim Aufstellen des Zelts und wandern beim Einpacken ins Zelt-Item zurück
     private static final Set<String> BLOCKS_WITHOUT_ITEM_AND_LOOT =
@@ -41,7 +43,7 @@ class ResourceConsistencyTest {
     void everyBlockHasItemLootAndTranslation() throws IOException {
         JsonObject en = lang("en_us");
         Set<String> items = names(ASSETS.resolve("items"));
-        Set<String> loot = names(DATA.resolve("loot_table/blocks"));
+        Set<String> loot = lootTables();
         List<String> problems = new ArrayList<>();
         for (String block : names(ASSETS.resolve("blockstates"))) {
             if (!en.has("block.mc3ver." + block)) problems.add(block + ": Übersetzung block.mc3ver." + block);
@@ -65,7 +67,7 @@ class ResourceConsistencyTest {
 
     @Test
     void lootTablesBelongToExistingBlocks() throws IOException {
-        Set<String> orphans = names(DATA.resolve("loot_table/blocks"));
+        Set<String> orphans = lootTables();
         orphans.removeAll(names(ASSETS.resolve("blockstates")));
         assertTrue(orphans.isEmpty(), "Loot-Tabellen ohne Block: " + orphans);
     }
@@ -91,7 +93,8 @@ class ResourceConsistencyTest {
     void recipesAndLootReferenceExistingItems() throws IOException {
         Set<String> items = names(ASSETS.resolve("items"));
         List<String> unknown = new ArrayList<>();
-        for (Path dir : List.of(DATA.resolve("recipe"), DATA.resolve("loot_table"))) {
+        for (Path dir :
+                List.of(DATA.resolve("recipe"), DATA.resolve("loot_table"), GENERATED_DATA.resolve("loot_table"))) {
             for (Path file : jsonFiles(dir)) {
                 Matcher m = MOD_ID.matcher(Files.readString(file));
                 while (m.find()) {
@@ -103,6 +106,12 @@ class ResourceConsistencyTest {
             }
         }
         assertTrue(unknown.isEmpty(), "Unbekannte mc3ver-IDs:\n" + String.join("\n", unknown));
+    }
+
+    private static Set<String> lootTables() throws IOException {
+        Set<String> tables = names(DATA.resolve("loot_table/blocks"));
+        tables.addAll(names(GENERATED_DATA.resolve("loot_table/blocks")));
+        return tables;
     }
 
     private static JsonObject lang(String code) throws IOException {

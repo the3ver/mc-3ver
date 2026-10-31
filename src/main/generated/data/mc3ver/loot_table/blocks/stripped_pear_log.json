@@ -8,11 +8,10 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "mc3ver:pear_pressure_plate"
+          "name": "mc3ver:stripped_pear_log"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
-  ],
-  "random_sequence": "mc3ver:blocks/pear_pressure_plate"
+  ]
 }

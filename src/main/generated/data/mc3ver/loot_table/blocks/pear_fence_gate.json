@@ -11,8 +11,7 @@
           "name": "mc3ver:pear_fence_gate"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
-  ],
-  "random_sequence": "mc3ver:blocks/pear_fence_gate"
+  ]
 }

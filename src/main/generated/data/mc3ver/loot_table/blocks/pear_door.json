@@ -18,8 +18,7 @@
           "name": "mc3ver:pear_door"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
-  ],
-  "random_sequence": "mc3ver:blocks/pear_door"
+  ]
 }

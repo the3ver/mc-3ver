@@ -19,6 +19,9 @@
 		],
 		"client": [
 			"net.frank.mc3ver.client.Mc3verClient"
+		],
+		"fabric-datagen": [
+			"net.frank.mc3ver.datagen.Mc3verDataGenerator"
 		]
 	},
 	"mixins": [

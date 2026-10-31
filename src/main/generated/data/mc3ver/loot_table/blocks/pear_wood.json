@@ -8,11 +8,10 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "mc3ver:pear_button"
+          "name": "mc3ver:pear_wood"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
-  ],
-  "random_sequence": "mc3ver:blocks/pear_button"
+  ]
 }
