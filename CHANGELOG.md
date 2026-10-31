@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.8.11] - 2026-10-31
+
+### ✨ Neu hinzugefügt
+
+- Birnenhain (in Arbeit): Laubbüsche aus Birnenholz und -laub, vor allem zwischen den Baumgruppen. Farne im dichten Wald. Eigener Blumen-Mix aus Löwenzahn, Margerite, Kornblume und Mohn, am meisten auf der offenen Wiese am Rand.
+
 ## [0.8.10] - 2026-10-31
 
 ### 🐛 Fehlerbehebungen

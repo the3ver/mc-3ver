@@ -57,6 +57,31 @@ class GroveZoneLogicTest {
     }
 
     @Test
+    void fernsGrowOnlyInTheDenseForest() {
+        assertTrue(GroveZoneLogic.densityOf(Zone.FOREST).fernPatchesPerChunk() > 0);
+        for (Zone zone : new Zone[] {Zone.EDGE, Zone.GROUPS, Zone.HEART}) {
+            assertEquals(0f, GroveZoneLogic.densityOf(zone).fernPatchesPerChunk(), zone.name());
+        }
+    }
+
+    @Test
+    void flowersThinOutTowardsTheForest() {
+        float edge = GroveZoneLogic.densityOf(Zone.EDGE).flowerPatchesPerChunk();
+        float groups = GroveZoneLogic.densityOf(Zone.GROUPS).flowerPatchesPerChunk();
+        float forest = GroveZoneLogic.densityOf(Zone.FOREST).flowerPatchesPerChunk();
+        assertTrue(edge > groups && groups > forest && forest > 0, edge + " > " + groups + " > " + forest);
+        assertTrue(GroveZoneLogic.densityOf(Zone.HEART).flowerPatchesPerChunk() > 0, "Blumen am alten Baum");
+    }
+
+    @Test
+    void bushesFillTheGapsBetweenGroups() {
+        float groups = GroveZoneLogic.densityOf(Zone.GROUPS).bushesPerChunk();
+        assertTrue(groups > GroveZoneLogic.densityOf(Zone.EDGE).bushesPerChunk());
+        assertTrue(groups > GroveZoneLogic.densityOf(Zone.FOREST).bushesPerChunk());
+        assertEquals(0f, GroveZoneLogic.densityOf(Zone.HEART).bushesPerChunk(), "Herz bleibt frei");
+    }
+
+    @Test
     void countForRoundsByChance() {
         assertEquals(0, GroveZoneLogic.countFor(0.5f, 0.5f));
         assertEquals(1, GroveZoneLogic.countFor(0.5f, 0.49f));

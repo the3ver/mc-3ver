@@ -33,10 +33,11 @@ public class GroveZoneLogic {
             float fernPatchesPerChunk,
             float flowerPatchesPerChunk) {}
 
-    private static final Density EDGE_DENSITY = new Density(0.5f, 1, 1, 0, 0f, 0f, 0f, 0f);
-    private static final Density GROUPS_DENSITY = new Density(0.5f, 3, 5, 4, 0f, 0f, 0f, 0f);
-    private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f, 0f, 0f, 0f);
-    private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f, 0f, 0f, 0f);
+    // Büsche vor allem zwischen den Gruppen, Farne nur im dichten Wald, Blumen am meisten auf der offenen Wiese
+    private static final Density EDGE_DENSITY = new Density(0.5f, 1, 1, 0, 0f, 0.3f, 0f, 1.5f);
+    private static final Density GROUPS_DENSITY = new Density(0.5f, 3, 5, 4, 0f, 1f, 0f, 1f);
+    private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f);
+    private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f, 0f, 0f, 1f);
 
     /** Zone aus der Tiefe im Hain (Abstand zum Biomrand) und dem Abstand zum alten Baum; das Herz hat Vorrang. */
     public static Zone zoneAt(int depth, double distanceToTree) {

@@ -116,6 +116,7 @@ class GroveResourcesTest {
         JsonObject feature = json("data/mc3ver/worldgen/feature/pear_grove_vegetation.json");
         assertEquals("mc3ver:pear_grove_vegetation", feature.get("type").getAsString());
         assertEquals("mc3ver:pear_tree", feature.get("tree").getAsString());
+        assertEquals("mc3ver:pear_bush", feature.get("bush").getAsString());
 
         JsonObject placed = json("data/mc3ver/worldgen/placed_feature/pear_grove_vegetation.json");
         assertEquals("mc3ver:pear_grove_vegetation", placed.get("feature").getAsString());
@@ -125,6 +126,39 @@ class GroveResourcesTest {
         }
         // Höhe zuerst: der Biom-Filter prüft sonst den Grund der Welt, wo Höhlenbiome liegen
         assertEquals(List.of("minecraft:heightmap", "minecraft:biome"), placementTypes);
+    }
+
+    @Test
+    void bushIsOnePearLogUnderPearLeaves() throws Exception {
+        JsonObject bush = json("data/mc3ver/worldgen/feature/pear_bush.json");
+        assertEquals(
+                "mc3ver:pear_log",
+                bush.getAsJsonObject("trunk_provider").get("id").getAsString());
+        assertEquals(
+                "mc3ver:pear_leaves",
+                bush.getAsJsonObject("foliage_provider").get("id").getAsString());
+        assertEquals(1, bush.getAsJsonObject("trunk_placer").get("base_height").getAsInt());
+        assertEquals(
+                "minecraft:bush_foliage_placer",
+                bush.getAsJsonObject("foliage_placer").get("type").getAsString());
+    }
+
+    @Test
+    void flowerMixMatchesTheSpec() throws Exception {
+        JsonArray entries = json("data/mc3ver/worldgen/feature/pear_grove_vegetation.json")
+                .getAsJsonObject("flower")
+                .getAsJsonObject("to_place")
+                .getAsJsonArray("entries");
+        List<String> flowers = new ArrayList<>();
+        for (JsonElement e : entries) {
+            flowers.add(e.getAsJsonObject().get("data").getAsString());
+        }
+        assertEquals(
+                List.of("minecraft:dandelion", "minecraft:oxeye_daisy", "minecraft:cornflower", "minecraft:poppy"),
+                flowers);
+        List<String> vegetation = strings(
+                biome().getAsJsonArray("features").get(VEGETAL_DECORATION).getAsJsonArray());
+        assertFalse(vegetation.contains("minecraft:flower_plains"), "Plains-Mix mit Tulpen ersetzt");
     }
 
     @Test

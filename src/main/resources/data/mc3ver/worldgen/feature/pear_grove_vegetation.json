@@ -1,4 +1,50 @@
 {
   "type": "mc3ver:pear_grove_vegetation",
-  "tree": "mc3ver:pear_tree"
+  "tree": "mc3ver:pear_tree",
+  "bush": "mc3ver:pear_bush",
+  "fern": {
+    "type": "minecraft:simple_block",
+    "to_place": {
+      "type": "minecraft:weighted",
+      "entries": [
+        {
+          "data": "minecraft:fern",
+          "weight": 4
+        },
+        {
+          "data": {
+            "id": "minecraft:large_fern",
+            "properties": {
+              "half": "lower"
+            }
+          },
+          "weight": 1
+        }
+      ]
+    }
+  },
+  "flower": {
+    "type": "minecraft:simple_block",
+    "to_place": {
+      "type": "minecraft:weighted",
+      "entries": [
+        {
+          "data": "minecraft:dandelion",
+          "weight": 3
+        },
+        {
+          "data": "minecraft:oxeye_daisy",
+          "weight": 3
+        },
+        {
+          "data": "minecraft:cornflower",
+          "weight": 2
+        },
+        {
+          "data": "minecraft:poppy",
+          "weight": 2
+        }
+      ]
+    }
+  }
 }

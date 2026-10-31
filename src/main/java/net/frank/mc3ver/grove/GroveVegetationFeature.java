@@ -19,13 +19,19 @@ import net.minecraft.world.level.levelgen.feature.Feature;
  * Bewuchs des Birnenhains nach Zonen: Bäume außen einzeln, dann in Gruppen, innen dichter Wald, ums Herz frei.
  * Läuft einmal pro Chunk; die Zone gilt für den ganzen Chunk.
  */
-public record GroveVegetationFeature(Holder<Feature> tree) implements Feature {
+public record GroveVegetationFeature(
+        Holder<Feature> tree, Holder<Feature> bush, Holder<Feature> fern, Holder<Feature> flower) implements Feature {
 
-    public static final MapCodec<GroveVegetationFeature> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(Feature.CODEC.fieldOf("tree").forGetter(GroveVegetationFeature::tree))
-                    .apply(instance, GroveVegetationFeature::new));
+    public static final MapCodec<GroveVegetationFeature> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                    Feature.CODEC.fieldOf("tree").forGetter(GroveVegetationFeature::tree),
+                    Feature.CODEC.fieldOf("bush").forGetter(GroveVegetationFeature::bush),
+                    Feature.CODEC.fieldOf("fern").forGetter(GroveVegetationFeature::fern),
+                    Feature.CODEC.fieldOf("flower").forGetter(GroveVegetationFeature::flower))
+            .apply(instance, GroveVegetationFeature::new));
 
     private static final int GROUND_PATCH_RADIUS = 3;
+    private static final int PLANT_PATCH_RADIUS = 4;
+    private static final int PLANT_PATCH_TRIES = 12;
 
     @Override
     public MapCodec<GroveVegetationFeature> codec() {
@@ -34,7 +40,7 @@ public record GroveVegetationFeature(Holder<Feature> tree) implements Feature {
 
     @Override
     public Stream<Holder<Feature>> getSubFeatures() {
-        return Stream.of(tree);
+        return Stream.of(tree, bush, fern, flower);
     }
 
     @Override
@@ -55,9 +61,22 @@ public record GroveVegetationFeature(Holder<Feature> tree) implements Feature {
             for (int t = 0; t < size; t++) {
                 int x = anchorX + spread(random, density.clusterRadius());
                 int z = anchorZ + spread(random, density.clusterRadius());
-                placed |= placeTree(level, generator, random, x, z);
+                placed |= placeOnGround(tree, level, generator, random, x, z);
             }
         }
+
+        int bushes = GroveZoneLogic.countFor(density.bushesPerChunk(), random.nextFloat());
+        for (int b = 0; b < bushes; b++) {
+            placed |= placeOnGround(
+                    bush,
+                    level,
+                    generator,
+                    random,
+                    origin.getX() + random.nextInt(16),
+                    origin.getZ() + random.nextInt(16));
+        }
+        placed |= placePatches(fern, density.fernPatchesPerChunk(), level, generator, random, origin);
+        placed |= placePatches(flower, density.flowerPatchesPerChunk(), level, generator, random, origin);
         return placed;
     }
 
@@ -75,7 +94,9 @@ public record GroveVegetationFeature(Holder<Feature> tree) implements Feature {
         return GroveZoneLogic.zoneAt(depth, toTree);
     }
 
-    private boolean placeTree(WorldGenLevel level, ChunkGenerator generator, RandomSource random, int x, int z) {
+    // Bäume und Büsche: auf festem Boden, nicht im Wasser, nur wo ein Birnensetzling wachsen könnte
+    private static boolean placeOnGround(
+            Holder<Feature> feature, WorldGenLevel level, ChunkGenerator generator, RandomSource random, int x, int z) {
         int floor = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x, z);
         // Wasser über dem Boden: kein Baum im See
         if (floor != level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z)) {
@@ -85,7 +106,32 @@ public record GroveVegetationFeature(Holder<Feature> tree) implements Feature {
         if (!PearTreeBlocks.PEAR_SAPLING.defaultBlockState().canSurvive(level, pos)) {
             return false;
         }
-        return tree.value().place(level, generator, random, pos);
+        return feature.value().place(level, generator, random, pos);
+    }
+
+    // Farne und Blumen: Flecken aus mehreren Pflanzen auf Gras, wie die Vanilla-Patches
+    private static boolean placePatches(
+            Holder<Feature> plant,
+            float perChunk,
+            WorldGenLevel level,
+            ChunkGenerator generator,
+            RandomSource random,
+            BlockPos origin) {
+        boolean placed = false;
+        int patches = GroveZoneLogic.countFor(perChunk, random.nextFloat());
+        for (int p = 0; p < patches; p++) {
+            int cx = origin.getX() + random.nextInt(16);
+            int cz = origin.getZ() + random.nextInt(16);
+            for (int t = 0; t < PLANT_PATCH_TRIES; t++) {
+                int x = cx + spread(random, PLANT_PATCH_RADIUS);
+                int z = cz + spread(random, PLANT_PATCH_RADIUS);
+                BlockPos pos = new BlockPos(x, level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z), z);
+                if (level.isEmptyBlock(pos) && level.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK)) {
+                    placed |= plant.value().place(level, generator, random, pos);
+                }
+            }
+        }
+        return placed;
     }
 
     private static void placeGroundPatch(WorldGenLevel level, BlockPos center, RandomSource random) {
