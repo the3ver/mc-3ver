@@ -12,6 +12,10 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) 
 ### 🔧 Intern
 * Die Loot-Tabellen des Birnenholz-Sets erzeugt jetzt Fabric Datagen statt sie von Hand zu pflegen.
 * Neue automatische Prüfungen: einheitliche Formatierung (Spotless), Error Prone, Architekturregeln (ArchUnit), Vollständigkeit der Ressourcen, Projektregeln (Semgrep) und wöchentliches Mutation Testing (PIT). Die Version steht nur noch in `gradle.properties`.
+* GitHub Actions auf Node-24-Versionen aktualisiert. `setup-gradle` bleibt auf v5, weil ab v6 das Caching proprietär ist und die Gradle-Nutzungsbedingungen verlangt. Dependabot ignoriert v6.
+* Release und Modrinth-Upload lesen die Minecraft-Version aus `gradle.properties` statt fest `26.2`.
+* Spotless 8.10.4, JUnit 6.1.3, ArchUnit 1.5.1, Error-Prone-Plugin 5.1.1, foojay-resolver 1.0.0.
+* `runClient` startet mit festem Spielernamen `Frank`. Seit 26.3 gehört eine Einzelspieler-Welt einer festen Spieler-UUID; mit wechselnden Dev-Namen gingen Inventar und Position verloren.
 
 ---
 
