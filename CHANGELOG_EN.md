@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### 🔧 Internal
 * Fabric datagen now generates the loot tables of the pear wood set instead of hand-written files.
 * New automated checks: consistent formatting (Spotless), Error Prone, architecture rules (ArchUnit), resource completeness, project rules (Semgrep) and weekly mutation testing (PIT). The version lives only in `gradle.properties`.
+* GitHub Actions updated to Node 24 versions. `setup-gradle` stays on v5 because v6 makes caching proprietary under Gradle's terms of use. Dependabot ignores v6.
+* Release and Modrinth upload read the Minecraft version from `gradle.properties` instead of a fixed `26.2`.
+* Spotless 8.10.4, JUnit 6.1.3, ArchUnit 1.5.1, Error Prone plugin 5.1.1, foojay-resolver 1.0.0.
+* `runClient` starts with the fixed player name `Frank`. Since 26.3 a singleplayer world belongs to a fixed player UUID; changing dev names lost inventory and position.
 
 ---
 

@@ -16,7 +16,7 @@ Modulare Minecraft Java Edition Modifikation für Minecraft 26.3 basierend auf F
 - Generierte Daten: `./gradlew runDatagen` schreibt nach `src/main/generated` (Provider in `src/datagen/java`). Diese JSONs nie von Hand ändern, sondern den Provider; Ausgabe mitcommitten, CI prüft den Gleichstand.
 - Version setzen: `bash scripts/bump-version.sh X.Y.Z` (beim Release mit `--docs`). Einzige Quelle ist `gradle.properties`.
 - Build: `./gradlew build`
-- Run Client: `./gradlew runClient`
+- Run Client: `./gradlew runClient`. Der feste Name `--username Frank` in `build.gradle` bleibt drin: seit 26.3 hängt der Einzelspieler-Spielstand an der Offline-UUID des Namens.
 
 ## Git
 - `main` ist per Ruleset geschützt (`.github/rulesets/main.json`): Änderungen nur per Pull Request, Checks `build` und `semgrep` müssen grün sein. Arbeit auf einem Branch committen, pushen, PR öffnen.

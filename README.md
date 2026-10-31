@@ -175,6 +175,8 @@ cd mc-3ver
 | `.\gradlew.bat build` | `./gradlew build` | Kompiliert das Projekt und erstellt die `.jar` in `build/libs/` |
 | `.\gradlew.bat test` | `./gradlew test` | Führt alle Unit-Tests aus |
 
+**Spielstände im Dev-Client:** `runClient` startet immer als `Frank` (siehe `loom.runs` in `build.gradle`). Seit 26.3 speichert `level.dat` den Spieler nicht mehr; `singleplayer_uuid` zeigt auf `players/data/<uuid>.dat`. Ohne festen Namen vergibt der Dev-Client bei jedem Start einen neuen `PlayerNNN`-Namen und damit eine neue Offline-UUID, und die Welt startet mit leerem Inventar am Spawn. Alte Dev-Welten umziehen: die Dateien der alten UUID unter `players/data`, `players/advancements` und `players/stats` auf die UUID von `Frank` (`6ae9f2b8-00b0-3749-a576-b5a51f6417b9`) kopieren und `singleplayer_uuid` in `level.dat` anpassen. Den Client über das Menü (Speichern und zum Titelbildschirm) beenden, nicht mit Strg-C, sonst speichert er den Spieler nicht.
+
 ---
 
 ## 🏷️ Neues Release veröffentlichen
