@@ -40,12 +40,7 @@ public record GroveTreesFeature(Holder<Feature> tree) implements Feature {
 
     @Override
     public boolean place(WorldGenLevel level, ChunkGenerator generator, RandomSource random, BlockPos origin) {
-        int seaLevel = generator.getSeaLevel();
-        Density density = GroveZoneLogic.densityOf(GroveZoneLogic.zoneFor(
-                level.getSeed(),
-                origin.getX() + 8,
-                origin.getZ() + 8,
-                center -> isGrove(level, center.x(), seaLevel, center.z())));
+        Density density = GroveZoneLogic.densityOf(zoneOfChunk(level, generator, origin));
 
         if (random.nextFloat() < density.groundPatchChance()) {
             placeGroundPatch(level, origin.offset(random.nextInt(16), 0, random.nextInt(16)), random);
@@ -65,6 +60,16 @@ public record GroveTreesFeature(Holder<Feature> tree) implements Feature {
             }
         }
         return placed;
+    }
+
+    // Zone gilt für den ganzen Chunk, gemessen an seiner Mitte
+    private static GroveZoneLogic.Zone zoneOfChunk(WorldGenLevel level, ChunkGenerator generator, BlockPos origin) {
+        int seaLevel = generator.getSeaLevel();
+        return GroveZoneLogic.zoneFor(
+                level.getSeed(),
+                origin.getX() + 8,
+                origin.getZ() + 8,
+                center -> isGrove(level, center.x(), seaLevel, center.z()));
     }
 
     private boolean placeTree(WorldGenLevel level, ChunkGenerator generator, RandomSource random, int x, int z) {
