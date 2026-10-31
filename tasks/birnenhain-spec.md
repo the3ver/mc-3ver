@@ -40,6 +40,7 @@ Die Farbwerte sind Startwerte und werden im Spiel abgestimmt. Die Feldnamen (sei
 ## Verbreitung
 
 - Selten, etwa so häufig wie Flower Forest. Ein Spieler muss suchen, aber nicht jeder Seed hat einen Hain in Laufweite.
+- Umsetzung (2026-10-31): In einer eigenen TerraBlender-Region (Gewicht 3, Vanilla 10) werden Forest und Flower Forest zum Birnenhain. Flower Forest allein ergab Flecken um 64×64 Blöcke, zu klein für die Zonen; Forests sind deutlich größer, das niedrige Gewicht hält den Hain selten.
 - Klima-Nachbarschaft: Plains, Meadow, Forest. Dort wächst der Birnbaum schon heute.
 - Der Birnbaum wächst weiter in seinen bisherigen Biomen. Der Hain ersetzt das nicht.
 

@@ -33,7 +33,7 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 ## Task 4: Biom-Definition und Einbindung
 
 - `data/mc3ver/worldgen/biome/pear_grove.json`: Klima, Farben, Musik, Spawns, Carver und Grund-Features nach Vanilla-`meadow.json` von 26.3.
-- Einbindung nach Task 0, Klima-Parameter neben Plains, Meadow, Forest, Gewicht für Flower-Forest-Seltenheit.
+- Einbindung nach Task 0, Klima-Parameter neben Plains, Meadow, Forest, Gewicht für Flower-Forest-Seltenheit. Nach Task 5 geändert: Forest und Flower Forest werden ersetzt, Region-Gewicht 3 (siehe Spec, Verbreitung).
 - Biom-Tags: `is_overworld`, `is_forest`, `has_structure/...` für das Herzstück.
 - Sprachschlüssel `biome.mc3ver.pear_grove` (de, en), `LanguageFilesTest` grün.
 - Verify: `/locate biome mc3ver:pear_grove` findet das Biom; im Spiel Farben und Musik prüfen.

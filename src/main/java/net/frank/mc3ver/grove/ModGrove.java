@@ -24,9 +24,9 @@ public class ModGrove implements TerraBlenderApi {
     public static final ResourceKey<Biome> PEAR_GROVE =
             ResourceKey.create(Registries.BIOME, Mc3verMod.id("pear_grove"));
 
-    // Gewicht relativ zur Vanilla-Region (TerraBlender-Standard 10): in etwa der Hälfte der Welt wird
-    // aus Flower Forest ein Birnenhain. Startwert, wird im Spiel abgestimmt.
-    public static final int REGION_WEIGHT = 10;
+    // Gewicht relativ zur Vanilla-Region (TerraBlender-Standard 10): in etwa einem Viertel der Welt werden
+    // Forest und Flower Forest zum Birnenhain. Startwert, wird im Spiel abgestimmt.
+    public static final int REGION_WEIGHT = 3;
 
     /** Feature-Typen; aus Mc3verMod.onInitialize, bevor Datapacks die Feature-JSONs laden. */
     public static void register() {
@@ -38,7 +38,10 @@ public class ModGrove implements TerraBlenderApi {
         Regions.register(new PearGroveRegion());
     }
 
-    /** Vanilla-Overworld, nur Flower Forest wird zum Birnenhain: gleiches Klima, Nachbarn Plains und Forest. */
+    /**
+     * Vanilla-Overworld, Forest und Flower Forest werden zum Birnenhain: gleiches Klima, Nachbarn Plains und
+     * Meadow. Flower Forest allein gab nur Flecken um 64×64 Blöcke, zu klein für die Zonen.
+     */
     static class PearGroveRegion extends Region {
 
         PearGroveRegion() {
@@ -48,8 +51,10 @@ public class ModGrove implements TerraBlenderApi {
         @Override
         public void addBiomes(
                 Registry<Biome> registry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
-            addModifiedVanillaOverworldBiomes(
-                    mapper, builder -> builder.replaceBiome(Biomes.FLOWER_FOREST, PEAR_GROVE));
+            addModifiedVanillaOverworldBiomes(mapper, builder -> {
+                builder.replaceBiome(Biomes.FOREST, PEAR_GROVE);
+                builder.replaceBiome(Biomes.FLOWER_FOREST, PEAR_GROVE);
+            });
         }
     }
 }
