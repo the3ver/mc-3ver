@@ -1,0 +1,73 @@
+# Projektregeln für mc-3ver, geprüft von scripts/check.sh und in CI (Code Scanning).
+# Begründete Ausnahme: "// nosemgrep: <regel-id> <Grund>" in die Zeile davor.
+rules:
+  - id: mc3ver-no-console-output
+    languages: [java]
+    severity: ERROR
+    message: Mc3verMod.LOGGER statt System.out/System.err/printStackTrace verwenden.
+    paths:
+      include: [src/main/**, src/client/**]
+    pattern-either:
+      - pattern: System.out.$M(...)
+      - pattern: System.err.$M(...)
+      - pattern: $E.printStackTrace()
+
+  - id: mc3ver-no-sleep-in-tests
+    languages: [java]
+    severity: ERROR
+    message: Kein Thread.sleep in Tests. Zeit als Parameter (Ticks, Clock) übergeben, dann ist der Test deterministisch.
+    paths:
+      include: [src/test/**]
+    pattern: Thread.sleep(...)
+
+  - id: mc3ver-no-disabled-tests
+    languages: [java]
+    severity: ERROR
+    message: Tests nicht abschalten. Test reparieren oder mit Begründung löschen.
+    paths:
+      include: [src/test/**]
+    pattern-either:
+      - pattern: |
+          @Disabled
+          $RET $METHOD(...) { ... }
+      - pattern: |
+          @Disabled(...)
+          $RET $METHOD(...) { ... }
+
+  - id: mc3ver-no-suppress-warnings
+    languages: [java]
+    severity: ERROR
+    message: Ursache der Warnung beheben statt sie zu unterdrücken. Ist das nicht möglich, Ausnahme per nosemgrep begründen.
+    pattern-either:
+      - pattern: |
+          @SuppressWarnings(...)
+          $RET $METHOD(...) { ... }
+      - pattern: |
+          @SuppressWarnings(...)
+          class $C { ... }
+      - pattern: |
+          @SuppressWarnings(...)
+          $T $F = $V;
+
+  - id: mc3ver-logic-deterministic
+    languages: [java]
+    severity: ERROR
+    message: "*Logic-Klassen bleiben deterministisch testbar: Random (mit Seed) und Zeit als Parameter übergeben."
+    paths:
+      include: ["**/*Logic.java"]
+    pattern-either:
+      - pattern: new java.util.Random()
+      - pattern: Math.random()
+      - pattern: System.currentTimeMillis()
+      - pattern: System.nanoTime()
+      - pattern: java.time.Instant.now()
+      - pattern: java.time.LocalDateTime.now()
+
+  - id: mc3ver-registration-in-registration-classes
+    languages: [java]
+    severity: ERROR
+    message: Registry.register nur in Mod*-, *Blocks-, *Items- und *Entities-Klassen, die Mc3verMod.onInitialize aufruft.
+    paths:
+      include: [src/main/**]
+      exclude: ["**/Mod*.java", "**/*Blocks.java", "**/*Items.java", "**/*Entities.java"]
+    pattern: Registry.register(...)

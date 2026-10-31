@@ -13,7 +13,7 @@ mkdir -p "$stamp_dir"
 
 # Fingerabdruck aller Eingaben des Builds: HEAD + uncommittete Aenderungen + neue Dateien
 fingerprint() {
-  local paths=(src build.gradle gradle.properties settings.gradle)
+  local paths=(src build.gradle gradle.properties settings.gradle .semgrep)
   {
     git rev-parse HEAD
     git diff HEAD -- "${paths[@]}"
@@ -33,8 +33,16 @@ fi
 
 log="$stamp_dir/last.log"
 start=$SECONDS
+# Semgrep-Projektregeln parallel zum Build, falls uv installiert ist (CI prueft sie ohnehin)
+semgrep_log="$stamp_dir/semgrep.log"
+semgrep_status=0
+if command -v uvx >/dev/null; then
+  PYTHONUTF8=1 uvx semgrep scan --config .semgrep --error --quiet --metrics=off --disable-version-check --emacs src >"$semgrep_log" 2>&1 &
+  semgrep_pid=$!
+fi
 ./gradlew spotlessApply check clientClasses --console=plain -q >"$log" 2>&1
 status=$?
+[ -n "${semgrep_pid:-}" ] && { wait "$semgrep_pid"; semgrep_status=$?; }
 secs=$((SECONDS - start))
 
 results=build/test-results/test
@@ -62,7 +70,7 @@ EOF
 tests=$(head -1 <<<"$summary" | cut -d' ' -f1)
 failed=$(head -1 <<<"$summary" | cut -d' ' -f2)
 
-if [ $status -eq 0 ]; then
+if [ $status -eq 0 ] && [ $semgrep_status -eq 0 ]; then
   echo "CHECK OK: ${tests:-?} Tests, ${secs}s"
   $hook && fingerprint >"$stamp_dir/green"
   exit 0
@@ -70,10 +78,17 @@ fi
 
 {
   echo "CHECK ROT nach ${secs}s (volles Log: $log)"
+  if [ $semgrep_status -ne 0 ]; then
+    echo "Semgrep-Regeln (.semgrep/rules.yml):"
+    head -20 "$semgrep_log"
+  fi
+  [ $status -eq 0 ] && exit_red=true || exit_red=false
   # Gradle wiederholt Compilerfehler eingerueckt in der Zusammenfassung, daher nur Zeilen ab Spalte 0.
   # Warnungen zaehlen mit, weil -Werror sie (Error Prone) zu Fehlern macht.
   compile_rx='^[^[:space:]].*\.java:[0-9]+: (error|Fehler|warning|Warnung)'
-  if grep -qE "$compile_rx" "$log"; then
+  if $exit_red; then
+    :
+  elif grep -qE "$compile_rx" "$log"; then
     # Testergebnisse stammen dann noch vom letzten Lauf und waeren irrefuehrend
     grep -E -A5 "$compile_rx" "$log" | grep -vE '^--$' | head -40
   elif [ "${failed:-0}" != "0" ]; then

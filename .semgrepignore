@@ -1,0 +1,4 @@
+# Ersetzt Semgreps Standardliste, die test/-Ordner ausblendet
+build/
+.gradle/
+run/
