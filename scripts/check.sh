@@ -39,7 +39,7 @@ secs=$((SECONDS - start))
 
 results=build/test-results/test
 py=$(command -v python || command -v python3)
-summary=$("$py" - "$results" <<'EOF'
+summary=$(PYTHONIOENCODING=utf-8 "$py" - "$results" <<'EOF'
 import sys, glob, xml.etree.ElementTree as ET
 tests = failed = 0
 lines = []
@@ -51,6 +51,8 @@ for f in glob.glob(sys.argv[1] + "/*.xml"):
             failed += 1
             msg = (bad.get("message") or "").strip().splitlines()
             lines.append(f"FAIL {case.get('classname')}.{case.get('name')}: {msg[0][:200] if msg else bad.get('type')}")
+            # Mehrzeilige Meldungen (Listen von Funden) bis 8 Zeilen mitgeben
+            lines += ["  | " + l[:200] for l in msg[1:9]]
             trace = [l.strip() for l in (bad.text or "").splitlines() if "net.frank" in l][:3]
             lines += ["    " + t for t in trace]
 print(f"{tests} {failed}")
