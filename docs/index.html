@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WorldExplorerMod — Minecraft 26.2 Fabric Mod</title>
-  <meta name="description" content="Offizielle Website und Dokumentation für die Minecraft Java Mod WorldExplorerMod (Fabric 26.2, Java 25).">
+  <title>WorldExplorerMod — Minecraft 26.3 Fabric Mod</title>
+  <meta name="description" content="Offizielle Website und Dokumentation für die Minecraft Java Mod WorldExplorerMod (Fabric 26.3, Java 25).">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,7 +66,7 @@
     <div class="container hero-container">
       <div class="hero-badge">
         <span class="badge-dot"></span>
-        <span class="badge-text" id="heroBadgeText" data-i18n="hero.badge">Minecraft 26.2 • Fabric • Java 25</span>
+        <span class="badge-text" id="heroBadgeText" data-i18n="hero.badge">Minecraft 26.3 • Fabric • Java 25</span>
       </div>
 
       <h1 class="hero-title" data-i18n-html="hero.title">
@@ -74,7 +74,7 @@
       </h1>
 
       <p class="hero-description" data-i18n="hero.description">
-        Eine blitzschnelle, moderne Mod für Minecraft Java Edition 26.2, entwickelt auf Basis des Fabric Mod Loaders mit voller Java 25 Unterstützung.
+        Eine blitzschnelle, moderne Mod für Minecraft Java Edition 26.3, entwickelt auf Basis des Fabric Mod Loaders mit voller Java 25 Unterstützung.
       </p>
 
       <div class="hero-cta">
@@ -85,7 +85,7 @@
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
           <span data-i18n="hero.btn.download">Neueste Version laden</span>
-          <span class="version-tag" id="releaseVersionTag">v0.7.1</span>
+          <span class="version-tag" id="releaseVersionTag">v0.8.0</span>
         </a>
 
         <a href="#features" class="btn btn-secondary btn-lg" id="heroInstallBtn">
@@ -99,7 +99,7 @@
 
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-value">26.2</span>
+          <span class="stat-value">26.3</span>
           <span class="stat-label" data-i18n="hero.stat.mc">Minecraft Version</span>
         </div>
         <div class="stat-divider"></div>
@@ -552,6 +552,100 @@
             <span data-i18n="recipes.flag.ingredients">3x Stock (linke Spalte), 4x weiße Wolle (2x2 rechts daneben)</span>
           </div>
         </div>
+
+        <!-- Recipe 7: Bonfire -->
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <div class="recipe-title-group">
+              <h3 class="recipe-name" data-i18n="recipes.bonfire.name">🔥 Signalfeuer</h3>
+              <span class="recipe-badge" data-i18n="recipes.badge.shaped">Geformt</span>
+            </div>
+            <p class="recipe-desc" data-i18n="recipes.bonfire.desc">Rechtsklick auf ebenen Boden mit 3x3 freien Feldern stellt das Feuer brennend auf. Farbstoff färbt den Rauch, Schaufel oder Wassereimer löscht, Feuerzeug zündet wieder an.</p>
+          </div>
+
+          <div class="crafting-table-ui">
+            <div class="crafting-grid-3x3">
+              <div class="grid-slot filled" title="Holzstamm / Log"><img src="assets/oak_log.png" class="item-img" alt="Holzstamm"></div>
+              <div class="grid-slot filled" title="Kohle oder Holzkohle / Coal or Charcoal"><img src="assets/coal.png" class="item-img" alt="Kohle"></div>
+              <div class="grid-slot filled" title="Holzstamm / Log"><img src="assets/oak_log.png" class="item-img" alt="Holzstamm"></div>
+
+              <div class="grid-slot filled" title="Kohle oder Holzkohle / Coal or Charcoal"><img src="assets/coal.png" class="item-img" alt="Kohle"></div>
+              <div class="grid-slot filled highlight" title="Lagerfeuer / Campfire"><img src="assets/campfire.png" class="item-img" alt="Lagerfeuer"></div>
+              <div class="grid-slot filled" title="Kohle oder Holzkohle / Coal or Charcoal"><img src="assets/coal.png" class="item-img" alt="Kohle"></div>
+
+              <div class="grid-slot filled" title="Holzstamm / Log"><img src="assets/oak_log.png" class="item-img" alt="Holzstamm"></div>
+              <div class="grid-slot filled" title="Kohle oder Holzkohle / Coal or Charcoal"><img src="assets/coal.png" class="item-img" alt="Kohle"></div>
+              <div class="grid-slot filled" title="Holzstamm / Log"><img src="assets/oak_log.png" class="item-img" alt="Holzstamm"></div>
+            </div>
+
+            <div class="crafting-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <div class="crafting-result-slot">
+              <div class="grid-slot result-slot" title="Signalfeuer">
+                <img src="assets/bonfire.png" class="item-img" alt="Signalfeuer">
+                <span class="result-count">1</span>
+              </div>
+              <span class="result-label" data-i18n="recipes.bonfire.result">Signalfeuer</span>
+            </div>
+          </div>
+
+          <div class="recipe-ingredients-summary">
+            <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
+            <span data-i18n="recipes.bonfire.ingredients">1x Lagerfeuer (Mitte), 4x Holzstamm (Ecken), 4x Kohle oder Holzkohle (Seiten)</span>
+          </div>
+        </div>
+
+        <!-- Recipe 8: Friendship Stone -->
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <div class="recipe-title-group">
+              <h3 class="recipe-name" data-i18n="recipes.friend.name">💎 Freundschaftsstein</h3>
+              <span class="recipe-badge" data-i18n="recipes.badge.shaped">Geformt</span>
+            </div>
+            <p class="recipe-desc" data-i18n="recipes.friend.desc">Sneak + Rechtsklick prägt den Stein auf dich. Wer den geprägten Stein hält, hält Rechtsklick 2,5 Sekunden und landet neben dir. Abklingzeit 30 Sekunden.</p>
+          </div>
+
+          <div class="crafting-table-ui">
+            <div class="crafting-grid-3x3">
+              <div class="grid-slot empty"></div>
+              <div class="grid-slot filled" title="Amethystscherbe / Amethyst Shard"><img src="assets/amethyst_shard.png" class="item-img" alt="Amethystscherbe"></div>
+              <div class="grid-slot empty"></div>
+
+              <div class="grid-slot filled" title="Amethystscherbe / Amethyst Shard"><img src="assets/amethyst_shard.png" class="item-img" alt="Amethystscherbe"></div>
+              <div class="grid-slot filled highlight" title="Enderperle / Ender Pearl"><img src="assets/ender_pearl.png" class="item-img" alt="Enderperle"></div>
+              <div class="grid-slot filled" title="Amethystscherbe / Amethyst Shard"><img src="assets/amethyst_shard.png" class="item-img" alt="Amethystscherbe"></div>
+
+              <div class="grid-slot empty"></div>
+              <div class="grid-slot filled" title="Amethystscherbe / Amethyst Shard"><img src="assets/amethyst_shard.png" class="item-img" alt="Amethystscherbe"></div>
+              <div class="grid-slot empty"></div>
+            </div>
+
+            <div class="crafting-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <div class="crafting-result-slot">
+              <div class="grid-slot result-slot" title="Freundschaftsstein">
+                <img src="assets/friendship_stone.png" class="item-img" alt="Freundschaftsstein">
+                <span class="result-count">2</span>
+              </div>
+              <span class="result-label" data-i18n="recipes.friend.result">Freundschaftsstein</span>
+            </div>
+          </div>
+
+          <div class="recipe-ingredients-summary">
+            <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
+            <span data-i18n="recipes.friend.ingredients">1x Enderperle (Mitte), 4x Amethystscherbe (oben, unten, links, rechts)</span>
+          </div>
+        </div>
       </div>
 
       <!-- Pear Wood Bauset Info Banner -->
@@ -653,7 +747,7 @@
               Die einfachste Methode ohne manuelles Verschieben von Dateien. Moderne Launcher laden alle Abhängigkeiten automatisch mit herunter:
             </p>
             <ul style="margin: 8px 0 16px 20px; line-height: 1.7; color: var(--text-secondary);">
-              <li data-i18n-html="install.launcher.step1"><strong>Modrinth App / CurseForge App:</strong> Erstelle ein neues Profil für <strong>Minecraft 26.2</strong> mit dem <strong>Fabric Loader</strong>.</li>
+              <li data-i18n-html="install.launcher.step1"><strong>Modrinth App / CurseForge App:</strong> Erstelle ein neues Profil für <strong>Minecraft 26.3</strong> mit dem <strong>Fabric Loader</strong>.</li>
               <li data-i18n-html="install.launcher.step2">Klicke im Profil auf <em>„Content hinzufügen / Mods suchen“</em> und tippe <code>WorldExplorerMod</code> ein.</li>
               <li data-i18n-html="install.launcher.step3">Klicke auf <strong>Installieren</strong> — fertig! Die benötigte <em>Fabric API</em> wird automatisch im Hintergrund installiert.</li>
             </ul>
@@ -666,7 +760,7 @@
           <div class="step-content">
             <h3 class="step-title" data-i18n="install.step1.title">Fabric Loader & API installieren</h3>
             <p class="step-text" data-i18n-html="install.step1.desc">
-              Lade den offiziellen Fabric Installer für Minecraft 26.2 herunter und installiere die passende <strong>Fabric API</strong>.
+              Lade den offiziellen Fabric Installer für Minecraft 26.3 herunter und installiere die passende <strong>Fabric API</strong>.
             </p>
             <a href="https://fabricmc.net/use/installer/" target="_blank" rel="noopener noreferrer" class="link-btn" data-i18n-html="install.step1.btn">
               Fabric Installer herunterladen &rarr;
@@ -680,7 +774,7 @@
           <div class="step-content">
             <h3 class="step-title" data-i18n="install.step2.title">WorldExplorerMod herunterladen</h3>
             <p class="step-text" data-i18n-html="install.step2.desc">
-              Lade die Datei <code class="code-badge">mc-3ver-0.7.1.jar</code> von Modrinth, CurseForge oder GitHub herunter.
+              Lade die Datei <code class="code-badge">mc-3ver-0.8.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
             </p>
             <a href="https://modrinth.com/mod/worldexplorermod" target="_blank" rel="noopener noreferrer" class="link-btn" data-i18n-html="install.step2.btn">
               Zu den Releases &rarr;
@@ -752,7 +846,7 @@
           <tbody>
             <tr>
               <td><strong data-i18n="specs.row.mc">Minecraft Version</strong></td>
-              <td><code>26.2</code></td>
+              <td><code>26.3</code></td>
               <td data-i18n="specs.note.mc">Java Edition</td>
             </tr>
             <tr>
@@ -762,7 +856,7 @@
             </tr>
             <tr>
               <td><strong data-i18n="specs.row.api">Fabric API</strong></td>
-              <td><code>0.158.0+26.2</code></td>
+              <td><code>0.165.0+26.3</code></td>
               <td data-i18n="specs.note.api">Erforderliche Basis-Bibliothek</td>
             </tr>
             <tr>

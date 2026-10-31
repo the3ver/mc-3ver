@@ -4,8 +4,8 @@
 
 const TRANSLATIONS = {
   de: {
-    "page.title": "WorldExplorerMod — Minecraft 26.2 Fabric Mod",
-    "page.description": "Offizielle Website und Dokumentation für die Minecraft Java Mod WorldExplorerMod (Fabric 26.2, Java 25).",
+    "page.title": "WorldExplorerMod — Minecraft 26.3 Fabric Mod",
+    "page.description": "Offizielle Website und Dokumentation für die Minecraft Java Mod WorldExplorerMod (Fabric 26.3, Java 25).",
     "nav.features": "Features",
     "nav.recipes": "Rezepte",
     "nav.install": "Installation",
@@ -13,9 +13,9 @@ const TRANSLATIONS = {
     "nav.faq": "FAQ",
     "nav.download": "Download",
     
-    "hero.badge": "Minecraft 26.2 • Fabric • Java 25",
+    "hero.badge": "Minecraft 26.3 • Fabric • Java 25",
     "hero.title": "Modulares Minecraft-Erlebnis mit <span class=\"gradient-text\">WorldExplorerMod</span>",
-    "hero.description": "Eine blitzschnelle, moderne Mod für Minecraft Java Edition 26.2, entwickelt auf Basis des Fabric Mod Loaders mit voller Java 25 Unterstützung.",
+    "hero.description": "Eine blitzschnelle, moderne Mod für Minecraft Java Edition 26.3, entwickelt auf Basis des Fabric Mod Loaders mit voller Java 25 Unterstützung.",
     "hero.btn.download": "Neueste Version laden",
     "hero.btn.install": "Anleitung ansehen",
     "hero.stat.mc": "Minecraft Version",
@@ -77,6 +77,14 @@ const TRANSLATIONS = {
     "recipes.flag.desc": "Schaltet per Rechtsklick den Dauer-Effekt Friedfertig an und aus. Monster greifen dich nicht an, bis du selbst eins verletzt.",
     "recipes.flag.result": "Weiße Fahne",
     "recipes.flag.ingredients": "3x Stock (linke Spalte), 4x weiße Wolle (2x2 rechts daneben)",
+    "recipes.bonfire.name": "🔥 Signalfeuer",
+    "recipes.bonfire.desc": "Rechtsklick auf ebenen Boden mit 3x3 freien Feldern stellt das Feuer brennend auf. Farbstoff färbt den Rauch, Schaufel oder Wassereimer löscht, Feuerzeug zündet wieder an.",
+    "recipes.bonfire.result": "Signalfeuer",
+    "recipes.bonfire.ingredients": "1x Lagerfeuer (Mitte), 4x Holzstamm (Ecken), 4x Kohle oder Holzkohle (Seiten)",
+    "recipes.friend.name": "💎 Freundschaftsstein",
+    "recipes.friend.desc": "Sneak + Rechtsklick prägt den Stein auf dich. Wer den geprägten Stein hält, hält Rechtsklick 2,5 Sekunden und landet neben dir. Abklingzeit 30 Sekunden.",
+    "recipes.friend.result": "Freundschaftsstein",
+    "recipes.friend.ingredients": "1x Enderperle (Mitte), 4x Amethystscherbe (oben, unten, links, rechts)",
     "recipes.item.cobblestone": "Bruchstein",
     "recipes.item.torch": "Fackel",
     "recipes.item.diamond": "Diamant",
@@ -105,16 +113,16 @@ const TRANSLATIONS = {
 
     "install.launcher.title": "Methode A: 1-Klick-Installation via Launcher (Empfohlen)",
     "install.launcher.desc": "Die einfachste Methode ohne manuelles Verschieben von Dateien. Moderne Launcher laden alle Abhängigkeiten (wie Fabric API) automatisch mit herunter:",
-    "install.launcher.step1": "<strong>Modrinth App / CurseForge App:</strong> Erstelle ein neues Profil für <strong>Minecraft 26.2</strong> mit dem <strong>Fabric Loader</strong>.",
+    "install.launcher.step1": "<strong>Modrinth App / CurseForge App:</strong> Erstelle ein neues Profil für <strong>Minecraft 26.3</strong> mit dem <strong>Fabric Loader</strong>.",
     "install.launcher.step2": "Klicke im Profil auf <em>„Content hinzufügen / Mods suchen“</em> und tippe <code>WorldExplorerMod</code> ein.",
     "install.launcher.step3": "Klicke auf <strong>Installieren</strong> — fertig! Die benötigte <em>Fabric API</em> wird automatisch im Hintergrund installiert.",
 
     "install.manual.title": "Methode B: Manueller Download (Standard Minecraft Launcher)",
     "install.step1.title": "Fabric Loader & API installieren",
-    "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.2 herunter und installiere die passende <strong>Fabric API</strong>.",
+    "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.3 herunter und installiere die passende <strong>Fabric API</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.7.1.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.8.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -156,8 +164,8 @@ const TRANSLATIONS = {
     "footer.disclaimer": "&copy; 2026 WorldExplorerMod (MC 3ver). Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder damit verbunden."
   },
   en: {
-    "page.title": "WorldExplorerMod — Minecraft 26.2 Fabric Mod",
-    "page.description": "Official website and documentation for the Minecraft Java mod WorldExplorerMod (Fabric 26.2, Java 25).",
+    "page.title": "WorldExplorerMod — Minecraft 26.3 Fabric Mod",
+    "page.description": "Official website and documentation for the Minecraft Java mod WorldExplorerMod (Fabric 26.3, Java 25).",
     "nav.features": "Features",
     "nav.recipes": "Recipes",
     "nav.install": "Installation",
@@ -165,9 +173,9 @@ const TRANSLATIONS = {
     "nav.faq": "FAQ",
     "nav.download": "Download",
     
-    "hero.badge": "Minecraft 26.2 • Fabric • Java 25",
+    "hero.badge": "Minecraft 26.3 • Fabric • Java 25",
     "hero.title": "Modular Minecraft Adventure with <span class=\"gradient-text\">WorldExplorerMod</span>",
-    "hero.description": "A blazing-fast, modern mod for Minecraft Java Edition 26.2, built on top of the Fabric Mod Loader with full Java 25 support.",
+    "hero.description": "A blazing-fast, modern mod for Minecraft Java Edition 26.3, built on top of the Fabric Mod Loader with full Java 25 support.",
     "hero.btn.download": "Download Latest Version",
     "hero.btn.install": "View Guide",
     "hero.stat.mc": "Minecraft Version",
@@ -229,6 +237,14 @@ const TRANSLATIONS = {
     "recipes.flag.desc": "Right-click toggles the permanent Pacifist effect. Monsters leave you alone until you hurt one yourself.",
     "recipes.flag.result": "White Flag",
     "recipes.flag.ingredients": "3x Stick (left column), 4x White Wool (2x2 to the right)",
+    "recipes.bonfire.name": "🔥 Bonfire",
+    "recipes.bonfire.desc": "Right-click flat ground with a free 3x3 area to place it already lit. Dyes color the smoke, a shovel or water bucket puts it out, flint and steel relights it.",
+    "recipes.bonfire.result": "Bonfire",
+    "recipes.bonfire.ingredients": "1x Campfire (center), 4x Log (corners), 4x Coal or Charcoal (sides)",
+    "recipes.friend.name": "💎 Friendship Stone",
+    "recipes.friend.desc": "Sneak + right-click binds the stone to you. Whoever holds the bound stone holds right-click for 2.5 seconds and lands next to you. 30 second cooldown.",
+    "recipes.friend.result": "Friendship Stone",
+    "recipes.friend.ingredients": "1x Ender Pearl (center), 4x Amethyst Shard (top, bottom, left, right)",
     "recipes.item.cobblestone": "Cobblestone",
     "recipes.item.torch": "Torch",
     "recipes.item.diamond": "Diamond",
@@ -257,16 +273,16 @@ const TRANSLATIONS = {
 
     "install.launcher.title": "Method A: 1-Click Installation via Launcher (Recommended)",
     "install.launcher.desc": "The easiest way without moving files manually. Modern launchers automatically download all dependencies like Fabric API:",
-    "install.launcher.step1": "<strong>Modrinth App / CurseForge App:</strong> Create a new profile for <strong>Minecraft 26.2</strong> using <strong>Fabric Loader</strong>.",
+    "install.launcher.step1": "<strong>Modrinth App / CurseForge App:</strong> Create a new profile for <strong>Minecraft 26.3</strong> using <strong>Fabric Loader</strong>.",
     "install.launcher.step2": "Click on <em>„Add Content / Search Mods“</em> and search for <code>WorldExplorerMod</code>.",
     "install.launcher.step3": "Click <strong>Install</strong> — done! Required <em>Fabric API</em> will be installed automatically in the background.",
 
     "install.manual.title": "Method B: Manual Download (Default Minecraft Launcher)",
     "install.step1.title": "Install Fabric Loader & API",
-    "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.2 and install the matching <strong>Fabric API</strong>.",
+    "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.3 and install the matching <strong>Fabric API</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.7.1.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.8.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -444,7 +460,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.7.1
+    // Graceful fallback to v0.8.0
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }
