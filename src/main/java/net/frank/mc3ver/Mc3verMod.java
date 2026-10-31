@@ -4,9 +4,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.resources.Identifier;
@@ -25,16 +28,26 @@ public class Mc3verMod implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     private static String readModVersion() {
-        try (InputStream in = Mc3verMod.class.getResourceAsStream("/fabric.mod.json")) {
-            if (in == null) {
-                throw new IllegalStateException("fabric.mod.json fehlt im Classpath");
+        try {
+            List<String> modJsons = new ArrayList<>();
+            Enumeration<URL> urls = Mc3verMod.class.getClassLoader().getResources("fabric.mod.json");
+            while (urls.hasMoreElements()) {
+                try (InputStream in = urls.nextElement().openStream()) {
+                    modJsons.add(new String(in.readAllBytes(), StandardCharsets.UTF_8));
+                }
             }
-            JsonObject json = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8))
-                    .getAsJsonObject();
-            return json.get("version").getAsString();
+            return findModVersion(modJsons);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    static String findModVersion(List<String> modJsons) {
+        if (modJsons.isEmpty()) {
+            throw new IllegalStateException("fabric.mod.json fehlt im Classpath");
+        }
+        JsonObject json = JsonParser.parseString(modJsons.get(0)).getAsJsonObject();
+        return json.get("version").getAsString();
     }
 
     @Override
