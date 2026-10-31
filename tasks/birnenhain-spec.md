@@ -104,9 +104,9 @@ Ein Herzstück pro Hain, als eigene Struktur.
 - Bienenstöcke: 1 bis 2 direkt unter der Krone am Stamm, an gegenüberliegenden Seiten.
 - Moos und Pilze im Umkreis von 5 Blöcken; Trittsteine ab 6 Blöcken, auf der dem See abgewandten Seite.
 
-**Truhen-Loot (Vorschlag, im Plan abstimmen)**
-- Birnen, Birnensetzlinge, Honigwaben, Knochenmehl als Grundstock.
-- Selten: goldene Birne.
+**Truhen-Loot (entschieden 2026-10-31)**
+- Grundstock: Birnen, Birnensetzlinge, Honigwaben, Knochenmehl.
+- Selten genau einer davon: goldene Birne, Freundschaftsstein (ungeprägt), Windstab oder Blitzstab.
 
 ## Gartenmauern
 

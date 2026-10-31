@@ -89,5 +89,4 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 
 ## Offene Punkte
 
-- Truhen-Loot: Vorschlag aus der Spec bestätigen.
 - Radien, Farben, Seltenheit: Startwerte, Abstimmung im Spiel nach Task 5 und Task 8.
