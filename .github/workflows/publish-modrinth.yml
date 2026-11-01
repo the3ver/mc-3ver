@@ -65,4 +65,7 @@ jobs:
           loaders: fabric
           game-versions: ${{ steps.get_version.outputs.mc }}
           java: Java 25
-          dependencies: fabric-api:required
+          # TerraBlender heißt auf CurseForge als Fabric-Projekt terrablender-fabric
+          dependencies: |
+            fabric-api:required
+            terrablender(required){curseforge:terrablender-fabric}
