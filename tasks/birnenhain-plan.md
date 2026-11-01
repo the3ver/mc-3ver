@@ -122,3 +122,10 @@ Entscheidungen (2026-11-01): Fallobst gibt per Rechtsklick oder Abbauen eine Bir
 - Hain-Bäume aus `pear_grove_tree`: meist `pear_tree`, dazu 25 % `pear_tree_tall` (6 bis 8 hoch, Krone Radius 3) und `pear_tree_branched` (Kirschbaum-Stamm, 1 bis 2 Äste mit eigener Laubwolke).
 - Eigene Zone `RING` (20 bis 44 um den alten Baum): 7 Bäume je Chunk, davon 60 % `pear_tree_large` (8 bis 10 hoch, 2 bis 3 Äste, Laubwolken Radius 3).
 - Gilt nur im Hain; Setzlinge und Birnbäume in anderen Biomen bleiben beim normalen Birnbaum.
+
+## Stand nach Phase 2 (Release 0.10.0)
+
+- Im Spiel abgestimmt: Laubtöne (±22 %, Farbton), Baumformen, Ring aus großen Birnen, Herz erst ab Tiefe 64.
+- Weiter Startwerte: Pollen 0,004, Fallobst 0,6 je Baum, Blüten 10 % im Ring 5 bis 9, Ring 7 Bäume je Chunk mit 60 % großen.
+- Gemessen (8192² Blöcke, 5 Seeds): Hain-Anteil der Welt etwa 2,5 %, typischer Hain etwa 100 × 100 Blöcke. Birch Forest mitzuersetzen hätte die Haine nur um 5 bis 15 % vergrößert und wurde verworfen.
+- Nächste Phase laut Spec: Phase 3 (Kreaturen).

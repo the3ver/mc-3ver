@@ -4,36 +4,17 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
-## [0.9.6] - 2026-11-01
-
-### 🔄 Geändert
-* **Lichtung tiefer im Wald:** Den alten Birnbaum gibt es nur noch in großen Hainen, mindestens 64 Blöcke vom Rand entfernt.
-
-## [0.9.5] - 2026-11-01
-
-### 🔄 Geändert
-* **Birnbäume im Hain:** Die Bäume sind unterschiedlich groß. Neben dem gewohnten Birnbaum wachsen höhere mit breiter Krone und solche mit ein bis zwei Ästen.
-* **Lichtung im tiefen Wald:** Den Ring um den alten Birnbaum bilden jetzt vor allem große Birnen mit mehreren Ästen.
-
-## [0.9.4] - 2026-11-01
-
-### 🔄 Geändert
-* **Laubtöne:** Birnbäume unterscheiden sich deutlicher: manche Kronen sind heller und gelblicher, andere dunkler und tiefgrün.
-
-## [0.9.3] - 2026-11-01
-
-### ✨ Neu hinzugefügt
-* **Goldene Pollen:** Im Birnenhain schweben vereinzelt goldene Pollen durch die Luft.
-
-## [0.9.2] - 2026-11-01
-
-### ✨ Neu hinzugefügt
-* **Birnblüte:** Neue weiß-rosa Blume, die nur rund um den alten Birnbaum im Herz des Hains wächst. Bienen fliegen sie an, sie passt in einen Blumentopf und gibt rosa Farbstoff.
-
-## [0.9.1] - 2026-11-01
+## [0.10.0] - 2026-11-01
 
 ### ✨ Neu hinzugefügt
 * **Fallobst:** Unter den Bäumen im Birnenhain liegen vereinzelt heruntergefallene Birnen. Rechtsklick oder Abbauen gibt eine Birne, mit Behutsamkeit den Block zum Selbst-Hinlegen.
+* **Birnblüte:** Neue weiß-rosa Blume, die nur rund um den alten Birnbaum wächst. Bienen fliegen sie an, sie passt in einen Blumentopf und gibt rosa Farbstoff.
+* **Goldene Pollen:** Im Birnenhain schweben vereinzelt goldene Pollen durch die Luft.
+
+### 🔄 Geändert
+* **Birnbäume im Hain:** Die Bäume sind unterschiedlich groß. Neben dem gewohnten Birnbaum wachsen höhere mit breiter Krone und solche mit ein bis zwei Ästen.
+* **Lichtung im tiefen Wald:** Den alten Birnbaum gibt es nur noch in großen Hainen, mindestens 64 Blöcke vom Rand entfernt. Den Ring um seine Lichtung bilden große Birnen mit mehreren Ästen.
+* **Laubtöne:** Birnbäume unterscheiden sich deutlicher: manche Kronen sind heller und gelblicher, andere dunkler und tiefgrün.
 
 ## [0.9.0] - 2026-10-31
 
