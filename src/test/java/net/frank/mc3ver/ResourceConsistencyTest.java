@@ -48,7 +48,8 @@ class ResourceConsistencyTest {
         for (String block : names(ASSETS.resolve("blockstates"))) {
             if (!en.has("block.mc3ver." + block)) problems.add(block + ": Übersetzung block.mc3ver." + block);
             if (BLOCKS_WITHOUT_ITEM_AND_LOOT.contains(block)) continue;
-            if (!items.contains(block))
+            // Topfpflanzen haben kein eigenes Item: man setzt die Pflanze in einen Blumentopf
+            if (!block.startsWith("potted_") && !items.contains(block))
                 problems.add(block + ": Item-Definition assets/mc3ver/items/" + block + ".json");
             if (!loot.contains(block))
                 problems.add(block + ": Loot-Tabelle data/mc3ver/loot_table/blocks/" + block + ".json");
