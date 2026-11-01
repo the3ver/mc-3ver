@@ -23,10 +23,16 @@ import net.minecraft.world.level.levelgen.feature.Feature;
  * Läuft einmal pro Chunk; die Zone gilt für den ganzen Chunk.
  */
 public record GroveVegetationFeature(
-        Holder<Feature> tree, Holder<Feature> bush, Holder<Feature> fern, Holder<Feature> flower) implements Feature {
+        Holder<Feature> tree,
+        Holder<Feature> largeTree,
+        Holder<Feature> bush,
+        Holder<Feature> fern,
+        Holder<Feature> flower)
+        implements Feature {
 
     public static final MapCodec<GroveVegetationFeature> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                     Feature.CODEC.fieldOf("tree").forGetter(GroveVegetationFeature::tree),
+                    Feature.CODEC.fieldOf("large_tree").forGetter(GroveVegetationFeature::largeTree),
                     Feature.CODEC.fieldOf("bush").forGetter(GroveVegetationFeature::bush),
                     Feature.CODEC.fieldOf("fern").forGetter(GroveVegetationFeature::fern),
                     Feature.CODEC.fieldOf("flower").forGetter(GroveVegetationFeature::flower))
@@ -45,7 +51,7 @@ public record GroveVegetationFeature(
 
     @Override
     public Stream<Holder<Feature>> getSubFeatures() {
-        return Stream.of(tree, bush, fern, flower);
+        return Stream.of(tree, largeTree, bush, fern, flower);
     }
 
     @Override
@@ -70,7 +76,11 @@ public record GroveVegetationFeature(
             for (int t = 0; t < size; t++) {
                 int x = anchorX + spread(random, density.clusterRadius());
                 int z = anchorZ + spread(random, density.clusterRadius());
-                if (placeOnGround(tree, level, generator, random, x, z)) {
+                // Zufall nur ziehen, wo die Zone große Bäume kennt: sonst bleibt die Verteilung wie bisher
+                Holder<Feature> kind = density.largeTreeShare() > 0 && random.nextFloat() < density.largeTreeShare()
+                        ? largeTree
+                        : tree;
+                if (placeOnGround(kind, level, generator, random, x, z)) {
                     placed = true;
                     placeFallenPears(level, random, x, z);
                 }
