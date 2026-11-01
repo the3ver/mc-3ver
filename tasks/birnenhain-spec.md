@@ -57,7 +57,7 @@ Die Baumdichte hängt von der Tiefe im Hain ab: dem Abstand zum Biomrand, gemess
 | Herz | unter 20 um den alten Baum | keine normalen Bäume | siehe Herzstück |
 | Waldring | 20 bis 44 um den alten Baum, unabhängig von der Tiefe | wie dichter Wald | wie dichter Wald |
 
-Das Herz liegt am tiefsten Punkt des Hains: ein Rasterpunkt (Chunk-Mitte) mit Tiefe ab 32, ohne tieferen Punkt im Umkreis von 96 Blöcken. Der alte Baum steht 6 bis 12 Blöcke daneben, damit er nicht genau in der Mitte liegt. Haine mit weniger als 32 Tiefe haben kein Herz. Schwellen sind Startwerte und werden im Spiel abgestimmt.
+Das Herz liegt am tiefsten Punkt des Hains: ein Rasterpunkt (Chunk-Mitte) mit Tiefe ab 64, ohne tieferen Punkt im Umkreis von 128 Blöcken. Die Tiefe wird bis 96 gemessen. Der alte Baum steht 6 bis 12 Blöcke daneben, damit er nicht genau in der Mitte liegt. Haine mit weniger als 64 Tiefe haben kein Herz (vorher 32; Messung 2026-11-01: der typische Hain mit Herz war nur gut 100 Blöcke breit, die Lichtung lag gleich hinter dem Waldrand). Schwellen sind Startwerte und werden im Spiel abgestimmt.
 
 ## Vegetation
 

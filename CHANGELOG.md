@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.6] - 2026-11-01
+
+### 🔄 Geändert
+* **Lichtung tiefer im Wald:** Den alten Birnbaum gibt es nur noch in großen Hainen, mindestens 64 Blöcke vom Rand entfernt.
+
 ## [0.9.5] - 2026-11-01
 
 ### 🔄 Geändert

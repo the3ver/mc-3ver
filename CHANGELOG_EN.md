@@ -4,6 +4,11 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.6] - 2026-11-01
+
+### 🔄 Changed
+* **Clearing deeper in the forest:** the old pear tree now only grows in large groves, at least 64 blocks from the edge.
+
 ## [0.9.5] - 2026-11-01
 
 ### 🔄 Changed
