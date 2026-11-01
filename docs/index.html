@@ -31,6 +31,7 @@
         <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
         <a href="#recipes" class="nav-link" data-i18n="nav.recipes">Rezepte</a>
         <a href="#install" class="nav-link" data-i18n="nav.install">Installation</a>
+        <a href="#migration" class="nav-link" data-i18n="nav.migration">Update</a>
         <a href="#specs" class="nav-link" data-i18n="nav.specs">Anforderungen</a>
         <a href="#faq" class="nav-link" data-i18n="nav.faq">FAQ</a>
       </div>
@@ -835,6 +836,64 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Migration: Update von 0.8.x auf 0.9.0 -->
+  <section class="section install-section" id="migration">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" data-i18n="migration.title">Update auf 0.9.0</h2>
+        <p class="section-subtitle" data-i18n="migration.subtitle">Du spielst schon mit WorldExplorerMod? So wechselst du auf 0.9.0 mit dem neuen Biom Birnenhain.</p>
+      </div>
+
+      <div class="install-steps">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3 class="step-title" data-i18n="migration.step1.title">Welt sichern</h3>
+            <p class="step-text" data-i18n-html="migration.step1.desc">
+              Kopiere vor dem Update deinen Welt-Ordner unter <code class="code-badge">saves</code>. Eine Welt, die einmal mit 0.9.0 gespielt wurde, kannst du nur über diese Sicherung wieder mit 0.8.x spielen.
+            </p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3 class="step-title" data-i18n="migration.step2.title">TerraBlender installieren</h3>
+            <p class="step-text" data-i18n-html="migration.step2.desc">
+              Ab 0.9.0 braucht die Mod zusätzlich <strong>TerraBlender</strong> (26.3.0.0.9 oder neuer). Prüfe nach dem Update, ob TerraBlender in deinem Launcher-Profil steht, und füge es sonst hinzu. Fehlt es, bricht Fabric den Start mit einer Meldung über die fehlende Abhängigkeit <code class="code-badge">terrablender</code> ab.
+            </p>
+            <a href="https://modrinth.com/mod/terrablender/versions?g=26.3&amp;l=fabric" target="_blank" rel="noopener noreferrer" class="link-btn" data-i18n-html="migration.step2.btn">
+              TerraBlender auf Modrinth &rarr;
+            </a>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3 class="step-title" data-i18n="migration.step3.title">Mod-Datei ersetzen</h3>
+            <p class="step-text" data-i18n-html="migration.step3.desc">
+              Bei manueller Installation: Lösche die alte <code class="code-badge">mc-3ver-0.8.x.jar</code> aus dem <code class="code-badge">mods</code>-Ordner und lege <code class="code-badge">mc-3ver-0.9.0.jar</code> sowie die TerraBlender-Datei hinein. Zwei Versionen der Mod gleichzeitig starten nicht.
+            </p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3 class="step-title" data-i18n="migration.step4.title">Server und Mitspieler</h3>
+            <p class="step-text" data-i18n-html="migration.step4.desc">
+              Auf einem Server brauchen der Server <strong>und</strong> alle Spieler WorldExplorerMod 0.9.0 und TerraBlender. Wer noch 0.8.x hat, kann nicht beitreten.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="recipe-wood-banner">
+        <div class="wood-banner-text" data-i18n-html="migration.worlds">
+          🌳 <strong>Was passiert mit bestehenden Welten?</strong> Bereits erkundete Gebiete bleiben, wie sie sind. Birnenhaine entstehen nur in neu erzeugten Chunks, dort wo sonst ein Wald oder Blumenwald läge. An der Grenze zu alten Chunks kann ein Hain abrupt enden. Den nächsten findest du mit <code class="code-badge">/locate biome mc3ver:pear_grove</code>, das Herzstück mit dem alten Birnbaum mit <code class="code-badge">/locate structure mc3ver:pear_grove_heart</code> (Cheats nötig).
         </div>
       </div>
     </div>
