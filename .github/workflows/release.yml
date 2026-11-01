@@ -81,6 +81,6 @@ jobs:
           java: Java 25
           # TerraBlender heißt auf CurseForge als Fabric-Projekt terrablender-fabric
           dependencies: |
-            fabric-api:required
+            fabric-api(required)
             terrablender(required){curseforge:terrablender-fabric}
 
