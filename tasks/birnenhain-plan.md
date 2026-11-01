@@ -52,7 +52,7 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 
 ## Task 5a: Laubfarben-Variation am Birnbaum
 
-- Birnenlaub bekommt einen `BlockColorRegistry`-Eintrag im Client: Grundton ist die Laubfarbe des Bioms, dazu eine Helligkeitsabweichung aus der Blockposition (Startwert ±12 %). Gleiche Position, gleicher Ton; kein Blockstate, kein Speicheraufwand.
+- Birnenlaub bekommt einen `BlockColorRegistry`-Eintrag im Client: Grundton ist die Laubfarbe des Bioms, dazu eine Helligkeitsabweichung aus der Blockposition (Startwert ±12 %; nach Spieltest 2026-11-01 ±22 % auf einem 6er-Raster, helle Kronen gelblicher, dunkle bläulicher). Gleiche Position, gleicher Ton; kein Blockstate, kein Speicheraufwand.
 - Gilt für alle Birnbäume, auch außerhalb des Hains.
 - Die Abweichung als reine Funktion in `PearTreeLogic` (Position → Faktor), Tests: Bereich eingehalten, deterministisch, Nachbarblöcke variieren.
 - Vorher prüfen: Birnenlaub nutzt das graue `oak_leaves`-Muster mit `tintindex`, bisher ist keine Farbe registriert.
@@ -90,7 +90,7 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 ## Stand nach Phase 1
 
 - Im Spiel abgestimmt: Krone (ausladender, lichter), Waldring um die Lichtung, See und Quellfels am Gelände.
-- Weiter Startwerte: Laubfarben und ±12 % Helligkeit, Region-Gewicht 3, Zonenschwellen 16/32, Mauer-Chance 6 %/4 %.
+- Weiter Startwerte: Laubfarben, Region-Gewicht 3, Zonenschwellen 16/32, Mauer-Chance 6 %/4 %.
 - Bekannt und akzeptiert: Hain-Streifen an TerraBlender-Regionsgrenzen; Haine unter 32 Tiefe ohne Herz.
 - Nächste Phasen laut Spec: Phase 2 (Fallobst, Birnblüten-Blume, Pollenpartikel), Phase 3 (Kreaturen).
 
