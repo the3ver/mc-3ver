@@ -2,8 +2,10 @@ package net.frank.mc3ver.grove;
 
 import com.mojang.datafixers.util.Pair;
 import java.util.function.Consumer;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.frank.mc3ver.Mc3verMod;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -41,9 +43,13 @@ public class ModGrove implements TerraBlenderApi {
     public static final StructureType<PearGroveHeartStructure> HEART_STRUCTURE = Registry.register(
             BuiltInRegistries.STRUCTURE_TYPE, Mc3verMod.id("pear_grove_heart"), () -> PearGroveHeartStructure.CODEC);
 
+    // Goldene Pollen, die im Hain schweben; Häufigkeit steht im Biom (visual/ambient_particles)
+    public static final SimpleParticleType POLLEN = Registry.register(
+            BuiltInRegistries.PARTICLE_TYPE, Mc3verMod.id("pear_pollen"), FabricParticleTypes.simple());
+
     /**
-     * Feature-Typ; aus Mc3verMod.onInitialize, bevor Datapacks die JSONs laden. Strukturtyp und Stücktyp
-     * registrieren sich beim Laden der Klasse über die Felder oben.
+     * Feature-Typ; aus Mc3verMod.onInitialize, bevor Datapacks die JSONs laden. Strukturtyp, Stücktyp und
+     * Partikeltyp registrieren sich beim Laden der Klasse über die Felder oben.
      */
     public static void register() {
         Registry.register(

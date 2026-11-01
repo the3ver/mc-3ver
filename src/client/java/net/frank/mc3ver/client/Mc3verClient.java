@@ -12,6 +12,7 @@ public class Mc3verClient implements ClientModInitializer {
 
         PearBoatClient.register();
         PearLeavesClient.register();
+        PearPollenClient.register();
         BonfireClient.register();
         TransportClient.register();
         TentClient.register();

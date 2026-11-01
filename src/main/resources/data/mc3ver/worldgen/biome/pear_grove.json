@@ -133,6 +133,17 @@
       },
       "modifier": "overlay"
     },
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "mc3ver:pear_pollen"
+          },
+          "probability": 0.004
+        }
+      ],
+      "modifier": "append"
+    },
     "minecraft:visual/sky_color": "#78a7ff",
     "minecraft:visual/water_fog_color": "#0e4a52"
   },

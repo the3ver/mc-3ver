@@ -70,6 +70,24 @@ class GroveResourcesTest {
                         .getAsString());
     }
 
+    // Spec: wenige goldene Pollen. Zum Vergleich: Crimson-Forest-Sporen 0.025, dort schwebt es dicht
+    @Test
+    void fewGoldenPollenFloatInTheGrove() throws Exception {
+        JsonObject particles =
+                biome().getAsJsonObject("attributes").getAsJsonObject("minecraft:visual/ambient_particles");
+        assertEquals("append", particles.get("modifier").getAsString());
+        JsonArray entries = particles.getAsJsonArray("argument");
+        assertEquals(1, entries.size());
+        JsonObject pollen = entries.get(0).getAsJsonObject();
+        assertEquals(
+                "mc3ver:pear_pollen",
+                pollen.getAsJsonObject("particle").get("type").getAsString());
+        float probability = pollen.get("probability").getAsFloat();
+        assertTrue(probability > 0 && probability <= 0.01f, "wenige Pollen: " + probability);
+        assertTrue(Files.exists(
+                Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/particles/pear_pollen.json")));
+    }
+
     @Test
     void undergroundIsVanillaPlains() throws Exception {
         JsonObject biome = biome();
