@@ -48,6 +48,9 @@ public class GroveZoneLogic {
     private static final Density EDGE_DENSITY = new Density(0.5f, 1, 1, 0, 0f, 0.3f, 0f, 1.5f, 0.06f, 0f);
     private static final Density GROUPS_DENSITY = new Density(0.5f, 3, 5, 4, 0f, 1f, 0f, 1f, 0.04f, 0f);
     private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f, 0f, 0f);
+    // Ring um die Lichtung: wie dichter Wald, aber vor allem große Birnen mit Ästen, damit die Lichtung tief im
+    // Wald liegt. Weniger Stämme, weil die großen Kronen mehr Platz brauchen
+    private static final Density RING_DENSITY = new Density(7f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f, 0f, 0.6f);
     private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f, 0f, 0f, 1f, 0f, 0f);
 
     /**
@@ -74,7 +77,8 @@ public class GroveZoneLogic {
         return switch (zone) {
             case EDGE -> EDGE_DENSITY;
             case GROUPS -> GROUPS_DENSITY;
-            case FOREST, RING -> FOREST_DENSITY;
+            case FOREST -> FOREST_DENSITY;
+            case RING -> RING_DENSITY;
             case HEART -> HEART_DENSITY;
         };
     }

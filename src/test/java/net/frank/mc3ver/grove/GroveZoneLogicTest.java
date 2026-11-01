@@ -127,4 +127,15 @@ class GroveZoneLogicTest {
         assertEquals(0, GroveZoneLogic.countFor(GroveZoneLogic.FALLEN_PEARS_PER_TREE, 0.99f));
         assertTrue(GroveZoneLogic.FALLEN_PEAR_RADIUS >= 1 && GroveZoneLogic.FALLEN_PEAR_RADIUS <= 2, "unter der Krone");
     }
+
+    // Spieltest: die Lichtung wirkte nicht wie tief im Wald. Große Bäume nur im Ring
+    @Test
+    void largeTreesStandMostlyInTheRingAroundTheClearing() {
+        Density ring = GroveZoneLogic.densityOf(Zone.RING);
+        assertTrue(ring.largeTreeShare() >= 0.5f, "überwiegend groß");
+        assertTrue(ring.clustersPerChunk() >= 5, "dicht");
+        for (Zone zone : new Zone[] {Zone.EDGE, Zone.GROUPS, Zone.FOREST, Zone.HEART}) {
+            assertEquals(0f, GroveZoneLogic.densityOf(zone).largeTreeShare(), zone.name());
+        }
+    }
 }

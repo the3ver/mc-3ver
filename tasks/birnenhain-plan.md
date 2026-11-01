@@ -116,3 +116,9 @@ Entscheidungen (2026-11-01): Fallobst gibt per Rechtsklick oder Abbauen eine Bir
 - Partikeltyp `mc3ver:pear_pollen`, im Client mit dem Vanilla-Sporenblüten-Verhalten (schwebt langsam) in Gold.
 - Biom-Attribut `minecraft:visual/ambient_particles`, Startwert Wahrscheinlichkeit 0,004.
 - Verify: im Spiel wenige Pollen, abstimmen.
+
+## Task 14: Baumformen und Waldring (nach Spieltest 2026-11-01)
+
+- Hain-Bäume aus `pear_grove_tree`: meist `pear_tree`, dazu 25 % `pear_tree_tall` (6 bis 8 hoch, Krone Radius 3) und `pear_tree_branched` (Kirschbaum-Stamm, 1 bis 2 Äste mit eigener Laubwolke).
+- Eigene Zone `RING` (20 bis 44 um den alten Baum): 7 Bäume je Chunk, davon 60 % `pear_tree_large` (8 bis 10 hoch, 2 bis 3 Äste, Laubwolken Radius 3).
+- Gilt nur im Hain; Setzlinge und Birnbäume in anderen Biomen bleiben beim normalen Birnbaum.

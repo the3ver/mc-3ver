@@ -4,6 +4,12 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.5] - 2026-11-01
+
+### 🔄 Geändert
+* **Birnbäume im Hain:** Die Bäume sind unterschiedlich groß. Neben dem gewohnten Birnbaum wachsen höhere mit breiter Krone und solche mit ein bis zwei Ästen.
+* **Lichtung im tiefen Wald:** Den Ring um den alten Birnbaum bilden jetzt vor allem große Birnen mit mehreren Ästen.
+
 ## [0.9.4] - 2026-11-01
 
 ### 🔄 Geändert

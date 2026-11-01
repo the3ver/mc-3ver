@@ -4,6 +4,12 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.5] - 2026-11-01
+
+### 🔄 Changed
+* **Pear trees in the grove:** trees vary in size. Besides the usual pear tree, taller ones with a wide crown and ones with one or two branches grow.
+* **Clearing deep in the forest:** the ring around the old pear tree is now mostly made of large pear trees with several branches.
+
 ## [0.9.4] - 2026-11-01
 
 ### 🔄 Changed

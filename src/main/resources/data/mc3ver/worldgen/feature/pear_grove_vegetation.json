@@ -1,7 +1,7 @@
 {
   "type": "mc3ver:pear_grove_vegetation",
-  "tree": "mc3ver:pear_tree",
-  "large_tree": "mc3ver:pear_tree",
+  "tree": "mc3ver:pear_grove_tree",
+  "large_tree": "mc3ver:pear_tree_large",
   "bush": "mc3ver:pear_bush",
   "fern": {
     "type": "minecraft:simple_block",
