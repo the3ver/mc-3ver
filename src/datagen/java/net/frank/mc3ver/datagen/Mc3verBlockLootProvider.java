@@ -31,6 +31,8 @@ class Mc3verBlockLootProvider extends FabricBlockLootSubProvider {
         dropSelf(PearTreeBlocks.PEAR_PRESSURE_PLATE);
         dropSelf(PearTreeBlocks.PEAR_BUTTON);
         dropSelf(PearTreeBlocks.PEAR_SAPLING);
+        dropSelf(PearTreeBlocks.PEAR_BLOSSOM);
+        dropPottedContents(PearTreeBlocks.POTTED_PEAR_BLOSSOM);
         add(PearTreeBlocks.PEAR_SLAB, this::createSlabItemTable);
         add(PearTreeBlocks.PEAR_DOOR, this::createDoorTable);
         // Fallobst: eine Birne, mit Behutsamkeit der Block selbst

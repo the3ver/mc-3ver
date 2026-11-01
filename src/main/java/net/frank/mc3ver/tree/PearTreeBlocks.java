@@ -11,6 +11,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
@@ -20,6 +21,8 @@ import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.FlowerBlock;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.PressurePlateBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SaplingBlock;
@@ -156,6 +159,21 @@ public class PearTreeBlocks {
                     .instabreak()
                     .sound(SoundType.WET_GRASS)
                     .pushReaction(PushReaction.POPPED));
+    // Weiß-rosa Blume, wächst nur am alten Birnbaum im Hain; Stew-Effekt wie die Margerite
+    public static final Block PEAR_BLOSSOM = block(
+            "pear_blossom",
+            p -> new FlowerBlock(MobEffects.REGENERATION, 8.0F, p),
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT)
+                    .noCollision()
+                    .instabreak()
+                    .sound(SoundType.GRASS)
+                    .offsetType(BlockBehaviour.OffsetType.XZ)
+                    .pushReaction(PushReaction.POPPED));
+    public static final Block POTTED_PEAR_BLOSSOM = block(
+            "potted_pear_blossom",
+            p -> new FlowerPotBlock(PEAR_BLOSSOM, p),
+            BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.POPPED));
 
     // BlockItems
     public static final Item PEAR_LOG_ITEM = blockItem(PEAR_LOG);
@@ -174,6 +192,7 @@ public class PearTreeBlocks {
     public static final Item PEAR_LEAVES_ITEM = blockItem(PEAR_LEAVES);
     public static final Item PEAR_SAPLING_ITEM = blockItem(PEAR_SAPLING);
     public static final Item FALLEN_PEAR_ITEM = blockItem(FALLEN_PEAR);
+    public static final Item PEAR_BLOSSOM_ITEM = blockItem(PEAR_BLOSSOM);
 
     public static void register() {
         // Axe stripping

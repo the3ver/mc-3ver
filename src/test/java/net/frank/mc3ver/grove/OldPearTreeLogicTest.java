@@ -191,6 +191,24 @@ class OldPearTreeLogicTest {
         });
     }
 
+    // Spec: Birnblüten nur am alten Baum; sie stehen auf freiem Boden, nicht auf Moos, Pfad, See oder Fels
+    @Test
+    void blossomsGrowInARingAroundTheTreeOnFreeGround() {
+        forManySeeds(l -> {
+            List<Pos> blossoms = l.positionsOf(Role.BLOSSOM);
+            assertTrue(blossoms.size() >= 3, "Blüten " + blossoms.size());
+            for (Pos p : blossoms) {
+                assertEquals(0, p.y());
+                assertTrue(fromTrunk(p) > GROUND_RADIUS && fromTrunk(p) <= BLOSSOM_RADIUS, "Abstand " + fromTrunk(p));
+                for (Pos other : l.parts().keySet()) {
+                    if (!other.equals(p) && other.x() == p.x() && other.z() == p.z()) {
+                        assertTrue(other.y() > 0, "unter der Blüte liegt " + l.roleAt(other));
+                    }
+                }
+            }
+        });
+    }
+
     @Test
     void steppingStonesLeadEightToTwelveBlocksTowardsTheTree() {
         forManySeeds(l -> {
@@ -224,7 +242,7 @@ class OldPearTreeLogicTest {
         layout(42).parts().values().forEach(part -> counts.merge(part.role(), 1L, Long::sum));
         assertEquals(
                 "{TRUNK=56, BRANCH=23, LEAVES=442, ROOT=20, BEEHIVE=1, CHEST=1, MOSS_BLOCK=24, MOSS_CARPET=8,"
-                        + " MUSHROOM=2, WATER=37, CLAY=30, GRAVEL=21, LILY_PAD=2, SPRING_ROCK=8, SPRING_WATER=1, PATH=9}",
+                        + " MUSHROOM=2, WATER=37, CLAY=30, GRAVEL=21, LILY_PAD=2, SPRING_ROCK=8, SPRING_WATER=1, PATH=9, BLOSSOM=15}",
                 counts.toString());
     }
 

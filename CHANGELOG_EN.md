@@ -4,6 +4,11 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.2] - 2026-11-01
+
+### ✨ Added
+* **Pear blossom:** new white-pink flower that only grows around the old pear tree in the heart of the grove. Bees visit it, it fits in a flower pot and crafts into pink dye.
+
 ## [0.9.1] - 2026-11-01
 
 ### ✨ Added

@@ -231,6 +231,13 @@ public class PearGroveHeartPiece extends StructurePiece {
             case MOSS_BLOCK -> set(level, pos, Blocks.MOSS_BLOCK.defaultBlockState());
             case MOSS_CARPET -> set(level, pos, Blocks.MOSS_CARPET.defaultBlockState());
             case MUSHROOM -> set(level, pos, Blocks.BROWN_MUSHROOM.defaultBlockState());
+            // Nur auf Gras oder Erde und ohne etwas zu verdrängen; auf Sand oder Stein bleibt die Stelle frei
+            case BLOSSOM -> {
+                BlockState blossom = PearTreeBlocks.PEAR_BLOSSOM.defaultBlockState();
+                if (level.getBlockState(pos).canBeReplaced() && blossom.canSurvive(level, pos)) {
+                    set(level, pos, blossom);
+                }
+            }
             case WATER -> set(level, pos, Blocks.WATER.defaultBlockState());
             case CLAY -> set(level, pos, Blocks.CLAY.defaultBlockState());
             case GRAVEL -> set(level, pos, Blocks.GRAVEL.defaultBlockState());

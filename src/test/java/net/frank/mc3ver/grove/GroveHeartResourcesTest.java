@@ -114,4 +114,32 @@ class GroveHeartResourcesTest {
         }
         return entries;
     }
+
+    // Birnblüte verhält sich wie eine Vanilla-Blume: Bienen fliegen sie an, sie passt in den Blumentopf,
+    // Wasser spült sie weg, sie gibt rosa Farbstoff
+    @Test
+    void pearBlossomIsTaggedLikeASmallFlower() throws Exception {
+        for (String tag : new String[] {
+            "block/small_flowers",
+            "block/bee_attractive",
+            "block/washed_away_by_fluids",
+            "item/small_flowers",
+            "item/bee_food"
+        }) {
+            assertTrue(
+                    json("minecraft/tags/" + tag + ".json")
+                            .getAsJsonArray("values")
+                            .contains(new com.google.gson.JsonPrimitive("mc3ver:pear_blossom")),
+                    tag);
+        }
+        assertTrue(json("minecraft/tags/block/flower_pots.json")
+                .getAsJsonArray("values")
+                .contains(new com.google.gson.JsonPrimitive("mc3ver:potted_pear_blossom")));
+        assertEquals(
+                "minecraft:pink_dye",
+                json("mc3ver/recipe/pink_dye_from_pear_blossom.json")
+                        .getAsJsonObject("result")
+                        .get("id")
+                        .getAsString());
+    }
 }

@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.2] - 2026-11-01
+
+### ✨ Neu hinzugefügt
+* **Birnblüte:** Neue weiß-rosa Blume, die nur rund um den alten Birnbaum im Herz des Hains wächst. Bienen fliegen sie an, sie passt in einen Blumentopf und gibt rosa Farbstoff.
+
 ## [0.9.1] - 2026-11-01
 
 ### ✨ Neu hinzugefügt

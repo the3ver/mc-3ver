@@ -44,6 +44,9 @@ public class OldPearTreeLogic {
     public static final int GROUND_RADIUS = 5;
     // Abstand Stammmitte bis Seerand: außerhalb der Wurzeln (höchstens 5)
     public static final int LAKE_DISTANCE = 7;
+    // Birnblüten wachsen auf freiem Boden im Ring zwischen Moos und BLOSSOM_RADIUS
+    public static final int BLOSSOM_RADIUS = 9;
+    public static final double BLOSSOM_CHANCE = 0.1;
 
     public enum Role {
         TRUNK,
@@ -61,7 +64,8 @@ public class OldPearTreeLogic {
         LILY_PAD,
         SPRING_ROCK,
         SPRING_WATER,
-        PATH
+        PATH,
+        BLOSSOM
     }
 
     public record Pos(int x, int y, int z) {
@@ -152,6 +156,7 @@ public class OldPearTreeLogic {
         placeBeehives(parts, height, random);
         placeGround(parts, random);
         placePath(parts, lakeAngle + Math.PI + (random.nextDouble() - 0.5) * Math.PI / 2, random);
+        placeBlossoms(parts, random);
         return new Layout(height, lakeRadius, Collections.unmodifiableMap(parts));
     }
 
@@ -365,6 +370,27 @@ public class OldPearTreeLogic {
                 } else if (roll < 0.45 && mushrooms < 5) {
                     parts.put(above, new Part(Role.MUSHROOM, Direction.UP));
                     mushrooms++;
+                }
+            }
+        }
+    }
+
+    // Birnblüten außerhalb des Mooses, nur in Spalten, in denen am Boden nichts liegt (See, Fels, Pfad, Wurzeln)
+    private static void placeBlossoms(Map<Pos, Part> parts, SplittableRandom random) {
+        Set<Column> occupied = new LinkedHashSet<>();
+        for (Pos pos : parts.keySet()) {
+            if (pos.y() <= 0) {
+                occupied.add(new Column(pos.x(), pos.z()));
+            }
+        }
+        for (int x = -BLOSSOM_RADIUS; x <= BLOSSOM_RADIUS + 1; x++) {
+            for (int z = -BLOSSOM_RADIUS; z <= BLOSSOM_RADIUS + 1; z++) {
+                double d = Math.hypot(x - 0.5, z - 0.5);
+                if (d <= GROUND_RADIUS || d > BLOSSOM_RADIUS || occupied.contains(new Column(x, z))) {
+                    continue;
+                }
+                if (random.nextDouble() < BLOSSOM_CHANCE) {
+                    parts.put(new Pos(x, 0, z), new Part(Role.BLOSSOM, Direction.UP));
                 }
             }
         }
