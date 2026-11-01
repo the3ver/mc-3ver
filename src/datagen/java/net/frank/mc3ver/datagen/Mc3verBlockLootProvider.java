@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.frank.mc3ver.tree.PearTreeBlocks;
+import net.frank.mc3ver.tree.PearTreeItems;
 import net.minecraft.core.HolderLookup;
 
 /**
@@ -32,5 +33,9 @@ class Mc3verBlockLootProvider extends FabricBlockLootSubProvider {
         dropSelf(PearTreeBlocks.PEAR_SAPLING);
         add(PearTreeBlocks.PEAR_SLAB, this::createSlabItemTable);
         add(PearTreeBlocks.PEAR_DOOR, this::createDoorTable);
+        // Fallobst: eine Birne, mit Behutsamkeit der Block selbst
+        add(
+                PearTreeBlocks.FALLEN_PEAR,
+                createSingleItemTableWithSilkTouch(PearTreeBlocks.FALLEN_PEAR, PearTreeItems.PEAR));
     }
 }

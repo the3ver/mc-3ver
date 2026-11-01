@@ -146,6 +146,16 @@ public class PearTreeBlocks {
                     .instabreak()
                     .sound(SoundType.GRASS)
                     .pushReaction(PushReaction.POPPED));
+    // Liegt nur am Boden: kein Hindernis, sofort abgebaut, fällt ohne Untergrund ab
+    public static final Block FALLEN_PEAR = block(
+            "fallen_pear",
+            FallenPearBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
+                    .noCollision()
+                    .instabreak()
+                    .sound(SoundType.WET_GRASS)
+                    .pushReaction(PushReaction.POPPED));
 
     // BlockItems
     public static final Item PEAR_LOG_ITEM = blockItem(PEAR_LOG);
@@ -163,6 +173,7 @@ public class PearTreeBlocks {
     public static final Item PEAR_BUTTON_ITEM = blockItem(PEAR_BUTTON);
     public static final Item PEAR_LEAVES_ITEM = blockItem(PEAR_LEAVES);
     public static final Item PEAR_SAPLING_ITEM = blockItem(PEAR_SAPLING);
+    public static final Item FALLEN_PEAR_ITEM = blockItem(FALLEN_PEAR);
 
     public static void register() {
         // Axe stripping

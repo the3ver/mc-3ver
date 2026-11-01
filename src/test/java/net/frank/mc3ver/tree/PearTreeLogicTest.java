@@ -26,6 +26,7 @@ public class PearTreeLogicTest {
                 0.001f,
                 "Sapling should have 30% composting chance");
         assertEquals(0.0f, PearTreeLogic.getCompostChance("pear_log"), 0.001f, "Logs are not compostable");
+        assertEquals(0.65f, PearTreeLogic.getCompostChance("fallen_pear"), 0.001f, "Fallobst wie eine Birne");
     }
 
     @Test
@@ -197,7 +198,7 @@ public class PearTreeLogicTest {
 
     @Test
     void testCompostableKeyMatchesVanillaChance() throws Exception {
-        for (String name : new String[] {"pear", "pear_leaves", "pear_sapling"}) {
+        for (String name : new String[] {"pear", "pear_leaves", "pear_sapling", "fallen_pear"}) {
             var key = PearTreeLogic.getCompostableKey(name);
             org.junit.jupiter.api.Assertions.assertNotNull(key, name + " muss kompostierbar sein");
             // Gewicht der 1 im weighted_list = Chance in Prozent

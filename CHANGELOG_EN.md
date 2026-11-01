@@ -4,6 +4,11 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.1] - 2026-11-01
+
+### ✨ Added
+* **Fallen pears:** pears lie scattered under the trees of the Pear Grove. Right-click or break one to get a pear; Silk Touch keeps the block so you can place it yourself.
+
 ## [0.9.0] - 2026-10-31
 
 ### ✨ Added

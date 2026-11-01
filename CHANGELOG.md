@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.9.1] - 2026-11-01
+
+### ✨ Neu hinzugefügt
+* **Fallobst:** Unter den Bäumen im Birnenhain liegen vereinzelt heruntergefallene Birnen. Rechtsklick oder Abbauen gibt eine Birne, mit Behutsamkeit den Block zum Selbst-Hinlegen.
+
 ## [0.9.0] - 2026-10-31
 
 ### ✨ Neu hinzugefügt

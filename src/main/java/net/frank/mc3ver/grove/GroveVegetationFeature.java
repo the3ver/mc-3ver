@@ -35,6 +35,8 @@ public record GroveVegetationFeature(
     private static final int GROUND_PATCH_RADIUS = 3;
     private static final int PLANT_PATCH_RADIUS = 4;
     private static final int PLANT_PATCH_TRIES = 12;
+    // Tiefer als Krone plus Stamm des Birnbaums: weiter unten liegt kein Boden mehr unter dem Baum
+    private static final int MAX_CANOPY_DEPTH = 16;
 
     @Override
     public MapCodec<GroveVegetationFeature> codec() {
@@ -68,7 +70,10 @@ public record GroveVegetationFeature(
             for (int t = 0; t < size; t++) {
                 int x = anchorX + spread(random, density.clusterRadius());
                 int z = anchorZ + spread(random, density.clusterRadius());
-                placed |= placeOnGround(tree, level, generator, random, x, z);
+                if (placeOnGround(tree, level, generator, random, x, z)) {
+                    placed = true;
+                    placeFallenPears(level, random, x, z);
+                }
             }
         }
 
@@ -114,6 +119,29 @@ public record GroveVegetationFeature(
             return false;
         }
         return feature.value().place(level, generator, random, pos);
+    }
+
+    // Fallobst unter der Krone. Die Höhenkarte endet auf dem Laub: von dort durch Laub, Holz und Luft nach unten
+    private static void placeFallenPears(WorldGenLevel level, RandomSource random, int treeX, int treeZ) {
+        BlockState pear = PearTreeBlocks.FALLEN_PEAR.defaultBlockState();
+        int count = GroveZoneLogic.countFor(GroveZoneLogic.FALLEN_PEARS_PER_TREE, random.nextFloat());
+        for (int i = 0; i < count; i++) {
+            int x = treeX + spread(random, GroveZoneLogic.FALLEN_PEAR_RADIUS);
+            int z = treeZ + spread(random, GroveZoneLogic.FALLEN_PEAR_RADIUS);
+            BlockPos pos = new BlockPos(x, level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, x, z), z);
+            for (int step = 0; step < MAX_CANOPY_DEPTH && aboveGround(level.getBlockState(pos.below())); step++) {
+                pos = pos.below();
+            }
+            if (level.getBlockState(pos.below()).is(BlockTags.SUBSTRATE_OVERWORLD)
+                    && level.getBlockState(pos).canBeReplaced()
+                    && pear.canSurvive(level, pos)) {
+                level.setBlock(pos, pear, 2);
+            }
+        }
+    }
+
+    private static boolean aboveGround(BlockState state) {
+        return state.isAir() || state.is(BlockTags.LEAVES) || state.is(BlockTags.LOGS) || state.canBeReplaced();
     }
 
     // Farne und Blumen: Flecken aus mehreren Pflanzen auf Gras, wie die Vanilla-Patches

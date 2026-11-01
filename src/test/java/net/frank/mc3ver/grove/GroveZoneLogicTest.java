@@ -118,4 +118,12 @@ class GroveZoneLogicTest {
         Density d = GroveZoneLogic.densityOf(zone);
         return d.clustersPerChunk() * (d.minClusterSize() + d.maxClusterSize()) / 2.0;
     }
+
+    // Spec: Fallobst vereinzelt unter Birnbäumen; höchstens eine Birne je Baum, die unter der Krone liegt
+    @Test
+    void fallenPearsLieScatteredUnderTheCrown() {
+        assertEquals(1, GroveZoneLogic.countFor(GroveZoneLogic.FALLEN_PEARS_PER_TREE, 0f));
+        assertEquals(0, GroveZoneLogic.countFor(GroveZoneLogic.FALLEN_PEARS_PER_TREE, 0.99f));
+        assertTrue(GroveZoneLogic.FALLEN_PEAR_RADIUS >= 1 && GroveZoneLogic.FALLEN_PEAR_RADIUS <= 2, "unter der Krone");
+    }
 }

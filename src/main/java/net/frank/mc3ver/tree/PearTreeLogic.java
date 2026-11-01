@@ -16,7 +16,7 @@ public class PearTreeLogic {
     public static final int SLOW_FALLING_DURATION_TICKS = 900;
 
     public static float getCompostChance(String itemName) {
-        if ("pear".equals(itemName)) {
+        if ("pear".equals(itemName) || "fallen_pear".equals(itemName)) {
             return 0.65f;
         } else if ("pear_leaves".equals(itemName) || "pear_sapling".equals(itemName)) {
             return 0.30f;

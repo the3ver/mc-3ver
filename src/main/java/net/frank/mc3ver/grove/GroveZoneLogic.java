@@ -12,6 +12,9 @@ public class GroveZoneLogic {
     public static final int FOREST_RING = 24;
     public static final int GROUPS_DEPTH = 16;
     public static final int FOREST_DEPTH = 32;
+    // Fallobst unter jedem Hain-Baum: im Schnitt so viele Birnen, höchstens so weit vom Stamm (unter der Krone)
+    public static final float FALLEN_PEARS_PER_TREE = 0.6f;
+    public static final int FALLEN_PEAR_RADIUS = 2;
 
     public enum Zone {
         EDGE,
