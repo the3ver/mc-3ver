@@ -70,6 +70,24 @@ class GroveResourcesTest {
                         .getAsString());
     }
 
+    // Spec: wenige goldene Pollen. Zum Vergleich: Crimson-Forest-Sporen 0.025, dort schwebt es dicht
+    @Test
+    void fewGoldenPollenFloatInTheGrove() throws Exception {
+        JsonObject particles =
+                biome().getAsJsonObject("attributes").getAsJsonObject("minecraft:visual/ambient_particles");
+        assertEquals("append", particles.get("modifier").getAsString());
+        JsonArray entries = particles.getAsJsonArray("argument");
+        assertEquals(1, entries.size());
+        JsonObject pollen = entries.get(0).getAsJsonObject();
+        assertEquals(
+                "mc3ver:pear_pollen",
+                pollen.getAsJsonObject("particle").get("type").getAsString());
+        float probability = pollen.get("probability").getAsFloat();
+        assertTrue(probability > 0 && probability <= 0.01f, "wenige Pollen: " + probability);
+        assertTrue(Files.exists(
+                Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/particles/pear_pollen.json")));
+    }
+
     @Test
     void undergroundIsVanillaPlains() throws Exception {
         JsonObject biome = biome();
@@ -111,11 +129,79 @@ class GroveResourcesTest {
         }
     }
 
+    // Spieltest 2026-11-01: alle Hain-Bäume sahen gleich aus. Meist der normale Birnbaum, daneben höhere und
+    // solche mit Ästen; alle aus Birnenholz und Birnenlaub
+    @Test
+    void groveTreesVaryInSizeAndSometimesBranch() throws Exception {
+        JsonObject selector = json("data/mc3ver/worldgen/feature/pear_grove_tree.json");
+        assertEquals("minecraft:random_selector", selector.get("type").getAsString());
+        // random_selector erwartet platzierte Features, hier inline ohne Platzierung
+        assertEquals(
+                "mc3ver:pear_tree",
+                selector.getAsJsonObject("default").get("feature").getAsString());
+        List<String> variants = new ArrayList<>();
+        double others = 1;
+        for (JsonElement e : selector.getAsJsonArray("features")) {
+            variants.add(e.getAsJsonObject()
+                    .getAsJsonObject("feature")
+                    .get("feature")
+                    .getAsString());
+            others *= 1 - e.getAsJsonObject().get("chance").getAsDouble();
+        }
+        assertEquals(List.of("mc3ver:pear_tree_tall", "mc3ver:pear_tree_branched"), variants);
+        assertTrue(others >= 0.4, "normaler Birnbaum bleibt häufig: " + others);
+
+        JsonObject tall = json("data/mc3ver/worldgen/feature/pear_tree_tall.json");
+        JsonObject normal = json("data/mc3ver/worldgen/feature/pear_tree.json");
+        assertTrue(baseHeight(tall) > baseHeight(normal), "höher");
+        assertTrue(radius(tall) > radius(normal), "breitere Krone");
+        assertEquals(
+                "minecraft:cherry_trunk_placer",
+                json("data/mc3ver/worldgen/feature/pear_tree_branched.json")
+                        .getAsJsonObject("trunk_placer")
+                        .get("type")
+                        .getAsString(),
+                "Äste wie beim Kirschbaum");
+        for (String name : new String[] {"pear_tree_tall", "pear_tree_branched", "pear_tree_large"}) {
+            JsonObject tree = json("data/mc3ver/worldgen/feature/" + name + ".json");
+            assertEquals(
+                    "mc3ver:pear_log",
+                    tree.getAsJsonObject("trunk_provider").get("id").getAsString(),
+                    name);
+            assertEquals(
+                    "mc3ver:pear_leaves",
+                    tree.getAsJsonObject("foliage_provider").get("id").getAsString(),
+                    name);
+        }
+    }
+
+    // Lichtung im tiefen Wald: im Ring um den alten Baum stehen große Birnen mit Ästen
+    @Test
+    void ringAroundTheClearingUsesLargePearTrees() throws Exception {
+        JsonObject feature = json("data/mc3ver/worldgen/feature/pear_grove_vegetation.json");
+        assertEquals("mc3ver:pear_tree_large", feature.get("large_tree").getAsString());
+        JsonObject large = json("data/mc3ver/worldgen/feature/pear_tree_large.json");
+        assertTrue(
+                baseHeight(large) > baseHeight(json("data/mc3ver/worldgen/feature/pear_tree_tall.json")),
+                "größer als die hohe Variante");
+        assertEquals(
+                "minecraft:cherry_trunk_placer",
+                large.getAsJsonObject("trunk_placer").get("type").getAsString());
+    }
+
+    private static int baseHeight(JsonObject tree) {
+        return tree.getAsJsonObject("trunk_placer").get("base_height").getAsInt();
+    }
+
+    private static int radius(JsonObject tree) {
+        return tree.getAsJsonObject("foliage_placer").get("radius").getAsInt();
+    }
+
     @Test
     void groveTreesUseThePearTreeAndOnlyRunInTheGrove() throws Exception {
         JsonObject feature = json("data/mc3ver/worldgen/feature/pear_grove_vegetation.json");
         assertEquals("mc3ver:pear_grove_vegetation", feature.get("type").getAsString());
-        assertEquals("mc3ver:pear_tree", feature.get("tree").getAsString());
+        assertEquals("mc3ver:pear_grove_tree", feature.get("tree").getAsString());
         assertEquals("mc3ver:pear_bush", feature.get("bush").getAsString());
 
         JsonObject placed = json("data/mc3ver/worldgen/placed_feature/pear_grove_vegetation.json");

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:random_selector",
+  "default": {
+    "feature": "mc3ver:pear_tree",
+    "placement": []
+  },
+  "features": [
+    {
+      "chance": 0.25,
+      "feature": {
+        "feature": "mc3ver:pear_tree_tall",
+        "placement": []
+      }
+    },
+    {
+      "chance": 0.3,
+      "feature": {
+        "feature": "mc3ver:pear_tree_branched",
+        "placement": []
+      }
+    }
+  ]
+}

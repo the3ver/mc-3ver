@@ -4,6 +4,18 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] - 2026-11-01
+
+### ✨ Added
+* **Fallen pears:** pears lie scattered under the trees of the Pear Grove. Right-click or break one to get a pear; Silk Touch keeps the block so you can place it yourself.
+* **Pear blossom:** new white-pink flower that only grows around the old pear tree. Bees visit it, it fits in a flower pot and crafts into pink dye.
+* **Golden pollen:** a few golden pollen grains drift through the air of the Pear Grove.
+
+### 🔄 Changed
+* **Pear trees in the grove:** trees vary in size. Besides the usual pear tree, taller ones with a wide crown and ones with one or two branches grow.
+* **Clearing deep in the forest:** the old pear tree now only grows in large groves, at least 64 blocks from the edge. Large pear trees with several branches ring its clearing.
+* **Leaf tones:** pear trees now differ more clearly: some crowns are lighter and more yellow, others darker and deep green.
+
 ## [0.9.0] - 2026-10-31
 
 ### ✨ Added

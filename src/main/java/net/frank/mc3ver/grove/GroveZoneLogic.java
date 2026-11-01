@@ -12,18 +12,24 @@ public class GroveZoneLogic {
     public static final int FOREST_RING = 24;
     public static final int GROUPS_DEPTH = 16;
     public static final int FOREST_DEPTH = 32;
+    // Fallobst unter jedem Hain-Baum: im Schnitt so viele Birnen, höchstens so weit vom Stamm (unter der Krone)
+    public static final float FALLEN_PEARS_PER_TREE = 0.6f;
+    public static final int FALLEN_PEAR_RADIUS = 2;
 
     public enum Zone {
         EDGE,
         GROUPS,
         FOREST,
+        // Waldring um die Lichtung des alten Baums
+        RING,
         HEART
     }
 
     /**
      * Bewuchs einer Zone: Baum-Cluster pro Chunk (Nachkommastelle = Chance auf einen weiteren),
      * Bäume pro Cluster und Streuradius um den Cluster-Punkt, Chance auf einen Bodenfleck pro Chunk,
-     * Laubbüsche, Farn- und Blumenflecken pro Chunk, Chance auf einen Rest Gartenmauer pro Chunk.
+     * Laubbüsche, Farn- und Blumenflecken pro Chunk, Chance auf einen Rest Gartenmauer pro Chunk, Anteil großer
+     * Bäume an allen Bäumen.
      */
     public record Density(
             float clustersPerChunk,
@@ -34,14 +40,18 @@ public class GroveZoneLogic {
             float bushesPerChunk,
             float fernPatchesPerChunk,
             float flowerPatchesPerChunk,
-            float wallChance) {}
+            float wallChance,
+            float largeTreeShare) {}
 
     // Büsche vor allem zwischen den Gruppen, Farne nur im dichten Wald, Blumen am meisten auf der offenen Wiese,
     // Mauerreste selten und nur draußen, wo der alte Obstgarten lag
-    private static final Density EDGE_DENSITY = new Density(0.5f, 1, 1, 0, 0f, 0.3f, 0f, 1.5f, 0.06f);
-    private static final Density GROUPS_DENSITY = new Density(0.5f, 3, 5, 4, 0f, 1f, 0f, 1f, 0.04f);
-    private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f, 0f);
-    private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f, 0f, 0f, 1f, 0f);
+    private static final Density EDGE_DENSITY = new Density(0.5f, 1, 1, 0, 0f, 0.3f, 0f, 1.5f, 0.06f, 0f);
+    private static final Density GROUPS_DENSITY = new Density(0.5f, 3, 5, 4, 0f, 1f, 0f, 1f, 0.04f, 0f);
+    private static final Density FOREST_DENSITY = new Density(9f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f, 0f, 0f);
+    // Ring um die Lichtung: wie dichter Wald, aber vor allem große Birnen mit Ästen, damit die Lichtung tief im
+    // Wald liegt. Weniger Stämme, weil die großen Kronen mehr Platz brauchen
+    private static final Density RING_DENSITY = new Density(7f, 1, 1, 0, 0.3f, 0.5f, 1f, 0.3f, 0f, 0.6f);
+    private static final Density HEART_DENSITY = new Density(0f, 0, 0, 0, 0f, 0f, 0f, 1f, 0f, 0f);
 
     /**
      * Zone aus der Tiefe im Hain (Abstand zum Biomrand) und dem Abstand zum alten Baum. Das Herz hat Vorrang,
@@ -51,7 +61,10 @@ public class GroveZoneLogic {
         if (distanceToTree < HEART_RADIUS) {
             return Zone.HEART;
         }
-        if (distanceToTree < HEART_RADIUS + FOREST_RING || depth >= FOREST_DEPTH) {
+        if (distanceToTree < HEART_RADIUS + FOREST_RING) {
+            return Zone.RING;
+        }
+        if (depth >= FOREST_DEPTH) {
             return Zone.FOREST;
         }
         if (depth >= GROUPS_DEPTH) {
@@ -65,6 +78,7 @@ public class GroveZoneLogic {
             case EDGE -> EDGE_DENSITY;
             case GROUPS -> GROUPS_DENSITY;
             case FOREST -> FOREST_DENSITY;
+            case RING -> RING_DENSITY;
             case HEART -> HEART_DENSITY;
         };
     }

@@ -1,0 +1,94 @@
+{
+  "variants": {
+    "carving=anne,facing=north,right=false": {
+      "model": "mc3ver:block/pear_bark_anne_left"
+    },
+    "carving=anne,facing=east,right=false": {
+      "model": "mc3ver:block/pear_bark_anne_left",
+      "y": 90
+    },
+    "carving=anne,facing=south,right=false": {
+      "model": "mc3ver:block/pear_bark_anne_left",
+      "y": 180
+    },
+    "carving=anne,facing=west,right=false": {
+      "model": "mc3ver:block/pear_bark_anne_left",
+      "y": 270
+    },
+    "carving=anne,facing=north,right=true": {
+      "model": "mc3ver:block/pear_bark_anne_right"
+    },
+    "carving=anne,facing=east,right=true": {
+      "model": "mc3ver:block/pear_bark_anne_right",
+      "y": 90
+    },
+    "carving=anne,facing=south,right=true": {
+      "model": "mc3ver:block/pear_bark_anne_right",
+      "y": 180
+    },
+    "carving=anne,facing=west,right=true": {
+      "model": "mc3ver:block/pear_bark_anne_right",
+      "y": 270
+    },
+    "carving=peter,facing=north,right=false": {
+      "model": "mc3ver:block/pear_bark_peter_left"
+    },
+    "carving=peter,facing=east,right=false": {
+      "model": "mc3ver:block/pear_bark_peter_left",
+      "y": 90
+    },
+    "carving=peter,facing=south,right=false": {
+      "model": "mc3ver:block/pear_bark_peter_left",
+      "y": 180
+    },
+    "carving=peter,facing=west,right=false": {
+      "model": "mc3ver:block/pear_bark_peter_left",
+      "y": 270
+    },
+    "carving=peter,facing=north,right=true": {
+      "model": "mc3ver:block/pear_bark_peter_right"
+    },
+    "carving=peter,facing=east,right=true": {
+      "model": "mc3ver:block/pear_bark_peter_right",
+      "y": 90
+    },
+    "carving=peter,facing=south,right=true": {
+      "model": "mc3ver:block/pear_bark_peter_right",
+      "y": 180
+    },
+    "carving=peter,facing=west,right=true": {
+      "model": "mc3ver:block/pear_bark_peter_right",
+      "y": 270
+    },
+    "carving=heart,facing=north,right=false": {
+      "model": "mc3ver:block/pear_bark_heart_left"
+    },
+    "carving=heart,facing=east,right=false": {
+      "model": "mc3ver:block/pear_bark_heart_left",
+      "y": 90
+    },
+    "carving=heart,facing=south,right=false": {
+      "model": "mc3ver:block/pear_bark_heart_left",
+      "y": 180
+    },
+    "carving=heart,facing=west,right=false": {
+      "model": "mc3ver:block/pear_bark_heart_left",
+      "y": 270
+    },
+    "carving=heart,facing=north,right=true": {
+      "model": "mc3ver:block/pear_bark_heart_right"
+    },
+    "carving=heart,facing=east,right=true": {
+      "model": "mc3ver:block/pear_bark_heart_right",
+      "y": 90
+    },
+    "carving=heart,facing=south,right=true": {
+      "model": "mc3ver:block/pear_bark_heart_right",
+      "y": 180
+    },
+    "carving=heart,facing=west,right=true": {
+      "model": "mc3ver:block/pear_bark_heart_right",
+      "y": 270
+    }
+  }
+}

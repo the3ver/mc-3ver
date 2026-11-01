@@ -75,6 +75,32 @@ class GroveShapeLogicTest {
         assertTrue(heartsIn(gridOf(disc(24)), -4, 4).isEmpty(), "zu flach für den alten Baum");
     }
 
+    // Spieltest: die Lichtung lag fast immer gleich hinter dem Waldrand. Haine mit gut 50 Blöcken Radius sind
+    // schöne Wälder, aber zu flach für das Herz
+    @Test
+    void onlyDeepGrovesGetAHeart() {
+        assertTrue(heartsIn(gridOf(disc(52)), -6, 6).isEmpty());
+        assertEquals(1, heartsIn(gridOf(disc(80)), -8, 8).size());
+        assertTrue(HEART_MIN_DEPTH >= 64);
+    }
+
+    // Ein riesiger Hain misst in der Mitte überall MAX_DEPTH; trotzdem nur ein Herz pro Suchradius
+    @Test
+    void aHugeGroveGetsHeartsFarApartOnly() {
+        List<int[]> hearts = heartsIn(gridOf(disc(250)), -18, 18);
+        assertFalse(hearts.isEmpty());
+        for (int[] a : hearts) {
+            for (int[] b : hearts) {
+                if (a != b) {
+                    assertTrue(
+                            distance(gridCenter(a[0]) - gridCenter(b[0]), gridCenter(a[1]) - gridCenter(b[1]))
+                                    > HEART_SEARCH_RADIUS,
+                            "Herzen zu nah");
+                }
+            }
+        }
+    }
+
     @Test
     void twoFarApartGrovesGetOneHeartEach() {
         Probe two = (x, z) -> (x * x + z * z <= 80 * 80) || ((x - 400) * (x - 400) + z * z <= 80 * 80);
@@ -102,7 +128,7 @@ class GroveShapeLogicTest {
 
     @Test
     void aFlatPlateauGetsExactlyOneHeart() {
-        DepthGrid plateau = (gx, gz) -> Math.abs(gx) <= 2 && Math.abs(gz) <= 2 ? 40 : 0;
+        DepthGrid plateau = (gx, gz) -> Math.abs(gx) <= 2 && Math.abs(gz) <= 2 ? HEART_MIN_DEPTH : 0;
         assertEquals(1, heartsIn(plateau, -3, 3).size());
     }
 
@@ -133,9 +159,10 @@ class GroveShapeLogicTest {
         assertEquals(1, heartsNear(grid, SEED, qx, qz, 20).size());
     }
 
-    // Kandidat (0, 0) mit Tiefe 40, ein tieferer Punkt (64) an (ax, az), alles andere flach
+    // Kandidat (0, 0) gerade tief genug, ein tieferer Punkt an (ax, az), alles andere flach
     private static DepthGrid onlyCandidateAnd(int ax, int az) {
-        return (gx, gz) -> gx == ax && gz == az ? 64 : (gx == 0 && gz == 0 ? 40 : 0);
+        return (gx, gz) ->
+                gx == ax && gz == az ? HEART_MIN_DEPTH + DEPTH_STEP : (gx == 0 && gz == 0 ? HEART_MIN_DEPTH : 0);
     }
 
     @Test

@@ -35,7 +35,7 @@ const TRANSLATIONS = {
     "features.peartree.title": "🍐 Schweizer Birnenholz & Früchte",
     "features.peartree.desc": "Vollwertiges Bauset im warmen Schweizer Birnbaum-Design, optisch eigene Setzlinge, saftige Birnen und die mächtige Goldene Birne (Entdeckerbirne).",
     "features.grove.title": "🌳 Biom Birnenhain",
-    "features.grove.desc": "Seltener Hain aus Birnbäumen: außen einzelne Bäume, innen dichter Wald. In der Mitte ein alter Birnbaum mit Bienen, Truhe, See und Quelle.",
+    "features.grove.desc": "Seltener Hain aus Birnbäumen mit Fallobst und goldenen Pollen: außen einzelne Bäume, innen dichter Wald. Tief drinnen eine Lichtung mit altem Birnbaum, Birnblüten, Bienen, Truhe, See und Quelle.",
     "features.jump.title": "💨 Doppelsprung & Dreifachsprung",
     "features.jump.desc": "Erneutes Drücken der Sprungtaste in der Luft gewährt einen zweiten Sprung nach vorn. Mit Sprungkraft (z. B. durch die Entdeckerbirne) sogar einen Dreifachsprung!",
     "features.multiplayer.title": "🌐 Client & Server",
@@ -125,7 +125,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.3 herunter und installiere die passende <strong>Fabric API</strong> und <strong>TerraBlender</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.9.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.10.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -212,7 +212,7 @@ const TRANSLATIONS = {
     "features.peartree.title": "🍐 Swiss Pear Wood & Fruit",
     "features.peartree.desc": "Complete building set in warm Swiss pear wood design, distinct saplings, juicy pears, and the powerful Golden Pear (Explorer's Pear).",
     "features.grove.title": "🌳 Pear Grove Biome",
-    "features.grove.desc": "Rare grove of pear trees: single trees outside, dense forest inside. At its heart an old pear tree with bees, a chest, a pond and a spring.",
+    "features.grove.desc": "Rare grove of pear trees with fallen pears and golden pollen: single trees outside, dense forest inside. Deep within, a clearing with an old pear tree, pear blossoms, bees, a chest, a pond and a spring.",
     "features.jump.title": "💨 Double Jump & Triple Jump",
     "features.jump.desc": "Pressing jump in mid-air grants a second forward leap. With Jump Boost (e.g. from the Golden Pear), you can even perform a Triple Jump!",
     "features.multiplayer.title": "🌐 Client & Server",
@@ -302,7 +302,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.3 and install the matching <strong>Fabric API</strong> and <strong>TerraBlender</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.9.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.10.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -494,7 +494,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.9.0
+    // Graceful fallback to v0.10.0
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }

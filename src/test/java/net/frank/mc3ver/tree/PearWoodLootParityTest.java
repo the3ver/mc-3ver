@@ -40,6 +40,15 @@ class PearWoodLootParityTest {
         assertEquals(drops(expected), drops(pear), pearName(part) + " weicht von " + oakName(part) + " ab");
     }
 
+    // Fallobst droppt wie Stein: ohne Behutsamkeit das andere Item (Birne statt Bruchstein), mit den Block
+    @Test
+    void fallenPearDropsAPearUnlessSilkTouch() throws IOException {
+        String stone = read("/data/minecraft/loot_table/blocks/stone.json");
+        String expected =
+                stone.replace("minecraft:stone", "mc3ver:fallen_pear").replace("minecraft:cobblestone", "mc3ver:pear");
+        assertEquals(drops(expected), drops(read("/data/mc3ver/loot_table/blocks/fallen_pear.json")));
+    }
+
     @Test
     void vanillaLootIsOnTheTestClasspath() {
         assertNotNull(getClass().getResource("/data/minecraft/loot_table/blocks/oak_log.json"));

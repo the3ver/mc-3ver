@@ -71,24 +71,45 @@ class PearLeafColorTest {
         assertTrue(shades.size() >= 8, "zu wenig Variation: " + shades);
     }
 
-    // Weicher Verlauf: eine Krone wirkt einheitlich, statt pixelig gesprenkelt
+    // Weicher Verlauf: eine Krone wirkt einheitlich, statt pixelig gesprenkelt. Nachbarblöcke liegen höchstens
+    // ein Drittel der ganzen Spanne auseinander
     @Test
     void neighbouringBlocksDifferOnlySlightly() {
+        float maxStep = 2 * PearTreeLogic.LEAF_SHADE_VARIATION / 3;
         for (int x = -50; x < 50; x++) {
             for (int z = -50; z < 50; z += 3) {
                 float here = PearTreeLogic.leafShade(x, z);
-                assertTrue(Math.abs(here - PearTreeLogic.leafShade(x + 1, z)) < 0.05f, "Sprung bei " + x + "," + z);
-                assertTrue(Math.abs(here - PearTreeLogic.leafShade(x, z + 1)) < 0.05f, "Sprung bei " + x + "," + z);
+                assertTrue(Math.abs(here - PearTreeLogic.leafShade(x + 1, z)) < maxStep, "Sprung bei " + x + "," + z);
+                assertTrue(Math.abs(here - PearTreeLogic.leafShade(x, z + 1)) < maxStep, "Sprung bei " + x + "," + z);
             }
         }
     }
 
+    // Spieltest: reine Helligkeit fiel zwischen Bäumen kaum auf. Rot folgt shade^1,5, Blau der Wurzel
     @Test
     void shadeScalesEachChannelAndClamps() {
         assertEquals(0x48B518, PearTreeLogic.applyShade(0x48B518, 1f));
-        assertEquals(0x245B0C, PearTreeLogic.applyShade(0x48B518, 0.5f));
+        assertEquals(0x195B11, PearTreeLogic.applyShade(0x48B518, 0.5f));
         assertEquals(0xFFFFFF, PearTreeLogic.applyShade(0xF0F0F0, 1.2f));
         assertEquals(0x000000, PearTreeLogic.applyShade(0x48B518, 0f));
+    }
+
+    @Test
+    void brightCrownsTurnYellowishAndDarkOnesBluishGreen() {
+        int foliage = 0x93AE47;
+        int bright = PearTreeLogic.applyShade(foliage, 1 + PearTreeLogic.LEAF_SHADE_VARIATION);
+        int dark = PearTreeLogic.applyShade(foliage, 1 - PearTreeLogic.LEAF_SHADE_VARIATION);
+        assertTrue(redPerGreen(bright) > redPerGreen(foliage), "hell = gelblicher");
+        assertTrue(redPerGreen(dark) < redPerGreen(foliage), "dunkel = weniger gelb");
+        assertTrue(bluePerGreen(dark) > bluePerGreen(foliage), "dunkel = bläulicher");
+    }
+
+    private static double redPerGreen(int rgb) {
+        return (double) ((rgb >> 16) & 0xFF) / ((rgb >> 8) & 0xFF);
+    }
+
+    private static double bluePerGreen(int rgb) {
+        return (double) (rgb & 0xFF) / ((rgb >> 8) & 0xFF);
     }
 
     @Test

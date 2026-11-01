@@ -31,7 +31,10 @@ class OldPearTreeLogicTest {
     void trunkIsTwoByTwoAndTwelveToFifteenHigh() {
         forManySeeds(l -> {
             assertTrue(l.trunkHeight() >= 12 && l.trunkHeight() <= 15, "Höhe " + l.trunkHeight());
-            List<Pos> trunk = l.positionsOf(Role.TRUNK);
+            // Die Inschrift ist Teil des Stamms
+            List<Pos> trunk = new java.util.ArrayList<>(l.positionsOf(Role.TRUNK));
+            trunk.addAll(l.positionsOf(Role.CARVING_LEFT));
+            trunk.addAll(l.positionsOf(Role.CARVING_RIGHT));
             assertEquals(4 * l.trunkHeight(), trunk.size(), "kein Stammblock überschrieben");
             for (Pos p : trunk) {
                 assertTrue(p.x() >= 0 && p.x() <= 1 && p.z() >= 0 && p.z() <= 1, "2×2: " + p);
@@ -191,6 +194,58 @@ class OldPearTreeLogicTest {
         });
     }
 
+    // Spec: Birnblüten nur am alten Baum; sie stehen auf freiem Boden, nicht auf Moos, Pfad, See oder Fels
+    @Test
+    void blossomsGrowInARingAroundTheTreeOnFreeGround() {
+        forManySeeds(l -> {
+            List<Pos> blossoms = l.positionsOf(Role.BLOSSOM);
+            assertTrue(blossoms.size() >= 3, "Blüten " + blossoms.size());
+            for (Pos p : blossoms) {
+                assertEquals(0, p.y());
+                assertTrue(fromTrunk(p) > GROUND_RADIUS && fromTrunk(p) <= BLOSSOM_RADIUS, "Abstand " + fromTrunk(p));
+                for (Pos other : l.parts().keySet()) {
+                    if (!other.equals(p) && other.x() == p.x() && other.z() == p.z()) {
+                        assertTrue(other.y() > 0, "unter der Blüte liegt " + l.roleAt(other));
+                    }
+                }
+            }
+        });
+    }
+
+    // Zwei Stammblöcke auf Augenhöhe tragen die Inschrift, nach außen gewandt; links steht links vom Betrachter
+    @Test
+    void carvingSitsOnTwoTrunkBlocksFacingOutwards() {
+        forManySeeds(l -> {
+            List<Pos> left = l.positionsOf(Role.CARVING_LEFT);
+            List<Pos> right = l.positionsOf(Role.CARVING_RIGHT);
+            assertEquals(1, left.size());
+            assertEquals(1, right.size());
+            Pos a = left.get(0);
+            Pos b = right.get(0);
+            assertEquals(CARVING_Y, a.y());
+            assertTrue(isSideNeighbour(a, b));
+            Direction facing = l.parts().get(a).facing();
+            assertEquals(facing, l.parts().get(b).facing());
+            for (Pos p : List.of(a, b)) {
+                assertTrue(p.x() >= 0 && p.x() <= 1 && p.z() >= 0 && p.z() <= 1, "im Stamm");
+                assertNotEquals(Role.TRUNK, l.roleAt(p.offset(facing.getStepX(), 0, facing.getStepZ())), "Seite außen");
+            }
+            // Wer die Seite ansieht, schaut entgegen facing; seine linke Hand zeigt nach facing.getClockWise()
+            Direction toLeft = facing.getClockWise();
+            assertEquals(b.offset(toLeft.getStepX(), 0, toLeft.getStepZ()), a);
+        });
+    }
+
+    @Test
+    void everyCarvingTurnsUp() {
+        java.util.Set<Carving> seen = java.util.EnumSet.noneOf(Carving.class);
+        for (long seed = 0; seed < SEEDS; seed++) {
+            seen.add(carving(seed));
+        }
+        assertEquals(java.util.EnumSet.allOf(Carving.class), seen);
+        assertEquals(carving(42), carving(42));
+    }
+
     @Test
     void steppingStonesLeadEightToTwelveBlocksTowardsTheTree() {
         forManySeeds(l -> {
@@ -223,8 +278,8 @@ class OldPearTreeLogicTest {
         java.util.Map<Role, Long> counts = new java.util.TreeMap<>();
         layout(42).parts().values().forEach(part -> counts.merge(part.role(), 1L, Long::sum));
         assertEquals(
-                "{TRUNK=56, BRANCH=23, LEAVES=442, ROOT=20, BEEHIVE=1, CHEST=1, MOSS_BLOCK=24, MOSS_CARPET=8,"
-                        + " MUSHROOM=2, WATER=37, CLAY=30, GRAVEL=21, LILY_PAD=2, SPRING_ROCK=8, SPRING_WATER=1, PATH=9}",
+                "{TRUNK=54, BRANCH=23, LEAVES=442, ROOT=20, BEEHIVE=1, CHEST=1, MOSS_BLOCK=24, MOSS_CARPET=8,"
+                        + " MUSHROOM=2, WATER=37, CLAY=30, GRAVEL=21, LILY_PAD=2, SPRING_ROCK=8, SPRING_WATER=1, PATH=9, BLOSSOM=15, CARVING_LEFT=1, CARVING_RIGHT=1}",
                 counts.toString());
     }
 

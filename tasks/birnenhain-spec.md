@@ -10,7 +10,7 @@ Eigenes Overworld-Biom rund um den Birnbaum. Außen stehen die Bäume einzeln, n
 | 2 | Neue Blöcke und Effekte: Fallobst-Birne (Deko-Block), Birnblüten-Blume, goldene Pollenpartikel |
 | 3 | Eigene Kreaturen |
 
-Dieses Dokument legt alle Phasen fest. Der Umsetzungsplan in `birnenhain-plan.md` deckt Phase 1 ab.
+Dieses Dokument legt alle Phasen fest. Der Umsetzungsplan in `birnenhain-plan.md` deckt Phase 1 und 2 ab.
 
 ## Klima und Atmosphäre
 
@@ -27,7 +27,7 @@ Dieses Dokument legt alle Phasen fest. Der Umsetzungsplan in `birnenhain-plan.md
 | Licht | hell und offen, nur im dichten Kern Schatten durch Baumdichte | Birch Forest |
 | Ambient-Sound | Vanilla, Bienen am alten Baum summen von selbst | |
 | Musik | ruhige Vanilla-Tracks aus Meadow und Forest | Meadow |
-| Partikel | Phase 2: wenige goldene Pollen | Cherry Grove (Blütenblätter) |
+| Partikel | Phase 2: wenige goldene Pollen als Biom-Partikel (Startwert 0,004), schweben wie Sporenblüten-Sporen | Crimson Forest (Sporen) |
 
 Die Farbwerte sind Startwerte und werden im Spiel abgestimmt. Die Feldnamen (seit 1.21.11 teils unter `attributes` statt `effects`) beim Umsetzen gegen das Vanilla-`meadow.json` von 26.3 abgleichen.
 
@@ -57,7 +57,7 @@ Die Baumdichte hängt von der Tiefe im Hain ab: dem Abstand zum Biomrand, gemess
 | Herz | unter 20 um den alten Baum | keine normalen Bäume | siehe Herzstück |
 | Waldring | 20 bis 44 um den alten Baum, unabhängig von der Tiefe | wie dichter Wald | wie dichter Wald |
 
-Das Herz liegt am tiefsten Punkt des Hains: ein Rasterpunkt (Chunk-Mitte) mit Tiefe ab 32, ohne tieferen Punkt im Umkreis von 96 Blöcken. Der alte Baum steht 6 bis 12 Blöcke daneben, damit er nicht genau in der Mitte liegt. Haine mit weniger als 32 Tiefe haben kein Herz. Schwellen sind Startwerte und werden im Spiel abgestimmt.
+Das Herz liegt am tiefsten Punkt des Hains: ein Rasterpunkt (Chunk-Mitte) mit Tiefe ab 64, ohne tieferen Punkt im Umkreis von 128 Blöcken. Die Tiefe wird bis 96 gemessen. Der alte Baum steht 6 bis 12 Blöcke daneben, damit er nicht genau in der Mitte liegt. Haine mit weniger als 64 Tiefe haben kein Herz (vorher 32; Messung 2026-11-01: der typische Hain mit Herz war nur gut 100 Blöcke breit, die Lichtung lag gleich hinter dem Waldrand). Schwellen sind Startwerte und werden im Spiel abgestimmt.
 
 ## Vegetation
 
@@ -69,8 +69,8 @@ Das Herz liegt am tiefsten Punkt des Hains: ein Rasterpunkt (Chunk-Mitte) mit Ti
 | Kurzgras, hohes Gras | 1 | überall, wie Plains |
 | Farne | 1 | dichter Wald |
 | Blumen: Löwenzahn, Margerite, Kornblume, Mohn | 1 | überall, mehr am Rand als im Wald |
-| Fallobst-Birne (Deko-Block) | 2 | unter Birnbäumen, vereinzelt |
-| Birnblüten-Blume (weiß-rosa) | 2 | nur am alten Baum |
+| Fallobst-Birne (Deko-Block; Rechtsklick oder Abbauen gibt eine Birne, Behutsamkeit den Block) | 2 | nur im Hain, unter Birnbäumen, vereinzelt |
+| Birnblüten-Blume (weiß-rosa, Blumentopf, rosa Farbstoff) | 2 | nur am alten Baum, Ring 5 bis 9 um den Stamm |
 
 ## Herzstück
 

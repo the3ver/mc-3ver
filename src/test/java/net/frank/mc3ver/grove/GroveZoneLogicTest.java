@@ -24,15 +24,16 @@ class GroveZoneLogicTest {
     void heartAroundOldTreeWinsOverEveryOtherZone() {
         assertEquals(Zone.HEART, GroveZoneLogic.zoneAt(64, 19.9));
         assertEquals(Zone.HEART, GroveZoneLogic.zoneAt(0, 0));
-        assertEquals(Zone.FOREST, GroveZoneLogic.zoneAt(64, 20));
+        assertEquals(Zone.RING, GroveZoneLogic.zoneAt(64, 20));
     }
 
     // Das Herz liegt mitten im Wald, auch wo der Hain um die Lichtung schon flacher wird
     @Test
     void denseForestRingsTheClearing() {
         int ringEnd = GroveZoneLogic.HEART_RADIUS + GroveZoneLogic.FOREST_RING;
-        assertEquals(Zone.FOREST, GroveZoneLogic.zoneAt(0, GroveZoneLogic.HEART_RADIUS));
-        assertEquals(Zone.FOREST, GroveZoneLogic.zoneAt(8, ringEnd - 0.1));
+        assertEquals(Zone.RING, GroveZoneLogic.zoneAt(0, GroveZoneLogic.HEART_RADIUS));
+        assertEquals(Zone.RING, GroveZoneLogic.zoneAt(8, ringEnd - 0.1));
+        assertEquals(Zone.FOREST, GroveZoneLogic.zoneAt(GroveZoneLogic.FOREST_DEPTH, ringEnd));
         assertEquals(Zone.EDGE, GroveZoneLogic.zoneAt(8, ringEnd));
         assertEquals(Zone.GROUPS, GroveZoneLogic.zoneAt(16, ringEnd));
         assertTrue(GroveZoneLogic.FOREST_RING >= 16, "Ring mindestens einen Chunk breit");
@@ -117,5 +118,24 @@ class GroveZoneLogicTest {
     private static double expectedTrees(Zone zone) {
         Density d = GroveZoneLogic.densityOf(zone);
         return d.clustersPerChunk() * (d.minClusterSize() + d.maxClusterSize()) / 2.0;
+    }
+
+    // Spec: Fallobst vereinzelt unter Birnbäumen; höchstens eine Birne je Baum, die unter der Krone liegt
+    @Test
+    void fallenPearsLieScatteredUnderTheCrown() {
+        assertEquals(1, GroveZoneLogic.countFor(GroveZoneLogic.FALLEN_PEARS_PER_TREE, 0f));
+        assertEquals(0, GroveZoneLogic.countFor(GroveZoneLogic.FALLEN_PEARS_PER_TREE, 0.99f));
+        assertTrue(GroveZoneLogic.FALLEN_PEAR_RADIUS >= 1 && GroveZoneLogic.FALLEN_PEAR_RADIUS <= 2, "unter der Krone");
+    }
+
+    // Spieltest: die Lichtung wirkte nicht wie tief im Wald. Große Bäume nur im Ring
+    @Test
+    void largeTreesStandMostlyInTheRingAroundTheClearing() {
+        Density ring = GroveZoneLogic.densityOf(Zone.RING);
+        assertTrue(ring.largeTreeShare() >= 0.5f, "überwiegend groß");
+        assertTrue(ring.clustersPerChunk() >= 5, "dicht");
+        for (Zone zone : new Zone[] {Zone.EDGE, Zone.GROUPS, Zone.FOREST, Zone.HEART}) {
+            assertEquals(0f, GroveZoneLogic.densityOf(zone).largeTreeShare(), zone.name());
+        }
     }
 }

@@ -47,7 +47,7 @@
 
 #### Schritt 3: WorldExplorerMod herunterladen
 1. Gehe zu den [GitHub Releases von WorldExplorerMod](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.9.0.jar` herunter.
+2. Lade die Datei `mc-3ver-0.10.0.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -55,7 +55,7 @@
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere die **`fabric-api-...jar`**, die **`TerraBlender-fabric-...jar`** und die **`mc-3ver-0.9.0.jar`** in diesen `mods`-Ordner.
+3. Kopiere die **`fabric-api-...jar`**, die **`TerraBlender-fabric-...jar`** und die **`mc-3ver-0.10.0.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
@@ -71,7 +71,7 @@
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** und **TerraBlender** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.9.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Ziehe die heruntergeladene `mc-3ver-0.10.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
@@ -79,7 +79,7 @@
 ### Variante C: Dedizierter Server (Multiplayer)
 
 1. Richte einen Minecraft 26.3 Fabric-Server ein.
-2. Platziere `fabric-api-...jar`, `TerraBlender-fabric-...jar` und `mc-3ver-0.9.0.jar` im `mods/`-Ordner auf dem Server. Spieler brauchen TerraBlender auch im Client.
+2. Platziere `fabric-api-...jar`, `TerraBlender-fabric-...jar` und `mc-3ver-0.10.0.jar` im `mods/`-Ordner auf dem Server. Spieler brauchen TerraBlender auch im Client.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
@@ -115,8 +115,10 @@
   * Neuer Baumtyp mit eigenen Holzblöcken, Blättern und optisch unterscheidbaren Setzlingen.
   * Vollwertiges Holz-Bauset im Schweizer Birnbaum-Design: Treppen, Stufen, Zäune, Tore, Türen mit Glaseinsatz, Falltüren, Druckplatten, Knöpfe sowie Birnenholzboote und Birnenholztruhenboote.
 * **🌳 Biom Birnenhain (Pear Grove):**
-  * Seltenes Overworld-Biom in warmem Gold-Grün mit türkisfarbenem Wasser. Außen stehen einzelne Birnbäume, dann Gruppen, innen dichter Wald mit Farnen. Dazu Laubbüsche, Wiesenblumen und selten Reste alter Gartenmauern.
-  * **Herzstück:** Am tiefsten Punkt steht ein alter Birnbaum mit ausladender Krone, Wurzeln und Bienennestern, umgeben von dichtem Wald. Daneben ein kleiner See mit Seerosen und eine Quelle am Fels. Zwischen den Wurzeln steht eine Truhe mit Birnen, Setzlingen, Honigwaben und Knochenmehl, selten auch mit goldener Birne, Freundschaftsstein, Windstab oder Blitzstab.
+  * Seltenes Overworld-Biom in warmem Gold-Grün mit türkisfarbenem Wasser. Außen stehen einzelne Birnbäume, dann Gruppen, innen dichter Wald mit Farnen. Die Birnbäume sind unterschiedlich groß, manche tragen Äste. Dazu Laubbüsche, Wiesenblumen, Fallobst unter den Bäumen, goldene Pollen in der Luft und selten Reste alter Gartenmauern.
+  * **Herzstück:** In großen Hainen steht am tiefsten Punkt ein alter Birnbaum mit ausladender Krone, Wurzeln und Bienennestern. Seine Lichtung umgibt ein Ring großer, verzweigter Birnen. Um den Stamm wachsen weiß-rosa Birnblüten. Daneben ein kleiner See mit Seerosen und eine Quelle am Fels. Zwischen den Wurzeln steht eine Truhe mit Birnen, Setzlingen, Honigwaben und Knochenmehl, selten auch mit goldener Birne, Freundschaftsstein, Windstab oder Blitzstab.
+  * **Fallobst:** Rechtsklick oder Abbauen gibt eine Birne, mit Behutsamkeit den Block zum Selbst-Hinlegen.
+  * **Birnblüte:** passt in den Blumentopf und gibt rosa Farbstoff.
   * **Finden:** `/locate biome mc3ver:pear_grove` und `/locate structure mc3ver:pear_grove_heart`.
   * Benötigt **TerraBlender**.
 * **🏳️ Weiße Fahne (Pazifist-Modus):**

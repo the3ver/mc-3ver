@@ -11,11 +11,14 @@ import java.util.List;
 public class GroveShapeLogic {
 
     public static final int DEPTH_STEP = 8;
-    public static final int MAX_DEPTH = 64;
+    public static final int MAX_DEPTH = 96;
     public static final int GRID = 16;
-    public static final int HEART_MIN_DEPTH = 32;
-    // Kein tieferer Punkt in diesem Umkreis: so bekommt ein Hain meist genau ein Herz
-    public static final int HEART_SEARCH_RADIUS = 96;
+    // Nur tiefe Haine bekommen ein Herz: die Lichtung liegt weit im Wald (Spieltest 2026-11-01; mit 32 hatte
+    // fast jeder Hain eines, der typische Hain mit Herz war nur gut 100 Blöcke breit)
+    public static final int HEART_MIN_DEPTH = 64;
+    // Kein tieferer Punkt in diesem Umkreis: so bekommt ein Hain meist genau ein Herz, auch wenn seine Mitte
+    // breiter als MAX_DEPTH ist und überall gleich tief misst
+    public static final int HEART_SEARCH_RADIUS = 128;
     // Alter Baum steht neben dem tiefsten Punkt, nicht genau darauf
     public static final int MIN_TREE_OFFSET = 6;
     public static final int MAX_TREE_OFFSET = 12;

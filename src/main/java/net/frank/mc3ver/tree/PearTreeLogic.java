@@ -16,7 +16,7 @@ public class PearTreeLogic {
     public static final int SLOW_FALLING_DURATION_TICKS = 900;
 
     public static float getCompostChance(String itemName) {
-        if ("pear".equals(itemName)) {
+        if ("pear".equals(itemName) || "fallen_pear".equals(itemName) || "pear_blossom".equals(itemName)) {
             return 0.65f;
         } else if ("pear_leaves".equals(itemName) || "pear_sapling".equals(itemName)) {
             return 0.30f;
@@ -88,8 +88,8 @@ public class PearTreeLogic {
     }
 
     // Laub ist mal heller, mal dunkler: weiches Rauschen über die Position (x, z), damit eine Krone einheitlich wirkt
-    public static final float LEAF_SHADE_VARIATION = 0.12f;
-    static final int LEAF_SHADE_CELL = 8;
+    public static final float LEAF_SHADE_VARIATION = 0.22f;
+    static final int LEAF_SHADE_CELL = 6;
 
     // ARGB mit vollem Alpha: Laub rendert als cutout, Alpha 0 würde jedes Blatt wegschneiden
     public static int leafColor(int foliageRgb, int x, int z) {
@@ -106,10 +106,11 @@ public class PearTreeLogic {
         return 1 + LEAF_SHADE_VARIATION * lerp(top, bottom, tz);
     }
 
+    // Helle Kronen werden gelblicher, dunkle bläulich-tiefgrün: Rot ändert sich stärker als Grün, Blau schwächer
     public static int applyShade(int rgb, float shade) {
-        int r = Math.min(255, Math.round(((rgb >> 16) & 0xFF) * shade));
+        int r = Math.min(255, Math.round(((rgb >> 16) & 0xFF) * shade * (float) Math.sqrt(shade)));
         int g = Math.min(255, Math.round(((rgb >> 8) & 0xFF) * shade));
-        int b = Math.min(255, Math.round((rgb & 0xFF) * shade));
+        int b = Math.min(255, Math.round((rgb & 0xFF) * (float) Math.sqrt(shade)));
         return (r << 16) | (g << 8) | b;
     }
 

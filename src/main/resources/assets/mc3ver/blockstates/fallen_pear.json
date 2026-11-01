@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      { "model": "mc3ver:block/fallen_pear" },
+      { "model": "mc3ver:block/fallen_pear", "y": 90 },
+      { "model": "mc3ver:block/fallen_pear", "y": 180 },
+      { "model": "mc3ver:block/fallen_pear", "y": 270 }
+    ]
+  }
+}
