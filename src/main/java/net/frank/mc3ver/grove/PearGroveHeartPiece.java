@@ -7,6 +7,7 @@ import net.frank.mc3ver.grove.OldPearTreeLogic.Layout;
 import net.frank.mc3ver.grove.OldPearTreeLogic.Part;
 import net.frank.mc3ver.grove.OldPearTreeLogic.Pos;
 import net.frank.mc3ver.grove.OldPearTreeLogic.Role;
+import net.frank.mc3ver.tree.PearBarkBlock;
 import net.frank.mc3ver.tree.PearTreeBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -37,7 +38,8 @@ import net.minecraft.world.level.material.Fluids;
  */
 public class PearGroveHeartPiece extends StructurePiece {
 
-    private static final Set<Role> TREE = EnumSet.of(Role.TRUNK, Role.BRANCH, Role.LEAVES, Role.BEEHIVE);
+    private static final Set<Role> TREE =
+            EnumSet.of(Role.TRUNK, Role.BRANCH, Role.LEAVES, Role.BEEHIVE, Role.CARVING_LEFT, Role.CARVING_RIGHT);
     private static final Set<Role> LAKE = EnumSet.of(Role.WATER, Role.CLAY, Role.GRAVEL, Role.LILY_PAD);
     private static final Set<Role> SPRING = EnumSet.of(Role.SPRING_ROCK, Role.SPRING_WATER);
     private static final int MAX_TRUNK_FOOTING = 5;
@@ -195,6 +197,15 @@ public class PearGroveHeartPiece extends StructurePiece {
     private void place(WorldGenLevel level, BoundingBox chunkBox, RandomSource random, BlockPos pos, Part part) {
         switch (part.role()) {
             case TRUNK -> set(level, pos, PearTreeBlocks.PEAR_LOG.defaultBlockState());
+            case CARVING_LEFT, CARVING_RIGHT ->
+                set(
+                        level,
+                        pos,
+                        PearTreeBlocks.PEAR_BARK
+                                .defaultBlockState()
+                                .setValue(PearBarkBlock.FACING, part.facing())
+                                .setValue(PearBarkBlock.RIGHT, part.role() == Role.CARVING_RIGHT)
+                                .setValue(PearBarkBlock.CARVING, OldPearTreeLogic.carving(layoutSeed)));
             case BRANCH, ROOT ->
                 set(
                         level,

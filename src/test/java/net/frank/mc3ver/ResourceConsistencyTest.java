@@ -35,6 +35,9 @@ class ResourceConsistencyTest {
     private static final Set<String> BLOCKS_WITHOUT_ITEM_AND_LOOT =
             Set.of("tent_canvas", "tent_chest", "tent_flap", "tent_furnace", "tent_pole", "tent_sleeping_bag");
 
+    // Nur in der Welt erzeugt, Abbauen gibt einen gewöhnlichen Birnenstamm
+    private static final Set<String> BLOCKS_WITHOUT_ITEM = Set.of("pear_bark");
+
     // "type": "mc3ver:..." nennt einen Rezepttyp, kein Item
     private static final Pattern MOD_ID = Pattern.compile("(\"type\"\\s*:\\s*)?\"mc3ver:([a-z0-9_/]+)\"");
     private static final Pattern MODEL_REF = Pattern.compile("\"model\"\\s*:\\s*\"mc3ver:([a-z0-9_/]+)\"");
@@ -49,7 +52,7 @@ class ResourceConsistencyTest {
             if (!en.has("block.mc3ver." + block)) problems.add(block + ": Übersetzung block.mc3ver." + block);
             if (BLOCKS_WITHOUT_ITEM_AND_LOOT.contains(block)) continue;
             // Topfpflanzen haben kein eigenes Item: man setzt die Pflanze in einen Blumentopf
-            if (!block.startsWith("potted_") && !items.contains(block))
+            if (!block.startsWith("potted_") && !BLOCKS_WITHOUT_ITEM.contains(block) && !items.contains(block))
                 problems.add(block + ": Item-Definition assets/mc3ver/items/" + block + ".json");
             if (!loot.contains(block))
                 problems.add(block + ": Loot-Tabelle data/mc3ver/loot_table/blocks/" + block + ".json");

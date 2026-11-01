@@ -20,6 +20,7 @@ class Mc3verBlockLootProvider extends FabricBlockLootSubProvider {
     @Override
     public void generate() {
         dropSelf(PearTreeBlocks.PEAR_LOG);
+        dropOther(PearTreeBlocks.PEAR_BARK, PearTreeBlocks.PEAR_LOG);
         dropSelf(PearTreeBlocks.STRIPPED_PEAR_LOG);
         dropSelf(PearTreeBlocks.PEAR_WOOD);
         dropSelf(PearTreeBlocks.STRIPPED_PEAR_WOOD);

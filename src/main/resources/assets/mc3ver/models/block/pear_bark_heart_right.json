@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "mc3ver:block/pear_log",
+    "north": "mc3ver:block/pear_bark_heart_right",
+    "south": "mc3ver:block/pear_log",
+    "east": "mc3ver:block/pear_log",
+    "west": "mc3ver:block/pear_log",
+    "up": "mc3ver:block/pear_log_top",
+    "down": "mc3ver:block/pear_log_top"
+  }
+}

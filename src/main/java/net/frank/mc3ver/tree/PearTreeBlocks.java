@@ -149,6 +149,9 @@ public class PearTreeBlocks {
                     .instabreak()
                     .sound(SoundType.GRASS)
                     .pushReaction(PushReaction.POPPED));
+    // Nur am alten Birnbaum, ohne eigenes Item
+    public static final Block PEAR_BARK =
+            block("pear_bark", PearBarkBlock::new, wood(2.0F, 2.0F).ignitedByLava());
     // Liegt nur am Boden: kein Hindernis, sofort abgebaut, fällt ohne Untergrund ab
     public static final Block FALLEN_PEAR = block(
             "fallen_pear",
@@ -202,6 +205,7 @@ public class PearTreeBlocks {
         // Flammable Block Registry (Fire behavior)
         FlammableBlockRegistry flammable = FlammableBlockRegistry.getDefaultInstance();
         flammable.add(PEAR_LOG, 5, 5);
+        flammable.add(PEAR_BARK, 5, 5);
         flammable.add(STRIPPED_PEAR_LOG, 5, 5);
         flammable.add(PEAR_WOOD, 5, 5);
         flammable.add(STRIPPED_PEAR_WOOD, 5, 5);
