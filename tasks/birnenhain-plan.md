@@ -93,3 +93,26 @@ Jede Task endet mit grünem `bash scripts/check.sh`. Commits mit Logik erhöhen 
 - Weiter Startwerte: Laubfarben und ±12 % Helligkeit, Region-Gewicht 3, Zonenschwellen 16/32, Mauer-Chance 6 %/4 %.
 - Bekannt und akzeptiert: Hain-Streifen an TerraBlender-Regionsgrenzen; Haine unter 32 Tiefe ohne Herz.
 - Nächste Phasen laut Spec: Phase 2 (Fallobst, Birnblüten-Blume, Pollenpartikel), Phase 3 (Kreaturen).
+
+# Plan: Birnenhain Phase 2
+
+Entscheidungen (2026-11-01): Fallobst gibt per Rechtsklick oder Abbauen eine Birne, mit Behutsamkeit den Block; Spieler können Fallobst auch hinlegen. Fallobst liegt nur im Hain. Pollen sind Biom-Partikel und schweben überall im Hain.
+
+## Task 11: Fallobst-Birne
+
+- Block `fallen_pear` mit Item: flache Birne am Boden, ohne Kollision, sofort abbaubar, braucht festen Boden.
+- Rechtsklick: Block verschwindet, eine Birne fällt heraus. Loot: Behutsamkeit gibt den Block, sonst eine Birne (Datagen).
+- Verteilung im Vegetations-Feature: je Hain-Baum im Schnitt 0,6 Birnen im Umkreis 2 unter der Krone (`GroveZoneLogic.FALLEN_PEARS_PER_TREE`).
+- Verify: im Spiel unter Bäumen sichtbar, Rechtsklick gibt Birne.
+
+## Task 12: Birnblüten-Blume
+
+- Block `pear_blossom` (Blume, weiß-rosa) mit Item, dazu `potted_pear_blossom`. Tags wie Kornblume (kleine Blume, Bienen, Blumentopf). Rezept: 1 Blüte gibt 1 rosa Farbstoff.
+- Am alten Baum: Rolle `BLOSSOM` in `OldPearTreeLogic`, auf freiem Boden im Umkreis 5 bis 9 um den Stamm; die Struktur setzt sie nur, wo die Blume überlebt.
+- Verify: im Spiel am alten Baum, Bienen fliegen sie an.
+
+## Task 13: Goldene Pollen
+
+- Partikeltyp `mc3ver:pear_pollen`, im Client mit dem Vanilla-Sporenblüten-Verhalten (schwebt langsam) in Gold.
+- Biom-Attribut `minecraft:visual/ambient_particles`, Startwert Wahrscheinlichkeit 0,004.
+- Verify: im Spiel wenige Pollen, abstimmen.
