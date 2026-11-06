@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 
 public class TentPennantTest {
 
+    // Zelt-Blockstates und -Modelle erzeugt ./gradlew runDatagen aus src/datagen/resources/tent
+    private static final java.nio.file.Path GENERATED =
+            java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/generated/assets/mc3ver");
+
     private static final java.nio.file.Path ASSETS =
             java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
 
@@ -45,7 +49,7 @@ public class TentPennantTest {
     @Test
     void pennantTapersFromPoleToTip() throws Exception {
         com.google.gson.JsonObject model = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(ASSETS.resolve("models/block/tent_canvas_roof_front.json")))
+                        java.nio.file.Files.readString(GENERATED.resolve("models/block/tent_canvas_roof_front.json")))
                 .getAsJsonObject();
         java.util.List<double[]> strips = new java.util.ArrayList<>();
         for (com.google.gson.JsonElement el : model.getAsJsonArray("elements")) {

@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 
 public class ExplorerTentLogicTest {
 
+    // Zelt-Blockstates und -Modelle erzeugt ./gradlew runDatagen aus src/datagen/resources/tent
+    private static final java.nio.file.Path GENERATED =
+            java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/generated/assets/mc3ver");
+
     @Test
     void testDimensionsAndCoordinateTransformation() {
         assertEquals(3, ExplorerTentLogic.WIDTH, "Zeltbreite sollte 3 Blöcke sein");
@@ -412,13 +416,13 @@ public class ExplorerTentLogicTest {
 
         // 3. Blockstates
         assertTrue(
-                java.nio.file.Files.exists(resourcesDir.resolve("assets/mc3ver/blockstates/tent_canvas.json")),
+                java.nio.file.Files.exists(GENERATED.resolve("blockstates/tent_canvas.json")),
                 "blockstates/tent_canvas.json fehlt");
         assertTrue(
-                java.nio.file.Files.exists(resourcesDir.resolve("assets/mc3ver/blockstates/tent_pole.json")),
+                java.nio.file.Files.exists(GENERATED.resolve("blockstates/tent_pole.json")),
                 "blockstates/tent_pole.json fehlt");
         assertTrue(
-                java.nio.file.Files.exists(resourcesDir.resolve("assets/mc3ver/blockstates/tent_sleeping_bag.json")),
+                java.nio.file.Files.exists(GENERATED.resolve("blockstates/tent_sleeping_bag.json")),
                 "blockstates/tent_sleeping_bag.json fehlt");
 
         // 4. Rezept
@@ -476,7 +480,7 @@ public class ExplorerTentLogicTest {
         // 1. Visuelle Prüfung: Eingangsdach (tent_canvas_roof_front.json)
         // Muss bei Y >= 14.0 liegen, damit der Spieler (Höhe 1.80m = 12.8px) niemals mit dem Kopf in der Decke steckt
         java.nio.file.Path frontModel =
-                baseDir.resolve("src/main/resources/assets/mc3ver/models/block/tent_canvas_roof_front.json");
+                baseDir.resolve("src/main/generated/assets/mc3ver/models/block/tent_canvas_roof_front.json");
         String frontContent = java.nio.file.Files.readString(frontModel);
         com.google.gson.JsonObject frontJson =
                 com.google.gson.JsonParser.parseString(frontContent).getAsJsonObject();
@@ -494,7 +498,7 @@ public class ExplorerTentLogicTest {
 
         // 2. Visuelle Prüfung: Firstdach (tent_canvas_roof_ridge.json)
         java.nio.file.Path ridgeModel =
-                baseDir.resolve("src/main/resources/assets/mc3ver/models/block/tent_canvas_roof_ridge.json");
+                baseDir.resolve("src/main/generated/assets/mc3ver/models/block/tent_canvas_roof_ridge.json");
         String ridgeContent = java.nio.file.Files.readString(ridgeModel);
         com.google.gson.JsonObject ridgeJson =
                 com.google.gson.JsonParser.parseString(ridgeContent).getAsJsonObject();
@@ -546,7 +550,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testThinWallModelsAndNoPolesPlaced() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/resources/assets/mc3ver/models/block");
+        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
 
         // 1. Alle Wandmodelle müssen dünn sein (Dicke <= 2.0 Pixel, keine 16px Vollblöcke)
         String[] wallModels = {
@@ -729,7 +733,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testTentCanvasModelsHaveTintIndex() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/resources/assets/mc3ver/models/block");
+        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
 
         String[] canvasModels = {
             "tent_canvas_wall.json",
@@ -779,7 +783,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testTentCanvasBlockstateFile() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path bsPath = baseDir.resolve("src/main/resources/assets/mc3ver/blockstates/tent_canvas.json");
+        java.nio.file.Path bsPath = baseDir.resolve("src/main/generated/assets/mc3ver/blockstates/tent_canvas.json");
         assertTrue(java.nio.file.Files.exists(bsPath), "blockstates/tent_canvas.json muss existieren");
 
         String content = java.nio.file.Files.readString(bsPath);
@@ -889,7 +893,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testRoofSlopeModelsAreThinAndHollow() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/resources/assets/mc3ver/models/block");
+        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
 
         String[] roofSlopeModels = {"tent_canvas_roof_left.json", "tent_canvas_roof_right.json"};
 
@@ -1019,7 +1023,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testRoofCornerModelsAreSealedAndTinted() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/resources/assets/mc3ver/models/block");
+        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
 
         String[] cornerModels = {"tent_canvas_roof_corner_left.json", "tent_canvas_roof_corner_right.json"};
 
@@ -1121,7 +1125,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testRearWallAndSideWallsEndFlush() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/resources/assets/mc3ver/models/block");
+        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
 
         String[] rearCornerModels = {
             "tent_canvas_wall_corner_left.json",
@@ -1198,7 +1202,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testFrontEntranceModelsExistAndValid() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/resources/assets/mc3ver/models/block");
+        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
 
         String[] frontModels = {
             "tent_canvas_wall_front_left.json",
@@ -1333,7 +1337,7 @@ public class ExplorerTentLogicTest {
     void testCraftingTableModelExistsAndValid() throws Exception {
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
         java.nio.file.Path modelPath = baseDir.resolve(
-                "src/main/resources/assets/mc3ver/models/block/tent_canvas_wall_crafting_table_right.json");
+                "src/main/generated/assets/mc3ver/models/block/tent_canvas_wall_crafting_table_right.json");
 
         assertTrue(java.nio.file.Files.exists(modelPath), "tent_canvas_wall_crafting_table_right.json muss existieren");
 
@@ -1434,7 +1438,7 @@ public class ExplorerTentLogicTest {
         // Blockstate tent_canvas.json prüfen
         java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
         java.nio.file.Path blockstatePath =
-                baseDir.resolve("src/main/resources/assets/mc3ver/blockstates/tent_canvas.json");
+                baseDir.resolve("src/main/generated/assets/mc3ver/blockstates/tent_canvas.json");
         String content = java.nio.file.Files.readString(blockstatePath);
         com.google.gson.JsonObject json =
                 com.google.gson.JsonParser.parseString(content).getAsJsonObject();
@@ -1554,7 +1558,7 @@ public class ExplorerTentLogicTest {
         java.nio.file.Path res =
                 java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
 
-        java.nio.file.Path blockstate = res.resolve("blockstates/tent_furnace.json");
+        java.nio.file.Path blockstate = GENERATED.resolve("blockstates/tent_furnace.json");
         assertTrue(java.nio.file.Files.exists(blockstate), "blockstates/tent_furnace.json muss existieren");
         com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
                         java.nio.file.Files.readString(blockstate))
@@ -1568,14 +1572,14 @@ public class ExplorerTentLogicTest {
             }
         }
 
-        String baseModel = java.nio.file.Files.readString(res.resolve("models/block/tent_furnace_left.json"));
+        String baseModel = java.nio.file.Files.readString(GENERATED.resolve("models/block/tent_furnace_left.json"));
         assertTrue(baseModel.contains("\"tintindex\": 0"), "tent_furnace_left muss die Zeltplane einfärbbar machen");
         assertTrue(
                 baseModel.contains("\"minecraft:block/furnace_front\""),
                 "tent_furnace_left muss die Ofenfront verwenden");
 
         // Brennender Ofen erbt das Grundmodell und tauscht nur die Front
-        String litModel = java.nio.file.Files.readString(res.resolve("models/block/tent_furnace_left_on.json"));
+        String litModel = java.nio.file.Files.readString(GENERATED.resolve("models/block/tent_furnace_left_on.json"));
         assertTrue(
                 litModel.contains("\"mc3ver:block/tent_furnace_left\""),
                 "tent_furnace_left_on muss vom Grundmodell erben");
@@ -1641,7 +1645,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testFurnaceAndPipeKeepOriginalColors() throws Exception {
         java.nio.file.Path models =
-                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/generated/assets/mc3ver/models/block");
 
         // Ofenkörper und Rohr dürfen nicht in Zeltfarbe getönt werden, nur die Zeltplane
         for (String model : new String[] {"tent_furnace_left", "tent_canvas_roof_pipe_left"}) {
@@ -1770,7 +1774,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testRoofModelsUseRoofCanvasAndWallsUseWallCanvas() throws Exception {
         java.nio.file.Path models =
-                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/generated/assets/mc3ver/models/block");
         try (java.util.stream.Stream<java.nio.file.Path> files = java.nio.file.Files.list(models)) {
             for (java.nio.file.Path model : files.filter(
                             f -> f.getFileName().toString().startsWith("tent_canvas_"))
@@ -1819,9 +1823,8 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testLanternResources() throws Exception {
-        java.nio.file.Path res =
-                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
-        String model = java.nio.file.Files.readString(res.resolve("models/block/tent_canvas_roof_lantern_right.json"));
+        String model =
+                java.nio.file.Files.readString(GENERATED.resolve("models/block/tent_canvas_roof_lantern_right.json"));
         assertTrue(
                 model.contains("\"minecraft:block/lantern\""), "Laternenmodell muss die Vanilla-Laternentextur nutzen");
         assertTrue(model.contains("\"mc3ver:block/tent_canvas_roof\""), "Dachschräge muss die Dachplane nutzen");
@@ -1840,7 +1843,7 @@ public class ExplorerTentLogicTest {
                         "Laterne muss unter der Dachschräge hängen");
             }
         }
-        String states = java.nio.file.Files.readString(res.resolve("blockstates/tent_canvas.json"));
+        String states = java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_canvas.json"));
         assertEquals(
                 4,
                 states.split("\"part\": \"roof_lantern_right\"", -1).length - 1,
@@ -1875,7 +1878,7 @@ public class ExplorerTentLogicTest {
         java.nio.file.Path res =
                 java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
         com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(res.resolve("blockstates/tent_flap.json")))
+                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_flap.json")))
                 .getAsJsonObject()
                 .getAsJsonObject("variants");
         for (String facing : new String[] {"north", "east", "south", "west"}) {
@@ -1891,7 +1894,7 @@ public class ExplorerTentLogicTest {
                             .getAsString());
         }
         for (String model : new String[] {"tent_flap_closed", "tent_flap_open"}) {
-            String content = java.nio.file.Files.readString(res.resolve("models/block/" + model + ".json"));
+            String content = java.nio.file.Files.readString(GENERATED.resolve("models/block/" + model + ".json"));
             assertTrue(content.contains("\"tintindex\": 0"), model + " muss in Zeltfarbe getönt sein");
         }
         for (String lang : new String[] {"de_de", "en_us"}) {
@@ -1900,21 +1903,17 @@ public class ExplorerTentLogicTest {
         }
 
         // Plane reicht vom Boden bis unter das Dach (Dachunterkante im Block darüber bei y=30)
-        assertEquals(0.0, modelBound(res, "tent_flap_closed", 1, true), 1e-9, "Geschlossene Plane beginnt am Boden");
+        assertEquals(0.0, modelBound("tent_flap_closed", 1, true), 1e-9, "Geschlossene Plane beginnt am Boden");
         assertEquals(
-                30.0,
-                modelBound(res, "tent_flap_closed", 1, false),
-                1e-9,
-                "Geschlossene Plane reicht bis unter das Dach");
-        assertEquals(30.0, modelBound(res, "tent_flap_open", 1, false), 1e-9, "Aufgerollte Plane hängt unter dem Dach");
+                30.0, modelBound("tent_flap_closed", 1, false), 1e-9, "Geschlossene Plane reicht bis unter das Dach");
+        assertEquals(30.0, modelBound("tent_flap_open", 1, false), 1e-9, "Aufgerollte Plane hängt unter dem Dach");
         assertTrue(
-                modelBound(res, "tent_flap_open", 1, true) >= 24.0,
-                "Aufgerollte Plane darf nicht in den Durchgang hängen");
+                modelBound("tent_flap_open", 1, true) >= 24.0, "Aufgerollte Plane darf nicht in den Durchgang hängen");
     }
 
-    private static double modelBound(java.nio.file.Path res, String model, int axis, boolean min) throws Exception {
+    private static double modelBound(String model, int axis, boolean min) throws Exception {
         com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(res.resolve("models/block/" + model + ".json")))
+                        java.nio.file.Files.readString(GENERATED.resolve("models/block/" + model + ".json")))
                 .getAsJsonObject()
                 .getAsJsonArray("elements");
         double bound = min ? Double.MAX_VALUE : -Double.MAX_VALUE;
@@ -2026,7 +2025,7 @@ public class ExplorerTentLogicTest {
 
         java.nio.file.Path assets = base.resolve("assets/mc3ver");
         com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(assets.resolve("blockstates/tent_chest.json")))
+                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")))
                 .getAsJsonObject()
                 .getAsJsonObject("variants");
         for (String facing : new String[] {"north", "east", "south", "west"}) {
@@ -2036,7 +2035,7 @@ public class ExplorerTentLogicTest {
                             .get("model")
                             .getAsString());
         }
-        String model = java.nio.file.Files.readString(assets.resolve("models/block/tent_chest_right.json"));
+        String model = java.nio.file.Files.readString(GENERATED.resolve("models/block/tent_chest_right.json"));
         assertTrue(model.contains("\"tintindex\": 0"), "Zeltwand hinter der Truhe in Zeltfarbe");
         for (String lang : new String[] {"de_de", "en_us"}) {
             assertTrue(java.nio.file.Files.readString(assets.resolve("lang/" + lang + ".json"))
@@ -2047,7 +2046,7 @@ public class ExplorerTentLogicTest {
     @Test
     void testStakesAndGuyLinesOutsideTheTent() throws Exception {
         java.nio.file.Path models =
-                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver/models/block");
+                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/generated/assets/mc3ver/models/block");
         for (String side : new String[] {"front_left", "corner_left", "front_right", "corner_right"}) {
             com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(
                             java.nio.file.Files.readString(models.resolve("tent_canvas_wall_" + side + ".json")))
@@ -2085,7 +2084,8 @@ public class ExplorerTentLogicTest {
     void testPennantOnFrontGable() throws Exception {
         java.nio.file.Path assets =
                 java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
-        String roofFront = java.nio.file.Files.readString(assets.resolve("models/block/tent_canvas_roof_front.json"));
+        String roofFront =
+                java.nio.file.Files.readString(GENERATED.resolve("models/block/tent_canvas_roof_front.json"));
         assertTrue(roofFront.contains("\"mc3ver:block/tent_pennant\""), "Giebel muss den Wimpel tragen");
         assertTrue(roofFront.contains("#pole"), "Wimpel braucht eine Stange");
 
@@ -2125,10 +2125,8 @@ public class ExplorerTentLogicTest {
     void testChestOpenVariantsAndLidModel() throws Exception {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
-        java.nio.file.Path assets =
-                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
         com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(assets.resolve("blockstates/tent_chest.json")))
+                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")))
                 .getAsJsonObject()
                 .getAsJsonObject("variants");
         for (String facing : new String[] {"north", "east", "south", "west"}) {
@@ -2143,14 +2141,15 @@ public class ExplorerTentLogicTest {
                             .get("model")
                             .getAsString());
         }
-        com.google.gson.JsonObject rot = lidElement(assets.resolve("models/block/tent_chest_right_open.json"))
+        com.google.gson.JsonObject rot = lidElement(GENERATED.resolve("models/block/tent_chest_right_open.json"))
                 .getAsJsonObject("rotation");
         assertNotNull(rot, "Offener Deckel ist gedreht");
         assertEquals("z", rot.get("axis").getAsString());
         assertEquals(-45, rot.get("angle").getAsInt());
         assertEquals(14, rot.getAsJsonArray("origin").get(0).getAsDouble());
         assertNull(
-                lidElement(assets.resolve("models/block/tent_chest_right.json")).get("rotation"),
+                lidElement(GENERATED.resolve("models/block/tent_chest_right.json"))
+                        .get("rotation"),
                 "Geschlossener Deckel ist nicht gedreht");
         assertEquals("open", TentChestBlock.OPEN.getName());
     }
