@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -20,6 +21,20 @@ public final class TransportMapInventory {
 
         default void updateTarget(TransportFlameLogic.FlameTarget newTarget) {
             modify(stack -> applyTarget(stack, newTarget));
+        }
+
+        default void rename(String name) {
+            modify(stack -> stack.set(DataComponents.CUSTOM_NAME, Component.literal(name)));
+        }
+    }
+
+    // Gibt allen Karten, die auf die Flamme an dieser Stelle zeigen, ihren Namen
+    public static void nameMapsFor(List<MapItemRef> mapRefs, int x, int y, int z, String dimension, String name) {
+        for (MapItemRef ref : mapRefs) {
+            TransportFlameLogic.FlameTarget target = ref.getTarget();
+            if (target != null && target.isAt(x, y, z, dimension)) {
+                ref.rename(name);
+            }
         }
     }
 

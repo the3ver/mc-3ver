@@ -6,7 +6,6 @@ import net.frank.mc3ver.Mc3verMod;
 import net.frank.mc3ver.teleport.Dimensions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -81,12 +80,12 @@ public final class TransportFlameNaming {
     public static void applyName(ServerPlayer player, TransportFlameBlockEntity flame, String name) {
         flame.setName(name);
         BlockPos pos = flame.getBlockPos();
-        String dimensionId = Dimensions.id(player.level());
-        for (TransportMapInventory.MapItemRef ref : TransportMapInventory.scan(player)) {
-            TransportFlameLogic.FlameTarget target = ref.getTarget();
-            if (target != null && target.isAt(pos.getX(), pos.getY(), pos.getZ(), dimensionId)) {
-                ref.modify(stack -> stack.set(DataComponents.CUSTOM_NAME, Component.literal(name)));
-            }
-        }
+        TransportMapInventory.nameMapsFor(
+                TransportMapInventory.scan(player),
+                pos.getX(),
+                pos.getY(),
+                pos.getZ(),
+                Dimensions.id(player.level()),
+                name);
     }
 }
