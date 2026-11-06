@@ -47,7 +47,7 @@
 
 #### Schritt 3: WorldExplorerMod herunterladen
 1. Gehe zu den [GitHub Releases von WorldExplorerMod](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.10.0.jar` herunter.
+2. Lade die Datei `mc-3ver-0.10.1.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -55,7 +55,7 @@
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere die **`fabric-api-...jar`**, die **`TerraBlender-fabric-...jar`** und die **`mc-3ver-0.10.0.jar`** in diesen `mods`-Ordner.
+3. Kopiere die **`fabric-api-...jar`**, die **`TerraBlender-fabric-...jar`** und die **`mc-3ver-0.10.1.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
@@ -71,7 +71,7 @@
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** und **TerraBlender** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.10.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Ziehe die heruntergeladene `mc-3ver-0.10.1.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
@@ -79,7 +79,7 @@
 ### Variante C: Dedizierter Server (Multiplayer)
 
 1. Richte einen Minecraft 26.3 Fabric-Server ein.
-2. Platziere `fabric-api-...jar`, `TerraBlender-fabric-...jar` und `mc-3ver-0.10.0.jar` im `mods/`-Ordner auf dem Server. Spieler brauchen TerraBlender auch im Client.
+2. Platziere `fabric-api-...jar`, `TerraBlender-fabric-...jar` und `mc-3ver-0.10.1.jar` im `mods/`-Ordner auf dem Server. Spieler brauchen TerraBlender auch im Client.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
