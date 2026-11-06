@@ -24,6 +24,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
@@ -181,7 +182,9 @@ public class GalleryScreenshotClientGameTest implements FabricClientGameTest {
                     flame.getY(),
                     flame.getZ() + 0.5 + (camZ - flame.getZ() - 0.5) * t);
             for (BlockPos p : BlockPos.betweenClosed(c.offset(-1, -2, -1), c.offset(1, 1, 1))) {
-                if (!p.equals(flame) && level.getBlockState(p).canBeReplaced()) {
+                if (!p.equals(flame)
+                        && (level.getBlockState(p).canBeReplaced()
+                                || level.getBlockState(p).is(BlockTags.SMALL_FLOWERS))) {
                     level.setBlockAndUpdate(p, Blocks.AIR.defaultBlockState());
                 }
             }
