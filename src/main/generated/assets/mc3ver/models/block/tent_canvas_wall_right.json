@@ -5,74 +5,76 @@
       "faces": {
         "down": {
           "texture": "#canvas",
-          "tintindex": 0,
-          "uv": [
-            14,
-            0,
-            16,
-            16
-          ]
+          "tintindex": 0
         },
         "east": {
           "texture": "#canvas",
-          "tintindex": 0,
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
+          "tintindex": 0
         },
         "north": {
           "texture": "#canvas",
-          "tintindex": 0,
-          "uv": [
-            14,
-            0,
-            16,
-            16
-          ]
+          "tintindex": 0
         },
         "south": {
           "texture": "#canvas",
-          "tintindex": 0,
-          "uv": [
-            14,
-            0,
-            16,
-            16
-          ]
+          "tintindex": 0
         },
         "up": {
           "texture": "#canvas",
-          "tintindex": 0,
-          "uv": [
-            14,
-            0,
-            16,
-            16
-          ]
+          "tintindex": 0
         },
         "west": {
           "texture": "#canvas",
-          "tintindex": 0,
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
+          "tintindex": 0
         }
       },
       "from": [
-        14,
-        0,
-        0
+        14.0,
+        0.0,
+        0.0
       ],
       "to": [
-        16,
-        16,
-        16
+        15.0,
+        13.0,
+        16.0
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#canvas",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#canvas",
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#canvas",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#canvas",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#canvas",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#canvas",
+          "tintindex": 0
+        }
+      },
+      "from": [
+        15.0,
+        0.0,
+        0.0
+      ],
+      "to": [
+        16.0,
+        12.0,
+        16.0
       ]
     }
   ],

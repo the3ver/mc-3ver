@@ -891,64 +891,57 @@ public class ExplorerTentLogicTest {
     }
 
     @Test
-    void testRoofSlopeModelsAreThinAndHollow() throws Exception {
-        java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
-
-        String[] roofSlopeModels = {"tent_canvas_roof_left.json", "tent_canvas_roof_right.json"};
-
-        for (String modelName : roofSlopeModels) {
-            java.nio.file.Path modelPath = modelsDir.resolve(modelName);
-            assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
-
-            String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json =
-                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
-            com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
-            assertNotNull(elements, "Modell " + modelName + " muss elements haben");
-
-            boolean hasTopStep = false;
-            boolean isLeft = modelName.contains("left");
-
+    void testRoofSlopeModelsFollowTheRoofLine() throws Exception {
+        // Jede obere Seitenzelle trägt eine ganze Dachfläche von der Traufe bis zum First: gedrehte Planken, deren
+        // Oberkante auf der Dachlinie aus TentRoofLogic liegt
+        for (String name : new String[] {"tent_canvas_roof_left", "tent_canvas_roof_right"}) {
+            boolean left = name.endsWith("left");
+            double cellX = left ? 0 : 32;
+            com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(
+                            java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json")))
+                    .getAsJsonObject()
+                    .getAsJsonArray("elements");
+            double length = 0;
             for (com.google.gson.JsonElement el : elements) {
-                com.google.gson.JsonObject obj = el.getAsJsonObject();
-                com.google.gson.JsonArray from = obj.getAsJsonArray("from");
-                com.google.gson.JsonArray to = obj.getAsJsonArray("to");
-
-                double fromX = from.get(0).getAsDouble();
-                double toX = to.get(0).getAsDouble();
-                double fromY = from.get(1).getAsDouble();
-                double toY = to.get(1).getAsDouble();
-
-                double thicknessY = toY - fromY;
-                assertTrue(
-                        thicknessY <= 2.0,
-                        "Jede Dachstufe in " + modelName + " muss dünn sein (<= 2.0px, war: " + thicknessY + ")");
-
-                if (toY >= 15.9) {
-                    hasTopStep = true;
+                com.google.gson.JsonObject e = el.getAsJsonObject();
+                assertTrue(e.has("rotation"), name + ": nur gedrehte Dachplanken, keine Treppenstufen");
+                com.google.gson.JsonObject rotation = e.getAsJsonObject("rotation");
+                assertEquals(
+                        (left ? 1 : -1) * TentRoofLogic.angleDegrees(),
+                        rotation.get("angle").getAsDouble(),
+                        0.01,
+                        name + ": Neigung");
+                com.google.gson.JsonArray origin = rotation.getAsJsonArray("origin");
+                assertEquals(
+                        TentRoofLogic.roofTopAt(cellX + origin.get(0).getAsDouble()),
+                        origin.get(1).getAsDouble() + 16,
+                        0.01,
+                        name + ": Planke dreht um einen Punkt auf der Dachlinie");
+                com.google.gson.JsonArray from = e.getAsJsonArray("from");
+                com.google.gson.JsonArray to = e.getAsJsonArray("to");
+                assertEquals(
+                        TentRoofLogic.THICKNESS,
+                        to.get(1).getAsDouble() - from.get(1).getAsDouble(),
+                        0.01,
+                        name + ": Plankendicke");
+                for (com.google.gson.JsonArray corner : java.util.List.of(from, to)) {
+                    for (com.google.gson.JsonElement v : corner) {
+                        double c = v.getAsDouble();
+                        assertTrue(c >= -16 && c <= 32, name + ": Koordinate " + c + " außerhalb von -16..32");
+                    }
                 }
-
-                // Im Innenbereich (zur Zeltmitte hin) darf die Plane nicht bei y=0 liegen (muss hohl sein)
-                boolean isInnerRegion = isLeft ? (fromX >= 8.0) : (toX <= 8.0);
-                if (isInnerRegion) {
-                    assertTrue(
-                            fromY >= 8.0,
-                            "Innenbereich von " + modelName + " muss nach unten hohl sein (fromY >= 8.0, war: " + fromY
-                                    + ")");
+                for (String face : e.getAsJsonObject("faces").keySet()) {
+                    assertEquals(
+                            0,
+                            e.getAsJsonObject("faces")
+                                    .getAsJsonObject(face)
+                                    .get("tintindex")
+                                    .getAsInt(),
+                            name + ": " + face + " nimmt die Zeltfarbe an");
                 }
-
-                // Alle Faces müssen weiterhin tintindex: 0 haben
-                com.google.gson.JsonObject faces = obj.getAsJsonObject("faces");
-                for (String faceName : faces.keySet()) {
-                    com.google.gson.JsonObject faceObj = faces.getAsJsonObject(faceName);
-                    assertTrue(
-                            faceObj.has("tintindex") && faceObj.get("tintindex").getAsInt() == 0,
-                            "Face " + faceName + " in " + modelName + " muss tintindex: 0 besitzen");
-                }
+                length += to.get(0).getAsDouble() - from.get(0).getAsDouble();
             }
-
-            assertTrue(hasTopStep, modelName + " muss oben bei y=16 an den First anschließen");
+            assertEquals(TentRoofLogic.planeLength(), length, 0.01, name + ": Planken reichen von Traufe bis First");
         }
     }
 
@@ -965,17 +958,8 @@ public class ExplorerTentLogicTest {
                 leftRoofShape,
                 "ROOF_LEFT darf kein massiver Vollblock sein");
 
-        // Ein stehender Spieler am inneren Rand (x = 12..15, y = 0..12, z = 4..12) darf keine Kollision mit dem Dach
-        // haben
-        net.minecraft.world.phys.AABB innerHeadBox =
-                new net.minecraft.world.phys.AABB(12.0 / 16.0, 0.0, 4.0 / 16.0, 15.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
-
-        boolean collision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-                leftRoofShape,
-                net.minecraft.world.phys.shapes.Shapes.create(innerHeadBox),
-                net.minecraft.world.phys.shapes.BooleanOp.AND);
-
-        assertFalse(collision, "Kopfraum an der Innenseite der Dachschräge (ROOF_LEFT) muss frei sein");
+        // Unter der Dachunterkante (Dachlinie minus Plankendicke) darf nichts kollidieren
+        assertFalse(collidesUnderRoof(leftRoofShape, true), "Raum unter der Dachschräge (ROOF_LEFT) muss frei sein");
 
         // Auch für ROOF_RIGHT (facing NORTH: Innenrand liegt bei x = 1..4)
         net.minecraft.world.phys.shapes.VoxelShape rightRoofShape =
@@ -986,15 +970,27 @@ public class ExplorerTentLogicTest {
                 rightRoofShape,
                 "ROOF_RIGHT darf kein massiver Vollblock sein");
 
-        net.minecraft.world.phys.AABB rightHeadBox =
-                new net.minecraft.world.phys.AABB(1.0 / 16.0, 0.0, 4.0 / 16.0, 4.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
+        assertFalse(collidesUnderRoof(rightRoofShape, false), "Raum unter der Dachschräge (ROOF_RIGHT) muss frei sein");
+    }
 
-        boolean collisionRight = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-                rightRoofShape,
-                net.minecraft.world.phys.shapes.Shapes.create(rightHeadBox),
-                net.minecraft.world.phys.shapes.BooleanOp.AND);
-
-        assertFalse(collisionRight, "Kopfraum an der Innenseite der Dachschräge (ROOF_RIGHT) muss frei sein");
+    // Prüft im Zeltinneren (z = 4..12) jede Pixelspalte einer oberen Seitenzelle (Blickrichtung Norden) bis knapp unter
+    // die Dachplanke. Die linke Zelle hat ihre Außenkante bei x = 0, die rechte bei x = 16.
+    private static boolean collidesUnderRoof(net.minecraft.world.phys.shapes.VoxelShape shape, boolean leftCell) {
+        for (int d = 0; d < 16; d++) {
+            double underside = Math.min(TentRoofLogic.roofTopAt(d), TentRoofLogic.roofTopAt(d + 1))
+                    - 16
+                    - TentRoofLogic.THICKNESS
+                    - 1;
+            if (underside <= 0) continue;
+            double x0 = leftCell ? d : 15 - d;
+            net.minecraft.world.phys.AABB column = new net.minecraft.world.phys.AABB(
+                    x0 / 16.0, 0.0, 4.0 / 16.0, (x0 + 1) / 16.0, underside / 16.0, 12.0 / 16.0);
+            if (net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                    shape,
+                    net.minecraft.world.phys.shapes.Shapes.create(column),
+                    net.minecraft.world.phys.shapes.BooleanOp.AND)) return true;
+        }
+        return false;
     }
 
     @Test
@@ -1095,13 +1091,7 @@ public class ExplorerTentLogicTest {
                 net.minecraft.world.phys.shapes.BooleanOp.AND);
         assertTrue(backCollision, "ROOF_CORNER_LEFT muss eine geschlossene Rückwand-Kollision an z=14..16 besitzen");
 
-        net.minecraft.world.phys.AABB innerHeadBox =
-                new net.minecraft.world.phys.AABB(12.0 / 16.0, 0.0, 4.0 / 16.0, 15.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
-        boolean headCollision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-                leftShape,
-                net.minecraft.world.phys.shapes.Shapes.create(innerHeadBox),
-                net.minecraft.world.phys.shapes.BooleanOp.AND);
-        assertFalse(headCollision, "Kopfraum im Zeltinneren bei ROOF_CORNER_LEFT muss frei sein");
+        assertFalse(collidesUnderRoof(leftShape, true), "Kopfraum im Zeltinneren bei ROOF_CORNER_LEFT muss frei sein");
 
         net.minecraft.world.phys.shapes.VoxelShape rightShape = TentCanvasBlock.getWallShape(
                 TentCanvasBlock.CanvasPart.ROOF_CORNER_RIGHT, net.minecraft.core.Direction.NORTH);
@@ -1113,13 +1103,8 @@ public class ExplorerTentLogicTest {
         assertTrue(
                 rightBackCollision, "ROOF_CORNER_RIGHT muss eine geschlossene Rückwand-Kollision an z=14..16 besitzen");
 
-        net.minecraft.world.phys.AABB rightHeadBox =
-                new net.minecraft.world.phys.AABB(1.0 / 16.0, 0.0, 4.0 / 16.0, 4.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
-        boolean rightHeadCollision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-                rightShape,
-                net.minecraft.world.phys.shapes.Shapes.create(rightHeadBox),
-                net.minecraft.world.phys.shapes.BooleanOp.AND);
-        assertFalse(rightHeadCollision, "Kopfraum im Zeltinneren bei ROOF_CORNER_RIGHT muss frei sein");
+        assertFalse(
+                collidesUnderRoof(rightShape, false), "Kopfraum im Zeltinneren bei ROOF_CORNER_RIGHT muss frei sein");
     }
 
     @Test
@@ -1147,6 +1132,7 @@ public class ExplorerTentLogicTest {
             for (com.google.gson.JsonElement el : elements) {
                 if (!el.toString().contains("#canvas")) continue; // Deko wie Hering, Leine, Wimpel ist keine Zeltplane
                 com.google.gson.JsonObject elObj = el.getAsJsonObject();
+                if (elObj.has("rotation")) continue; // Dachplanken laufen über die ganze Zeltlänge
                 com.google.gson.JsonArray from = elObj.getAsJsonArray("from");
                 double fromZ = from.get(2).getAsDouble();
                 assertTrue(
@@ -1302,14 +1288,8 @@ public class ExplorerTentLogicTest {
                         net.minecraft.world.phys.shapes.BooleanOp.AND),
                 "ROOF_FRONT_LEFT muss an z=14..16 kollidieren");
 
-        net.minecraft.world.phys.AABB innerHeadBoxLeft =
-                new net.minecraft.world.phys.AABB(12.0 / 16.0, 0.0, 4.0 / 16.0, 15.0 / 16.0, 12.0 / 16.0, 12.0 / 16.0);
         assertFalse(
-                net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
-                        roofFrontLeftShape,
-                        net.minecraft.world.phys.shapes.Shapes.create(innerHeadBoxLeft),
-                        net.minecraft.world.phys.shapes.BooleanOp.AND),
-                "ROOF_FRONT_LEFT muss Kopffreiheit im Innenraum bieten");
+                collidesUnderRoof(roofFrontLeftShape, true), "ROOF_FRONT_LEFT muss Kopffreiheit im Innenraum bieten");
     }
 
     @Test
@@ -1373,8 +1353,8 @@ public class ExplorerTentLogicTest {
             double toX = to.get(0).getAsDouble();
             double toY = to.get(1).getAsDouble();
 
-            // Wand an x=14..16, y bis 16
-            if (fromX >= 13.9 && toX <= 16.1 && toY >= 15.9) {
+            // Seitenwand an x=14..16, bis zur Wandhöhe des Zelts
+            if (fromX >= 13.9 && toX <= 16.1 && toY >= TentRoofLogic.WALL_HEIGHT - 1e-9) {
                 foundCanvasWall = true;
                 com.google.gson.JsonObject faces = elObj.getAsJsonObject("faces");
                 for (String faceName : faces.keySet()) {
@@ -1838,9 +1818,17 @@ public class ExplorerTentLogicTest {
                         e.getAsJsonArray("from").get(2).getAsDouble() >= 0
                                 && e.getAsJsonArray("to").get(2).getAsDouble() <= 16,
                         "Laterne muss innerhalb des Dachblocks hängen");
+                // Koordinaten der oberen rechten Zelle: die Mittelspalte liegt bei x = -16..0, y = 16 ist 32 px Höhe
                 assertTrue(
-                        e.getAsJsonArray("to").get(1).getAsDouble() <= 10.5,
-                        "Laterne muss unter der Dachschräge hängen");
+                        e.getAsJsonArray("from").get(0).getAsDouble() >= -16
+                                && e.getAsJsonArray("to").get(0).getAsDouble() <= 0,
+                        "Laterne hängt in der Mittelspalte am First");
+                assertTrue(
+                        e.getAsJsonArray("to").get(1).getAsDouble() + 16 <= TentRoofLogic.RIDGE_HEIGHT - 1.5,
+                        "Laterne muss unter der Firststange hängen");
+                assertTrue(
+                        e.getAsJsonArray("from").get(1).getAsDouble() + 16 >= 1.8 * 16,
+                        "Laterne muss über dem Kopf eines stehenden Spielers hängen");
             }
         }
         String states = java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_canvas.json"));

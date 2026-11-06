@@ -21,8 +21,9 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 
 /**
- * Blockstates und Blockmodelle des Zelts. Vorlagen liegen in src/datagen/resources/tent, der Blockstate der Zeltplane
- * entsteht aus {@link TentCanvasBlock.CanvasPart} (ein Modell je Teil, vier Drehungen).
+ * Blockstates und Blockmodelle des Zelts. Vorlagen liegen in src/datagen/resources/tent, die Modelle formt
+ * {@link TentModelShaper} nach dem Dachquerschnitt. Der Blockstate der Zeltplane entsteht aus
+ * {@link TentCanvasBlock.CanvasPart} (ein Modell je Teil, vier Drehungen).
  */
 class TentAssetProvider implements DataProvider {
 
@@ -44,7 +45,8 @@ class TentAssetProvider implements DataProvider {
             writes.add(DataProvider.saveStable(output, read(file), blockstates.json(Mc3verMod.id(name(file)))));
         }
         for (Path file : templates("models")) {
-            writes.add(DataProvider.saveStable(output, read(file), models.json(Mc3verMod.id(name(file)))));
+            JsonObject model = TentModelShaper.shape(name(file), read(file).getAsJsonObject());
+            writes.add(DataProvider.saveStable(output, model, models.json(Mc3verMod.id(name(file)))));
         }
         return CompletableFuture.allOf(writes.toArray(CompletableFuture[]::new));
     }

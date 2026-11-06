@@ -262,6 +262,14 @@ public class ExplorerTentLogic {
             }
         }
 
+        // 3. First: ragt über der Mittelreihe in die dritte Ebene (TentRoofLogic.RIDGE_HEIGHT), dort darf nichts stehen
+        for (int relZ = 0; relZ < LENGTH; relZ++) {
+            BlockCoord ridgePos = toWorldPos(anchorX, anchorY, anchorZ, facing, 0, HEIGHT, relZ);
+            if (!world.isReplaceable(ridgePos.x(), ridgePos.y(), ridgePos.z())) {
+                return PlacementResult.obstructed(ridgePos);
+            }
+        }
+
         return PlacementResult.success();
     }
 
