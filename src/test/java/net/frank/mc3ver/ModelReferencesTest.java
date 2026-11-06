@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Test;
 public class ModelReferencesTest {
 
     private static final Path ASSETS = Paths.get("").toAbsolutePath().resolve("src/main/resources/assets");
+    // Zeltmodelle erzeugt ./gradlew runDatagen
+    private static final Path GENERATED_ASSETS = Paths.get("").toAbsolutePath().resolve("src/main/generated/assets");
 
     @Test
     void testVanillaAssetsOnTestClasspath() {
@@ -32,22 +34,26 @@ public class ModelReferencesTest {
     @Test
     void testAllModelTexturesAndParentsExist() throws IOException {
         List<String> missing = new ArrayList<>();
-        try (Stream<Path> files = Files.walk(ASSETS.resolve("mc3ver/models"))) {
-            for (Path file : files.filter(f -> f.toString().endsWith(".json")).toList()) {
-                JsonObject model =
-                        JsonParser.parseString(Files.readString(file)).getAsJsonObject();
-                String name = ASSETS.relativize(file).toString().replace('\\', '/');
-                if (model.has("parent")
-                        && !model.get("parent").getAsString().startsWith("builtin/")
-                        && !exists("models", model.get("parent").getAsString(), ".json")) {
-                    missing.add(name + " -> parent " + model.get("parent").getAsString());
-                }
-                if (model.has("textures")) {
-                    for (var entry : model.getAsJsonObject("textures").entrySet()) {
-                        String texture = texturePath(entry.getValue());
-                        if (texture != null && !texture.startsWith("#") && !exists("textures", texture, ".png")) {
-                            missing.add(name + " -> " + entry.getKey() + " " + texture);
-                        }
+        List<Path> modelFiles = new ArrayList<>();
+        for (Path root : List.of(ASSETS, GENERATED_ASSETS)) {
+            try (Stream<Path> files = Files.walk(root.resolve("mc3ver/models"))) {
+                modelFiles.addAll(
+                        files.filter(f -> f.toString().endsWith(".json")).toList());
+            }
+        }
+        for (Path file : modelFiles) {
+            JsonObject model = JsonParser.parseString(Files.readString(file)).getAsJsonObject();
+            String name = file.getFileName().toString();
+            if (model.has("parent")
+                    && !model.get("parent").getAsString().startsWith("builtin/")
+                    && !exists("models", model.get("parent").getAsString(), ".json")) {
+                missing.add(name + " -> parent " + model.get("parent").getAsString());
+            }
+            if (model.has("textures")) {
+                for (var entry : model.getAsJsonObject("textures").entrySet()) {
+                    String texture = texturePath(entry.getValue());
+                    if (texture != null && !texture.startsWith("#") && !exists("textures", texture, ".png")) {
+                        missing.add(name + " -> " + entry.getKey() + " " + texture);
                     }
                 }
             }
@@ -67,7 +73,7 @@ public class ModelReferencesTest {
         String namespace = id.contains(":") ? id.substring(0, id.indexOf(':')) : "minecraft";
         String path = id.contains(":") ? id.substring(id.indexOf(':') + 1) : id;
         String relative = namespace + "/" + kind + "/" + path + extension;
-        if (Files.exists(ASSETS.resolve(relative))) return true;
+        if (Files.exists(ASSETS.resolve(relative)) || Files.exists(GENERATED_ASSETS.resolve(relative))) return true;
         try (InputStream in = ModelReferencesTest.class.getResourceAsStream("/assets/" + relative)) {
             return in != null;
         }

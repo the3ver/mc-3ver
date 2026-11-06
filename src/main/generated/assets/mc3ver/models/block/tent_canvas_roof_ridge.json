@@ -1,0 +1,44 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#ridge"
+        },
+        "east": {
+          "texture": "#ridge"
+        },
+        "north": {
+          "texture": "#ridge"
+        },
+        "south": {
+          "texture": "#ridge"
+        },
+        "up": {
+          "texture": "#ridge"
+        },
+        "west": {
+          "texture": "#ridge"
+        }
+      },
+      "from": [
+        7.25,
+        22.5,
+        0.0
+      ],
+      "to": [
+        8.75,
+        24.25,
+        16.0
+      ]
+    }
+  ],
+  "textures": {
+    "canvas": "mc3ver:block/tent_canvas_roof",
+    "particle": "mc3ver:block/tent_canvas_roof",
+    "pole": "mc3ver:block/tent_pole",
+    "ridge": "mc3ver:block/tent_pole"
+  }
+}

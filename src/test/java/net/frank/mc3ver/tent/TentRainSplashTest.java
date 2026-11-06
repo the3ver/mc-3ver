@@ -41,6 +41,29 @@ public class TentRainSplashTest {
     }
 
     @Test
+    void rainSplashesLandAboveTheRidge() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        // Der First ragt über die obere Mittelzelle hinaus; Spritzer darunter wären von innen zu sehen.
+        // Blick nach Norden: die Mittelzelle reicht von x = 16 (Westrand) bis 32 im Zeltquerschnitt.
+        for (TentCanvasBlock.CanvasPart part : java.util.List.of(
+                TentCanvasBlock.CanvasPart.ROOF_RIDGE,
+                TentCanvasBlock.CanvasPart.ROOF_FRONT,
+                TentCanvasBlock.CanvasPart.ROOF_BACK)) {
+            net.minecraft.world.phys.shapes.VoxelShape shape =
+                    TentCanvasBlock.getRainShape(part, net.minecraft.core.Direction.NORTH);
+            for (int i = 0; i < 16; i++) {
+                double roof = Math.max(TentRoofLogic.roofTopAt(16 + i), TentRoofLogic.roofTopAt(17 + i)) - 16;
+                double top = shape.max(net.minecraft.core.Direction.Axis.Y, (i + 0.5) / 16.0, 0.5);
+                assertTrue(
+                        top >= (roof + SPLASH_LIFT * 16) / 16.0 - 1e-9,
+                        part + " Spalte " + i + ": Regenkante " + top * 16 + " px, Dach " + roof + " px");
+            }
+        }
+    }
+
+    @Test
     void entitiesKeepTheNormalRoofCollision() {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();

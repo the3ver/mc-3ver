@@ -4,6 +4,14 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.10.2] - 2026-11-06
+
+### 🔄 Geändert
+* **Form des Entdeckerzelts:** Das Zelt hat jetzt niedrige Seitenwände und ein steiles Satteldach mit spitzem First und überstehender Traufe, wie ein klassisches Leinwandzelt. Der First ragt einen halben Block über das Zelt hinaus, deshalb muss über der Mittelreihe ein dritter Block frei sein. Die Laterne hängt am First über Kopfhöhe.
+
+### 🔧 Intern
+* Blockstates und Modelle des Zelts entstehen per `./gradlew runDatagen` aus Vorlagen in `src/datagen/resources/tent`; den Dachquerschnitt beschreibt `TentRoofLogic`.
+
 ## [0.10.1] - 2026-11-06
 
 ### 🐛 Fehlerbehebungen
