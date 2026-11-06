@@ -30,6 +30,9 @@ class ResourceConsistencyTest {
     private static final Path DATA = RESOURCES.resolve("data/mc3ver");
     // Loot-Tabellen mit Vanilla-Verhalten erzeugt ./gradlew runDatagen hierhin
     private static final Path GENERATED_DATA = Paths.get("").toAbsolutePath().resolve("src/main/generated/data/mc3ver");
+    // Zelt-Blockstates und -Modelle ebenfalls
+    private static final Path GENERATED_ASSETS =
+            Paths.get("").toAbsolutePath().resolve("src/main/generated/assets/mc3ver");
 
     // Zeltteile entstehen nur beim Aufstellen des Zelts und wandern beim Einpacken ins Zelt-Item zurück
     private static final Set<String> BLOCKS_WITHOUT_ITEM_AND_LOOT =
@@ -48,7 +51,7 @@ class ResourceConsistencyTest {
         Set<String> items = names(ASSETS.resolve("items"));
         Set<String> loot = lootTables();
         List<String> problems = new ArrayList<>();
-        for (String block : names(ASSETS.resolve("blockstates"))) {
+        for (String block : blockstates()) {
             if (!en.has("block.mc3ver." + block)) problems.add(block + ": Übersetzung block.mc3ver." + block);
             if (BLOCKS_WITHOUT_ITEM_AND_LOOT.contains(block)) continue;
             // Topfpflanzen haben kein eigenes Item: man setzt die Pflanze in einen Blumentopf
@@ -72,19 +75,21 @@ class ResourceConsistencyTest {
     @Test
     void lootTablesBelongToExistingBlocks() throws IOException {
         Set<String> orphans = lootTables();
-        orphans.removeAll(names(ASSETS.resolve("blockstates")));
+        orphans.removeAll(blockstates());
         assertTrue(orphans.isEmpty(), "Loot-Tabellen ohne Block: " + orphans);
     }
 
     @Test
     void blockstatesAndItemDefinitionsPointToExistingModels() throws IOException {
         List<String> missing = new ArrayList<>();
-        for (Path dir : List.of(ASSETS.resolve("blockstates"), ASSETS.resolve("items"))) {
+        for (Path dir : List.of(
+                ASSETS.resolve("blockstates"), GENERATED_ASSETS.resolve("blockstates"), ASSETS.resolve("items"))) {
             for (Path file : jsonFiles(dir)) {
                 Matcher m = MODEL_REF.matcher(Files.readString(file));
                 while (m.find()) {
-                    if (!Files.exists(ASSETS.resolve("models/" + m.group(1) + ".json"))) {
-                        missing.add(RESOURCES.relativize(file) + " -> mc3ver:" + m.group(1));
+                    String model = "models/" + m.group(1) + ".json";
+                    if (!Files.exists(ASSETS.resolve(model)) && !Files.exists(GENERATED_ASSETS.resolve(model))) {
+                        missing.add(file.getFileName() + " -> mc3ver:" + m.group(1));
                     }
                 }
             }
@@ -114,6 +119,12 @@ class ResourceConsistencyTest {
             }
         }
         assertTrue(unknown.isEmpty(), "Unbekannte mc3ver-IDs:\n" + String.join("\n", unknown));
+    }
+
+    private static Set<String> blockstates() throws IOException {
+        Set<String> states = names(ASSETS.resolve("blockstates"));
+        states.addAll(names(GENERATED_ASSETS.resolve("blockstates")));
+        return states;
     }
 
     private static Set<String> lootTables() throws IOException {

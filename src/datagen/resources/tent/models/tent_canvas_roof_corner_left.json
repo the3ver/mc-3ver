@@ -2,15 +2,14 @@
   "parent": "minecraft:block/block",
   "textures": {
     "canvas": "mc3ver:block/tent_canvas_roof",
-    "pole": "mc3ver:block/tent_pole",
     "particle": "mc3ver:block/tent_canvas_roof"
   },
   "elements": [
     {
       "from": [
         0,
-        14,
-        0
+        0,
+        14
       ],
       "to": [
         16,
@@ -18,63 +17,27 @@
         16
       ],
       "faces": {
-        "down": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
+        "up": {
           "texture": "#canvas",
           "tintindex": 0
         },
-        "up": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
+        "down": {
           "texture": "#canvas",
           "tintindex": 0
         },
         "north": {
-          "uv": [
-            0,
-            0,
-            16,
-            2
-          ],
           "texture": "#canvas",
           "tintindex": 0
         },
         "south": {
-          "uv": [
-            0,
-            0,
-            16,
-            2
-          ],
-          "texture": "#canvas",
-          "tintindex": 0
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            16,
-            2
-          ],
           "texture": "#canvas",
           "tintindex": 0
         },
         "east": {
-          "uv": [
-            0,
-            0,
-            16,
-            2
-          ],
+          "texture": "#canvas",
+          "tintindex": 0
+        },
+        "west": {
           "texture": "#canvas",
           "tintindex": 0
         }

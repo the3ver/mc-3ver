@@ -1,0 +1,231 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            16,
+            1
+          ]
+        },
+        "east": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            1,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            16,
+            1
+          ]
+        },
+        "west": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            1,
+            16
+          ]
+        }
+      },
+      "from": [
+        0,
+        0,
+        15
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            16,
+            1
+          ]
+        },
+        "east": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            2,
+            1,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            2,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            2,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            16,
+            1
+          ]
+        },
+        "west": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            0,
+            2,
+            1,
+            16
+          ]
+        }
+      },
+      "from": [
+        0,
+        16,
+        15
+      ],
+      "to": [
+        16,
+        30,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            7.5,
+            1,
+            8.5,
+            1.5
+          ]
+        },
+        "east": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            1,
+            0,
+            1.5,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            7.5,
+            0,
+            8.5,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            7.5,
+            0,
+            8.5,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            7.5,
+            1,
+            8.5,
+            1.5
+          ]
+        },
+        "west": {
+          "texture": "#canvas",
+          "tintindex": 0,
+          "uv": [
+            1,
+            0,
+            1.5,
+            16
+          ]
+        }
+      },
+      "from": [
+        7.5,
+        0,
+        14.5
+      ],
+      "to": [
+        8.5,
+        30,
+        15
+      ]
+    }
+  ],
+  "textures": {
+    "canvas": "mc3ver:block/tent_canvas",
+    "particle": "mc3ver:block/tent_canvas"
+  }
+}
