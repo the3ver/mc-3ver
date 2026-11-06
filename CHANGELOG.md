@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.10.1] - 2026-11-06
+
+### 🐛 Fehlerbehebungen
+* **Name der Transportkarte:** War das Inventar beim Aufstellen einer Transportflamme voll, fiel die neue Karte zu Boden und bekam den eingegebenen Namen nicht. Jetzt erhalten auch Karten am Boden rund um die Flamme den Namen.
+
 ## [0.10.0] - 2026-11-01
 
 ### ✨ Neu hinzugefügt

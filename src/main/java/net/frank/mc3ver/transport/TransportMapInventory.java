@@ -3,13 +3,17 @@ package net.frank.mc3ver.transport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 
 // Findet die Transportkarten eines Spielers, auch die in Bündeln, und ändert sie an Ort und Stelle
 public final class TransportMapInventory {
@@ -108,6 +112,32 @@ public final class TransportMapInventory {
                     }
                 }
             }
+        }
+        return mapRefs;
+    }
+
+    // Bei vollem Inventar fällt die neue Karte beim Aufstellen zu Boden; dort soll sie den Namen trotzdem bekommen
+    public static final double DROPPED_MAP_SEARCH_RADIUS = 16.0;
+
+    public static List<MapItemRef> droppedNear(Level level, BlockPos pos) {
+        List<MapItemRef> mapRefs = new ArrayList<>();
+        AABB area = new AABB(pos).inflate(DROPPED_MAP_SEARCH_RADIUS);
+        for (ItemEntity entity : level.getEntitiesOfClass(
+                ItemEntity.class, area, e -> e.getItem().is(ModItems.TRANSPORT_MAP))) {
+            mapRefs.add(new MapItemRef() {
+                @Override
+                public TransportFlameLogic.FlameTarget getTarget() {
+                    return entity.getItem().get(ModDataComponents.FLAME_TARGET);
+                }
+
+                @Override
+                public void modify(Consumer<ItemStack> change) {
+                    // Kopie setzen, sonst erkennt die Entity-Synchronisation keine Änderung
+                    ItemStack changed = entity.getItem().copy();
+                    change.accept(changed);
+                    entity.setItem(changed);
+                }
+            });
         }
         return mapRefs;
     }
