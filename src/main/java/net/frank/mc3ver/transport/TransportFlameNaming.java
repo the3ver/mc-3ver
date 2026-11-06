@@ -1,12 +1,13 @@
 package net.frank.mc3ver.transport;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.frank.mc3ver.Mc3verMod;
 import net.frank.mc3ver.teleport.Dimensions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -77,16 +78,13 @@ public final class TransportFlameNaming {
                 Component.translatable("message.mc3ver.flame_named", name).withStyle(ChatFormatting.GREEN));
     }
 
-    // Setzt den Namen an der Flamme und an allen Karten des Spielers, die auf sie zeigen
+    // Setzt den Namen an der Flamme, an allen Karten des Spielers und an Karten am Boden, die auf sie zeigen
     public static void applyName(ServerPlayer player, TransportFlameBlockEntity flame, String name) {
         flame.setName(name);
         BlockPos pos = flame.getBlockPos();
-        String dimensionId = Dimensions.id(player.level());
-        for (TransportMapInventory.MapItemRef ref : TransportMapInventory.scan(player)) {
-            TransportFlameLogic.FlameTarget target = ref.getTarget();
-            if (target != null && target.isAt(pos.getX(), pos.getY(), pos.getZ(), dimensionId)) {
-                ref.modify(stack -> stack.set(DataComponents.CUSTOM_NAME, Component.literal(name)));
-            }
-        }
+        List<TransportMapInventory.MapItemRef> mapRefs = new ArrayList<>(TransportMapInventory.scan(player));
+        mapRefs.addAll(TransportMapInventory.droppedNear(player.level(), pos));
+        TransportMapInventory.nameMapsFor(
+                mapRefs, pos.getX(), pos.getY(), pos.getZ(), Dimensions.id(player.level()), name);
     }
 }

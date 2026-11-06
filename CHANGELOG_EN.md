@@ -4,6 +4,11 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.1] - 2026-11-06
+
+### 🐛 Bug Fixes
+* **Transport map name:** with a full inventory, the new map dropped to the ground when placing a Transport Flame and missed the name you typed. Maps lying on the ground around the flame now get the name too.
+
 ## [0.10.0] - 2026-11-01
 
 ### ✨ Added
