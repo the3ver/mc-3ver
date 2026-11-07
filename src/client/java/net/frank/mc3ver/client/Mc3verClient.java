@@ -17,5 +17,6 @@ public class Mc3verClient implements ClientModInitializer {
         TransportClient.register();
         TentClient.register();
         DoubleJumpClient.register();
+        SonicSwordClient.register();
     }
 }
