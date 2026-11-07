@@ -4,6 +4,17 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.12.0] - 2026-11-07
+
+### ✨ Neu hinzugefügt
+* **Schallschwert:** Lila-schwarz-pinkes Schwert mit 8,5 Schaden. Rezept: Diamantschwert in der Mitte, Amethyst-Scherben darüber und darunter, 6 Obsidian an den Seiten.
+  * **Schallwelle:** Rechtsklick halten und loslassen. Mobs im Umkreis von 3 bis 6 Blöcken nehmen 1,5 bis 4 Schaden und sind 1 bis 3 Sekunden gelähmt.
+  * **Schallstrahl:** Linksklick halten und loslassen. Alles auf einer Linie von 8 bis 16 Blöcken nimmt 1 bis 2 Schaden und fliegt weit weg. Ein kurzer Klick bleibt ein normaler Schwerthieb.
+  * Beide feuern erst nach einer halben Sekunde Aufladen und kosten 1 Haltbarkeit. Ein Balken unter dem Fadenkreuz zeigt die Ladung. Mit dem Schwert in der Hand baut man keine Blöcke ab.
+
+### 🔧 Intern
+* Neuer Client-Gametest `SonicSwordClientGameTest` drückt echte Tasten und prüft Strahl, Welle und dass Blöcke stehen bleiben.
+
 ## [0.11.0] - 2026-11-07
 
 ### 🔄 Geändert
