@@ -70,19 +70,53 @@ final class TentModelShaper {
             double to = zTo > BLOCK ? zTo + RIDGE_POLE_OVERHANG : zTo;
             elements.add(ridgePole(from, to));
         }
-        // Abspannleinen mit Holzheringen: je untere Seitenzelle eine, dazu je eine vom Firstende an beiden Giebeln
-        boolean gable = name.endsWith("roof_front") || name.endsWith("roof_back");
-        if ((!roof && side) || gable) {
-            JsonObject textures = model.getAsJsonObject("textures");
-            textures.addProperty("stake", "minecraft:block/stripped_oak_log");
-            textures.addProperty("rope", "minecraft:block/white_wool");
-            List<JsonObject> line = gable ? gableGuyLine(name.endsWith("roof_front")) : sideGuyLine(name, cellX == 0);
-            line.forEach(elements::add);
-        }
         if (roof) {
             // Gedrehte Flächen bekommen sonst fleckige Umgebungsverdeckung
             model.addProperty("ambientocclusion", false);
         }
+        model.add("elements", elements);
+        return model;
+    }
+
+    /** Modelle mit je einer Abspannleine samt Hering, in Koordinaten der Zelle, an der sie hängen. */
+    static final List<String> GUY_LINE_MODELS = List.of(
+            "tent_guy_line_left",
+            "tent_guy_line_right",
+            "tent_guy_line_front_left",
+            "tent_guy_line_front_right",
+            "tent_guy_line_corner_left",
+            "tent_guy_line_corner_right",
+            "tent_guy_line_gable_front",
+            "tent_guy_line_gable_back");
+
+    /**
+     * Welche Abspannleine zur Zelle eines Zeltmodells gehört: je untere Seitenzelle eine, dazu je eine vom Firstende
+     * an beiden Giebeln. {@code null} für Zellen ohne Leine.
+     */
+    static String guyLineFor(String cellModel) {
+        if (cellModel.endsWith("roof_front")) return "tent_guy_line_gable_front";
+        if (cellModel.endsWith("roof_back")) return "tent_guy_line_gable_back";
+        if (cellModel.contains("roof")) return null;
+        String side = cellModel.endsWith("left") ? "left" : cellModel.endsWith("right") ? "right" : null;
+        if (side == null) return null;
+        if (cellModel.contains("wall_front")) return "tent_guy_line_front_" + side;
+        if (cellModel.contains("wall_corner")) return "tent_guy_line_corner_" + side;
+        return "tent_guy_line_" + side;
+    }
+
+    static JsonObject guyLineModel(String name) {
+        List<JsonObject> line = name.contains("gable")
+                ? gableGuyLine(name.endsWith("front"))
+                : sideGuyLine(name, name.endsWith("left"));
+        JsonObject textures = new JsonObject();
+        textures.addProperty("stake", "minecraft:block/stripped_oak_log");
+        textures.addProperty("rope", "minecraft:block/white_wool");
+        textures.addProperty("particle", "minecraft:block/stripped_oak_log");
+        JsonArray elements = new JsonArray();
+        line.forEach(elements::add);
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", "minecraft:block/block");
+        model.add("textures", textures);
         model.add("elements", elements);
         return model;
     }

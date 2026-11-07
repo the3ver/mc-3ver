@@ -190,86 +190,10 @@
         16.0,
         16.0
       ]
-    },
-    {
-      "faces": {
-        "down": {
-          "texture": "#stake"
-        },
-        "east": {
-          "texture": "#stake"
-        },
-        "north": {
-          "texture": "#stake"
-        },
-        "south": {
-          "texture": "#stake"
-        },
-        "up": {
-          "texture": "#stake"
-        },
-        "west": {
-          "texture": "#stake"
-        }
-      },
-      "from": [
-        -9.0,
-        0.0,
-        24.0
-      ],
-      "to": [
-        -8.0,
-        3.0,
-        25.0
-      ]
-    },
-    {
-      "faces": {
-        "down": {
-          "texture": "#rope"
-        },
-        "east": {
-          "texture": "#rope"
-        },
-        "north": {
-          "texture": "#rope"
-        },
-        "south": {
-          "texture": "#rope"
-        },
-        "up": {
-          "texture": "#rope"
-        },
-        "west": {
-          "texture": "#rope"
-        }
-      },
-      "from": [
-        -8.75,
-        2.5,
-        24.25
-      ],
-      "rotation": {
-        "origin": [
-          -8.5,
-          2.5,
-          24.5
-        ],
-        "x": 59.323,
-        "y": 137.121,
-        "z": 0.0
-      },
-      "to": [
-        -8.25,
-        13.607,
-        24.75
-      ]
     }
   ],
   "textures": {
     "canvas": "mc3ver:block/tent_canvas",
-    "particle": "mc3ver:block/tent_canvas",
-    "rope": "minecraft:block/white_wool",
-    "stake": "minecraft:block/stripped_oak_log"
+    "particle": "mc3ver:block/tent_canvas"
   }
 }

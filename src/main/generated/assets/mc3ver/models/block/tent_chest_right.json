@@ -280,80 +280,6 @@
         10,
         9
       ]
-    },
-    {
-      "faces": {
-        "down": {
-          "texture": "#stake"
-        },
-        "east": {
-          "texture": "#stake"
-        },
-        "north": {
-          "texture": "#stake"
-        },
-        "south": {
-          "texture": "#stake"
-        },
-        "up": {
-          "texture": "#stake"
-        },
-        "west": {
-          "texture": "#stake"
-        }
-      },
-      "from": [
-        26.0,
-        0.0,
-        7.5
-      ],
-      "to": [
-        27.0,
-        3.0,
-        8.5
-      ]
-    },
-    {
-      "faces": {
-        "down": {
-          "texture": "#rope"
-        },
-        "east": {
-          "texture": "#rope"
-        },
-        "north": {
-          "texture": "#rope"
-        },
-        "south": {
-          "texture": "#rope"
-        },
-        "up": {
-          "texture": "#rope"
-        },
-        "west": {
-          "texture": "#rope"
-        }
-      },
-      "from": [
-        26.25,
-        2.5,
-        7.75
-      ],
-      "rotation": {
-        "origin": [
-          26.5,
-          2.5,
-          8.0
-        ],
-        "x": 56.31,
-        "y": -90.0,
-        "z": 0.0
-      },
-      "to": [
-        26.75,
-        12.716,
-        8.25
-      ]
     }
   ],
   "textures": {
@@ -361,8 +287,6 @@
     "latch": "minecraft:block/iron_block",
     "particle": "mc3ver:block/tent_canvas",
     "planks": "minecraft:block/spruce_planks",
-    "rim": "minecraft:block/dark_oak_planks",
-    "rope": "minecraft:block/white_wool",
-    "stake": "minecraft:block/stripped_oak_log"
+    "rim": "minecraft:block/dark_oak_planks"
   }
 }

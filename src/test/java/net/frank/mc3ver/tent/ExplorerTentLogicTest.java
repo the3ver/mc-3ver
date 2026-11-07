@@ -1512,9 +1512,11 @@ public class ExplorerTentLogicTest {
                 com.google.gson.JsonObject when = rule.getAsJsonObject("when");
                 if (when.has("part")
                         && "wall_crafting_table_right".equals(when.get("part").getAsString())) {
+                    com.google.gson.JsonObject apply = rule.getAsJsonObject("apply");
+                    // Die Abspannleine hängt als eigenes Modell an derselben Zelle
+                    if (apply.get("model").getAsString().contains("guy_line")) continue;
                     if (when.has("facing")) {
                         foundFacings.add(when.get("facing").getAsString());
-                        com.google.gson.JsonObject apply = rule.getAsJsonObject("apply");
                         assertEquals(
                                 "mc3ver:block/tent_canvas_wall_crafting_table_right",
                                 apply.get("model").getAsString());
@@ -1621,10 +1623,7 @@ public class ExplorerTentLogicTest {
 
         java.nio.file.Path blockstate = GENERATED.resolve("blockstates/tent_furnace.json");
         assertTrue(java.nio.file.Files.exists(blockstate), "blockstates/tent_furnace.json muss existieren");
-        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(blockstate))
-                .getAsJsonObject()
-                .getAsJsonObject("variants");
+        com.google.gson.JsonObject variants = variantsOf(java.nio.file.Files.readString(blockstate));
         for (String facing : new String[] {"north", "east", "south", "west"}) {
             for (String lit : new String[] {"false", "true"}) {
                 assertTrue(
@@ -1947,10 +1946,8 @@ public class ExplorerTentLogicTest {
     void testEntranceFlapResources() throws Exception {
         java.nio.file.Path res =
                 java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
-        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_flap.json")))
-                .getAsJsonObject()
-                .getAsJsonObject("variants");
+        com.google.gson.JsonObject variants =
+                variantsOf(java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_flap.json")));
         for (String facing : new String[] {"north", "east", "south", "west"}) {
             assertEquals(
                     "mc3ver:block/tent_flap_closed",
@@ -2094,10 +2091,8 @@ public class ExplorerTentLogicTest {
         }
 
         java.nio.file.Path assets = base.resolve("assets/mc3ver");
-        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")))
-                .getAsJsonObject()
-                .getAsJsonObject("variants");
+        com.google.gson.JsonObject variants =
+                variantsOf(java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")));
         for (String facing : new String[] {"north", "east", "south", "west"}) {
             assertEquals(
                     "mc3ver:block/tent_chest_right",
@@ -2128,9 +2123,77 @@ public class ExplorerTentLogicTest {
         };
     }
 
+    // Blockstate als variants-Tabelle; multipart (Ofen, Truhe) wird ohne die angehängten Abspannleinen umgelesen
+    private static com.google.gson.JsonObject variantsOf(String blockstate) {
+        com.google.gson.JsonObject json =
+                com.google.gson.JsonParser.parseString(blockstate).getAsJsonObject();
+        if (json.has("variants")) return json.getAsJsonObject("variants");
+        com.google.gson.JsonObject variants = new com.google.gson.JsonObject();
+        for (com.google.gson.JsonElement el : json.getAsJsonArray("multipart")) {
+            com.google.gson.JsonObject entry = el.getAsJsonObject();
+            com.google.gson.JsonObject apply = entry.getAsJsonObject("apply");
+            if (apply.get("model").getAsString().contains("guy_line")) continue;
+            java.util.List<String> key = new java.util.ArrayList<>();
+            for (var condition : entry.getAsJsonObject("when").entrySet()) {
+                key.add(condition.getKey() + "=" + condition.getValue().getAsString());
+            }
+            variants.add(String.join(",", key), apply);
+        }
+        return variants;
+    }
+
+    @Test
+    void testBlockstatesAttachEachGuyLineToItsCell() throws Exception {
+        // Leinen sind eigene Modelle; die Blockstates hängen sie an genau die Zellen, an denen sie spannen
+        java.util.Map<String, String> canvasParts = java.util.Map.of(
+                "wall_front_left", "tent_guy_line_front_left",
+                "wall_left", "tent_guy_line_left",
+                "wall_corner_left", "tent_guy_line_corner_left",
+                "wall_right", "tent_guy_line_right",
+                "wall_front_right", "tent_guy_line_front_right",
+                "wall_crafting_table_right", "tent_guy_line_right",
+                "wall_corner_right", "tent_guy_line_corner_right",
+                "roof_front", "tent_guy_line_gable_front",
+                "roof_back", "tent_guy_line_gable_back");
+        java.util.Map<String, java.util.Set<String>> found = new java.util.HashMap<>();
+        for (com.google.gson.JsonElement el : com.google.gson.JsonParser.parseString(
+                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_canvas.json")))
+                .getAsJsonObject()
+                .getAsJsonArray("multipart")) {
+            com.google.gson.JsonObject entry = el.getAsJsonObject();
+            String model = entry.getAsJsonObject("apply").get("model").getAsString();
+            if (!model.contains("guy_line")) continue;
+            String part = entry.getAsJsonObject("when").get("part").getAsString();
+            found.computeIfAbsent(part, k -> new java.util.HashSet<>()).add(model);
+            assertTrue(entry.getAsJsonObject("when").has("facing"), part + ": Leine dreht mit dem Zelt");
+        }
+        for (var expected : canvasParts.entrySet()) {
+            assertEquals(
+                    java.util.Set.of("mc3ver:block/" + expected.getValue()),
+                    found.get(expected.getKey()),
+                    expected.getKey());
+        }
+        assertEquals(canvasParts.keySet(), found.keySet(), "keine Leinen an anderen Zellen");
+
+        for (String[] block :
+                new String[][] {{"tent_furnace", "tent_guy_line_left"}, {"tent_chest", "tent_guy_line_right"}}) {
+            String states = java.nio.file.Files.readString(GENERATED.resolve("blockstates/" + block[0] + ".json"));
+            assertEquals(
+                    4,
+                    states.split("mc3ver:block/" + block[1] + "\"", -1).length - 1,
+                    block[0] + ": Leine je Richtung");
+        }
+        for (String name : new String[] {"tent_canvas_wall_left", "tent_furnace_left", "tent_canvas_roof_front"}) {
+            assertFalse(
+                    java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json"))
+                            .contains("#rope"),
+                    name + ": Leine steckt im eigenen Modell");
+        }
+    }
+
     @Test
     void testGableGuyLinesRunFromTheRidgeEnd() throws Exception {
-        for (String name : new String[] {"tent_canvas_roof_front", "tent_canvas_roof_back"}) {
+        for (String name : new String[] {"tent_guy_line_gable_front", "tent_guy_line_gable_back"}) {
             boolean front = name.endsWith("front");
             com.google.gson.JsonObject rope = null;
             com.google.gson.JsonObject stake = null;
@@ -2157,17 +2220,14 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testStakesAndGuyLinesOutsideTheTent() throws Exception {
-        // Jede untere Seitenzelle trägt eine Leine: vier je Zeltseite
+        // Leinenmodelle der unteren Seitenzellen: Eingangsecke, Mitte, hintere Ecke je Zeltseite
         for (String side : new String[] {
-            "tent_canvas_wall_front_left",
-            "tent_furnace_left",
-            "tent_canvas_wall_left",
-            "tent_canvas_wall_corner_left",
-            "tent_canvas_wall_front_right",
-            "tent_chest_right",
-            "tent_chest_right_open",
-            "tent_canvas_wall_crafting_table_right",
-            "tent_canvas_wall_corner_right"
+            "tent_guy_line_front_left",
+            "tent_guy_line_left",
+            "tent_guy_line_corner_left",
+            "tent_guy_line_front_right",
+            "tent_guy_line_right",
+            "tent_guy_line_corner_right"
         }) {
             com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(
                             java.nio.file.Files.readString(GENERATED.resolve("models/block/" + side + ".json")))
@@ -2267,10 +2327,8 @@ public class ExplorerTentLogicTest {
     void testChestOpenVariantsAndLidModel() throws Exception {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
-        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")))
-                .getAsJsonObject()
-                .getAsJsonObject("variants");
+        com.google.gson.JsonObject variants =
+                variantsOf(java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")));
         for (String facing : new String[] {"north", "east", "south", "west"}) {
             assertEquals(
                     "mc3ver:block/tent_chest_right",

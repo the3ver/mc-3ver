@@ -603,87 +603,11 @@
         24.25,
         16.0
       ]
-    },
-    {
-      "faces": {
-        "down": {
-          "texture": "#stake"
-        },
-        "east": {
-          "texture": "#stake"
-        },
-        "north": {
-          "texture": "#stake"
-        },
-        "south": {
-          "texture": "#stake"
-        },
-        "up": {
-          "texture": "#stake"
-        },
-        "west": {
-          "texture": "#stake"
-        }
-      },
-      "from": [
-        7.5,
-        -16.0,
-        -14.5
-      ],
-      "to": [
-        8.5,
-        -13.0,
-        -13.5
-      ]
-    },
-    {
-      "faces": {
-        "down": {
-          "texture": "#rope"
-        },
-        "east": {
-          "texture": "#rope"
-        },
-        "north": {
-          "texture": "#rope"
-        },
-        "south": {
-          "texture": "#rope"
-        },
-        "up": {
-          "texture": "#rope"
-        },
-        "west": {
-          "texture": "#rope"
-        }
-      },
-      "from": [
-        7.75,
-        -13.5,
-        -14.25
-      ],
-      "rotation": {
-        "origin": [
-          8.0,
-          -13.5,
-          -14.0
-        ],
-        "x": 17.716,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "to": [
-        8.25,
-        24.292,
-        -13.75
-      ]
     }
   ],
   "textures": {
     "canvas": "mc3ver:block/tent_canvas_roof",
     "particle": "mc3ver:block/tent_canvas_roof",
-    "ridge": "mc3ver:block/tent_pole",
-    "rope": "minecraft:block/white_wool",
-    "stake": "minecraft:block/stripped_oak_log"
+    "ridge": "mc3ver:block/tent_pole"
   }
 }
