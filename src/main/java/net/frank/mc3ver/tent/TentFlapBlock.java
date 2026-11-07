@@ -45,6 +45,14 @@ public class TentFlapBlock extends HorizontalDirectionalBlock {
         return open ? Shapes.empty() : TentCanvasBlock.getEntranceShape(facing);
     }
 
+    /**
+     * Die offene Plane ist oben aufgerollt, ihre Klickform bleibt aber der ganze Streifen im Eingang. Ein Rahmen darum
+     * stünde als leeres Gitter im Durchgang.
+     */
+    public static boolean showsOutline(boolean open) {
+        return !open;
+    }
+
     public static boolean isPassable(boolean open) {
         return open;
     }

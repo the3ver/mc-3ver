@@ -55,7 +55,8 @@ public class TentRainSplashTest {
                     TentCanvasBlock.getRainShape(part, net.minecraft.core.Direction.NORTH);
             for (int i = 0; i < 16; i++) {
                 double roof = Math.max(TentRoofLogic.roofTopAt(16 + i), TentRoofLogic.roofTopAt(17 + i)) - 16;
-                double top = shape.max(net.minecraft.core.Direction.Axis.Y, (i + 0.5) / 16.0, 0.5);
+                // VoxelShape.max(Y, …) nimmt erst z, dann x
+                double top = shape.max(net.minecraft.core.Direction.Axis.Y, 0.5, (i + 0.5) / 16.0);
                 assertTrue(
                         top >= (roof + SPLASH_LIFT * 16) / 16.0 - 1e-9,
                         part + " Spalte " + i + ": Regenkante " + top * 16 + " px, Dach " + roof + " px");

@@ -9,7 +9,7 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) 
 ### 🔄 Geändert
 * **Form des Entdeckerzelts:** Das Zelt hat jetzt niedrige Seitenwände und ein steiles Satteldach mit spitzem First und überstehender Traufe, wie ein klassisches Leinwandzelt. Der First ragt einen halben Block über das Zelt hinaus, deshalb muss über der Mittelreihe ein dritter Block frei sein. Die Laterne hängt am First über Kopfhöhe.
 * **Rückwand des Zelts:** Die Rückwand steht jetzt an der hinteren Außenkante, das Dach ragt vorn und hinten nur noch knapp über die Giebel. Dadurch ist das Zelt innen eine Reihe länger.
-* **Kein Gitter beim Anvisieren:** Die Zeltplane zeigt beim Anvisieren keinen Auswahlrahmen mehr, nur die Werkbank behält ihn.
+* **Kein Gitter beim Anvisieren:** Die Zeltplane und die offene Eingangsplane zeigen beim Anvisieren keinen Auswahlrahmen mehr. Bei Ofen, Truhe und Werkbank endet der Rahmen an der sichtbaren Seitenwand, statt durch das Dach zu stechen.
 
 ### 🔧 Intern
 * Blockstates und Modelle des Zelts entstehen per `./gradlew runDatagen` aus Vorlagen in `src/datagen/resources/tent`; den Dachquerschnitt beschreibt `TentRoofLogic`.

@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
 import net.frank.mc3ver.tent.ExplorerTentLogic;
 import net.frank.mc3ver.tent.ModTentBlocks;
 import net.frank.mc3ver.tent.TentCanvasBlock;
+import net.frank.mc3ver.tent.TentFlapBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.DyeColor;
@@ -35,8 +36,13 @@ final class TentClient {
             ClientLevel level = Minecraft.getInstance().level;
             if (level == null) return true;
             BlockState state = level.getBlockState(outline.pos());
-            return !state.is(ModTentBlocks.TENT_CANVAS)
-                    || TentCanvasBlock.showsOutline(state.getValue(TentCanvasBlock.PART));
+            if (state.is(ModTentBlocks.TENT_CANVAS)) {
+                return TentCanvasBlock.showsOutline(state.getValue(TentCanvasBlock.PART));
+            }
+            if (state.is(ModTentBlocks.TENT_FLAP)) {
+                return TentFlapBlock.showsOutline(state.getValue(TentFlapBlock.OPEN));
+            }
+            return true;
         });
     }
 }

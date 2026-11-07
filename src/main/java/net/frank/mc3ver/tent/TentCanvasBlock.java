@@ -118,6 +118,16 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         return slope;
     });
 
+    // Seitenwände (links, rechts) sind nur so hoch wie sichtbar; darüber liegt die Dachschräge. Mit voller Blockhöhe
+    // stächen Kollision und Auswahlrahmen durchs Dach.
+    private static final Map<Direction, VoxelShape> LONG_WALL =
+            byOuterSide(side -> slab(side, 0.0, 2.0, 0.0, TentRoofLogic.WALL_HEIGHT));
+
+    /** Seitenwand an der Kante {@code side}, in sichtbarer Wandhöhe. */
+    public static VoxelShape getLongWallShape(Direction side) {
+        return LONG_WALL.getOrDefault(side, Shapes.block());
+    }
+
     public static VoxelShape getRainShape(CanvasPart part, Direction facing) {
         VoxelShape shape = getWallShape(part, facing);
         return switch (part) {
@@ -152,8 +162,8 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         Direction leftDir = facing.getCounterClockWise();
         Direction rightDir = facing.getClockWise();
 
-        VoxelShape leftShape = getSideShape(leftDir);
-        VoxelShape rightShape = getSideShape(rightDir);
+        VoxelShape leftShape = getLongWallShape(leftDir);
+        VoxelShape rightShape = getLongWallShape(rightDir);
         // Das Zelt steht in Blickrichtung (facing) des Spielers: der Eingangsgiebel der vorderen Reihe liegt an der
         // Kante gegen facing, die Rückwand der hinteren Reihe an der Kante in facing-Richtung
         VoxelShape entranceShape = getEntranceShape(facing);
