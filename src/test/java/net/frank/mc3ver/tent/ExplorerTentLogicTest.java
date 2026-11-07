@@ -2111,11 +2111,20 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testStakesAndGuyLinesOutsideTheTent() throws Exception {
-        java.nio.file.Path models =
-                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/generated/assets/mc3ver/models/block");
-        for (String side : new String[] {"front_left", "corner_left", "front_right", "corner_right"}) {
+        // Jede untere Seitenzelle trägt eine Leine: vier je Zeltseite
+        for (String side : new String[] {
+            "tent_canvas_wall_front_left",
+            "tent_furnace_left",
+            "tent_canvas_wall_left",
+            "tent_canvas_wall_corner_left",
+            "tent_canvas_wall_front_right",
+            "tent_chest_right",
+            "tent_chest_right_open",
+            "tent_canvas_wall_crafting_table_right",
+            "tent_canvas_wall_corner_right"
+        }) {
             com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(
-                            java.nio.file.Files.readString(models.resolve("tent_canvas_wall_" + side + ".json")))
+                            java.nio.file.Files.readString(GENERATED.resolve("models/block/" + side + ".json")))
                     .getAsJsonObject();
             boolean left = side.endsWith("left");
             boolean stakeOutside = false;
@@ -2136,6 +2145,19 @@ public class ExplorerTentLogicTest {
                 if (text.contains("#rope")) {
                     hasRope = true;
                     assertTrue(e.has("rotation"), "Abspannleine verläuft schräg (" + side + ")");
+                    // Leine dreht um den Heringkopf; ihr anderes Ende liegt an der Traufe vor der Seitenwand
+                    com.google.gson.JsonObject rotation = e.getAsJsonObject("rotation");
+                    double ox = rotation.getAsJsonArray("origin").get(0).getAsDouble();
+                    double oy = rotation.getAsJsonArray("origin").get(1).getAsDouble();
+                    double angle = Math.toRadians(rotation.get("angle").getAsDouble());
+                    double length = toX - fromX;
+                    double endX = ox + (left ? 1 : -1) * length * Math.cos(angle);
+                    double endY = oy + (left ? 1 : -1) * length * Math.sin(angle);
+                    double eaveX = left ? -TentRoofLogic.EAVE : 16 + TentRoofLogic.EAVE;
+                    assertEquals(eaveX, endX, 0.01, "Leine endet an der Traufe (" + side + ")");
+                    assertTrue(
+                            endY < TentRoofLogic.roofTopAt(0) && endY > TentRoofLogic.WALL_HEIGHT / 2,
+                            "Leine endet unter der Traufkante (" + side + "), y=" + endY);
                 }
                 if (text.contains("#stake") || text.contains("#rope")) {
                     assertFalse(text.contains("tintindex"), "Hering und Leine bleiben ungefärbt (" + side + ")");

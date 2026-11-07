@@ -23,6 +23,10 @@ final class TentModelShaper {
     static final double END_INSET = 0.02;
     /** So weit steht die Firststange an den Zeltenden über das Dach hinaus. */
     static final double RIDGE_POLE_OVERHANG = 0.5;
+    /** Abstand des Herings von der Seitenwand und seine Höhe über dem Boden. */
+    static final double STAKE_DISTANCE = 10.5;
+
+    static final double STAKE_HEIGHT = 3.0;
 
     private TentModelShaper() {}
 
@@ -61,6 +65,13 @@ final class TentModelShaper {
             double from = zFrom < 0 ? zFrom - RIDGE_POLE_OVERHANG : zFrom;
             double to = zTo > BLOCK ? zTo + RIDGE_POLE_OVERHANG : zTo;
             elements.add(ridgePole(from, to));
+        }
+        if (!roof && side) {
+            // Jede untere Seitenzelle bekommt eine Abspannleine von der Traufe zu einem Holzhering
+            JsonObject textures = model.getAsJsonObject("textures");
+            textures.addProperty("stake", "minecraft:block/stripped_oak_log");
+            textures.addProperty("rope", "minecraft:block/white_wool");
+            guyLine(cellX == 0).forEach(elements::add);
         }
         if (roof) {
             // Gedrehte Flächen bekommen sonst fleckige Umgebungsverdeckung
@@ -161,6 +172,46 @@ final class TentModelShaper {
             result.add(element);
         }
         return result;
+    }
+
+    /**
+     * Holzhering im Boden außerhalb der Seitenwand und eine gedrehte Leine von seinem Kopf zur Traufkante, in
+     * Koordinaten der unteren Seitenzelle (Zellmitte in Zeltlängsrichtung).
+     */
+    static List<JsonObject> guyLine(boolean leftCell) {
+        double sign = leftCell ? 1 : -1;
+        double outerEdge = leftCell ? 0 : BLOCK;
+        double stakeX = outerEdge - sign * STAKE_DISTANCE;
+        double startY = STAKE_HEIGHT - 0.5;
+        double eaveX = outerEdge - sign * TentRoofLogic.EAVE;
+        double eaveY = TentRoofLogic.WALL_HEIGHT - TentRoofLogic.EAVE * TentRoofLogic.slope() - TentRoofLogic.THICKNESS;
+        double length = Math.hypot(eaveX - stakeX, eaveY - startY);
+        double angle = Math.toDegrees(Math.atan2(eaveY - startY, Math.abs(eaveX - stakeX)));
+
+        JsonObject stake = box(stakeX - 0.5, 0, BLOCK / 2 - 0.5, stakeX + 0.5, STAKE_HEIGHT, BLOCK / 2 + 0.5, "#stake");
+        double minX = leftCell ? stakeX : stakeX - length;
+        JsonObject rope =
+                box(minX, startY - 0.25, BLOCK / 2 - 0.25, minX + length, startY + 0.25, BLOCK / 2 + 0.25, "#rope");
+        JsonObject rotation = new JsonObject();
+        rotation.add("origin", vec(stakeX, startY, BLOCK / 2));
+        rotation.addProperty("axis", "z");
+        rotation.addProperty("angle", round(sign * angle));
+        rope.add("rotation", rotation);
+        return List.of(stake, rope);
+    }
+
+    private static JsonObject box(double x0, double y0, double z0, double x1, double y1, double z1, String texture) {
+        JsonObject element = new JsonObject();
+        element.add("from", vec(x0, y0, z0));
+        element.add("to", vec(x1, y1, z1));
+        JsonObject faces = new JsonObject();
+        for (String face : FACES) {
+            JsonObject f = new JsonObject();
+            f.addProperty("texture", texture);
+            faces.add(face, f);
+        }
+        element.add("faces", faces);
+        return element;
     }
 
     /** Längsstange unter dem First, in Koordinaten der oberen Mittelzelle. */
