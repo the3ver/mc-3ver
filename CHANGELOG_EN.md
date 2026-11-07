@@ -4,7 +4,7 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.10.2] - 2026-11-06
+## [0.11.0] - 2026-11-07
 
 ### 🔄 Changed
 * **Explorer tent shape:** The tent now has low side walls and a steep gable roof with a sharp ridge and overhanging eaves, like a classic canvas wall tent. The ridge rises half a block above the tent, so a third block above the middle row must be free. The lantern hangs from the ridge above head height.

@@ -43,7 +43,7 @@ const TRANSLATIONS = {
     "features.tech.title": "⚡ Java 25 & Mojang Mappings",
     "features.tech.desc": "Natives Java 25 mit offiziellen Mappings und solider, 100% testgetriebener (TDD) Codebasis.",
     "features.tent.title": "🏕️ Mobiles Entdeckerzelt",
-    "features.tent.desc": "Schnell auf- und abbaubares Zelt mit Schlafsack, Werkbank, Ofen mit Ofenrohr, Truhe, Laterne und Eingangsplane. In 16 Wollfarben herstell- & umfärbbar.",
+    "features.tent.desc": "Schnell auf- und abbaubares Leinwandzelt mit steilem Satteldach und Abspannleinen. Drinnen Schlafsack, Werkbank, Ofen mit Ofenrohr, Truhe, Laterne und Eingangsplane. In 16 Wollfarben herstell- & umfärbbar.",
     "features.flag.title": "🏳️ Weiße Fahne (Pazifist-Modus)",
     "features.flag.desc": "Hisse die Fahne per Rechtsklick: Monster ignorieren dich und können dir nicht schaden. Greifst du selbst an, ist der Frieden für 30 Sekunden gebrochen.",
     "features.bonfire.title": "🔥 Signalfeuer",
@@ -125,7 +125,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.3 herunter und installiere die passende <strong>Fabric API</strong> und <strong>TerraBlender</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.10.1.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.11.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -220,7 +220,7 @@ const TRANSLATIONS = {
     "features.tech.title": "⚡ Java 25 & Mojang Mappings",
     "features.tech.desc": "Native Java 25 with official mappings and a solid, 100% test-driven (TDD) codebase.",
     "features.tent.title": "🏕️ Mobile Explorer Tent",
-    "features.tent.desc": "Quickly deployable & packable shelter with sleeping bag, crafting table, furnace with stovepipe, chest, lantern and entrance flap. Available in 16 colors.",
+    "features.tent.desc": "Quickly deployable & packable canvas tent with a steep gable roof and guy lines. Inside: sleeping bag, crafting table, furnace with stovepipe, chest, lantern and entrance flap. Available in 16 colors.",
     "features.flag.title": "🏳️ White Flag (Pacifist Mode)",
     "features.flag.desc": "Raise the flag with a right-click: monsters ignore you and cannot hurt you. Attack one yourself and the peace is broken for 30 seconds.",
     "features.bonfire.title": "🔥 Bonfire",
@@ -302,7 +302,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.3 and install the matching <strong>Fabric API</strong> and <strong>TerraBlender</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.10.1.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.11.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -494,7 +494,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.10.1
+    // Graceful fallback to v0.11.0
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }
