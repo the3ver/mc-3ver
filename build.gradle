@@ -28,6 +28,15 @@ fabricApi {
 		modId = "mc3ver"
 		outputDirectory = file("src/main/generated")
 	}
+	// Client-Gametests in src/gametest: ./gradlew runClientGameTest startet einen echten Client, baut die Galerie-Szene
+	// auf und legt den Screenshot unter build/run/clientGameTest/screenshots ab
+	configureTests {
+		createSourceSet = true
+		modId = "mc3ver-gametest"
+		enableGameTests = false
+		enableClientGameTests = true
+		eula = true
+	}
 }
 
 loom {
