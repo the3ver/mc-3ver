@@ -39,10 +39,14 @@ final class TentModelShaper {
                 elements.add(element);
             }
         }
-        if (roof && side) planks(cellX == 0).forEach(elements::add);
+        // Der Eingang liegt in Modellkoordinaten bei z = 16, die Rückwand der hinteren Reihe bei z = 0. Über beide
+        // Giebel steht das Dach ein Stück hinaus.
+        double zFrom = name.contains("corner") || name.contains("back") ? -TentRoofLogic.GABLE_OVERHANG : 0;
+        double zTo = name.contains("front") ? BLOCK + TentRoofLogic.GABLE_OVERHANG : BLOCK;
+        if (roof && side) planks(cellX == 0, zFrom, zTo).forEach(elements::add);
         if (roof && !side) {
             model.getAsJsonObject("textures").addProperty("ridge", "mc3ver:block/tent_pole");
-            elements.add(ridgePole());
+            elements.add(ridgePole(zFrom, zTo));
         }
         if (roof) {
             // Gedrehte Flächen bekommen sonst fleckige Umgebungsverdeckung
@@ -105,7 +109,7 @@ final class TentModelShaper {
      * Eine Dachfläche von der Traufe bis zum First, in Stücke von höchstens 16 px zerlegt. Jedes Stück dreht um seinen
      * eigenen Anfangspunkt auf der Dachlinie, so bleiben die ungedrehten Koordinaten im erlaubten Bereich -16..32.
      */
-    static List<JsonObject> planks(boolean leftCell) {
+    static List<JsonObject> planks(boolean leftCell, double zFrom, double zTo) {
         double angle = TentRoofLogic.angleDegrees();
         double cos = Math.cos(Math.toRadians(angle));
         double sin = Math.sin(Math.toRadians(angle));
@@ -122,8 +126,8 @@ final class TentModelShaper {
             double startY = eaveY + s * sin;
             double minX = leftCell ? startX : startX - piece;
             JsonObject element = new JsonObject();
-            element.add("from", vec(minX, startY - TentRoofLogic.THICKNESS, 0));
-            element.add("to", vec(minX + piece, startY, BLOCK));
+            element.add("from", vec(minX, startY - TentRoofLogic.THICKNESS, zFrom));
+            element.add("to", vec(minX + piece, startY, zTo));
             JsonObject rotation = new JsonObject();
             rotation.add("origin", vec(startX, startY, BLOCK / 2));
             rotation.addProperty("axis", "z");
@@ -146,11 +150,11 @@ final class TentModelShaper {
     }
 
     /** Längsstange unter dem First, in Koordinaten der oberen Mittelzelle. */
-    static JsonObject ridgePole() {
+    static JsonObject ridgePole(double zFrom, double zTo) {
         double top = TentRoofLogic.RIDGE_HEIGHT - BLOCK;
         JsonObject element = new JsonObject();
-        element.add("from", vec(7.25, top - 1.5, 0));
-        element.add("to", vec(8.75, top + 0.25, BLOCK));
+        element.add("from", vec(7.25, top - 1.5, zFrom));
+        element.add("to", vec(8.75, top + 0.25, zTo));
         JsonObject faces = new JsonObject();
         for (String face : FACES) {
             JsonObject f = new JsonObject();

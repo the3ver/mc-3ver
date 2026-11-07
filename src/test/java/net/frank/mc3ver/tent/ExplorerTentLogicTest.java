@@ -1018,54 +1018,34 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testRoofCornerModelsAreSealedAndTinted() throws Exception {
-        java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
-
-        String[] cornerModels = {"tent_canvas_roof_corner_left.json", "tent_canvas_roof_corner_right.json"};
-
-        for (String modelName : cornerModels) {
-            java.nio.file.Path modelPath = modelsDir.resolve(modelName);
-            assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
-
-            String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json =
-                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
-            com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
-            assertNotNull(elements, "Modell " + modelName + " muss elements haben");
-
-            boolean hasBackWallAtZ14 = false;
-            boolean hasRoofSteps = false;
-
+        // Hintere Dachecken: Rückgiebel an der Außenkante (Modell-z 0..2, der Eingang liegt bei z 16) und eine schräge
+        // Dachfläche, alles in Zeltfarbe
+        for (String name : new String[] {"tent_canvas_roof_corner_left", "tent_canvas_roof_corner_right"}) {
+            com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(
+                            java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json")))
+                    .getAsJsonObject()
+                    .getAsJsonArray("elements");
+            boolean hasRearGable = false;
+            boolean hasRoofPlane = false;
             for (com.google.gson.JsonElement el : elements) {
                 if (!el.toString().contains("#canvas")) continue; // Deko wie Hering, Leine, Wimpel ist keine Zeltplane
-                com.google.gson.JsonObject elObj = el.getAsJsonObject();
-                com.google.gson.JsonArray from = elObj.getAsJsonArray("from");
-                com.google.gson.JsonArray to = elObj.getAsJsonArray("to");
-
-                double fromZ = from.get(2).getAsDouble();
-                double toZ = to.get(2).getAsDouble();
-                double fromY = from.get(1).getAsDouble();
-                double toY = to.get(1).getAsDouble();
-
-                if (fromZ >= 13.9 && toZ <= 16.1 && (toY - fromY) > 2.1) {
-                    hasBackWallAtZ14 = true;
-                }
-                if (fromZ >= 13.9 && toZ <= 16.1 && (toY - fromY) <= 2.1) {
-                    hasRoofSteps = true;
-                }
-
-                com.google.gson.JsonObject faces = elObj.getAsJsonObject("faces");
-                for (String faceName : faces.keySet()) {
-                    com.google.gson.JsonObject faceObj = faces.getAsJsonObject(faceName);
-                    assertTrue(
-                            faceObj.has("tintindex"),
-                            "Face " + faceName + " in " + modelName + " muss tintindex haben");
-                    assertEquals(0, faceObj.get("tintindex").getAsInt(), "tintindex in " + modelName + " muss 0 sein");
+                com.google.gson.JsonObject e = el.getAsJsonObject();
+                double fromZ = e.getAsJsonArray("from").get(2).getAsDouble();
+                double toZ = e.getAsJsonArray("to").get(2).getAsDouble();
+                if (e.has("rotation")) hasRoofPlane = true;
+                else if (fromZ == 0 && toZ <= 2.1) hasRearGable = true;
+                for (String face : e.getAsJsonObject("faces").keySet()) {
+                    assertEquals(
+                            0,
+                            e.getAsJsonObject("faces")
+                                    .getAsJsonObject(face)
+                                    .get("tintindex")
+                                    .getAsInt(),
+                            name + ": " + face + " nimmt die Zeltfarbe an");
                 }
             }
-
-            assertTrue(hasBackWallAtZ14, modelName + " muss vertikale Rückwandelemente an z=14..16 besitzen");
-            assertTrue(hasRoofSteps, modelName + " muss Dachschrägen-Elemente besitzen");
+            assertTrue(hasRearGable, name + " braucht den Rückgiebel an der Außenkante (z 0..2)");
+            assertTrue(hasRoofPlane, name + " braucht die schräge Dachfläche");
         }
     }
 
@@ -1084,12 +1064,12 @@ public class ExplorerTentLogicTest {
                 TentCanvasBlock.CanvasPart.ROOF_CORNER_LEFT, net.minecraft.core.Direction.NORTH);
 
         net.minecraft.world.phys.AABB backWallBox =
-                new net.minecraft.world.phys.AABB(2.0 / 16.0, 0.0, 14.0 / 16.0, 14.0 / 16.0, 12.0 / 16.0, 16.0 / 16.0);
+                new net.minecraft.world.phys.AABB(4.0 / 16.0, 0.0, 0.0, 14.0 / 16.0, 2.0 / 16.0, 2.0 / 16.0);
         boolean backCollision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
                 leftShape,
                 net.minecraft.world.phys.shapes.Shapes.create(backWallBox),
                 net.minecraft.world.phys.shapes.BooleanOp.AND);
-        assertTrue(backCollision, "ROOF_CORNER_LEFT muss eine geschlossene Rückwand-Kollision an z=14..16 besitzen");
+        assertTrue(backCollision, "ROOF_CORNER_LEFT muss eine geschlossene Rückwand-Kollision an z=0..2 besitzen");
 
         assertFalse(collidesUnderRoof(leftShape, true), "Kopfraum im Zeltinneren bei ROOF_CORNER_LEFT muss frei sein");
 
@@ -1101,47 +1081,105 @@ public class ExplorerTentLogicTest {
                 net.minecraft.world.phys.shapes.Shapes.create(backWallBox),
                 net.minecraft.world.phys.shapes.BooleanOp.AND);
         assertTrue(
-                rightBackCollision, "ROOF_CORNER_RIGHT muss eine geschlossene Rückwand-Kollision an z=14..16 besitzen");
+                rightBackCollision, "ROOF_CORNER_RIGHT muss eine geschlossene Rückwand-Kollision an z=0..2 besitzen");
 
         assertFalse(
                 collidesUnderRoof(rightShape, false), "Kopfraum im Zeltinneren bei ROOF_CORNER_RIGHT muss frei sein");
     }
 
     @Test
-    void testRearWallAndSideWallsEndFlush() throws Exception {
-        java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
-
-        String[] rearCornerModels = {
-            "tent_canvas_wall_corner_left.json",
-            "tent_canvas_wall_corner_right.json",
-            "tent_canvas_roof_corner_left.json",
-            "tent_canvas_roof_corner_right.json"
-        };
-
-        for (String modelName : rearCornerModels) {
-            java.nio.file.Path modelPath = modelsDir.resolve(modelName);
-            assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
-
-            String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json =
-                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
-            com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
-            assertNotNull(elements, "Modell " + modelName + " muss elements haben");
-
+    void testRoofOverhangsBothGablesByALittle() throws Exception {
+        // Wie eine Außenplane über dem Innenzelt: Wände und Giebel bleiben im Block, das Dach steht vorn und hinten
+        // um GABLE_OVERHANG über. Modell-z 16 ist die Eingangsseite, z 0 die Rückseite.
+        double overhang = TentRoofLogic.GABLE_OVERHANG;
+        java.util.Map<String, double[]> expectedRoofZ = java.util.Map.of(
+                "tent_canvas_roof_front_left", new double[] {0, 16 + overhang},
+                "tent_canvas_roof_front", new double[] {0, 16 + overhang},
+                "tent_canvas_roof_left", new double[] {0, 16},
+                "tent_canvas_roof_ridge", new double[] {0, 16},
+                "tent_canvas_roof_corner_right", new double[] {-overhang, 16},
+                "tent_canvas_roof_back", new double[] {-overhang, 16});
+        for (var entry : expectedRoofZ.entrySet()) {
+            com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(
+                            GENERATED.resolve("models/block/" + entry.getKey() + ".json")))
+                    .getAsJsonObject()
+                    .getAsJsonArray("elements");
+            boolean foundRoof = false;
             for (com.google.gson.JsonElement el : elements) {
-                if (!el.toString().contains("#canvas")) continue; // Deko wie Hering, Leine, Wimpel ist keine Zeltplane
-                com.google.gson.JsonObject elObj = el.getAsJsonObject();
-                if (elObj.has("rotation")) continue; // Dachplanken laufen über die ganze Zeltlänge
-                com.google.gson.JsonArray from = elObj.getAsJsonArray("from");
-                double fromZ = from.get(2).getAsDouble();
-                assertTrue(
-                        fromZ >= 13.9,
-                        "Element in " + modelName
-                                + " darf nicht nach hinten über die Rückwand hinausragen (fromZ >= 14, war: " + fromZ
-                                + ")");
+                com.google.gson.JsonObject e = el.getAsJsonObject();
+                boolean roof = e.has("rotation") || e.toString().contains("#ridge");
+                double fromZ = e.getAsJsonArray("from").get(2).getAsDouble();
+                double toZ = e.getAsJsonArray("to").get(2).getAsDouble();
+                if (roof) {
+                    foundRoof = true;
+                    assertEquals(entry.getValue()[0], fromZ, 1e-9, entry.getKey() + ": Dach hinten");
+                    assertEquals(entry.getValue()[1], toZ, 1e-9, entry.getKey() + ": Dach vorn");
+                } else if (e.toString().contains("#canvas")) {
+                    assertTrue(
+                            fromZ >= 0 && toZ <= 16, entry.getKey() + ": Plane " + e.get("from") + " bleibt im Block");
+                }
             }
+            assertTrue(foundRoof, entry.getKey() + ": Dachplanke oder Firststange fehlt");
         }
+
+        // Rückwand der hinteren Reihe an deren Außenkante, mit voller Seitenwand davor
+        for (String name : new String[] {"tent_canvas_wall_corner_left", "tent_canvas_wall_corner_right"}) {
+            String model = java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json"));
+            boolean rearWall = false;
+            boolean sideWall = false;
+            for (com.google.gson.JsonElement el : com.google.gson.JsonParser.parseString(model)
+                    .getAsJsonObject()
+                    .getAsJsonArray("elements")) {
+                if (!el.toString().contains("#canvas")) continue;
+                com.google.gson.JsonObject e = el.getAsJsonObject();
+                double fromZ = e.getAsJsonArray("from").get(2).getAsDouble();
+                double toZ = e.getAsJsonArray("to").get(2).getAsDouble();
+                if (fromZ == 0 && toZ == 2) rearWall = true;
+                if (fromZ == 0 && toZ == 16) sideWall = true;
+            }
+            assertTrue(rearWall, name + ": Rückwand bei z 0..2");
+            assertTrue(sideWall, name + ": Seitenwand über die ganze Reihe");
+        }
+    }
+
+    @Test
+    void testRearWallCollisionSitsAtTheOuterEdge() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        // Zelt Richtung Norden: der Eingang liegt im Süden, die Rückwand an der Nordkante der hinteren Reihe
+        net.minecraft.world.phys.shapes.VoxelShape north =
+                net.minecraft.world.level.block.Block.box(0, 0, 0, 16, 16, 2);
+        net.minecraft.world.phys.shapes.VoxelShape south =
+                net.minecraft.world.level.block.Block.box(0, 0, 14, 16, 16, 16);
+        net.minecraft.core.Direction facing = net.minecraft.core.Direction.NORTH;
+        assertTrue(sameShape(north, TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing)));
+        assertTrue(sameShape(south, TentFlapBlock.getCollision(facing, false)), "Plane an der Eingangskante");
+        for (TentCanvasBlock.CanvasPart corner : java.util.List.of(
+                TentCanvasBlock.CanvasPart.WALL_CORNER_LEFT,
+                TentCanvasBlock.CanvasPart.WALL_CORNER_RIGHT,
+                TentCanvasBlock.CanvasPart.ROOF_CORNER_LEFT,
+                TentCanvasBlock.CanvasPart.ROOF_CORNER_RIGHT)) {
+            net.minecraft.world.phys.shapes.VoxelShape shape = TentCanvasBlock.getWallShape(corner, facing);
+            assertTrue(
+                    net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                            shape,
+                            net.minecraft.world.level.block.Block.box(7, 0, 0, 9, 2, 2),
+                            net.minecraft.world.phys.shapes.BooleanOp.AND),
+                    corner + ": Rückwand an der Nordkante");
+            assertFalse(
+                    net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                            shape,
+                            net.minecraft.world.level.block.Block.box(7, 0, 14, 9, 2, 16),
+                            net.minecraft.world.phys.shapes.BooleanOp.AND),
+                    corner + ": an der Innenkante darf keine Wand mehr stehen");
+        }
+    }
+
+    private static boolean sameShape(
+            net.minecraft.world.phys.shapes.VoxelShape a, net.minecraft.world.phys.shapes.VoxelShape b) {
+        return !net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                a, b, net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME);
     }
 
     @Test
@@ -1849,11 +1887,12 @@ public class ExplorerTentLogicTest {
                     "Offene Plane darf nicht blockieren (" + facing + ")");
             net.minecraft.world.phys.shapes.VoxelShape closed = TentFlapBlock.getCollision(facing, false);
             assertFalse(closed.isEmpty(), "Geschlossene Plane muss blockieren (" + facing + ")");
-            // Geschlossene Plane liegt an der Außenkante des Eingangs, wie die Rückwand an ihrer Kante
+            // Geschlossene Plane liegt an der Außenkante des Eingangs, gegenüber der Rückwand am anderen Zeltende.
+            // Das Zelt steht in Blickrichtung, die Eingangskante zeigt also gegen facing.
             assertFalse(
                     net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
                             closed,
-                            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing),
+                            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing.getOpposite()),
                             net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME),
                     "Plane an der Außenkante (" + facing + ")");
         }

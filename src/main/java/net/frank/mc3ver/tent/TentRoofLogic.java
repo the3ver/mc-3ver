@@ -12,6 +12,8 @@ public final class TentRoofLogic {
     public static final double RIDGE_HEIGHT = 40.0;
     /** Überstand der Traufe über die Seitenwand hinaus. */
     public static final double EAVE = 2.0;
+    /** Überstand des Dachs über Eingangs- und Rückgiebel, wie eine Außenplane über dem Innenzelt. */
+    public static final double GABLE_OVERHANG = 2.0;
     /** Dicke der Dachplanken, senkrecht zur Dachfläche. */
     public static final double THICKNESS = 1.5;
 

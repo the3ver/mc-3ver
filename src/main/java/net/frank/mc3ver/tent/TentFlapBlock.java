@@ -42,7 +42,7 @@ public class TentFlapBlock extends HorizontalDirectionalBlock {
     }
 
     public static VoxelShape getCollision(Direction facing, boolean open) {
-        return open ? Shapes.empty() : TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing);
+        return open ? Shapes.empty() : TentCanvasBlock.getEntranceShape(facing);
     }
 
     public static boolean isPassable(boolean open) {
