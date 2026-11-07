@@ -1112,8 +1112,10 @@ public class ExplorerTentLogicTest {
                 double toZ = e.getAsJsonArray("to").get(2).getAsDouble();
                 if (roof) {
                     foundRoof = true;
-                    assertEquals(entry.getValue()[0], fromZ, 1e-9, entry.getKey() + ": Dach hinten");
-                    assertEquals(entry.getValue()[1], toZ, 1e-9, entry.getKey() + ": Dach vorn");
+                    // An den Giebeln weichen die Enden absichtlich um Bruchteile ab (gegen Z-Fighting), die
+                    // Firststange steht etwas weiter über
+                    assertEquals(entry.getValue()[0], fromZ, 0.6, entry.getKey() + ": Dach hinten");
+                    assertEquals(entry.getValue()[1], toZ, 0.6, entry.getKey() + ": Dach vorn");
                 } else if (e.toString().contains("#canvas")) {
                     assertTrue(
                             fromZ >= 0 && toZ <= 16, entry.getKey() + ": Plane " + e.get("from") + " bleibt im Block");
@@ -1139,6 +1141,43 @@ public class ExplorerTentLogicTest {
             }
             assertTrue(rearWall, name + ": Rückwand bei z 0..2");
             assertTrue(sideWall, name + ": Seitenwand über die ganze Reihe");
+        }
+    }
+
+    @Test
+    void testRoofEndFacesAtTheGablesDoNotCoincide() throws Exception {
+        // Linke Dachfläche, rechte Dachfläche und Firststange überlappen sich unter dem First. Enden ihre Stirnflächen
+        // in derselben Ebene, flackern sie. Je Zeltende müssen die drei Enden verschieden sein.
+        String[][] gables = {
+            {"tent_canvas_roof_front_left", "tent_canvas_roof_front_right", "tent_canvas_roof_front"},
+            {"tent_canvas_roof_corner_left", "tent_canvas_roof_corner_right", "tent_canvas_roof_back"}
+        };
+        for (int g = 0; g < gables.length; g++) {
+            boolean front = g == 0;
+            java.util.List<Double> ends = new java.util.ArrayList<>();
+            for (String name : gables[g]) {
+                java.util.Set<Double> modelEnds = new java.util.TreeSet<>();
+                for (com.google.gson.JsonElement el : com.google.gson.JsonParser.parseString(
+                                java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json")))
+                        .getAsJsonObject()
+                        .getAsJsonArray("elements")) {
+                    com.google.gson.JsonObject e = el.getAsJsonObject();
+                    if (!e.has("rotation") && !e.toString().contains("#ridge")) continue;
+                    modelEnds.add(
+                            front
+                                    ? e.getAsJsonArray("to").get(2).getAsDouble()
+                                    : e.getAsJsonArray("from").get(2).getAsDouble());
+                }
+                assertEquals(1, modelEnds.size(), name + ": alle Planken enden gleich");
+                ends.addAll(modelEnds);
+            }
+            assertEquals(3, new java.util.HashSet<>(ends).size(), (front ? "vorn" : "hinten") + ": " + ends);
+            double ridge = ends.get(2);
+            for (double plank : ends.subList(0, 2)) {
+                assertTrue(
+                        front ? ridge > plank : ridge < plank,
+                        (front ? "vorn" : "hinten") + ": Firststange steht über das Dach hinaus");
+            }
         }
     }
 

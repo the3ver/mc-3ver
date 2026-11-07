@@ -19,6 +19,10 @@ final class TentModelShaper {
 
     private static final String[] FACES = {"up", "down", "north", "south", "east", "west"};
     private static final double BLOCK = 16.0;
+    /** So viel kürzer endet die rechte Dachfläche an den Giebeln, unsichtbar, aber nicht mehr deckungsgleich. */
+    static final double END_INSET = 0.02;
+    /** So weit steht die Firststange an den Zeltenden über das Dach hinaus. */
+    static final double RIDGE_POLE_OVERHANG = 0.5;
 
     private TentModelShaper() {}
 
@@ -43,10 +47,20 @@ final class TentModelShaper {
         // Giebel steht das Dach ein Stück hinaus.
         double zFrom = name.contains("corner") || name.contains("back") ? -TentRoofLogic.GABLE_OVERHANG : 0;
         double zTo = name.contains("front") ? BLOCK + TentRoofLogic.GABLE_OVERHANG : BLOCK;
-        if (roof && side) planks(cellX == 0, zFrom, zTo).forEach(elements::add);
+        // Unter dem First überlappen sich die beiden Dachflächen, die Firststange steckt dazwischen. Liegen ihre
+        // Stirnflächen an den Giebeln in einer Ebene, flackern sie (Z-Fighting). Die rechte Fläche endet deshalb ein
+        // Hauch früher, die Firststange steht an den Zeltenden sichtbar über.
+        if (roof && side) {
+            double inset = cellX == 0 ? 0 : END_INSET;
+            double from = zFrom < 0 ? zFrom + inset : zFrom;
+            double to = zTo > BLOCK ? zTo - inset : zTo;
+            planks(cellX == 0, from, to).forEach(elements::add);
+        }
         if (roof && !side) {
             model.getAsJsonObject("textures").addProperty("ridge", "mc3ver:block/tent_pole");
-            elements.add(ridgePole(zFrom, zTo));
+            double from = zFrom < 0 ? zFrom - RIDGE_POLE_OVERHANG : zFrom;
+            double to = zTo > BLOCK ? zTo + RIDGE_POLE_OVERHANG : zTo;
+            elements.add(ridgePole(from, to));
         }
         if (roof) {
             // Gedrehte Flächen bekommen sonst fleckige Umgebungsverdeckung
