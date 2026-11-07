@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### 🔄 Changed
 * **Explorer tent shape:** The tent now has low side walls and a steep gable roof with a sharp ridge and overhanging eaves, like a classic canvas wall tent. The ridge rises half a block above the tent, so a third block above the middle row must be free. The lantern hangs from the ridge above head height.
-* **Guy lines:** Each side of the tent now has four guy lines running from the eave to wooden stakes in the ground, instead of one at each corner. The two middle lines run straight out, the corner lines angle away from the tent. At the front and back, one line runs from the ridge end to a stake in front of or behind the tent.
+* **Guy lines:** Each side of the tent now has four guy lines running from the eave to wooden stakes in the ground, instead of one at each corner. The two middle lines run straight out, the corner lines angle away from the tent. At the front and back, one line runs from the ridge end to a stake in front of or behind the tent. If a stake finds no ground or is blocked when the tent is pitched, that line is left out instead of floating in the air.
 * **Tent back wall:** The back wall now stands at the rear outer edge, and the roof overhangs both gables only slightly. This makes the tent one row longer inside.
 * **No grid when aiming:** The tent canvas and the open entrance flap no longer show a selection outline when targeted. For the furnace, chest and crafting table, the outline now ends at the visible side wall instead of poking through the roof.
 

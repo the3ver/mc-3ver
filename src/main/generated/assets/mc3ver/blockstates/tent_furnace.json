@@ -83,7 +83,8 @@
         "model": "mc3ver:block/tent_guy_line_left"
       },
       "when": {
-        "facing": "north"
+        "facing": "north",
+        "guy_line": "true"
       }
     },
     {
@@ -92,7 +93,8 @@
         "y": 90
       },
       "when": {
-        "facing": "east"
+        "facing": "east",
+        "guy_line": "true"
       }
     },
     {
@@ -101,7 +103,8 @@
         "y": 180
       },
       "when": {
-        "facing": "south"
+        "facing": "south",
+        "guy_line": "true"
       }
     },
     {
@@ -110,7 +113,8 @@
         "y": 270
       },
       "when": {
-        "facing": "west"
+        "facing": "west",
+        "guy_line": "true"
       }
     }
   ]

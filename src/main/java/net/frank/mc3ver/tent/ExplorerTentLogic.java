@@ -273,6 +273,38 @@ public class ExplorerTentLogic {
         return PlacementResult.success();
     }
 
+    /**
+     * Ob am Teil an dieser Stelle eine Abspannleine hängt: jede untere Seitenzelle und die beiden oberen Giebelzellen
+     * in der Mitte.
+     */
+    public static boolean hasGuyLine(int relX, int relY, int relZ) {
+        if (relY == 0) return relX != 0;
+        return relY == 1 && relX == 0 && (relZ == 0 || relZ == LENGTH - 1);
+    }
+
+    /**
+     * Block, in dem der Hering der Abspannleine steht, relativ zum Zelt. Seitenleinen spannen in die übernächste
+     * Spalte, an den Ecken zusätzlich eine Reihe vor bzw. hinter das Zelt; Giebelleinen in die Reihe davor bzw. dahinter.
+     */
+    public static BlockCoord guyLineStake(int relX, int relY, int relZ) {
+        int stakeZ = relZ == 0 ? -1 : relZ == LENGTH - 1 ? LENGTH : relZ;
+        if (relY == 0) return new BlockCoord(2 * relX, 0, stakeZ);
+        return new BlockCoord(0, 0, stakeZ);
+    }
+
+    /**
+     * Ob der Hering Halt findet: fester Boden darunter und Platz für den Hering selbst. Sonst schwebte er in der Luft
+     * oder steckte in einem Block, die Leine bleibt dann weg.
+     */
+    public static boolean isGuyLineAnchored(
+            int anchorX, int anchorY, int anchorZ, Facing facing, int relX, int relY, int relZ, WorldView world) {
+        if (!hasGuyLine(relX, relY, relZ)) return false;
+        BlockCoord stake = guyLineStake(relX, relY, relZ);
+        BlockCoord pos = toWorldPos(anchorX, anchorY, anchorZ, facing, stake.x(), stake.y(), stake.z());
+        BlockCoord ground = toWorldPos(anchorX, anchorY, anchorZ, facing, stake.x(), stake.y() - 1, stake.z());
+        return world.isSolid(ground.x(), ground.y(), ground.z()) && world.isReplaceable(pos.x(), pos.y(), pos.z());
+    }
+
     public static BlockCoord getAnchorFromHead(int headX, int headY, int headZ, Facing facing) {
         // Kopf des Schlafsacks liegt immer bei (relX=0, relY=0, relZ=2)
         int anchorX = headX;

@@ -94,7 +94,7 @@ public class ExplorerTentItem extends Item {
                 : ExplorerTentLogic.DEFAULT_COLOR_NAME;
         DyeColor tentColor = DyeColor.byName(colorName, DyeColor.WHITE);
 
-        placeTent(level, anchor, tentFacing, facing, tentColor, heldStack);
+        placeTent(level, anchor, tentFacing, facing, tentColor, heldStack, worldView);
 
         // Sounds
         level.playSound(null, anchor, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
@@ -118,7 +118,8 @@ public class ExplorerTentItem extends Item {
             ExplorerTentLogic.Facing tentFacing,
             Direction facing,
             DyeColor tentColor,
-            ItemStack tentStack) {
+            ItemStack tentStack,
+            ExplorerTentLogic.WorldView worldView) {
         for (int relY = 0; relY < ExplorerTentLogic.HEIGHT; relY++) {
             for (int relX = -1; relX <= 1; relX++) {
                 for (int relZ = 0; relZ < ExplorerTentLogic.LENGTH; relZ++) {
@@ -134,7 +135,10 @@ public class ExplorerTentItem extends Item {
                         continue;
                     }
 
-                    BlockState stateToPlace = ModTentBlocks.stateFor(part, facing, tentColor);
+                    // Heringe stehen außerhalb des Zeltvolumens; der Boden dort ist vor dem Aufstellen schon bekannt
+                    boolean guyLine = ExplorerTentLogic.isGuyLineAnchored(
+                            anchor.getX(), anchor.getY(), anchor.getZ(), tentFacing, relX, relY, relZ, worldView);
+                    BlockState stateToPlace = ModTentBlocks.stateFor(part, facing, tentColor, guyLine);
                     if (stateToPlace != null) {
                         level.setBlock(p, stateToPlace, Block.UPDATE_ALL);
                         if (level.getBlockEntity(p) instanceof TentChestBlockEntity chest) {

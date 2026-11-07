@@ -36,12 +36,13 @@ public class TentChestBlock extends BaseEntityBlock {
                 .any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE)
-                .setValue(OPEN, false));
+                .setValue(OPEN, false)
+                .setValue(TentCanvasBlock.GUY_LINE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, TentCanvasBlock.COLOR, OPEN);
+        builder.add(FACING, TentCanvasBlock.COLOR, OPEN, TentCanvasBlock.GUY_LINE);
     }
 
     public static VoxelShape getChestShape(Direction tentFacing) {

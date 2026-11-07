@@ -106,7 +106,8 @@ class TentAssetProvider implements DataProvider {
 
     private static void addGuyLine(JsonArray multipart, String guyLine, String... extraWhen) {
         for (int i = 0; i < FACINGS.length; i++) {
-            JsonObject when = when("facing", FACINGS[i]);
+            // Nur gezeichnet, wenn der Hering beim Aufstellen Boden fand
+            JsonObject when = when("facing", FACINGS[i], "guy_line", "true");
             for (int k = 0; k < extraWhen.length; k += 2) when.addProperty(extraWhen[k], extraWhen[k + 1]);
             multipart.add(part(when, "mc3ver:block/" + guyLine, i));
         }

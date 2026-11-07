@@ -8,7 +8,7 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) 
 
 ### 🔄 Geändert
 * **Form des Entdeckerzelts:** Das Zelt hat jetzt niedrige Seitenwände und ein steiles Satteldach mit spitzem First und überstehender Traufe, wie ein klassisches Leinwandzelt. Der First ragt einen halben Block über das Zelt hinaus, deshalb muss über der Mittelreihe ein dritter Block frei sein. Die Laterne hängt am First über Kopfhöhe.
-* **Abspannleinen:** Auf jeder Zeltseite spannen vier Leinen von der Traufe zu Holzheringen im Boden, statt bisher je eine an den Ecken. Die beiden mittleren laufen gerade zur Seite, die an den Ecken schräg vom Zelt weg. Vorn und hinten führt je eine Leine vom Firstende zu einem Hering vor bzw. hinter dem Zelt.
+* **Abspannleinen:** Auf jeder Zeltseite spannen vier Leinen von der Traufe zu Holzheringen im Boden, statt bisher je eine an den Ecken. Die beiden mittleren laufen gerade zur Seite, die an den Ecken schräg vom Zelt weg. Vorn und hinten führt je eine Leine vom Firstende zu einem Hering vor bzw. hinter dem Zelt. Findet ein Hering beim Aufstellen keinen Boden oder steht dort ein Block, entfällt diese Leine, statt in der Luft zu schweben.
 * **Rückwand des Zelts:** Die Rückwand steht jetzt an der hinteren Außenkante, das Dach ragt vorn und hinten nur noch knapp über die Giebel. Dadurch ist das Zelt innen eine Reihe länger.
 * **Kein Gitter beim Anvisieren:** Die Zeltplane und die offene Eingangsplane zeigen beim Anvisieren keinen Auswahlrahmen mehr. Bei Ofen, Truhe und Werkbank endet der Rahmen an der sichtbaren Seitenwand, statt durch das Dach zu stechen.
 

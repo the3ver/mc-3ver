@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -83,6 +84,8 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<CanvasPart> PART = EnumProperty.create("part", CanvasPart.class);
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
+    /** Ob die Abspannleine dieser Zelle gezeichnet wird; aus, wenn ihr Hering beim Aufstellen keinen Boden fand. */
+    public static final BooleanProperty GUY_LINE = BooleanProperty.create("guy_line");
 
     protected static final VoxelShape SHAPE_ROOF_PLANE = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
 
@@ -224,12 +227,13 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
                 .any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(PART, CanvasPart.WALL_LEFT)
-                .setValue(COLOR, DyeColor.WHITE));
+                .setValue(COLOR, DyeColor.WHITE)
+                .setValue(GUY_LINE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, PART, COLOR);
+        builder.add(FACING, PART, COLOR, GUY_LINE);
     }
 
     @Override

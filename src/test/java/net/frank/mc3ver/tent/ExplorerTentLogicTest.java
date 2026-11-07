@@ -2166,6 +2166,10 @@ public class ExplorerTentLogicTest {
             String part = entry.getAsJsonObject("when").get("part").getAsString();
             found.computeIfAbsent(part, k -> new java.util.HashSet<>()).add(model);
             assertTrue(entry.getAsJsonObject("when").has("facing"), part + ": Leine dreht mit dem Zelt");
+            assertEquals(
+                    "true",
+                    entry.getAsJsonObject("when").get("guy_line").getAsString(),
+                    part + ": Leine nur, wenn ihr Hering Boden hat");
         }
         for (var expected : canvasParts.entrySet()) {
             assertEquals(
