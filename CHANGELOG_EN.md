@@ -4,6 +4,17 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0] - 2026-11-07
+
+### ✨ Added
+* **Sonic Sword:** A purple, black and pink sword with 8.5 damage. Recipe: diamond sword in the middle, amethyst shards above and below, 6 obsidian on the sides.
+  * **Sonic wave:** Hold right click and release. Mobs within 3 to 6 blocks take 1.5 to 4 damage and are paralysed for 1 to 3 seconds.
+  * **Sonic beam:** Hold left click and release. Everything on a line of 8 to 16 blocks takes 1 to 2 damage and is thrown far away. A short click is still a normal sword hit.
+  * Both need half a second of charge and cost 1 durability. A bar under the crosshair shows the charge. While holding the sword you do not mine blocks.
+
+### 🔧 Internal
+* New client game test `SonicSwordClientGameTest` presses real keys and checks the beam, the wave and that blocks stay in place.
+
 ## [0.11.0] - 2026-11-07
 
 ### 🔄 Changed
