@@ -27,6 +27,10 @@ final class TentModelShaper {
     static final double STAKE_DISTANCE = 10.5;
 
     static final double STAKE_HEIGHT = 3.0;
+    /** So weit stehen die Eck-Heringe vor bzw. hinter dem Giebel, die Leine läuft dadurch schräg vom Zelt weg. */
+    static final double CORNER_SPREAD = 7.0;
+    /** Abstand der Giebel-Heringe vom Giebel; innerhalb der Modellgrenze von 32. */
+    static final double GABLE_STAKE_DISTANCE = 14.0;
 
     private TentModelShaper() {}
 
@@ -66,12 +70,14 @@ final class TentModelShaper {
             double to = zTo > BLOCK ? zTo + RIDGE_POLE_OVERHANG : zTo;
             elements.add(ridgePole(from, to));
         }
-        if (!roof && side) {
-            // Jede untere Seitenzelle bekommt eine Abspannleine von der Traufe zu einem Holzhering
+        // Abspannleinen mit Holzheringen: je untere Seitenzelle eine, dazu je eine vom Firstende an beiden Giebeln
+        boolean gable = name.endsWith("roof_front") || name.endsWith("roof_back");
+        if ((!roof && side) || gable) {
             JsonObject textures = model.getAsJsonObject("textures");
             textures.addProperty("stake", "minecraft:block/stripped_oak_log");
             textures.addProperty("rope", "minecraft:block/white_wool");
-            guyLine(cellX == 0).forEach(elements::add);
+            List<JsonObject> line = gable ? gableGuyLine(name.endsWith("roof_front")) : sideGuyLine(name, cellX == 0);
+            line.forEach(elements::add);
         }
         if (roof) {
             // Gedrehte Flächen bekommen sonst fleckige Umgebungsverdeckung
@@ -175,27 +181,65 @@ final class TentModelShaper {
     }
 
     /**
-     * Holzhering im Boden außerhalb der Seitenwand und eine gedrehte Leine von seinem Kopf zur Traufkante, in
-     * Koordinaten der unteren Seitenzelle (Zellmitte in Zeltlängsrichtung).
+     * Seitliche Abspannleine einer unteren Seitenzelle. Die mittleren Reihen spannen gerade zur Seite; an den Zeltecken
+     * setzt die Leine am Giebelende der Traufe an und läuft schräg nach außen, der Hering steht vor bzw. hinter dem
+     * Zelt. Die Zellen der Eingangsreihe enthalten "front", die der hinteren Reihe "corner" im Namen.
      */
-    static List<JsonObject> guyLine(boolean leftCell) {
+    static List<JsonObject> sideGuyLine(String name, boolean leftCell) {
         double sign = leftCell ? 1 : -1;
         double outerEdge = leftCell ? 0 : BLOCK;
-        double stakeX = outerEdge - sign * STAKE_DISTANCE;
-        double startY = STAKE_HEIGHT - 0.5;
         double eaveX = outerEdge - sign * TentRoofLogic.EAVE;
         double eaveY = TentRoofLogic.WALL_HEIGHT - TentRoofLogic.EAVE * TentRoofLogic.slope() - TentRoofLogic.THICKNESS;
-        double length = Math.hypot(eaveX - stakeX, eaveY - startY);
-        double angle = Math.toDegrees(Math.atan2(eaveY - startY, Math.abs(eaveX - stakeX)));
+        double attachZ = BLOCK / 2;
+        double stakeZ = BLOCK / 2;
+        double stakeOut = STAKE_DISTANCE;
+        if (name.contains("front")) {
+            attachZ = BLOCK + TentRoofLogic.GABLE_OVERHANG - 0.5;
+            stakeZ = attachZ + CORNER_SPREAD;
+            stakeOut = STAKE_DISTANCE - 2;
+        } else if (name.contains("corner")) {
+            attachZ = 0.5 - TentRoofLogic.GABLE_OVERHANG;
+            stakeZ = attachZ - CORNER_SPREAD;
+            stakeOut = STAKE_DISTANCE - 2;
+        }
+        return guyLine(outerEdge - sign * stakeOut, 0, stakeZ, eaveX, eaveY, attachZ);
+    }
 
-        JsonObject stake = box(stakeX - 0.5, 0, BLOCK / 2 - 0.5, stakeX + 0.5, STAKE_HEIGHT, BLOCK / 2 + 0.5, "#stake");
-        double minX = leftCell ? stakeX : stakeX - length;
+    /**
+     * Abspannleine am Giebel, vom Ende der Firststange schräg hinunter zu einem Hering vor bzw. hinter dem Zelt, in
+     * Koordinaten der oberen Mittelzelle (der Boden liegt dort bei y = -16).
+     */
+    static List<JsonObject> gableGuyLine(boolean front) {
+        double ridgeEnd = TentRoofLogic.GABLE_OVERHANG + RIDGE_POLE_OVERHANG;
+        double attachZ = front ? BLOCK + ridgeEnd : -ridgeEnd;
+        double stakeZ = front ? BLOCK + GABLE_STAKE_DISTANCE : -GABLE_STAKE_DISTANCE;
+        double attachY = TentRoofLogic.RIDGE_HEIGHT - BLOCK - 1.5;
+        return guyLine(BLOCK / 2, -BLOCK, stakeZ, BLOCK / 2, attachY, attachZ);
+    }
+
+    /**
+     * Holzhering und Leine von seinem Kopf zum Ansatzpunkt. Die Leine ist ein senkrechter Strich auf dem Hering, den
+     * Minecraft erst um x neigt und dann um y in Richtung Ansatz dreht (Euler-Drehung: x, dann y, dann z).
+     */
+    static List<JsonObject> guyLine(
+            double stakeX, double groundY, double stakeZ, double attachX, double attachY, double attachZ) {
+        double startY = groundY + STAKE_HEIGHT - 0.5;
+        double dx = attachX - stakeX;
+        double dy = attachY - startY;
+        double dz = attachZ - stakeZ;
+        double length = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        double tilt = Math.toDegrees(Math.acos(dy / length));
+        double heading = Math.toDegrees(Math.atan2(dx, dz));
+
+        JsonObject stake =
+                box(stakeX - 0.5, groundY, stakeZ - 0.5, stakeX + 0.5, groundY + STAKE_HEIGHT, stakeZ + 0.5, "#stake");
         JsonObject rope =
-                box(minX, startY - 0.25, BLOCK / 2 - 0.25, minX + length, startY + 0.25, BLOCK / 2 + 0.25, "#rope");
+                box(stakeX - 0.25, startY, stakeZ - 0.25, stakeX + 0.25, startY + length, stakeZ + 0.25, "#rope");
         JsonObject rotation = new JsonObject();
-        rotation.add("origin", vec(stakeX, startY, BLOCK / 2));
-        rotation.addProperty("axis", "z");
-        rotation.addProperty("angle", round(sign * angle));
+        rotation.add("origin", vec(stakeX, startY, stakeZ));
+        rotation.addProperty("x", round(tilt));
+        rotation.addProperty("y", round(heading));
+        rotation.addProperty("z", 0.0);
         rope.add("rotation", rotation);
         return List.of(stake, rope);
     }

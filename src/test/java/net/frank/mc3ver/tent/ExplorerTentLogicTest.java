@@ -487,6 +487,8 @@ public class ExplorerTentLogicTest {
         com.google.gson.JsonArray frontElements = frontJson.getAsJsonArray("elements");
 
         for (com.google.gson.JsonElement el : frontElements) {
+            // Giebel-Leine und Hering stehen draußen vor dem Eingang
+            if (el.toString().contains("#rope") || el.toString().contains("#stake")) continue;
             com.google.gson.JsonObject obj = el.getAsJsonObject();
             com.google.gson.JsonArray from = obj.getAsJsonArray("from");
             double minY = from.get(1).getAsDouble();
@@ -1107,6 +1109,7 @@ public class ExplorerTentLogicTest {
             boolean foundRoof = false;
             for (com.google.gson.JsonElement el : elements) {
                 com.google.gson.JsonObject e = el.getAsJsonObject();
+                if (e.toString().contains("#rope") || e.toString().contains("#stake")) continue;
                 boolean roof = e.has("rotation") || e.toString().contains("#ridge");
                 double fromZ = e.getAsJsonArray("from").get(2).getAsDouble();
                 double toZ = e.getAsJsonArray("to").get(2).getAsDouble();
@@ -1162,6 +1165,7 @@ public class ExplorerTentLogicTest {
                         .getAsJsonObject()
                         .getAsJsonArray("elements")) {
                     com.google.gson.JsonObject e = el.getAsJsonObject();
+                    if (e.toString().contains("#rope")) continue; // Giebel-Leine ist kein Dach
                     if (!e.has("rotation") && !e.toString().contains("#ridge")) continue;
                     modelEnds.add(
                             front
@@ -2109,6 +2113,48 @@ public class ExplorerTentLogicTest {
         }
     }
 
+    // Oberes Ende einer Leine: senkrechter Strich ab dem Drehpunkt, Minecraft dreht erst um x, dann um y (Grad)
+    private static double[] ropeEnd(com.google.gson.JsonObject rope) {
+        com.google.gson.JsonObject rotation = rope.getAsJsonObject("rotation");
+        com.google.gson.JsonArray origin = rotation.getAsJsonArray("origin");
+        double length = rope.getAsJsonArray("to").get(1).getAsDouble()
+                - rope.getAsJsonArray("from").get(1).getAsDouble();
+        double tilt = Math.toRadians(rotation.get("x").getAsDouble());
+        double heading = Math.toRadians(rotation.get("y").getAsDouble());
+        return new double[] {
+            origin.get(0).getAsDouble() + length * Math.sin(tilt) * Math.sin(heading),
+            origin.get(1).getAsDouble() + length * Math.cos(tilt),
+            origin.get(2).getAsDouble() + length * Math.sin(tilt) * Math.cos(heading)
+        };
+    }
+
+    @Test
+    void testGableGuyLinesRunFromTheRidgeEnd() throws Exception {
+        for (String name : new String[] {"tent_canvas_roof_front", "tent_canvas_roof_back"}) {
+            boolean front = name.endsWith("front");
+            com.google.gson.JsonObject rope = null;
+            com.google.gson.JsonObject stake = null;
+            for (com.google.gson.JsonElement el : com.google.gson.JsonParser.parseString(
+                            java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json")))
+                    .getAsJsonObject()
+                    .getAsJsonArray("elements")) {
+                if (el.toString().contains("#rope")) rope = el.getAsJsonObject();
+                if (el.toString().contains("#stake")) stake = el.getAsJsonObject();
+            }
+            assertNotNull(rope, name + ": Giebel-Leine fehlt");
+            assertNotNull(stake, name + ": Giebel-Hering fehlt");
+            // Obere Mittelzelle: der Boden liegt bei y = -16
+            assertEquals(-16.0, stake.getAsJsonArray("from").get(1).getAsDouble(), 1e-9, name + ": Hering im Boden");
+            double stakeZ = stake.getAsJsonArray("from").get(2).getAsDouble();
+            assertTrue(front ? stakeZ > 16 : stakeZ < 0, name + ": Hering vor bzw. hinter dem Zelt");
+            double[] end = ropeEnd(rope);
+            assertEquals(8.0, end[0], 0.01, name + ": Leine in der Zeltmitte");
+            assertEquals(
+                    TentRoofLogic.RIDGE_HEIGHT - 16 - 1.5, end[1], 0.01, name + ": Leine endet an der Firststange");
+            assertTrue(front ? end[2] > 16 : end[2] < 0, name + ": Leine endet am Firstende vor dem Giebel");
+        }
+    }
+
     @Test
     void testStakesAndGuyLinesOutsideTheTent() throws Exception {
         // Jede untere Seitenzelle trägt eine Leine: vier je Zeltseite
@@ -2146,18 +2192,26 @@ public class ExplorerTentLogicTest {
                     hasRope = true;
                     assertTrue(e.has("rotation"), "Abspannleine verläuft schräg (" + side + ")");
                     // Leine dreht um den Heringkopf; ihr anderes Ende liegt an der Traufe vor der Seitenwand
-                    com.google.gson.JsonObject rotation = e.getAsJsonObject("rotation");
-                    double ox = rotation.getAsJsonArray("origin").get(0).getAsDouble();
-                    double oy = rotation.getAsJsonArray("origin").get(1).getAsDouble();
-                    double angle = Math.toRadians(rotation.get("angle").getAsDouble());
-                    double length = toX - fromX;
-                    double endX = ox + (left ? 1 : -1) * length * Math.cos(angle);
-                    double endY = oy + (left ? 1 : -1) * length * Math.sin(angle);
+                    double[] end = ropeEnd(e);
                     double eaveX = left ? -TentRoofLogic.EAVE : 16 + TentRoofLogic.EAVE;
-                    assertEquals(eaveX, endX, 0.01, "Leine endet an der Traufe (" + side + ")");
+                    assertEquals(eaveX, end[0], 0.01, "Leine endet an der Traufe (" + side + ")");
                     assertTrue(
-                            endY < TentRoofLogic.roofTopAt(0) && endY > TentRoofLogic.WALL_HEIGHT / 2,
-                            "Leine endet unter der Traufkante (" + side + "), y=" + endY);
+                            end[1] < TentRoofLogic.roofTopAt(0) && end[1] > TentRoofLogic.WALL_HEIGHT / 2,
+                            "Leine endet unter der Traufkante (" + side + "), y=" + end[1]);
+                    double stakeZ = e.getAsJsonObject("rotation")
+                            .getAsJsonArray("origin")
+                            .get(2)
+                            .getAsDouble();
+                    if (side.contains("front")) {
+                        // Eingangsecke: Ansatz am Giebelende der Traufe, Hering schräg davor
+                        assertTrue(
+                                end[2] > 16 && stakeZ > end[2] + 3, "Eck-Leine läuft schräg nach vorn (" + side + ")");
+                    } else if (side.contains("corner")) {
+                        assertTrue(
+                                end[2] < 0 && stakeZ < end[2] - 3, "Eck-Leine läuft schräg nach hinten (" + side + ")");
+                    } else {
+                        assertEquals(stakeZ, end[2], 0.01, "mittlere Leine spannt gerade zur Seite (" + side + ")");
+                    }
                 }
                 if (text.contains("#stake") || text.contains("#rope")) {
                     assertFalse(text.contains("tintindex"), "Hering und Leine bleiben ungefärbt (" + side + ")");
