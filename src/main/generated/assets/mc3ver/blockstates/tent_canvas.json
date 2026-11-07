@@ -80,6 +80,49 @@
     },
     {
       "apply": {
+        "model": "mc3ver:block/tent_guy_line_left"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true",
+        "part": "wall_left"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_left",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true",
+        "part": "wall_left"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_left",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true",
+        "part": "wall_left"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_left",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true",
+        "part": "wall_left"
+      }
+    },
+    {
+      "apply": {
         "model": "mc3ver:block/tent_canvas_wall_right"
       },
       "when": {
@@ -114,6 +157,49 @@
       },
       "when": {
         "facing": "west",
+        "part": "wall_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true",
+        "part": "wall_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true",
+        "part": "wall_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true",
+        "part": "wall_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true",
         "part": "wall_right"
       }
     },
@@ -158,6 +244,49 @@
     },
     {
       "apply": {
+        "model": "mc3ver:block/tent_guy_line_front_left"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true",
+        "part": "wall_front_left"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_front_left",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true",
+        "part": "wall_front_left"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_front_left",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true",
+        "part": "wall_front_left"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_front_left",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true",
+        "part": "wall_front_left"
+      }
+    },
+    {
+      "apply": {
         "model": "mc3ver:block/tent_canvas_wall_front_right"
       },
       "when": {
@@ -192,6 +321,49 @@
       },
       "when": {
         "facing": "west",
+        "part": "wall_front_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_front_right"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true",
+        "part": "wall_front_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_front_right",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true",
+        "part": "wall_front_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_front_right",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true",
+        "part": "wall_front_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_front_right",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true",
         "part": "wall_front_right"
       }
     },
@@ -236,6 +408,49 @@
     },
     {
       "apply": {
+        "model": "mc3ver:block/tent_guy_line_corner_left"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true",
+        "part": "wall_corner_left"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_corner_left",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true",
+        "part": "wall_corner_left"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_corner_left",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true",
+        "part": "wall_corner_left"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_corner_left",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true",
+        "part": "wall_corner_left"
+      }
+    },
+    {
+      "apply": {
         "model": "mc3ver:block/tent_canvas_wall_corner_right"
       },
       "when": {
@@ -275,6 +490,49 @@
     },
     {
       "apply": {
+        "model": "mc3ver:block/tent_guy_line_corner_right"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true",
+        "part": "wall_corner_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_corner_right",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true",
+        "part": "wall_corner_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_corner_right",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true",
+        "part": "wall_corner_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_corner_right",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true",
+        "part": "wall_corner_right"
+      }
+    },
+    {
+      "apply": {
         "model": "mc3ver:block/tent_canvas_wall_crafting_table_right"
       },
       "when": {
@@ -309,6 +567,49 @@
       },
       "when": {
         "facing": "west",
+        "part": "wall_crafting_table_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true",
+        "part": "wall_crafting_table_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true",
+        "part": "wall_crafting_table_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true",
+        "part": "wall_crafting_table_right"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true",
         "part": "wall_crafting_table_right"
       }
     },
@@ -704,6 +1005,49 @@
     },
     {
       "apply": {
+        "model": "mc3ver:block/tent_guy_line_gable_front"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true",
+        "part": "roof_front"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_gable_front",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true",
+        "part": "roof_front"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_gable_front",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true",
+        "part": "roof_front"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_gable_front",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true",
+        "part": "roof_front"
+      }
+    },
+    {
+      "apply": {
         "model": "mc3ver:block/tent_canvas_roof_back"
       },
       "when": {
@@ -738,6 +1082,49 @@
       },
       "when": {
         "facing": "west",
+        "part": "roof_back"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_gable_back"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true",
+        "part": "roof_back"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_gable_back",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true",
+        "part": "roof_back"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_gable_back",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true",
+        "part": "roof_back"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_gable_back",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true",
         "part": "roof_back"
       }
     },

@@ -42,7 +42,15 @@ public class TentFlapBlock extends HorizontalDirectionalBlock {
     }
 
     public static VoxelShape getCollision(Direction facing, boolean open) {
-        return open ? Shapes.empty() : TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing);
+        return open ? Shapes.empty() : TentCanvasBlock.getEntranceShape(facing);
+    }
+
+    /**
+     * Die offene Plane ist oben aufgerollt, ihre Klickform bleibt aber der ganze Streifen im Eingang. Ein Rahmen darum
+     * stünde als leeres Gitter im Durchgang.
+     */
+    public static boolean showsOutline(boolean open) {
+        return !open;
     }
 
     public static boolean isPassable(boolean open) {

@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -83,6 +84,8 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<CanvasPart> PART = EnumProperty.create("part", CanvasPart.class);
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
+    /** Ob die Abspannleine dieser Zelle gezeichnet wird; aus, wenn ihr Hering beim Aufstellen keinen Boden fand. */
+    public static final BooleanProperty GUY_LINE = BooleanProperty.create("guy_line");
 
     protected static final VoxelShape SHAPE_ROOF_PLANE = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
 
@@ -118,6 +121,16 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
         return slope;
     });
 
+    // Seitenwände (links, rechts) sind nur so hoch wie sichtbar; darüber liegt die Dachschräge. Mit voller Blockhöhe
+    // stächen Kollision und Auswahlrahmen durchs Dach.
+    private static final Map<Direction, VoxelShape> LONG_WALL =
+            byOuterSide(side -> slab(side, 0.0, 2.0, 0.0, TentRoofLogic.WALL_HEIGHT));
+
+    /** Seitenwand an der Kante {@code side}, in sichtbarer Wandhöhe. */
+    public static VoxelShape getLongWallShape(Direction side) {
+        return LONG_WALL.getOrDefault(side, Shapes.block());
+    }
+
     public static VoxelShape getRainShape(CanvasPart part, Direction facing) {
         VoxelShape shape = getWallShape(part, facing);
         return switch (part) {
@@ -151,26 +164,37 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     public static VoxelShape getWallShape(CanvasPart part, Direction facing) {
         Direction leftDir = facing.getCounterClockWise();
         Direction rightDir = facing.getClockWise();
-        Direction backDir = facing.getOpposite();
 
-        VoxelShape leftShape = getSideShape(leftDir);
-        VoxelShape rightShape = getSideShape(rightDir);
-        VoxelShape backShape = getSideShape(backDir);
+        VoxelShape leftShape = getLongWallShape(leftDir);
+        VoxelShape rightShape = getLongWallShape(rightDir);
+        // Das Zelt steht in Blickrichtung (facing) des Spielers: der Eingangsgiebel der vorderen Reihe liegt an der
+        // Kante gegen facing, die Rückwand der hinteren Reihe an der Kante in facing-Richtung
+        VoxelShape entranceShape = getEntranceShape(facing);
+        VoxelShape rearShape = getSideShape(facing);
 
         return switch (part) {
             case WALL_LEFT -> leftShape;
             case WALL_RIGHT -> rightShape;
             case WALL_CRAFTING_TABLE_RIGHT -> Shapes.or(rightShape, getTableShape(rightDir));
-            case WALL_BACK, ROOF_BACK -> backShape;
-            case WALL_FRONT_LEFT, WALL_CORNER_LEFT -> Shapes.or(leftShape, backShape);
-            case WALL_FRONT_RIGHT, WALL_CORNER_RIGHT -> Shapes.or(rightShape, backShape);
+            case WALL_BACK, ROOF_BACK -> rearShape;
+            case WALL_FRONT_LEFT -> Shapes.or(leftShape, entranceShape);
+            case WALL_FRONT_RIGHT -> Shapes.or(rightShape, entranceShape);
+            case WALL_CORNER_LEFT -> Shapes.or(leftShape, rearShape);
+            case WALL_CORNER_RIGHT -> Shapes.or(rightShape, rearShape);
             case ROOF_FRONT, ROOF_RIDGE -> SHAPE_ROOF_PLANE;
             case ROOF_LEFT, ROOF_PIPE_LEFT -> getRoofSlopeShape(leftDir);
             case ROOF_RIGHT, ROOF_LANTERN_RIGHT -> getRoofSlopeShape(rightDir);
-            case ROOF_FRONT_LEFT, ROOF_CORNER_LEFT -> Shapes.or(getRoofSlopeShape(leftDir), backShape);
-            case ROOF_FRONT_RIGHT, ROOF_CORNER_RIGHT -> Shapes.or(getRoofSlopeShape(rightDir), backShape);
+            case ROOF_FRONT_LEFT -> Shapes.or(getRoofSlopeShape(leftDir), entranceShape);
+            case ROOF_FRONT_RIGHT -> Shapes.or(getRoofSlopeShape(rightDir), entranceShape);
+            case ROOF_CORNER_LEFT -> Shapes.or(getRoofSlopeShape(leftDir), rearShape);
+            case ROOF_CORNER_RIGHT -> Shapes.or(getRoofSlopeShape(rightDir), rearShape);
             default -> Shapes.block();
         };
+    }
+
+    /** Außenkante der vorderen Reihe, an der Eingangsgiebel und Eingangsplane stehen. */
+    public static VoxelShape getEntranceShape(Direction facing) {
+        return getSideShape(facing.getOpposite());
     }
 
     static VoxelShape getTableShape(Direction rightDir) {
@@ -203,12 +227,13 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
                 .any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(PART, CanvasPart.WALL_LEFT)
-                .setValue(COLOR, DyeColor.WHITE));
+                .setValue(COLOR, DyeColor.WHITE)
+                .setValue(GUY_LINE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, PART, COLOR);
+        builder.add(FACING, PART, COLOR, GUY_LINE);
     }
 
     @Override
@@ -227,6 +252,14 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
 
     public static boolean hasMenuProvider(CanvasPart part) {
         return part == CanvasPart.WALL_CRAFTING_TABLE_RIGHT;
+    }
+
+    /**
+     * Ob der Auswahlrahmen beim Anvisieren gezeichnet wird. Die Kollisionskästen der Plane passen nicht zu den
+     * schrägen Dachflächen und erscheinen als Gitter auf dem Zelt; nur die Werkbank zeigt, dass man sie benutzen kann.
+     */
+    public static boolean showsOutline(CanvasPart part) {
+        return hasMenuProvider(part);
     }
 
     public static MenuProvider createCraftingMenuProvider(Level level, BlockPos pos) {

@@ -1,34 +1,121 @@
 {
-  "variants": {
-    "facing=east,open=false": {
-      "model": "mc3ver:block/tent_chest_right",
-      "y": 90
+  "multipart": [
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right"
+      },
+      "when": {
+        "facing": "north",
+        "open": "false"
+      }
     },
-    "facing=east,open=true": {
-      "model": "mc3ver:block/tent_chest_right_open",
-      "y": 90
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right_open"
+      },
+      "when": {
+        "facing": "north",
+        "open": "true"
+      }
     },
-    "facing=north,open=false": {
-      "model": "mc3ver:block/tent_chest_right"
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "open": "false"
+      }
     },
-    "facing=north,open=true": {
-      "model": "mc3ver:block/tent_chest_right_open"
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right_open",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "open": "true"
+      }
     },
-    "facing=south,open=false": {
-      "model": "mc3ver:block/tent_chest_right",
-      "y": 180
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "open": "false"
+      }
     },
-    "facing=south,open=true": {
-      "model": "mc3ver:block/tent_chest_right_open",
-      "y": 180
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right_open",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "open": "true"
+      }
     },
-    "facing=west,open=false": {
-      "model": "mc3ver:block/tent_chest_right",
-      "y": 270
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "open": "false"
+      }
     },
-    "facing=west,open=true": {
-      "model": "mc3ver:block/tent_chest_right_open",
-      "y": 270
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right_open",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "open": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true"
+      }
     }
-  }
+  ]
 }

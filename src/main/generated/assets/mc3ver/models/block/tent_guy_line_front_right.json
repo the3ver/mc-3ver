@@ -1,0 +1,84 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#stake"
+        },
+        "east": {
+          "texture": "#stake"
+        },
+        "north": {
+          "texture": "#stake"
+        },
+        "south": {
+          "texture": "#stake"
+        },
+        "up": {
+          "texture": "#stake"
+        },
+        "west": {
+          "texture": "#stake"
+        }
+      },
+      "from": [
+        24.0,
+        0.0,
+        24.0
+      ],
+      "to": [
+        25.0,
+        3.0,
+        25.0
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#rope"
+        },
+        "east": {
+          "texture": "#rope"
+        },
+        "north": {
+          "texture": "#rope"
+        },
+        "south": {
+          "texture": "#rope"
+        },
+        "up": {
+          "texture": "#rope"
+        },
+        "west": {
+          "texture": "#rope"
+        }
+      },
+      "from": [
+        24.25,
+        2.5,
+        24.25
+      ],
+      "rotation": {
+        "origin": [
+          24.5,
+          2.5,
+          24.5
+        ],
+        "x": 59.323,
+        "y": -137.121,
+        "z": 0.0
+      },
+      "to": [
+        24.75,
+        13.607,
+        24.75
+      ]
+    }
+  ],
+  "textures": {
+    "particle": "minecraft:block/stripped_oak_log",
+    "rope": "minecraft:block/white_wool",
+    "stake": "minecraft:block/stripped_oak_log"
+  }
+}

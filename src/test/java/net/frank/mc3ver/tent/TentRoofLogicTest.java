@@ -64,6 +64,8 @@ class TentRoofLogicTest {
                 if (e.has("rotation")) continue; // aufgeklappter Truhendeckel liegt ohnehin tiefer als die Schräge
                 JsonArray from = e.getAsJsonArray("from");
                 JsonArray to = e.getAsJsonArray("to");
+                // Heringe stehen draußen neben dem Zelt, nicht unter dem Dach
+                if (to.get(0).getAsDouble() <= 0 || from.get(0).getAsDouble() >= 16) continue;
                 double top = to.get(1).getAsDouble();
                 double roof = Math.min(
                         TentRoofLogic.roofTopAt(cellX + from.get(0).getAsDouble()),

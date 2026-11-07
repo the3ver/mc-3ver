@@ -487,6 +487,8 @@ public class ExplorerTentLogicTest {
         com.google.gson.JsonArray frontElements = frontJson.getAsJsonArray("elements");
 
         for (com.google.gson.JsonElement el : frontElements) {
+            // Giebel-Leine und Hering stehen draußen vor dem Eingang
+            if (el.toString().contains("#rope") || el.toString().contains("#stake")) continue;
             com.google.gson.JsonObject obj = el.getAsJsonObject();
             com.google.gson.JsonArray from = obj.getAsJsonArray("from");
             double minY = from.get(1).getAsDouble();
@@ -1018,54 +1020,34 @@ public class ExplorerTentLogicTest {
 
     @Test
     void testRoofCornerModelsAreSealedAndTinted() throws Exception {
-        java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
-
-        String[] cornerModels = {"tent_canvas_roof_corner_left.json", "tent_canvas_roof_corner_right.json"};
-
-        for (String modelName : cornerModels) {
-            java.nio.file.Path modelPath = modelsDir.resolve(modelName);
-            assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
-
-            String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json =
-                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
-            com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
-            assertNotNull(elements, "Modell " + modelName + " muss elements haben");
-
-            boolean hasBackWallAtZ14 = false;
-            boolean hasRoofSteps = false;
-
+        // Hintere Dachecken: Rückgiebel an der Außenkante (Modell-z 0..2, der Eingang liegt bei z 16) und eine schräge
+        // Dachfläche, alles in Zeltfarbe
+        for (String name : new String[] {"tent_canvas_roof_corner_left", "tent_canvas_roof_corner_right"}) {
+            com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(
+                            java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json")))
+                    .getAsJsonObject()
+                    .getAsJsonArray("elements");
+            boolean hasRearGable = false;
+            boolean hasRoofPlane = false;
             for (com.google.gson.JsonElement el : elements) {
                 if (!el.toString().contains("#canvas")) continue; // Deko wie Hering, Leine, Wimpel ist keine Zeltplane
-                com.google.gson.JsonObject elObj = el.getAsJsonObject();
-                com.google.gson.JsonArray from = elObj.getAsJsonArray("from");
-                com.google.gson.JsonArray to = elObj.getAsJsonArray("to");
-
-                double fromZ = from.get(2).getAsDouble();
-                double toZ = to.get(2).getAsDouble();
-                double fromY = from.get(1).getAsDouble();
-                double toY = to.get(1).getAsDouble();
-
-                if (fromZ >= 13.9 && toZ <= 16.1 && (toY - fromY) > 2.1) {
-                    hasBackWallAtZ14 = true;
-                }
-                if (fromZ >= 13.9 && toZ <= 16.1 && (toY - fromY) <= 2.1) {
-                    hasRoofSteps = true;
-                }
-
-                com.google.gson.JsonObject faces = elObj.getAsJsonObject("faces");
-                for (String faceName : faces.keySet()) {
-                    com.google.gson.JsonObject faceObj = faces.getAsJsonObject(faceName);
-                    assertTrue(
-                            faceObj.has("tintindex"),
-                            "Face " + faceName + " in " + modelName + " muss tintindex haben");
-                    assertEquals(0, faceObj.get("tintindex").getAsInt(), "tintindex in " + modelName + " muss 0 sein");
+                com.google.gson.JsonObject e = el.getAsJsonObject();
+                double fromZ = e.getAsJsonArray("from").get(2).getAsDouble();
+                double toZ = e.getAsJsonArray("to").get(2).getAsDouble();
+                if (e.has("rotation")) hasRoofPlane = true;
+                else if (fromZ == 0 && toZ <= 2.1) hasRearGable = true;
+                for (String face : e.getAsJsonObject("faces").keySet()) {
+                    assertEquals(
+                            0,
+                            e.getAsJsonObject("faces")
+                                    .getAsJsonObject(face)
+                                    .get("tintindex")
+                                    .getAsInt(),
+                            name + ": " + face + " nimmt die Zeltfarbe an");
                 }
             }
-
-            assertTrue(hasBackWallAtZ14, modelName + " muss vertikale Rückwandelemente an z=14..16 besitzen");
-            assertTrue(hasRoofSteps, modelName + " muss Dachschrägen-Elemente besitzen");
+            assertTrue(hasRearGable, name + " braucht den Rückgiebel an der Außenkante (z 0..2)");
+            assertTrue(hasRoofPlane, name + " braucht die schräge Dachfläche");
         }
     }
 
@@ -1084,12 +1066,12 @@ public class ExplorerTentLogicTest {
                 TentCanvasBlock.CanvasPart.ROOF_CORNER_LEFT, net.minecraft.core.Direction.NORTH);
 
         net.minecraft.world.phys.AABB backWallBox =
-                new net.minecraft.world.phys.AABB(2.0 / 16.0, 0.0, 14.0 / 16.0, 14.0 / 16.0, 12.0 / 16.0, 16.0 / 16.0);
+                new net.minecraft.world.phys.AABB(4.0 / 16.0, 0.0, 0.0, 14.0 / 16.0, 2.0 / 16.0, 2.0 / 16.0);
         boolean backCollision = net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
                 leftShape,
                 net.minecraft.world.phys.shapes.Shapes.create(backWallBox),
                 net.minecraft.world.phys.shapes.BooleanOp.AND);
-        assertTrue(backCollision, "ROOF_CORNER_LEFT muss eine geschlossene Rückwand-Kollision an z=14..16 besitzen");
+        assertTrue(backCollision, "ROOF_CORNER_LEFT muss eine geschlossene Rückwand-Kollision an z=0..2 besitzen");
 
         assertFalse(collidesUnderRoof(leftShape, true), "Kopfraum im Zeltinneren bei ROOF_CORNER_LEFT muss frei sein");
 
@@ -1101,47 +1083,146 @@ public class ExplorerTentLogicTest {
                 net.minecraft.world.phys.shapes.Shapes.create(backWallBox),
                 net.minecraft.world.phys.shapes.BooleanOp.AND);
         assertTrue(
-                rightBackCollision, "ROOF_CORNER_RIGHT muss eine geschlossene Rückwand-Kollision an z=14..16 besitzen");
+                rightBackCollision, "ROOF_CORNER_RIGHT muss eine geschlossene Rückwand-Kollision an z=0..2 besitzen");
 
         assertFalse(
                 collidesUnderRoof(rightShape, false), "Kopfraum im Zeltinneren bei ROOF_CORNER_RIGHT muss frei sein");
     }
 
     @Test
-    void testRearWallAndSideWallsEndFlush() throws Exception {
-        java.nio.file.Path baseDir = java.nio.file.Paths.get("").toAbsolutePath();
-        java.nio.file.Path modelsDir = baseDir.resolve("src/main/generated/assets/mc3ver/models/block");
-
-        String[] rearCornerModels = {
-            "tent_canvas_wall_corner_left.json",
-            "tent_canvas_wall_corner_right.json",
-            "tent_canvas_roof_corner_left.json",
-            "tent_canvas_roof_corner_right.json"
-        };
-
-        for (String modelName : rearCornerModels) {
-            java.nio.file.Path modelPath = modelsDir.resolve(modelName);
-            assertTrue(java.nio.file.Files.exists(modelPath), "Modell " + modelName + " muss existieren");
-
-            String content = java.nio.file.Files.readString(modelPath);
-            com.google.gson.JsonObject json =
-                    com.google.gson.JsonParser.parseString(content).getAsJsonObject();
-            com.google.gson.JsonArray elements = json.getAsJsonArray("elements");
-            assertNotNull(elements, "Modell " + modelName + " muss elements haben");
-
+    void testRoofOverhangsBothGablesByALittle() throws Exception {
+        // Wie eine Außenplane über dem Innenzelt: Wände und Giebel bleiben im Block, das Dach steht vorn und hinten
+        // um GABLE_OVERHANG über. Modell-z 16 ist die Eingangsseite, z 0 die Rückseite.
+        double overhang = TentRoofLogic.GABLE_OVERHANG;
+        java.util.Map<String, double[]> expectedRoofZ = java.util.Map.of(
+                "tent_canvas_roof_front_left", new double[] {0, 16 + overhang},
+                "tent_canvas_roof_front", new double[] {0, 16 + overhang},
+                "tent_canvas_roof_left", new double[] {0, 16},
+                "tent_canvas_roof_ridge", new double[] {0, 16},
+                "tent_canvas_roof_corner_right", new double[] {-overhang, 16},
+                "tent_canvas_roof_back", new double[] {-overhang, 16});
+        for (var entry : expectedRoofZ.entrySet()) {
+            com.google.gson.JsonArray elements = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(
+                            GENERATED.resolve("models/block/" + entry.getKey() + ".json")))
+                    .getAsJsonObject()
+                    .getAsJsonArray("elements");
+            boolean foundRoof = false;
             for (com.google.gson.JsonElement el : elements) {
-                if (!el.toString().contains("#canvas")) continue; // Deko wie Hering, Leine, Wimpel ist keine Zeltplane
-                com.google.gson.JsonObject elObj = el.getAsJsonObject();
-                if (elObj.has("rotation")) continue; // Dachplanken laufen über die ganze Zeltlänge
-                com.google.gson.JsonArray from = elObj.getAsJsonArray("from");
-                double fromZ = from.get(2).getAsDouble();
+                com.google.gson.JsonObject e = el.getAsJsonObject();
+                if (e.toString().contains("#rope") || e.toString().contains("#stake")) continue;
+                boolean roof = e.has("rotation") || e.toString().contains("#ridge");
+                double fromZ = e.getAsJsonArray("from").get(2).getAsDouble();
+                double toZ = e.getAsJsonArray("to").get(2).getAsDouble();
+                if (roof) {
+                    foundRoof = true;
+                    // An den Giebeln weichen die Enden absichtlich um Bruchteile ab (gegen Z-Fighting), die
+                    // Firststange steht etwas weiter über
+                    assertEquals(entry.getValue()[0], fromZ, 0.6, entry.getKey() + ": Dach hinten");
+                    assertEquals(entry.getValue()[1], toZ, 0.6, entry.getKey() + ": Dach vorn");
+                } else if (e.toString().contains("#canvas")) {
+                    assertTrue(
+                            fromZ >= 0 && toZ <= 16, entry.getKey() + ": Plane " + e.get("from") + " bleibt im Block");
+                }
+            }
+            assertTrue(foundRoof, entry.getKey() + ": Dachplanke oder Firststange fehlt");
+        }
+
+        // Rückwand der hinteren Reihe an deren Außenkante, mit voller Seitenwand davor
+        for (String name : new String[] {"tent_canvas_wall_corner_left", "tent_canvas_wall_corner_right"}) {
+            String model = java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json"));
+            boolean rearWall = false;
+            boolean sideWall = false;
+            for (com.google.gson.JsonElement el : com.google.gson.JsonParser.parseString(model)
+                    .getAsJsonObject()
+                    .getAsJsonArray("elements")) {
+                if (!el.toString().contains("#canvas")) continue;
+                com.google.gson.JsonObject e = el.getAsJsonObject();
+                double fromZ = e.getAsJsonArray("from").get(2).getAsDouble();
+                double toZ = e.getAsJsonArray("to").get(2).getAsDouble();
+                if (fromZ == 0 && toZ == 2) rearWall = true;
+                if (fromZ == 0 && toZ == 16) sideWall = true;
+            }
+            assertTrue(rearWall, name + ": Rückwand bei z 0..2");
+            assertTrue(sideWall, name + ": Seitenwand über die ganze Reihe");
+        }
+    }
+
+    @Test
+    void testRoofEndFacesAtTheGablesDoNotCoincide() throws Exception {
+        // Linke Dachfläche, rechte Dachfläche und Firststange überlappen sich unter dem First. Enden ihre Stirnflächen
+        // in derselben Ebene, flackern sie. Je Zeltende müssen die drei Enden verschieden sein.
+        String[][] gables = {
+            {"tent_canvas_roof_front_left", "tent_canvas_roof_front_right", "tent_canvas_roof_front"},
+            {"tent_canvas_roof_corner_left", "tent_canvas_roof_corner_right", "tent_canvas_roof_back"}
+        };
+        for (int g = 0; g < gables.length; g++) {
+            boolean front = g == 0;
+            java.util.List<Double> ends = new java.util.ArrayList<>();
+            for (String name : gables[g]) {
+                java.util.Set<Double> modelEnds = new java.util.TreeSet<>();
+                for (com.google.gson.JsonElement el : com.google.gson.JsonParser.parseString(
+                                java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json")))
+                        .getAsJsonObject()
+                        .getAsJsonArray("elements")) {
+                    com.google.gson.JsonObject e = el.getAsJsonObject();
+                    if (e.toString().contains("#rope")) continue; // Giebel-Leine ist kein Dach
+                    if (!e.has("rotation") && !e.toString().contains("#ridge")) continue;
+                    modelEnds.add(
+                            front
+                                    ? e.getAsJsonArray("to").get(2).getAsDouble()
+                                    : e.getAsJsonArray("from").get(2).getAsDouble());
+                }
+                assertEquals(1, modelEnds.size(), name + ": alle Planken enden gleich");
+                ends.addAll(modelEnds);
+            }
+            assertEquals(3, new java.util.HashSet<>(ends).size(), (front ? "vorn" : "hinten") + ": " + ends);
+            double ridge = ends.get(2);
+            for (double plank : ends.subList(0, 2)) {
                 assertTrue(
-                        fromZ >= 13.9,
-                        "Element in " + modelName
-                                + " darf nicht nach hinten über die Rückwand hinausragen (fromZ >= 14, war: " + fromZ
-                                + ")");
+                        front ? ridge > plank : ridge < plank,
+                        (front ? "vorn" : "hinten") + ": Firststange steht über das Dach hinaus");
             }
         }
+    }
+
+    @Test
+    void testRearWallCollisionSitsAtTheOuterEdge() {
+        net.minecraft.SharedConstants.tryDetectVersion();
+        net.minecraft.server.Bootstrap.bootStrap();
+
+        // Zelt Richtung Norden: der Eingang liegt im Süden, die Rückwand an der Nordkante der hinteren Reihe
+        net.minecraft.world.phys.shapes.VoxelShape north =
+                net.minecraft.world.level.block.Block.box(0, 0, 0, 16, 16, 2);
+        net.minecraft.world.phys.shapes.VoxelShape south =
+                net.minecraft.world.level.block.Block.box(0, 0, 14, 16, 16, 16);
+        net.minecraft.core.Direction facing = net.minecraft.core.Direction.NORTH;
+        assertTrue(sameShape(north, TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing)));
+        assertTrue(sameShape(south, TentFlapBlock.getCollision(facing, false)), "Plane an der Eingangskante");
+        for (TentCanvasBlock.CanvasPart corner : java.util.List.of(
+                TentCanvasBlock.CanvasPart.WALL_CORNER_LEFT,
+                TentCanvasBlock.CanvasPart.WALL_CORNER_RIGHT,
+                TentCanvasBlock.CanvasPart.ROOF_CORNER_LEFT,
+                TentCanvasBlock.CanvasPart.ROOF_CORNER_RIGHT)) {
+            net.minecraft.world.phys.shapes.VoxelShape shape = TentCanvasBlock.getWallShape(corner, facing);
+            assertTrue(
+                    net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                            shape,
+                            net.minecraft.world.level.block.Block.box(7, 0, 0, 9, 2, 2),
+                            net.minecraft.world.phys.shapes.BooleanOp.AND),
+                    corner + ": Rückwand an der Nordkante");
+            assertFalse(
+                    net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                            shape,
+                            net.minecraft.world.level.block.Block.box(7, 0, 14, 9, 2, 16),
+                            net.minecraft.world.phys.shapes.BooleanOp.AND),
+                    corner + ": an der Innenkante darf keine Wand mehr stehen");
+        }
+    }
+
+    private static boolean sameShape(
+            net.minecraft.world.phys.shapes.VoxelShape a, net.minecraft.world.phys.shapes.VoxelShape b) {
+        return !net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
+                a, b, net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME);
     }
 
     @Test
@@ -1431,9 +1512,11 @@ public class ExplorerTentLogicTest {
                 com.google.gson.JsonObject when = rule.getAsJsonObject("when");
                 if (when.has("part")
                         && "wall_crafting_table_right".equals(when.get("part").getAsString())) {
+                    com.google.gson.JsonObject apply = rule.getAsJsonObject("apply");
+                    // Die Abspannleine hängt als eigenes Modell an derselben Zelle
+                    if (apply.get("model").getAsString().contains("guy_line")) continue;
                     if (when.has("facing")) {
                         foundFacings.add(when.get("facing").getAsString());
-                        com.google.gson.JsonObject apply = rule.getAsJsonObject("apply");
                         assertEquals(
                                 "mc3ver:block/tent_canvas_wall_crafting_table_right",
                                 apply.get("model").getAsString());
@@ -1540,10 +1623,7 @@ public class ExplorerTentLogicTest {
 
         java.nio.file.Path blockstate = GENERATED.resolve("blockstates/tent_furnace.json");
         assertTrue(java.nio.file.Files.exists(blockstate), "blockstates/tent_furnace.json muss existieren");
-        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(blockstate))
-                .getAsJsonObject()
-                .getAsJsonObject("variants");
+        com.google.gson.JsonObject variants = variantsOf(java.nio.file.Files.readString(blockstate));
         for (String facing : new String[] {"north", "east", "south", "west"}) {
             for (String lit : new String[] {"false", "true"}) {
                 assertTrue(
@@ -1849,11 +1929,12 @@ public class ExplorerTentLogicTest {
                     "Offene Plane darf nicht blockieren (" + facing + ")");
             net.minecraft.world.phys.shapes.VoxelShape closed = TentFlapBlock.getCollision(facing, false);
             assertFalse(closed.isEmpty(), "Geschlossene Plane muss blockieren (" + facing + ")");
-            // Geschlossene Plane liegt an der Außenkante des Eingangs, wie die Rückwand an ihrer Kante
+            // Geschlossene Plane liegt an der Außenkante des Eingangs, gegenüber der Rückwand am anderen Zeltende.
+            // Das Zelt steht in Blickrichtung, die Eingangskante zeigt also gegen facing.
             assertFalse(
                     net.minecraft.world.phys.shapes.Shapes.joinIsNotEmpty(
                             closed,
-                            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing),
+                            TentCanvasBlock.getWallShape(TentCanvasBlock.CanvasPart.WALL_BACK, facing.getOpposite()),
                             net.minecraft.world.phys.shapes.BooleanOp.NOT_SAME),
                     "Plane an der Außenkante (" + facing + ")");
         }
@@ -1865,10 +1946,8 @@ public class ExplorerTentLogicTest {
     void testEntranceFlapResources() throws Exception {
         java.nio.file.Path res =
                 java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/resources/assets/mc3ver");
-        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_flap.json")))
-                .getAsJsonObject()
-                .getAsJsonObject("variants");
+        com.google.gson.JsonObject variants =
+                variantsOf(java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_flap.json")));
         for (String facing : new String[] {"north", "east", "south", "west"}) {
             assertEquals(
                     "mc3ver:block/tent_flap_closed",
@@ -2012,10 +2091,8 @@ public class ExplorerTentLogicTest {
         }
 
         java.nio.file.Path assets = base.resolve("assets/mc3ver");
-        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")))
-                .getAsJsonObject()
-                .getAsJsonObject("variants");
+        com.google.gson.JsonObject variants =
+                variantsOf(java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")));
         for (String facing : new String[] {"north", "east", "south", "west"}) {
             assertEquals(
                     "mc3ver:block/tent_chest_right",
@@ -2031,13 +2108,133 @@ public class ExplorerTentLogicTest {
         }
     }
 
+    // Oberes Ende einer Leine: senkrechter Strich ab dem Drehpunkt, Minecraft dreht erst um x, dann um y (Grad)
+    private static double[] ropeEnd(com.google.gson.JsonObject rope) {
+        com.google.gson.JsonObject rotation = rope.getAsJsonObject("rotation");
+        com.google.gson.JsonArray origin = rotation.getAsJsonArray("origin");
+        double length = rope.getAsJsonArray("to").get(1).getAsDouble()
+                - rope.getAsJsonArray("from").get(1).getAsDouble();
+        double tilt = Math.toRadians(rotation.get("x").getAsDouble());
+        double heading = Math.toRadians(rotation.get("y").getAsDouble());
+        return new double[] {
+            origin.get(0).getAsDouble() + length * Math.sin(tilt) * Math.sin(heading),
+            origin.get(1).getAsDouble() + length * Math.cos(tilt),
+            origin.get(2).getAsDouble() + length * Math.sin(tilt) * Math.cos(heading)
+        };
+    }
+
+    // Blockstate als variants-Tabelle; multipart (Ofen, Truhe) wird ohne die angehängten Abspannleinen umgelesen
+    private static com.google.gson.JsonObject variantsOf(String blockstate) {
+        com.google.gson.JsonObject json =
+                com.google.gson.JsonParser.parseString(blockstate).getAsJsonObject();
+        if (json.has("variants")) return json.getAsJsonObject("variants");
+        com.google.gson.JsonObject variants = new com.google.gson.JsonObject();
+        for (com.google.gson.JsonElement el : json.getAsJsonArray("multipart")) {
+            com.google.gson.JsonObject entry = el.getAsJsonObject();
+            com.google.gson.JsonObject apply = entry.getAsJsonObject("apply");
+            if (apply.get("model").getAsString().contains("guy_line")) continue;
+            java.util.List<String> key = new java.util.ArrayList<>();
+            for (var condition : entry.getAsJsonObject("when").entrySet()) {
+                key.add(condition.getKey() + "=" + condition.getValue().getAsString());
+            }
+            variants.add(String.join(",", key), apply);
+        }
+        return variants;
+    }
+
+    @Test
+    void testBlockstatesAttachEachGuyLineToItsCell() throws Exception {
+        // Leinen sind eigene Modelle; die Blockstates hängen sie an genau die Zellen, an denen sie spannen
+        java.util.Map<String, String> canvasParts = java.util.Map.of(
+                "wall_front_left", "tent_guy_line_front_left",
+                "wall_left", "tent_guy_line_left",
+                "wall_corner_left", "tent_guy_line_corner_left",
+                "wall_right", "tent_guy_line_right",
+                "wall_front_right", "tent_guy_line_front_right",
+                "wall_crafting_table_right", "tent_guy_line_right",
+                "wall_corner_right", "tent_guy_line_corner_right",
+                "roof_front", "tent_guy_line_gable_front",
+                "roof_back", "tent_guy_line_gable_back");
+        java.util.Map<String, java.util.Set<String>> found = new java.util.HashMap<>();
+        for (com.google.gson.JsonElement el : com.google.gson.JsonParser.parseString(
+                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_canvas.json")))
+                .getAsJsonObject()
+                .getAsJsonArray("multipart")) {
+            com.google.gson.JsonObject entry = el.getAsJsonObject();
+            String model = entry.getAsJsonObject("apply").get("model").getAsString();
+            if (!model.contains("guy_line")) continue;
+            String part = entry.getAsJsonObject("when").get("part").getAsString();
+            found.computeIfAbsent(part, k -> new java.util.HashSet<>()).add(model);
+            assertTrue(entry.getAsJsonObject("when").has("facing"), part + ": Leine dreht mit dem Zelt");
+            assertEquals(
+                    "true",
+                    entry.getAsJsonObject("when").get("guy_line").getAsString(),
+                    part + ": Leine nur, wenn ihr Hering Boden hat");
+        }
+        for (var expected : canvasParts.entrySet()) {
+            assertEquals(
+                    java.util.Set.of("mc3ver:block/" + expected.getValue()),
+                    found.get(expected.getKey()),
+                    expected.getKey());
+        }
+        assertEquals(canvasParts.keySet(), found.keySet(), "keine Leinen an anderen Zellen");
+
+        for (String[] block :
+                new String[][] {{"tent_furnace", "tent_guy_line_left"}, {"tent_chest", "tent_guy_line_right"}}) {
+            String states = java.nio.file.Files.readString(GENERATED.resolve("blockstates/" + block[0] + ".json"));
+            assertEquals(
+                    4,
+                    states.split("mc3ver:block/" + block[1] + "\"", -1).length - 1,
+                    block[0] + ": Leine je Richtung");
+        }
+        for (String name : new String[] {"tent_canvas_wall_left", "tent_furnace_left", "tent_canvas_roof_front"}) {
+            assertFalse(
+                    java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json"))
+                            .contains("#rope"),
+                    name + ": Leine steckt im eigenen Modell");
+        }
+    }
+
+    @Test
+    void testGableGuyLinesRunFromTheRidgeEnd() throws Exception {
+        for (String name : new String[] {"tent_guy_line_gable_front", "tent_guy_line_gable_back"}) {
+            boolean front = name.endsWith("front");
+            com.google.gson.JsonObject rope = null;
+            com.google.gson.JsonObject stake = null;
+            for (com.google.gson.JsonElement el : com.google.gson.JsonParser.parseString(
+                            java.nio.file.Files.readString(GENERATED.resolve("models/block/" + name + ".json")))
+                    .getAsJsonObject()
+                    .getAsJsonArray("elements")) {
+                if (el.toString().contains("#rope")) rope = el.getAsJsonObject();
+                if (el.toString().contains("#stake")) stake = el.getAsJsonObject();
+            }
+            assertNotNull(rope, name + ": Giebel-Leine fehlt");
+            assertNotNull(stake, name + ": Giebel-Hering fehlt");
+            // Obere Mittelzelle: der Boden liegt bei y = -16
+            assertEquals(-16.0, stake.getAsJsonArray("from").get(1).getAsDouble(), 1e-9, name + ": Hering im Boden");
+            double stakeZ = stake.getAsJsonArray("from").get(2).getAsDouble();
+            assertTrue(front ? stakeZ > 16 : stakeZ < 0, name + ": Hering vor bzw. hinter dem Zelt");
+            double[] end = ropeEnd(rope);
+            assertEquals(8.0, end[0], 0.01, name + ": Leine in der Zeltmitte");
+            assertEquals(
+                    TentRoofLogic.RIDGE_HEIGHT - 16 - 1.5, end[1], 0.01, name + ": Leine endet an der Firststange");
+            assertTrue(front ? end[2] > 16 : end[2] < 0, name + ": Leine endet am Firstende vor dem Giebel");
+        }
+    }
+
     @Test
     void testStakesAndGuyLinesOutsideTheTent() throws Exception {
-        java.nio.file.Path models =
-                java.nio.file.Paths.get("").toAbsolutePath().resolve("src/main/generated/assets/mc3ver/models/block");
-        for (String side : new String[] {"front_left", "corner_left", "front_right", "corner_right"}) {
+        // Leinenmodelle der unteren Seitenzellen: Eingangsecke, Mitte, hintere Ecke je Zeltseite
+        for (String side : new String[] {
+            "tent_guy_line_front_left",
+            "tent_guy_line_left",
+            "tent_guy_line_corner_left",
+            "tent_guy_line_front_right",
+            "tent_guy_line_right",
+            "tent_guy_line_corner_right"
+        }) {
             com.google.gson.JsonObject json = com.google.gson.JsonParser.parseString(
-                            java.nio.file.Files.readString(models.resolve("tent_canvas_wall_" + side + ".json")))
+                            java.nio.file.Files.readString(GENERATED.resolve("models/block/" + side + ".json")))
                     .getAsJsonObject();
             boolean left = side.endsWith("left");
             boolean stakeOutside = false;
@@ -2058,6 +2255,27 @@ public class ExplorerTentLogicTest {
                 if (text.contains("#rope")) {
                     hasRope = true;
                     assertTrue(e.has("rotation"), "Abspannleine verläuft schräg (" + side + ")");
+                    // Leine dreht um den Heringkopf; ihr anderes Ende liegt an der Traufe vor der Seitenwand
+                    double[] end = ropeEnd(e);
+                    double eaveX = left ? -TentRoofLogic.EAVE : 16 + TentRoofLogic.EAVE;
+                    assertEquals(eaveX, end[0], 0.01, "Leine endet an der Traufe (" + side + ")");
+                    assertTrue(
+                            end[1] < TentRoofLogic.roofTopAt(0) && end[1] > TentRoofLogic.WALL_HEIGHT / 2,
+                            "Leine endet unter der Traufkante (" + side + "), y=" + end[1]);
+                    double stakeZ = e.getAsJsonObject("rotation")
+                            .getAsJsonArray("origin")
+                            .get(2)
+                            .getAsDouble();
+                    if (side.contains("front")) {
+                        // Eingangsecke: Ansatz am Giebelende der Traufe, Hering schräg davor
+                        assertTrue(
+                                end[2] > 16 && stakeZ > end[2] + 3, "Eck-Leine läuft schräg nach vorn (" + side + ")");
+                    } else if (side.contains("corner")) {
+                        assertTrue(
+                                end[2] < 0 && stakeZ < end[2] - 3, "Eck-Leine läuft schräg nach hinten (" + side + ")");
+                    } else {
+                        assertEquals(stakeZ, end[2], 0.01, "mittlere Leine spannt gerade zur Seite (" + side + ")");
+                    }
                 }
                 if (text.contains("#stake") || text.contains("#rope")) {
                     assertFalse(text.contains("tintindex"), "Hering und Leine bleiben ungefärbt (" + side + ")");
@@ -2113,10 +2331,8 @@ public class ExplorerTentLogicTest {
     void testChestOpenVariantsAndLidModel() throws Exception {
         net.minecraft.SharedConstants.tryDetectVersion();
         net.minecraft.server.Bootstrap.bootStrap();
-        com.google.gson.JsonObject variants = com.google.gson.JsonParser.parseString(
-                        java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")))
-                .getAsJsonObject()
-                .getAsJsonObject("variants");
+        com.google.gson.JsonObject variants =
+                variantsOf(java.nio.file.Files.readString(GENERATED.resolve("blockstates/tent_chest.json")));
         for (String facing : new String[] {"north", "east", "south", "west"}) {
             assertEquals(
                     "mc3ver:block/tent_chest_right",
