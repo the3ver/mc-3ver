@@ -31,13 +31,15 @@ public class TentFurnaceBlock extends AbstractFurnaceBlock {
 
     public TentFurnaceBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(TentCanvasBlock.COLOR, DyeColor.WHITE));
+        this.registerDefaultState(this.defaultBlockState()
+                .setValue(TentCanvasBlock.COLOR, DyeColor.WHITE)
+                .setValue(TentCanvasBlock.GUY_LINE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(TentCanvasBlock.COLOR);
+        builder.add(TentCanvasBlock.COLOR, TentCanvasBlock.GUY_LINE);
     }
 
     public static Direction getFrontDirection(Direction tentFacing) {

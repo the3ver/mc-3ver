@@ -4,10 +4,32 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
-## [0.10.1] - 2026-11-05
+## [0.12.0] - 2026-11-07
+
+### ✨ Neu hinzugefügt
+* **Schallschwert:** Lila-schwarz-pinkes Schwert mit 8,5 Schaden. Rezept: Diamantschwert in der Mitte, Amethyst-Scherben darüber und darunter, 6 Obsidian an den Seiten.
+  * **Schallwelle:** Rechtsklick halten und loslassen. Mobs im Umkreis von 3 bis 6 Blöcken nehmen 1,5 bis 4 Schaden und sind 1 bis 3 Sekunden gelähmt.
+  * **Schallstrahl:** Linksklick halten und loslassen. Alles auf einer Linie von 8 bis 16 Blöcken nimmt 1 bis 2 Schaden und fliegt weit weg. Ein kurzer Klick bleibt ein normaler Schwerthieb.
+  * Beide feuern erst nach einer halben Sekunde Aufladen und kosten 1 Haltbarkeit. Ein Balken unter dem Fadenkreuz zeigt die Ladung. Mit dem Schwert in der Hand baut man keine Blöcke ab.
+
+### 🔧 Intern
+* Neuer Client-Gametest `SonicSwordClientGameTest` drückt echte Tasten und prüft Strahl, Welle und dass Blöcke stehen bleiben.
+
+## [0.11.0] - 2026-11-07
 
 ### 🔄 Geändert
-* **Fabric API:** Auf 0.165.2 für Minecraft 26.3 aktualisiert.
+* **Form des Entdeckerzelts:** Das Zelt hat jetzt niedrige Seitenwände und ein steiles Satteldach mit spitzem First und überstehender Traufe, wie ein klassisches Leinwandzelt. Der First ragt einen halben Block über das Zelt hinaus, deshalb muss über der Mittelreihe ein dritter Block frei sein. Die Laterne hängt am First über Kopfhöhe.
+* **Abspannleinen:** Auf jeder Zeltseite spannen vier Leinen von der Traufe zu Holzheringen im Boden, statt bisher je eine an den Ecken. Die beiden mittleren laufen gerade zur Seite, die an den Ecken schräg vom Zelt weg. Vorn und hinten führt je eine Leine vom Firstende zu einem Hering vor bzw. hinter dem Zelt. Findet ein Hering beim Aufstellen keinen Boden oder steht dort ein Block, entfällt diese Leine, statt in der Luft zu schweben.
+* **Rückwand des Zelts:** Die Rückwand steht jetzt an der hinteren Außenkante, das Dach ragt vorn und hinten nur noch knapp über die Giebel. Dadurch ist das Zelt innen eine Reihe länger.
+* **Kein Gitter beim Anvisieren:** Die Zeltplane und die offene Eingangsplane zeigen beim Anvisieren keinen Auswahlrahmen mehr. Bei Ofen, Truhe und Werkbank endet der Rahmen an der sichtbaren Seitenwand, statt durch das Dach zu stechen.
+
+### 🔧 Intern
+* Blockstates und Modelle des Zelts entstehen per `./gradlew runDatagen` aus Vorlagen in `src/datagen/resources/tent`; den Dachquerschnitt beschreibt `TentRoofLogic`.
+
+## [0.10.1] - 2026-11-06
+
+### 🐛 Fehlerbehebungen
+* **Name der Transportkarte:** War das Inventar beim Aufstellen einer Transportflamme voll, fiel die neue Karte zu Boden und bekam den eingegebenen Namen nicht. Jetzt erhalten auch Karten am Boden rund um die Flamme den Namen.
 
 ## [0.10.0] - 2026-11-01
 

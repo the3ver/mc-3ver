@@ -1,0 +1,206 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "canvas": "mc3ver:block/tent_canvas_roof",
+    "particle": "mc3ver:block/tent_canvas_roof",
+    "hook": "minecraft:block/iron_block",
+    "lantern": "minecraft:block/lantern"
+  },
+  "elements": [
+    {
+      "from": [
+        -8.5,
+        21,
+        7.5
+      ],
+      "to": [
+        -7.5,
+        22.5,
+        8.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            1,
+            2
+          ],
+          "texture": "#hook"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            1,
+            2
+          ],
+          "texture": "#hook"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2
+          ],
+          "texture": "#hook"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2.5,
+            2
+          ],
+          "texture": "#hook"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            1,
+            2.5
+          ],
+          "texture": "#hook"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            1,
+            2.5
+          ],
+          "texture": "#hook"
+        }
+      }
+    },
+    {
+      "from": [
+        -11,
+        13.5,
+        5
+      ],
+      "to": [
+        -5,
+        19.5,
+        11
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            2,
+            6,
+            9
+          ],
+          "texture": "#lantern"
+        },
+        "south": {
+          "uv": [
+            0,
+            2,
+            6,
+            9
+          ],
+          "texture": "#lantern"
+        },
+        "west": {
+          "uv": [
+            0,
+            2,
+            6,
+            9
+          ],
+          "texture": "#lantern"
+        },
+        "east": {
+          "uv": [
+            0,
+            2,
+            6,
+            9
+          ],
+          "texture": "#lantern"
+        },
+        "up": {
+          "uv": [
+            0,
+            9,
+            6,
+            15
+          ],
+          "texture": "#lantern"
+        },
+        "down": {
+          "uv": [
+            0,
+            9,
+            6,
+            15
+          ],
+          "texture": "#lantern"
+        }
+      }
+    },
+    {
+      "from": [
+        -10,
+        19.5,
+        6
+      ],
+      "to": [
+        -6,
+        21.0,
+        10
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            0,
+            5,
+            2
+          ],
+          "texture": "#lantern"
+        },
+        "south": {
+          "uv": [
+            1,
+            0,
+            5,
+            2
+          ],
+          "texture": "#lantern"
+        },
+        "west": {
+          "uv": [
+            1,
+            0,
+            5,
+            2
+          ],
+          "texture": "#lantern"
+        },
+        "east": {
+          "uv": [
+            1,
+            0,
+            5,
+            2
+          ],
+          "texture": "#lantern"
+        },
+        "up": {
+          "uv": [
+            1,
+            10,
+            5,
+            14
+          ],
+          "texture": "#lantern"
+        }
+      }
+    }
+  ]
+}

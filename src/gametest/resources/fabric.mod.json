@@ -1,0 +1,12 @@
+{
+	"schemaVersion": 1,
+	"id": "mc3ver-gametest",
+	"version": "1.0.0",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-client-gametest": [
+			"net.frank.mc3ver.gametest.GalleryScreenshotClientGameTest",
+			"net.frank.mc3ver.gametest.SonicSwordClientGameTest"
+		]
+	}
+}

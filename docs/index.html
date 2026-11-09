@@ -86,7 +86,7 @@
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
           <span data-i18n="hero.btn.download">Neueste Version laden</span>
-          <span class="version-tag" id="releaseVersionTag">v0.10.0</span>
+          <span class="version-tag" id="releaseVersionTag">v0.12.0</span>
         </a>
 
         <a href="#features" class="btn btn-secondary btn-lg" id="heroInstallBtn">
@@ -152,6 +152,18 @@
           <h3 class="feature-title" data-i18n="features.lightning.title">⚡ Kettenblitzstab</h3>
           <p class="feature-text" data-i18n="features.lightning.desc">
             Hold-to-Charge für bis zu 24 Schaden, springt auf bis zu 4 weitere Ziele über, lädt Creeper mit elektrischem Schild auf und setzt brennbare Blöcke in Brand.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/>
+            </svg>
+          </div>
+          <h3 class="feature-title" data-i18n="features.sonic.title">🔊 Schallschwert</h3>
+          <p class="feature-text" data-i18n="features.sonic.desc">
+            Schwert mit 8,5 Schaden. Rechtsklick halten lädt eine Schallwelle, die Mobs ringsum bis zu 3 Sekunden lähmt. Linksklick halten lädt einen Schallstrahl, der wenig Schaden macht, aber alles weit wegschleudert.
           </p>
         </div>
 
@@ -230,7 +242,7 @@
           </div>
           <h3 class="feature-title" data-i18n="features.tent.title">🏕️ Mobiles Entdeckerzelt</h3>
           <p class="feature-text" data-i18n="features.tent.desc">
-            Schnell auf- und abbaubares Zelt mit Schlafsack, Werkbank, Ofen mit Ofenrohr, Truhe, Laterne und Eingangsplane. In 16 Wollfarben herstell- &amp; umfärbbar.
+            Schnell auf- und abbaubares Leinwandzelt mit steilem Satteldach und Abspannleinen. Drinnen Schlafsack, Werkbank, Ofen mit Ofenrohr, Truhe, Laterne und Eingangsplane. In 16 Wollfarben herstell- &amp; umfärbbar.
           </p>
         </div>
 
@@ -424,6 +436,53 @@
           <div class="recipe-ingredients-summary">
             <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
             <span data-i18n="recipes.lightning.ingredients">1x Blitzableiter, 2x Amethyst-Scherbe, 1x Kupferbarren, 1x Stock</span>
+          </div>
+        </div>
+
+        <!-- Recipe: Sonic Sword -->
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <div class="recipe-title-group">
+              <h3 class="recipe-name" data-i18n="recipes.sonic.name">🔊 Schallschwert</h3>
+              <span class="recipe-badge" data-i18n="recipes.badge.shaped">Geformt</span>
+            </div>
+            <p class="recipe-desc" data-i18n="recipes.sonic.desc">Rechtsklick halten: Schallwelle lähmt Mobs. Linksklick halten: Schallstrahl schleudert sie weg. 8,5 Schaden im Nahkampf.</p>
+          </div>
+
+          <div class="crafting-table-ui">
+            <div class="crafting-grid-3x3">
+              <div class="grid-slot filled" title="Obsidian / Obsidian"><img src="assets/obsidian.png" class="item-img" alt="Obsidian"></div>
+              <div class="grid-slot filled highlight" title="Amethyst-Scherbe / Amethyst Shard"><img src="assets/amethyst_shard.png" class="item-img" alt="Amethyst-Scherbe"></div>
+              <div class="grid-slot filled" title="Obsidian / Obsidian"><img src="assets/obsidian.png" class="item-img" alt="Obsidian"></div>
+
+              <div class="grid-slot filled" title="Obsidian / Obsidian"><img src="assets/obsidian.png" class="item-img" alt="Obsidian"></div>
+              <div class="grid-slot filled highlight" title="Diamantschwert / Diamond Sword"><img src="assets/diamond_sword.png" class="item-img" alt="Diamantschwert"></div>
+              <div class="grid-slot filled" title="Obsidian / Obsidian"><img src="assets/obsidian.png" class="item-img" alt="Obsidian"></div>
+
+              <div class="grid-slot filled" title="Obsidian / Obsidian"><img src="assets/obsidian.png" class="item-img" alt="Obsidian"></div>
+              <div class="grid-slot filled highlight" title="Amethyst-Scherbe / Amethyst Shard"><img src="assets/amethyst_shard.png" class="item-img" alt="Amethyst-Scherbe"></div>
+              <div class="grid-slot filled" title="Obsidian / Obsidian"><img src="assets/obsidian.png" class="item-img" alt="Obsidian"></div>
+            </div>
+
+            <div class="crafting-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <div class="crafting-result-slot">
+              <div class="grid-slot result-slot" title="Schallschwert">
+                <img src="assets/sonic_sword.png" class="item-img" alt="Schallschwert">
+                <span class="result-count">1</span>
+              </div>
+              <span class="result-label" data-i18n="recipes.sonic.result">Schallschwert</span>
+            </div>
+          </div>
+
+          <div class="recipe-ingredients-summary">
+            <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
+            <span data-i18n="recipes.sonic.ingredients">1x Diamantschwert, 2x Amethyst-Scherbe, 6x Obsidian</span>
           </div>
         </div>
 
@@ -789,7 +848,7 @@
           <div class="step-content">
             <h3 class="step-title" data-i18n="install.step2.title">WorldExplorerMod herunterladen</h3>
             <p class="step-text" data-i18n-html="install.step2.desc">
-              Lade die Datei <code class="code-badge">mc-3ver-0.10.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
+              Lade die Datei <code class="code-badge">mc-3ver-0.12.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
             </p>
             <a href="https://modrinth.com/mod/worldexplorermod" target="_blank" rel="noopener noreferrer" class="link-btn" data-i18n-html="install.step2.btn">
               Zu den Releases &rarr;

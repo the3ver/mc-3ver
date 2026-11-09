@@ -1,0 +1,136 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#bed",
+          "uv": [
+            1,
+            0,
+            15,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#bed",
+          "uv": [
+            0,
+            13,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#bed",
+          "uv": [
+            1,
+            13,
+            15,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#bed",
+          "uv": [
+            1,
+            13,
+            15,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#bed",
+          "uv": [
+            1,
+            0,
+            15,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#bed",
+          "uv": [
+            0,
+            13,
+            16,
+            16
+          ]
+        }
+      },
+      "from": [
+        1,
+        0,
+        0
+      ],
+      "to": [
+        15,
+        3,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "east": {
+          "texture": "#bed",
+          "uv": [
+            0,
+            0,
+            9,
+            3
+          ]
+        },
+        "north": {
+          "texture": "#bed",
+          "uv": [
+            2,
+            0,
+            14,
+            3
+          ]
+        },
+        "south": {
+          "texture": "#bed",
+          "uv": [
+            2,
+            0,
+            14,
+            3
+          ]
+        },
+        "up": {
+          "texture": "#bed",
+          "uv": [
+            2,
+            0,
+            14,
+            6
+          ]
+        },
+        "west": {
+          "texture": "#bed",
+          "uv": [
+            0,
+            0,
+            9,
+            3
+          ]
+        }
+      },
+      "from": [
+        2,
+        3,
+        6
+      ],
+      "to": [
+        14,
+        6,
+        15
+      ]
+    }
+  ],
+  "textures": {
+    "bed": "mc3ver:block/tent_sleeping_bag",
+    "particle": "mc3ver:block/tent_sleeping_bag"
+  }
+}

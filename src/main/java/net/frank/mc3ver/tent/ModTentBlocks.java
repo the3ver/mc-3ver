@@ -124,7 +124,8 @@ public class ModTentBlocks {
 
     private static final Set<BlockPos> DISMANTLING_IN_PROGRESS = new HashSet<>();
 
-    public static BlockState stateFor(ExplorerTentLogic.TentPart part, Direction facing, DyeColor color) {
+    public static BlockState stateFor(
+            ExplorerTentLogic.TentPart part, Direction facing, DyeColor color, boolean guyLine) {
         BlockState state = switch (part) {
             case AIR -> null;
             case POLE -> TENT_POLE.defaultBlockState().setValue(TentPoleBlock.FACING, facing);
@@ -151,6 +152,9 @@ public class ModTentBlocks {
         };
         if (state != null && state.hasProperty(TentCanvasBlock.COLOR)) {
             state = state.setValue(TentCanvasBlock.COLOR, color);
+        }
+        if (state != null && state.hasProperty(TentCanvasBlock.GUY_LINE)) {
+            state = state.setValue(TentCanvasBlock.GUY_LINE, guyLine);
         }
         return state;
     }

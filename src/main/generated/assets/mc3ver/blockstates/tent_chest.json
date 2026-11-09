@@ -1,0 +1,121 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right"
+      },
+      "when": {
+        "facing": "north",
+        "open": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right_open"
+      },
+      "when": {
+        "facing": "north",
+        "open": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "open": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right_open",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "open": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "open": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right_open",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "open": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "open": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_chest_right_open",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "open": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right"
+      },
+      "when": {
+        "facing": "north",
+        "guy_line": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "guy_line": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "guy_line": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "mc3ver:block/tent_guy_line_right",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "guy_line": "true"
+      }
+    }
+  ]
+}

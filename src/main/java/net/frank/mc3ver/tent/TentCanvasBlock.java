@@ -1,6 +1,9 @@
 package net.frank.mc3ver.tent;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -20,6 +23,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -80,6 +84,8 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<CanvasPart> PART = EnumProperty.create("part", CanvasPart.class);
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
+    /** Ob die Abspannleine dieser Zelle gezeichnet wird; aus, wenn ihr Hering beim Aufstellen keinen Boden fand. */
+    public static final BooleanProperty GUY_LINE = BooleanProperty.create("guy_line");
 
     protected static final VoxelShape SHAPE_ROOF_PLANE = Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 16.0);
 
@@ -92,10 +98,63 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     // ~3 Pixel um ihren Mittelpunkt, durch die nur 2 Pixel dicke Plane also nach innen. Für Abfragen ohne
     // Entity (Partikel, Regen) bekommt jedes Dachteil deshalb eine Kappe 4 Pixel über der Oberkante.
     private static final VoxelShape RAIN_CAP = Block.box(0.0, 16.0, 0.0, 16.0, 20.0, 16.0);
+    private static final double RAIN_LIFT = 4.0;
+
+    // Mittelzellen: der First liegt bis zu einen halben Block über der Zelle, die Kappe folgt der Dachlinie
+    private static final Map<Direction, VoxelShape> RIDGE_RAIN_CAP = byOuterSide(outer -> {
+        VoxelShape cap = Shapes.empty();
+        for (int d = 0; d < 16; d++) {
+            double roof = Math.max(TentRoofLogic.roofTopAt(16 + d), TentRoofLogic.roofTopAt(17 + d)) - 16;
+            cap = Shapes.or(cap, slab(outer, d, d + 1, 16.0, Math.ceil(roof + RAIN_LIFT)));
+        }
+        return cap;
+    });
+
+    // Seitliche Dachzellen: alles über der Dachlinie ist fest, damit man außen auf dem Dach steht und nicht hineinläuft
+    private static final Map<Direction, VoxelShape> ROOF_SLOPE = byOuterSide(outer -> {
+        VoxelShape slope = Shapes.empty();
+        for (int d = 0; d < 16; d++) {
+            double roof = Math.min(TentRoofLogic.roofTopAt(d), TentRoofLogic.roofTopAt(d + 1)) - 16;
+            double bottom = Math.clamp(Math.floor(roof - TentRoofLogic.THICKNESS), 0.0, 15.0);
+            slope = Shapes.or(slope, slab(outer, d, d + 1, bottom, 16.0));
+        }
+        return slope;
+    });
+
+    // Seitenwände (links, rechts) sind nur so hoch wie sichtbar; darüber liegt die Dachschräge. Mit voller Blockhöhe
+    // stächen Kollision und Auswahlrahmen durchs Dach.
+    private static final Map<Direction, VoxelShape> LONG_WALL =
+            byOuterSide(side -> slab(side, 0.0, 2.0, 0.0, TentRoofLogic.WALL_HEIGHT));
+
+    /** Seitenwand an der Kante {@code side}, in sichtbarer Wandhöhe. */
+    public static VoxelShape getLongWallShape(Direction side) {
+        return LONG_WALL.getOrDefault(side, Shapes.block());
+    }
 
     public static VoxelShape getRainShape(CanvasPart part, Direction facing) {
         VoxelShape shape = getWallShape(part, facing);
-        return part.name().startsWith("ROOF_") ? Shapes.or(shape, RAIN_CAP) : shape;
+        return switch (part) {
+            case ROOF_RIDGE, ROOF_FRONT, ROOF_BACK ->
+                Shapes.or(shape, RIDGE_RAIN_CAP.get(facing.getCounterClockWise()));
+            default -> part.name().startsWith("ROOF_") ? Shapes.or(shape, RAIN_CAP) : shape;
+        };
+    }
+
+    private static Map<Direction, VoxelShape> byOuterSide(Function<Direction, VoxelShape> build) {
+        Map<Direction, VoxelShape> shapes = new EnumMap<>(Direction.class);
+        for (Direction dir : Direction.Plane.HORIZONTAL) shapes.put(dir, build.apply(dir));
+        return shapes;
+    }
+
+    /** Streifen über die ganze Zeltlänge, d0..d1 Pixel von der Seite {@code from} entfernt. */
+    private static VoxelShape slab(Direction from, double d0, double d1, double y0, double y1) {
+        return switch (from) {
+            case WEST -> Block.box(d0, y0, 0.0, d1, y1, 16.0);
+            case EAST -> Block.box(16.0 - d1, y0, 0.0, 16.0 - d0, y1, 16.0);
+            case NORTH -> Block.box(0.0, y0, d0, 16.0, y1, d1);
+            case SOUTH -> Block.box(0.0, y0, 16.0 - d1, 16.0, y1, 16.0 - d0);
+            default -> Shapes.block();
+        };
     }
 
     public static int lightEmission(CanvasPart part) {
@@ -105,26 +164,37 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     public static VoxelShape getWallShape(CanvasPart part, Direction facing) {
         Direction leftDir = facing.getCounterClockWise();
         Direction rightDir = facing.getClockWise();
-        Direction backDir = facing.getOpposite();
 
-        VoxelShape leftShape = getSideShape(leftDir);
-        VoxelShape rightShape = getSideShape(rightDir);
-        VoxelShape backShape = getSideShape(backDir);
+        VoxelShape leftShape = getLongWallShape(leftDir);
+        VoxelShape rightShape = getLongWallShape(rightDir);
+        // Das Zelt steht in Blickrichtung (facing) des Spielers: der Eingangsgiebel der vorderen Reihe liegt an der
+        // Kante gegen facing, die Rückwand der hinteren Reihe an der Kante in facing-Richtung
+        VoxelShape entranceShape = getEntranceShape(facing);
+        VoxelShape rearShape = getSideShape(facing);
 
         return switch (part) {
             case WALL_LEFT -> leftShape;
             case WALL_RIGHT -> rightShape;
             case WALL_CRAFTING_TABLE_RIGHT -> Shapes.or(rightShape, getTableShape(rightDir));
-            case WALL_BACK, ROOF_BACK -> backShape;
-            case WALL_FRONT_LEFT, WALL_CORNER_LEFT -> Shapes.or(leftShape, backShape);
-            case WALL_FRONT_RIGHT, WALL_CORNER_RIGHT -> Shapes.or(rightShape, backShape);
+            case WALL_BACK, ROOF_BACK -> rearShape;
+            case WALL_FRONT_LEFT -> Shapes.or(leftShape, entranceShape);
+            case WALL_FRONT_RIGHT -> Shapes.or(rightShape, entranceShape);
+            case WALL_CORNER_LEFT -> Shapes.or(leftShape, rearShape);
+            case WALL_CORNER_RIGHT -> Shapes.or(rightShape, rearShape);
             case ROOF_FRONT, ROOF_RIDGE -> SHAPE_ROOF_PLANE;
             case ROOF_LEFT, ROOF_PIPE_LEFT -> getRoofSlopeShape(leftDir);
             case ROOF_RIGHT, ROOF_LANTERN_RIGHT -> getRoofSlopeShape(rightDir);
-            case ROOF_FRONT_LEFT, ROOF_CORNER_LEFT -> Shapes.or(getRoofSlopeShape(leftDir), backShape);
-            case ROOF_FRONT_RIGHT, ROOF_CORNER_RIGHT -> Shapes.or(getRoofSlopeShape(rightDir), backShape);
+            case ROOF_FRONT_LEFT -> Shapes.or(getRoofSlopeShape(leftDir), entranceShape);
+            case ROOF_FRONT_RIGHT -> Shapes.or(getRoofSlopeShape(rightDir), entranceShape);
+            case ROOF_CORNER_LEFT -> Shapes.or(getRoofSlopeShape(leftDir), rearShape);
+            case ROOF_CORNER_RIGHT -> Shapes.or(getRoofSlopeShape(rightDir), rearShape);
             default -> Shapes.block();
         };
+    }
+
+    /** Außenkante der vorderen Reihe, an der Eingangsgiebel und Eingangsplane stehen. */
+    public static VoxelShape getEntranceShape(Direction facing) {
+        return getSideShape(facing.getOpposite());
     }
 
     static VoxelShape getTableShape(Direction rightDir) {
@@ -138,33 +208,7 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
     }
 
     public static VoxelShape getRoofSlopeShape(Direction outerDir) {
-        return switch (outerDir) {
-            case WEST ->
-                Shapes.or(
-                        Block.box(0.0, 0.0, 0.0, 3.0, 16.0, 16.0),
-                        Block.box(3.0, 6.0, 0.0, 7.0, 16.0, 16.0),
-                        Block.box(7.0, 10.0, 0.0, 11.0, 16.0, 16.0),
-                        Block.box(11.0, 14.0, 0.0, 16.0, 16.0, 16.0));
-            case EAST ->
-                Shapes.or(
-                        Block.box(13.0, 0.0, 0.0, 16.0, 16.0, 16.0),
-                        Block.box(9.0, 6.0, 0.0, 13.0, 16.0, 16.0),
-                        Block.box(5.0, 10.0, 0.0, 9.0, 16.0, 16.0),
-                        Block.box(0.0, 14.0, 0.0, 5.0, 16.0, 16.0));
-            case NORTH ->
-                Shapes.or(
-                        Block.box(0.0, 0.0, 0.0, 16.0, 16.0, 3.0),
-                        Block.box(0.0, 6.0, 3.0, 16.0, 16.0, 7.0),
-                        Block.box(0.0, 10.0, 7.0, 16.0, 16.0, 11.0),
-                        Block.box(0.0, 14.0, 11.0, 16.0, 16.0, 16.0));
-            case SOUTH ->
-                Shapes.or(
-                        Block.box(0.0, 0.0, 13.0, 16.0, 16.0, 16.0),
-                        Block.box(0.0, 6.0, 9.0, 16.0, 16.0, 13.0),
-                        Block.box(0.0, 10.0, 5.0, 16.0, 16.0, 9.0),
-                        Block.box(0.0, 14.0, 0.0, 16.0, 16.0, 5.0));
-            default -> Shapes.block();
-        };
+        return ROOF_SLOPE.getOrDefault(outerDir, Shapes.block());
     }
 
     private static VoxelShape getSideShape(Direction dir) {
@@ -183,12 +227,13 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
                 .any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(PART, CanvasPart.WALL_LEFT)
-                .setValue(COLOR, DyeColor.WHITE));
+                .setValue(COLOR, DyeColor.WHITE)
+                .setValue(GUY_LINE, true));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, PART, COLOR);
+        builder.add(FACING, PART, COLOR, GUY_LINE);
     }
 
     @Override
@@ -207,6 +252,14 @@ public class TentCanvasBlock extends HorizontalDirectionalBlock {
 
     public static boolean hasMenuProvider(CanvasPart part) {
         return part == CanvasPart.WALL_CRAFTING_TABLE_RIGHT;
+    }
+
+    /**
+     * Ob der Auswahlrahmen beim Anvisieren gezeichnet wird. Die Kollisionskästen der Plane passen nicht zu den
+     * schrägen Dachflächen und erscheinen als Gitter auf dem Zelt; nur die Werkbank zeigt, dass man sie benutzen kann.
+     */
+    public static boolean showsOutline(CanvasPart part) {
+        return hasMenuProvider(part);
     }
 
     public static MenuProvider createCraftingMenuProvider(Level level, BlockPos pos) {

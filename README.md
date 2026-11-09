@@ -47,7 +47,7 @@
 
 #### Schritt 3: WorldExplorerMod herunterladen
 1. Gehe zu den [GitHub Releases von WorldExplorerMod](https://github.com/the3ver/mc-3ver/releases/latest).
-2. Lade die Datei `mc-3ver-0.10.0.jar` herunter.
+2. Lade die Datei `mc-3ver-0.12.0.jar` herunter.
 
 #### Schritt 4: Dateien in den Mods-Ordner legen
 1. Öffne das Minecraft-Verzeichnis auf deinem Computer:
@@ -55,7 +55,7 @@
    - **macOS:** Öffne den Finder, drücke `Cmd + Shift + G`, tippe `~/Library/Application Support/minecraft` ein.
    - **Linux:** Navigiere zu `~/.minecraft`.
 2. Öffne den Ordner `mods` (falls er noch nicht existiert, erstelle einfach einen neuen Ordner mit dem Namen `mods`).
-3. Kopiere die **`fabric-api-...jar`**, die **`TerraBlender-fabric-...jar`** und die **`mc-3ver-0.10.0.jar`** in diesen `mods`-Ordner.
+3. Kopiere die **`fabric-api-...jar`**, die **`TerraBlender-fabric-...jar`** und die **`mc-3ver-0.12.0.jar`** in diesen `mods`-Ordner.
 
 #### Schritt 5: Spiel starten
 1. Starte den offiziellen **Minecraft Launcher**.
@@ -71,7 +71,7 @@
    - Wähle Modloader: `Fabric` (aktuelle Version)
 2. **Mods hinzufügen:**
    - Installiere **Fabric API** und **TerraBlender** über den integrierten Mod-Download-Manager des Launchers.
-   - Ziehe die heruntergeladene `mc-3ver-0.10.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
+   - Ziehe die heruntergeladene `mc-3ver-0.12.0.jar` per Drag & Drop in den Mods-Bereich der Instanz.
 3. **Instanz starten.**
 
 ---
@@ -79,7 +79,7 @@
 ### Variante C: Dedizierter Server (Multiplayer)
 
 1. Richte einen Minecraft 26.3 Fabric-Server ein.
-2. Platziere `fabric-api-...jar`, `TerraBlender-fabric-...jar` und `mc-3ver-0.10.0.jar` im `mods/`-Ordner auf dem Server. Spieler brauchen TerraBlender auch im Client.
+2. Platziere `fabric-api-...jar`, `TerraBlender-fabric-...jar` und `mc-3ver-0.12.0.jar` im `mods/`-Ordner auf dem Server. Spieler brauchen TerraBlender auch im Client.
 3. Starte den Server mit `java -Xmx4G -jar fabric-server-launch.jar nogui`.
 
 ---
@@ -111,6 +111,12 @@
 * **🌪️ Windstab (Wind Wand):**
   * Verschiesst Windstöße, die feindliche Mobs und Projektile mit starkem Rückstoß zurückschleudern.
   * Geformt oder formlos in der Werkbank craftbar.
+* **🔊 Schallschwert (Sonic Sword):**
+  * Lila-schwarz-pinkes Schwert mit **8,5 Schaden**.
+  * **Schallwelle:** Rechtsklick halten und loslassen lähmt Mobs im Umkreis von bis zu 6 Blöcken für bis zu 3 Sekunden (bis 4 Schaden).
+  * **Schallstrahl:** Linksklick halten und loslassen schleudert alles auf einer Linie von bis zu 16 Blöcken weit weg (wenig Schaden). Ein kurzer Klick bleibt ein normaler Hieb.
+  * Ladebalken unter dem Fadenkreuz; mit dem Schwert in der Hand baut man keine Blöcke ab.
+  * **Crafting:** 1 Diamantschwert, 2 Amethyst-Scherben, 6 Obsidian (geformt).
 * **🌳 Birnbaum & Birnenholz-Set (Pear Tree & Wood Set):**
   * Neuer Baumtyp mit eigenen Holzblöcken, Blättern und optisch unterscheidbaren Setzlingen.
   * Vollwertiges Holz-Bauset im Schweizer Birnbaum-Design: Treppen, Stufen, Zäune, Tore, Türen mit Glaseinsatz, Falltüren, Druckplatten, Knöpfe sowie Birnenholzboote und Birnenholztruhenboote.
@@ -140,7 +146,9 @@
   * **Crafting:** Lagerfeuer in der Mitte, Holzstämme in den Ecken, Kohle oder Holzkohle an den Seiten.
 * **🏕️ Mobiles Entdeckerzelt (Mobile Explorer Tent):**
   * Tragbares 3x4-Zelt mit Schlafsack, Werkbank am Kopfende sowie Ofen und Truhe am Fußende.
-  * Ofenrohr mit Rauch, hängende Laterne, Eingangsplane zum Öffnen und Schließen, Heringe mit Abspannleinen und ein flatternder Wimpel.
+  * Form eines klassischen Leinwandzelts: niedrige Seitenwände, steiles Satteldach mit spitzem First, das vorn und hinten knapp über die Giebel ragt. Der First reicht einen halben Block über das Zelt, über der Mittelreihe muss deshalb ein dritter Block frei sein.
+  * Ofenrohr mit Rauch, Laterne am First, Eingangsplane zum Öffnen und Schließen und ein flatternder Wimpel.
+  * Zehn Abspannleinen mit Holzheringen: vier je Seite (an den Ecken schräg), dazu je eine vom Firstende vorn und hinten. Findet ein Hering beim Aufstellen keinen Boden, entfällt seine Leine.
   * Der Truheninhalt wandert beim Einpacken ins Zelt-Item und kommt beim Aufbau zurück, auch nach dem Umfärben.
   * In allen 16 Wollfarben herstellbar und mit beliebigem Farbstoff im Crafting-Grid umfärbbar.
   * Stehhöhe im Mittelgang, bündiger Abschluss der Wände und passgenaue Voxel-Kollisionsformen.
