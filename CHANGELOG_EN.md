@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.12.1] - 2026-11-09
 
 ### 🔄 Changed
-* **Fabric API:** Updated to 0.165.2 for Minecraft 26.3.
+* **Fabric API:** Updated to 0.166.2 for Minecraft 26.3.
 * **Fabric Loom:** Updated to 1.19.4.
 
 ## [0.12.0] - 2026-11-07
