@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.12.4] - 2026-11-25
+
+### 🎨 Geändert
+* Die Augen der Bewohnerinnen sind jetzt blassgrün statt leuchtend grün.
+
 ## [0.12.3] - 2026-11-25
 
 ### 🎨 Geändert
