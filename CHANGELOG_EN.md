@@ -4,6 +4,30 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.3] - 2026-11-25
+
+### 🎨 Changed
+* Village women, and so bakers, have bright green eyes.
+
+## [0.12.2] - 2026-11-25
+
+### ✨ Added
+* **Baker:** A new profession for village women. Her job site is the **Baking Oven** (recipe: 5 bricks on top and the sides, a furnace in the middle, 3 cobblestone at the bottom). Male villagers ignore the oven.
+  * Trades: wheat, sugar, eggs, cocoa beans and honey bottles for emeralds; bread, pears, cookies, pumpkin pie, cake, pear cake and golden pears for emeralds.
+* **Pear Cake:** Restores 8 hunger. Recipe: 3 pears on top, sugar, egg, sugar in the middle, 3 wheat at the bottom. Master bakers sell it too.
+
+### 🔧 Internal
+* New client game test `BakerClientGameTest`: a man next to the oven stays unemployed, a woman becomes a baker and offers baker trades.
+
+## [0.12.1] - 2026-11-25
+
+### ✨ Added
+* **Village women:** Half of all villagers are now female, with their own face, long hair, a braid with a hair ribbon and a skirt. This includes babies and villagers in existing worlds. The UUID decides who is female; zombification and curing keep it.
+
+### 🔧 Internal
+* Resource tests share the `TestResources` helper.
+* New client game test `VillagerWomanClientGameTest` checks the flag, its sync to the client and curing.
+
 ## [0.12.0] - 2026-11-07
 
 ### ✨ Added

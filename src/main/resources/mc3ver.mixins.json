@@ -3,7 +3,9 @@
 	"package": "net.frank.mc3ver.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"PacifistPlayerMixin"
+		"AcquirePoiMixin",
+		"PacifistPlayerMixin",
+		"YieldJobSiteMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

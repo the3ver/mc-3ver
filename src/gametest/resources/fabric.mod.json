@@ -6,7 +6,9 @@
 	"entrypoints": {
 		"fabric-client-gametest": [
 			"net.frank.mc3ver.gametest.GalleryScreenshotClientGameTest",
-			"net.frank.mc3ver.gametest.SonicSwordClientGameTest"
+			"net.frank.mc3ver.gametest.SonicSwordClientGameTest",
+			"net.frank.mc3ver.gametest.VillagerWomanClientGameTest",
+			"net.frank.mc3ver.gametest.BakerClientGameTest"
 		]
 	}
 }

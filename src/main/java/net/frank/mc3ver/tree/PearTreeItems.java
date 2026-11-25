@@ -69,6 +69,19 @@ public class PearTreeItems {
                     .food(GOLDEN_PEAR_FOOD, GOLDEN_PEAR_CONSUMABLE)
                     .rarity(Rarity.RARE)));
 
+    public static final ResourceKey<Item> PEAR_CAKE_KEY =
+            ResourceKey.create(Registries.ITEM, Mc3verMod.id("pear_cake"));
+
+    public static final FoodProperties PEAR_CAKE_FOOD = new FoodProperties.Builder()
+            .nutrition(PearTreeLogic.PEAR_CAKE_NUTRITION)
+            .saturationModifier(PearTreeLogic.PEAR_CAKE_SATURATION_MODIFIER)
+            .build();
+
+    public static final Item PEAR_CAKE = Registry.register(
+            BuiltInRegistries.ITEM,
+            PEAR_CAKE_KEY,
+            new Item(new Item.Properties().setId(PEAR_CAKE_KEY).food(PEAR_CAKE_FOOD)));
+
     public static final ResourceKey<Item> PEAR_BOAT_KEY =
             ResourceKey.create(Registries.ITEM, Mc3verMod.id("pear_boat"));
 

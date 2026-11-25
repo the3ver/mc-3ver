@@ -4,6 +4,30 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.12.3] - 2026-11-25
+
+### 🎨 Geändert
+* Bewohnerinnen und damit Bäckerinnen haben leuchtend grüne Augen.
+
+## [0.12.2] - 2026-11-25
+
+### ✨ Neu hinzugefügt
+* **Bäckerin:** Neuer Beruf für Bewohnerinnen. Arbeitsplatz ist der **Backofen** (Rezept: 5 Ziegelsteine oben und an den Seiten, Ofen in der Mitte, 3 Bruchstein unten). Männliche Dorfbewohner lassen den Ofen links liegen.
+  * Handel: Weizen, Zucker, Eier, Kakaobohnen und Honigflaschen gegen Smaragde; Brot, Birnen, Kekse, Kürbiskuchen, Kuchen, Birnenkuchen und Goldene Birnen gegen Smaragde.
+* **Birnenkuchen:** Füllt 8 Hunger. Rezept: 3 Birnen oben, Zucker, Ei, Zucker in der Mitte, 3 Weizen unten. Meister-Bäckerinnen verkaufen ihn auch.
+
+### 🔧 Intern
+* Neuer Client-Gametest `BakerClientGameTest`: Ein Bewohner neben dem Backofen bleibt arbeitslos, eine Bewohnerin wird Bäckerin und bietet Bäcker-Trades an.
+
+## [0.12.1] - 2026-11-25
+
+### ✨ Neu hinzugefügt
+* **Bewohnerinnen:** Die Hälfte aller Dorfbewohner ist jetzt weiblich, mit eigenem Gesicht, langem Haar, Zopf mit Haarband und Rock. Das gilt auch für Babys und für Dorfbewohner in bestehenden Welten. Wer Bewohnerin ist, legt die UUID fest; Zombifizierung und Heilung ändern daran nichts.
+
+### 🔧 Intern
+* Ressourcentests teilen sich die Testhilfe `TestResources`.
+* Neuer Client-Gametest `VillagerWomanClientGameTest` prüft Flag, Synchronisation zum Client und Heilung.
+
 ## [0.12.0] - 2026-11-07
 
 ### ✨ Neu hinzugefügt

@@ -1,21 +1,13 @@
 package net.frank.mc3ver.friend;
 
+import static net.frank.mc3ver.TestResources.image;
+import static net.frank.mc3ver.TestResources.json;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 
 public class FriendStoneResourcesTest {
-
-    private static final Path RESOURCES = Paths.get("").toAbsolutePath().resolve("src/main/resources");
-
-    private static JsonObject json(String path) throws Exception {
-        return JsonParser.parseString(Files.readString(RESOURCES.resolve(path))).getAsJsonObject();
-    }
 
     @Test
     void recipeMakesTwoStonesFromAmethystAndAnEnderPearl() throws Exception {
@@ -51,9 +43,7 @@ public class FriendStoneResourcesTest {
     @Test
     void bothTexturesAre16x16WithHardAlpha() throws Exception {
         for (String name : new String[] {"friendship_stone", "friendship_stone_bound"}) {
-            java.awt.image.BufferedImage img = javax.imageio.ImageIO.read(RESOURCES
-                    .resolve("assets/mc3ver/textures/item/" + name + ".png")
-                    .toFile());
+            java.awt.image.BufferedImage img = image("assets/mc3ver/textures/item/" + name + ".png");
             assertEquals(16, img.getWidth(), name);
             assertEquals(16, img.getHeight(), name);
             for (int y = 0; y < 16; y++) {

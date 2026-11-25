@@ -1,21 +1,15 @@
 package net.frank.mc3ver.bonfire;
 
+import static net.frank.mc3ver.TestResources.RESOURCES;
+import static net.frank.mc3ver.TestResources.image;
+import static net.frank.mc3ver.TestResources.json;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 
 public class BonfireResourcesTest {
-
-    private static final Path RESOURCES = Paths.get("").toAbsolutePath().resolve("src/main/resources");
-
-    private static JsonObject json(String path) throws Exception {
-        return JsonParser.parseString(Files.readString(RESOURCES.resolve(path))).getAsJsonObject();
-    }
 
     @Test
     void blockstateCoversEveryPartLitAndUnlit() throws Exception {
@@ -89,13 +83,10 @@ public class BonfireResourcesTest {
 
     @Test
     void texturesExist() throws Exception {
-        java.awt.image.BufferedImage item = javax.imageio.ImageIO.read(
-                RESOURCES.resolve("assets/mc3ver/textures/item/bonfire.png").toFile());
+        java.awt.image.BufferedImage item = image("assets/mc3ver/textures/item/bonfire.png");
         assertEquals(16, item.getWidth());
         assertEquals(16, item.getHeight());
-        java.awt.image.BufferedImage smoke = javax.imageio.ImageIO.read(RESOURCES
-                .resolve("assets/mc3ver/textures/entity/bonfire_smoke.png")
-                .toFile());
+        java.awt.image.BufferedImage smoke = image("assets/mc3ver/textures/entity/bonfire_smoke.png");
         // 2x2 Wolken, Ränder durchsichtig, damit beim Ausschneiden nichts aus der Nachbarwolke blutet
         assertEquals(64, smoke.getWidth());
         assertEquals(64, smoke.getHeight());

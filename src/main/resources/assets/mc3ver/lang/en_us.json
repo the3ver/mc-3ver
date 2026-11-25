@@ -115,5 +115,8 @@
   "direction.mc3ver.north_west": "NW",
   "dimension.mc3ver.overworld": "Overworld",
   "dimension.mc3ver.the_nether": "Nether",
-  "dimension.mc3ver.the_end": "End"
+  "dimension.mc3ver.the_end": "End",
+  "block.mc3ver.baking_oven": "Baking Oven",
+  "item.mc3ver.pear_cake": "Pear Cake",
+  "entity.mc3ver.villager.baker": "Baker"
 }

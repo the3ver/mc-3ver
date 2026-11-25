@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PPP",
+    "SES",
+    "WWW"
+  ],
+  "key": {
+    "P": "mc3ver:pear",
+    "S": "minecraft:sugar",
+    "E": "minecraft:egg",
+    "W": "minecraft:wheat"
+  },
+  "result": {
+    "id": "mc3ver:pear_cake",
+    "count": 1
+  }
+}
