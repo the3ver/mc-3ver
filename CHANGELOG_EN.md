@@ -4,6 +4,16 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.5] - 2026-11-25
+
+### ✨ Added
+* **Bakery:** Villages of all five types (plains, desert, savanna, snowy, taiga) can now have a bakery, as often as a butcher shop. Inside: baking oven with a brick chimney, counter, barrels, hay bales and a chest with bread, wheat, cookies, pears and sometimes pear cake. An unemployed village woman from the village becomes its baker.
+* To try it: `/place template mc3ver:village/plains/houses/plains_bakery` (or `desert`, `savanna`, `snowy`, `taiga` instead of `plains`).
+
+### 🔧 Internal
+* `BakeryLayoutLogic` describes the floor plan, datagen (`BakeryStructureProvider`) writes the NBT structures.
+* New client game test `BakeryClientGameTest` checks the five house pools and places every bakery.
+
 ## [0.12.4] - 2026-11-25
 
 ### 🎨 Changed
