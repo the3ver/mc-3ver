@@ -86,7 +86,7 @@
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
           <span data-i18n="hero.btn.download">Neueste Version laden</span>
-          <span class="version-tag" id="releaseVersionTag">v0.12.0</span>
+          <span class="version-tag" id="releaseVersionTag">v0.13.0</span>
         </a>
 
         <a href="#features" class="btn btn-secondary btn-lg" id="heroInstallBtn">
@@ -164,6 +164,18 @@
           <h3 class="feature-title" data-i18n="features.sonic.title">🔊 Schallschwert</h3>
           <p class="feature-text" data-i18n="features.sonic.desc">
             Schwert mit 8,5 Schaden. Rechtsklick halten lädt eine Schallwelle, die Mobs ringsum bis zu 3 Sekunden lähmt. Linksklick halten lädt einen Schallstrahl, der wenig Schaden macht, aber alles weit wegschleudert.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6"/>
+            </svg>
+          </div>
+          <h3 class="feature-title" data-i18n="features.baker.title">🥖 Bewohnerinnen &amp; Bäckerin</h3>
+          <p class="feature-text" data-i18n="features.baker.desc">
+            Die Hälfte der Dorfbewohner ist weiblich, mit langem Haar, Zopf, Rock und blassgrünen Augen. Bewohnerinnen werden am Backofen zur Bäckerin und handeln Brot, Kekse, Kuchen, Birnen und Birnenkuchen.
           </p>
         </div>
 
@@ -483,6 +495,100 @@
           <div class="recipe-ingredients-summary">
             <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
             <span data-i18n="recipes.sonic.ingredients">1x Diamantschwert, 2x Amethyst-Scherbe, 6x Obsidian</span>
+          </div>
+        </div>
+
+        <!-- Recipe: Baking Oven -->
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <div class="recipe-title-group">
+              <h3 class="recipe-name" data-i18n="recipes.baking_oven.name">🧱 Backofen</h3>
+              <span class="recipe-badge" data-i18n="recipes.badge.shaped">Geformt</span>
+            </div>
+            <p class="recipe-desc" data-i18n="recipes.baking_oven.desc">Arbeitsplatz der Bäckerin. Eine Bewohnerin ohne Beruf in der Nähe wird Bäckerin.</p>
+          </div>
+
+          <div class="crafting-table-ui">
+            <div class="crafting-grid-3x3">
+              <div class="grid-slot filled" title="Ziegelsteine / Bricks"><img src="assets/bricks.png" class="item-img" alt="Ziegelsteine"></div>
+              <div class="grid-slot filled" title="Ziegelsteine / Bricks"><img src="assets/bricks.png" class="item-img" alt="Ziegelsteine"></div>
+              <div class="grid-slot filled" title="Ziegelsteine / Bricks"><img src="assets/bricks.png" class="item-img" alt="Ziegelsteine"></div>
+
+              <div class="grid-slot filled" title="Ziegelsteine / Bricks"><img src="assets/bricks.png" class="item-img" alt="Ziegelsteine"></div>
+              <div class="grid-slot filled highlight" title="Ofen / Furnace"><img src="assets/furnace.png" class="item-img" alt="Ofen"></div>
+              <div class="grid-slot filled" title="Ziegelsteine / Bricks"><img src="assets/bricks.png" class="item-img" alt="Ziegelsteine"></div>
+
+              <div class="grid-slot filled" title="Bruchstein / Cobblestone"><img src="assets/cobblestone.png" class="item-img" alt="Bruchstein"></div>
+              <div class="grid-slot filled" title="Bruchstein / Cobblestone"><img src="assets/cobblestone.png" class="item-img" alt="Bruchstein"></div>
+              <div class="grid-slot filled" title="Bruchstein / Cobblestone"><img src="assets/cobblestone.png" class="item-img" alt="Bruchstein"></div>
+            </div>
+
+            <div class="crafting-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <div class="crafting-result-slot">
+              <div class="grid-slot result-slot" title="Backofen">
+                <img src="assets/baking_oven.png" class="item-img" alt="Backofen">
+                <span class="result-count">1</span>
+              </div>
+              <span class="result-label" data-i18n="recipes.baking_oven.result">Backofen</span>
+            </div>
+          </div>
+
+          <div class="recipe-ingredients-summary">
+            <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
+            <span data-i18n="recipes.baking_oven.ingredients">5x Ziegelsteine, 1x Ofen, 3x Bruchstein</span>
+          </div>
+        </div>
+
+        <!-- Recipe: Pear Cake -->
+        <div class="recipe-card">
+          <div class="recipe-header">
+            <div class="recipe-title-group">
+              <h3 class="recipe-name" data-i18n="recipes.pear_cake.name">🍰 Birnenkuchen</h3>
+              <span class="recipe-badge" data-i18n="recipes.badge.shaped">Geformt</span>
+            </div>
+            <p class="recipe-desc" data-i18n="recipes.pear_cake.desc">Füllt 8 Hunger. Meister-Bäckerinnen verkaufen ihn auch.</p>
+          </div>
+
+          <div class="crafting-table-ui">
+            <div class="crafting-grid-3x3">
+              <div class="grid-slot filled highlight" title="Birne / Pear"><img src="assets/pear.png" class="item-img" alt="Birne"></div>
+              <div class="grid-slot filled highlight" title="Birne / Pear"><img src="assets/pear.png" class="item-img" alt="Birne"></div>
+              <div class="grid-slot filled highlight" title="Birne / Pear"><img src="assets/pear.png" class="item-img" alt="Birne"></div>
+
+              <div class="grid-slot filled" title="Zucker / Sugar"><img src="assets/sugar.png" class="item-img" alt="Zucker"></div>
+              <div class="grid-slot filled highlight" title="Ei / Egg"><img src="assets/egg.png" class="item-img" alt="Ei"></div>
+              <div class="grid-slot filled" title="Zucker / Sugar"><img src="assets/sugar.png" class="item-img" alt="Zucker"></div>
+
+              <div class="grid-slot filled" title="Weizen / Wheat"><img src="assets/wheat.png" class="item-img" alt="Weizen"></div>
+              <div class="grid-slot filled" title="Weizen / Wheat"><img src="assets/wheat.png" class="item-img" alt="Weizen"></div>
+              <div class="grid-slot filled" title="Weizen / Wheat"><img src="assets/wheat.png" class="item-img" alt="Weizen"></div>
+            </div>
+
+            <div class="crafting-arrow">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <div class="crafting-result-slot">
+              <div class="grid-slot result-slot" title="Birnenkuchen">
+                <img src="assets/pear_cake.png" class="item-img" alt="Birnenkuchen">
+                <span class="result-count">1</span>
+              </div>
+              <span class="result-label" data-i18n="recipes.pear_cake.result">Birnenkuchen</span>
+            </div>
+          </div>
+
+          <div class="recipe-ingredients-summary">
+            <strong data-i18n="recipes.ingredients_label">Zutaten:</strong>
+            <span data-i18n="recipes.pear_cake.ingredients">3x Birne, 2x Zucker, 1x Ei, 3x Weizen</span>
           </div>
         </div>
 
@@ -848,7 +954,7 @@
           <div class="step-content">
             <h3 class="step-title" data-i18n="install.step2.title">WorldExplorerMod herunterladen</h3>
             <p class="step-text" data-i18n-html="install.step2.desc">
-              Lade die Datei <code class="code-badge">mc-3ver-0.12.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
+              Lade die Datei <code class="code-badge">mc-3ver-0.13.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.
             </p>
             <a href="https://modrinth.com/mod/worldexplorermod" target="_blank" rel="noopener noreferrer" class="link-btn" data-i18n-html="install.step2.btn">
               Zu den Releases &rarr;

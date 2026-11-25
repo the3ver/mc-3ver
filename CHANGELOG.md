@@ -4,6 +4,15 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.13.0] - 2026-11-25
+
+### ✨ Neu hinzugefügt
+* **Bewohnerinnen:** Die Hälfte aller Dorfbewohner ist weiblich, mit eigenem Gesicht, blassgrünen Augen, langem Haar, Zopf und Rock (Details in 0.12.1 bis 0.12.4).
+* **Bäckerin:** Neuer Beruf nur für Bewohnerinnen, Arbeitsplatz **Backofen** (5 Ziegelsteine, Ofen, 3 Bruchstein). Handelt Backwaren, Birnen, Goldene Birnen und den neuen **Birnenkuchen** (8 Hunger).
+
+### 📚 Dokumentation
+* README und Website beschreiben Bewohnerinnen, Bäckerin, Backofen und Birnenkuchen, mit Rezepten.
+
 ## [0.12.4] - 2026-11-25
 
 ### 🎨 Geändert
