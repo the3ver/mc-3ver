@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "BBB",
+    "BFB",
+    "CCC"
+  ],
+  "key": {
+    "B": "minecraft:bricks",
+    "F": "minecraft:furnace",
+    "C": "minecraft:cobblestone"
+  },
+  "result": {
+    "id": "mc3ver:baking_oven",
+    "count": 1
+  }
+}

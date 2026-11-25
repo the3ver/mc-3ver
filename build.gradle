@@ -125,8 +125,10 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.errorprone {
 		// Minecraft vergleicht Registry-Singletons (Block, Item, Entity, BlockEntity) absichtlich per Identität
 		disable("ReferenceEquality")
-		// Mixin ruft @Inject-Methoden über Bytecode-Injektion auf
-		option("UnusedMethod:ExemptingMethodAnnotations", "org.spongepowered.asm.mixin.injection.Inject")
+		// Mixin ruft @Inject- und @WrapOperation-Methoden über Bytecode-Injektion auf
+		option(
+			"UnusedMethod:ExemptingMethodAnnotations",
+			"org.spongepowered.asm.mixin.injection.Inject,com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation")
 	}
 }
 

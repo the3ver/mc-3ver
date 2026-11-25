@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.frank.mc3ver.tree.PearTreeBlocks;
 import net.frank.mc3ver.tree.PearTreeItems;
+import net.frank.mc3ver.village.ModVillagers;
 import net.minecraft.core.HolderLookup;
 
 /**
@@ -40,5 +41,6 @@ class Mc3verBlockLootProvider extends FabricBlockLootSubProvider {
         add(
                 PearTreeBlocks.FALLEN_PEAR,
                 createSingleItemTableWithSilkTouch(PearTreeBlocks.FALLEN_PEAR, PearTreeItems.PEAR));
+        dropSelf(ModVillagers.BAKING_OVEN);
     }
 }

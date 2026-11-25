@@ -9,6 +9,10 @@ public class PearTreeLogic {
     public static final int PEAR_NUTRITION = 4;
     public static final float PEAR_SATURATION_MODIFIER = 0.3f;
 
+    // Birnenkuchen der Bäckerin: sättigt wie ein Steak
+    public static final int PEAR_CAKE_NUTRITION = 8;
+    public static final float PEAR_CAKE_SATURATION_MODIFIER = 0.6f;
+
     public static final int GOLDEN_PEAR_NUTRITION = 4;
     public static final float GOLDEN_PEAR_SATURATION_MODIFIER = 1.2f;
     public static final int JUMP_BOOST_DURATION_TICKS = 1200;

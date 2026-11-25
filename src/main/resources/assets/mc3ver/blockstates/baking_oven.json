@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "mc3ver:block/baking_oven"
+    },
+    "facing=east": {
+      "model": "mc3ver:block/baking_oven",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "mc3ver:block/baking_oven",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mc3ver:block/baking_oven",
+      "y": 270
+    }
+  }
+}
