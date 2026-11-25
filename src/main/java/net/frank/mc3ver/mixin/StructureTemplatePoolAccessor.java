@@ -1,0 +1,15 @@
+package net.frank.mc3ver.mixin;
+
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
+
+// Gewichtete Liste, aus der die Dorfgenerierung Häuser zieht (jedes Element so oft wie sein Gewicht)
+@Mixin(StructureTemplatePool.class)
+public interface StructureTemplatePoolAccessor {
+
+    @Accessor("templates")
+    ObjectArrayList<StructurePoolElement> mc3ver$templates();
+}

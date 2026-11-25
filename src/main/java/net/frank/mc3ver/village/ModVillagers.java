@@ -116,6 +116,7 @@ public final class ModVillagers {
     }
 
     public static void register() {
+        BakeryHouses.register();
         // Neue, geborene und schon gespeicherte Bewohner ohne Flag würfeln einmal
         ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
             if (entity instanceof Villager villager && !villager.hasAttached(FEMALE)) {

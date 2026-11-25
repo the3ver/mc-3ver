@@ -9,9 +9,20 @@ Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) 
 ### ✨ Neu hinzugefügt
 * **Bewohnerinnen:** Die Hälfte aller Dorfbewohner ist weiblich, mit eigenem Gesicht, blassgrünen Augen, langem Haar, Zopf und Rock (Details in 0.12.1 bis 0.12.4).
 * **Bäckerin:** Neuer Beruf nur für Bewohnerinnen, Arbeitsplatz **Backofen** (5 Ziegelsteine, Ofen, 3 Bruchstein). Handelt Backwaren, Birnen, Goldene Birnen und den neuen **Birnenkuchen** (8 Hunger).
+* **Bäckerei:** Dörfer aller fünf Typen können eine Bäckerei mit Backofen, Ziegelschornstein und einer Truhe voller Backwaren haben (Details in 0.12.5).
 
 ### 📚 Dokumentation
-* README und Website beschreiben Bewohnerinnen, Bäckerin, Backofen und Birnenkuchen, mit Rezepten.
+* README und Website beschreiben Bewohnerinnen, Bäckerin, Bäckerei, Backofen und Birnenkuchen, mit Rezepten.
+
+## [0.12.5] - 2026-11-25
+
+### ✨ Neu hinzugefügt
+* **Bäckerei:** In Dörfern aller fünf Typen (Ebene, Wüste, Savanne, Schnee, Taiga) kann jetzt eine Bäckerei stehen, so häufig wie eine Metzgerei. Drinnen: Backofen mit Ziegelschornstein, Theke, Fässer, Heuballen und eine Truhe mit Brot, Weizen, Keksen, Birnen und manchmal Birnenkuchen. Eine Bewohnerin ohne Beruf aus dem Dorf wird dort Bäckerin.
+* Zum Ausprobieren: `/place template mc3ver:village/plains/houses/plains_bakery` (statt `plains` auch `desert`, `savanna`, `snowy`, `taiga`).
+
+### 🔧 Intern
+* Den Grundriss beschreibt `BakeryLayoutLogic`, die NBT-Strukturen erzeugt Datagen (`BakeryStructureProvider`).
+* Neuer Client-Gametest `BakeryClientGameTest` prüft die fünf Häuser-Pools und stellt alle Bäckereien auf.
 
 ## [0.12.4] - 2026-11-25
 
