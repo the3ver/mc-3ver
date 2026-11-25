@@ -4,6 +4,15 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.12.1] - 2026-11-25
+
+### ✨ Neu hinzugefügt
+* **Bewohnerinnen:** Die Hälfte aller Dorfbewohner ist jetzt weiblich, mit eigenem Gesicht, langem Haar, Zopf mit Haarband und Rock. Das gilt auch für Babys und für Dorfbewohner in bestehenden Welten. Wer Bewohnerin ist, legt die UUID fest; Zombifizierung und Heilung ändern daran nichts.
+
+### 🔧 Intern
+* Ressourcentests teilen sich die Testhilfe `TestResources`.
+* Neuer Client-Gametest `VillagerWomanClientGameTest` prüft Flag, Synchronisation zum Client und Heilung.
+
 ## [0.12.0] - 2026-11-07
 
 ### ✨ Neu hinzugefügt

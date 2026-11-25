@@ -71,6 +71,7 @@ public class Mc3verMod implements ModInitializer {
         net.frank.mc3ver.bonfire.ModBonfire.register();
         net.frank.mc3ver.friend.ModFriendStone.register();
         net.frank.mc3ver.sonic.ModSonicSword.register();
+        net.frank.mc3ver.village.ModVillagers.register();
 
         // Event: Spieler betritt die Welt
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {

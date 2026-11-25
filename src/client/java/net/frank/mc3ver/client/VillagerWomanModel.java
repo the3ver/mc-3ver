@@ -1,0 +1,46 @@
+package net.frank.mc3ver.client;
+
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.renderer.entity.state.VillagerRenderState;
+
+/**
+ * Zusatzteile der Bewohnerin über dem Vanilla-Villagermodell: langes Haar und Zopf am Hinterkopf, ein Rock über dem
+ * unteren Gewand. Die Koordinaten passen zu VillagerModel (Kopf -10..0, Gewand bis y 17.5).
+ */
+final class VillagerWomanModel extends EntityModel<VillagerRenderState> {
+
+    private final ModelPart head;
+
+    VillagerWomanModel(ModelPart root) {
+        super(root);
+        this.head = root.getChild("head");
+    }
+
+    static LayerDefinition createLayer() {
+        MeshDefinition mesh = new MeshDefinition();
+        PartDefinition root = mesh.getRoot();
+        root.addOrReplaceChild(
+                "head",
+                CubeListBuilder.create()
+                        .texOffs(0, 0)
+                        .addBox(-4.0f, -10.0f, 4.0f, 8.0f, 9.0f, 1.0f)
+                        .texOffs(20, 0)
+                        .addBox(-1.0f, -2.0f, 4.5f, 2.0f, 8.0f, 2.0f),
+                PartPose.ZERO);
+        root.addOrReplaceChild(
+                "skirt",
+                CubeListBuilder.create().texOffs(0, 12).addBox(-5.0f, 12.0f, -4.0f, 10.0f, 8.0f, 8.0f),
+                PartPose.ZERO);
+        return LayerDefinition.create(mesh, 64, 32);
+    }
+
+    void followHead(ModelPart parentHead) {
+        head.loadPose(parentHead.storePose());
+    }
+}
