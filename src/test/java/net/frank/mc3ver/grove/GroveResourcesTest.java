@@ -1,5 +1,6 @@
 package net.frank.mc3ver.grove;
 
+import static net.frank.mc3ver.TestResources.json;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.JsonArray;
@@ -10,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +18,8 @@ import org.junit.jupiter.api.Test;
 
 class GroveResourcesTest {
 
-    private static final Path RESOURCES = Paths.get("").toAbsolutePath().resolve("src/main/resources");
     private static final int VEGETAL_DECORATION = 9;
     private static final String GROVE_ONLY_PREFIX = "mc3ver:pear_grove_";
-
-    private static JsonObject json(String path) throws Exception {
-        return JsonParser.parseString(Files.readString(RESOURCES.resolve(path))).getAsJsonObject();
-    }
 
     private static JsonObject biome() throws Exception {
         return json("data/mc3ver/worldgen/biome/pear_grove.json");
