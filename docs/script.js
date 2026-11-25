@@ -30,6 +30,16 @@ const TRANSLATIONS = {
     "features.flames.desc": "Platziere herstellbare Transportflammen (1 Fackel + 4 Bruchstein), erhalte gefärbte Teleport-Karten und teleportiere dich per Channeling jederzeit dimensionsübergreifend zurück. Gib jeder Flamme beim Aufstellen einen Namen und hole verlorene Karten gratis an der Flamme nach.",
     "features.lightning.title": "⚡ Kettenblitzstab",
     "features.lightning.desc": "Hold-to-Charge für bis zu 24 Schaden, springt auf bis zu 4 weitere Ziele über, lädt Creeper mit elektrischem Schild auf und setzt brennbare Blöcke in Brand.",
+    "features.baker.title": "🥖 Bewohnerinnen & Bäckerin",
+    "features.baker.desc": "Die Hälfte der Dorfbewohner ist weiblich, mit langem Haar, Zopf, Rock und blassgrünen Augen. Bewohnerinnen werden am Backofen zur Bäckerin und handeln Brot, Kekse, Kuchen, Birnen und Birnenkuchen.",
+    "recipes.baking_oven.name": "🧱 Backofen",
+    "recipes.baking_oven.desc": "Arbeitsplatz der Bäckerin. Eine Bewohnerin ohne Beruf in der Nähe wird Bäckerin.",
+    "recipes.baking_oven.result": "Backofen",
+    "recipes.baking_oven.ingredients": "5x Ziegelsteine, 1x Ofen, 3x Bruchstein",
+    "recipes.pear_cake.name": "🍰 Birnenkuchen",
+    "recipes.pear_cake.desc": "Füllt 8 Hunger. Meister-Bäckerinnen verkaufen ihn auch.",
+    "recipes.pear_cake.result": "Birnenkuchen",
+    "recipes.pear_cake.ingredients": "3x Birne, 2x Zucker, 1x Ei, 3x Weizen",
     "features.sonic.title": "🔊 Schallschwert",
     "features.sonic.desc": "Schwert mit 8,5 Schaden. Rechtsklick halten lädt eine Schallwelle, die Mobs ringsum bis zu 3 Sekunden lähmt. Linksklick halten lädt einen Schallstrahl, der wenig Schaden macht, aber alles weit wegschleudert.",
     "recipes.sonic.name": "🔊 Schallschwert",
@@ -131,7 +141,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Lade den offiziellen Fabric Installer für Minecraft 26.3 herunter und installiere die passende <strong>Fabric API</strong> und <strong>TerraBlender</strong>.",
     "install.step1.btn": "Fabric Installer herunterladen &rarr;",
     "install.step2.title": "WorldExplorerMod herunterladen",
-    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.12.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
+    "install.step2.desc": "Lade die Datei <code class=\"code-badge\">mc-3ver-0.13.0.jar</code> von Modrinth, CurseForge oder GitHub herunter.",
     "install.step2.btn": "Zu den Releases &rarr;",
     "install.step3.title": "In den Mods-Ordner verschieben",
     "install.step3.desc": "Platziere die <code class=\"code-badge\">.jar</code>-Datei im Minecraft <code class=\"code-badge\">mods</code>-Ordner deines Systems:",
@@ -213,6 +223,16 @@ const TRANSLATIONS = {
     "features.flames.desc": "Place craftable Transport Flames (1 torch + 4 cobblestone), receive dyed teleport maps, and channel anytime to safely return across dimensions. Name each flame when placing it and recover lost maps for free at the flame.",
     "features.lightning.title": "⚡ Chain Lightning Wand",
     "features.lightning.desc": "Hold-to-charge for up to 24 damage, chains to up to 4 nearby living mobs, charges creepers with electric shields, and ignites flammable blocks.",
+    "features.baker.title": "🥖 Village Women & Baker",
+    "features.baker.desc": "Half of all villagers are women, with long hair, a braid, a skirt and pale green eyes. At the baking oven a woman becomes a baker and trades bread, cookies, cake, pears and pear cake.",
+    "recipes.baking_oven.name": "🧱 Baking Oven",
+    "recipes.baking_oven.desc": "The baker's job site. An unemployed village woman nearby becomes a baker.",
+    "recipes.baking_oven.result": "Baking Oven",
+    "recipes.baking_oven.ingredients": "5x Bricks, 1x Furnace, 3x Cobblestone",
+    "recipes.pear_cake.name": "🍰 Pear Cake",
+    "recipes.pear_cake.desc": "Restores 8 hunger. Master bakers sell it too.",
+    "recipes.pear_cake.result": "Pear Cake",
+    "recipes.pear_cake.ingredients": "3x Pear, 2x Sugar, 1x Egg, 3x Wheat",
     "features.sonic.title": "🔊 Sonic Sword",
     "features.sonic.desc": "A sword with 8.5 damage. Hold right click to charge a sonic wave that stuns nearby mobs for up to 3 seconds. Hold left click to charge a sonic beam that deals little damage but throws everything far away.",
     "recipes.sonic.name": "🔊 Sonic Sword",
@@ -314,7 +334,7 @@ const TRANSLATIONS = {
     "install.step1.desc": "Download the official Fabric Installer for Minecraft 26.3 and install the matching <strong>Fabric API</strong> and <strong>TerraBlender</strong>.",
     "install.step1.btn": "Download Fabric Installer &rarr;",
     "install.step2.title": "Download WorldExplorerMod",
-    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.12.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
+    "install.step2.desc": "Download the <code class=\"code-badge\">mc-3ver-0.13.0.jar</code> file from Modrinth, CurseForge, or GitHub Releases.",
     "install.step2.btn": "Go to Releases &rarr;",
     "install.step3.title": "Move to Mods Folder",
     "install.step3.desc": "Place the <code class=\"code-badge\">.jar</code> file in your system's Minecraft <code class=\"code-badge\">mods</code> folder:",
@@ -506,7 +526,7 @@ async function initReleaseVersion() {
       }
     }
   } catch (e) {
-    // Graceful fallback to v0.12.0
+    // Graceful fallback to v0.13.0
     console.debug('Konnte Release-Version nicht von GitHub laden:', e);
   }
 }

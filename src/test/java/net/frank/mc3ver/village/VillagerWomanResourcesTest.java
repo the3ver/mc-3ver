@@ -27,7 +27,7 @@ class VillagerWomanResourcesTest {
 
     // Augen der Bewohnerin (und damit der Bäckerin): je ein Pixel in Zeile 4 der Gesichtsvorderseite
     @Test
-    void eyesAreBrightGreen() throws Exception {
+    void eyesArePaleGreen() throws Exception {
         assertGreen("villager_woman.png", 10, 12);
         assertGreen("villager_woman.png", 13, 12);
         assertGreen("villager_woman_baby.png", 9, 11);
@@ -40,7 +40,7 @@ class VillagerWomanResourcesTest {
         int g = (rgb >> 8) & 255;
         int b = rgb & 255;
         assertTrue(
-                g >= 160 && g - r >= 80 && g - b >= 60,
+                r >= 100 && b >= 100 && g - r >= 25 && g - r <= 70 && g - b >= 20 && g - b <= 70,
                 file + " Auge bei " + x + "," + y + ": " + r + "," + g + "," + b);
     }
 
