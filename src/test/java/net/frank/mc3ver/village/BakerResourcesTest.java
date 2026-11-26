@@ -143,6 +143,24 @@ class BakerResourcesTest {
         }
     }
 
+    // Gesicht u 8..15, v 8..17; Augen der Bewohnerin auf v 12 bei u 9, 10, 13, 14
+    @Test
+    void bakerWearsGlassesThatLeaveHerEyesFree() throws Exception {
+        for (String entity : List.of("villager", "zombie_villager")) {
+            BufferedImage img = image("assets/mc3ver/textures/entity/" + entity + "/profession/baker.png");
+            for (int[] frame :
+                    new int[][] {{9, 11}, {14, 11}, {8, 12}, {11, 12}, {12, 12}, {15, 12}, {10, 13}, {13, 13}}) {
+                assertEquals(255, img.getRGB(frame[0], frame[1]) >>> 24, entity + " Gestell fehlt bei " + frame[0]);
+            }
+            for (int eye : new int[] {9, 10, 13, 14}) {
+                assertEquals(0, img.getRGB(eye, 12) >>> 24, entity + " Glas verdeckt Auge bei " + eye);
+            }
+            // Bügel an beiden Kopfseiten, jeweils an der Kante zum Gesicht
+            assertEquals(255, img.getRGB(7, 12) >>> 24, entity + " rechter Bügel fehlt");
+            assertEquals(255, img.getRGB(16, 12) >>> 24, entity + " linker Bügel fehlt");
+        }
+    }
+
     @Test
     void ovenAndCakeTexturesAre16x16() throws Exception {
         for (String path : List.of(

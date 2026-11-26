@@ -4,6 +4,11 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.2] - 2026-11-26
+
+### 🎨 Changed
+* The baker wears round brass glasses. The lenses are open, so her pale green eyes still show.
+
 ## [0.13.1] - 2026-11-26
 
 ### 🐛 Fixed
