@@ -29,12 +29,15 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class TransportFlameBlock extends Block implements EntityBlock {
 
-    protected static final VoxelShape SHAPE = Block.box(4.0, 0.0, 4.0, 12.0, 14.0, 12.0);
+    // Runde Steinplatte (3 Pixel hoch) mit der Fackel darauf, passend zum Blockmodell
+    protected static final VoxelShape SHAPE =
+            Shapes.or(Block.box(2.0, 0.0, 2.0, 14.0, 3.0, 14.0), Block.box(5.0, 3.0, 5.0, 11.0, 15.0, 11.0));
 
     private static final TransportFlameLogic.FlameHoldTracker MAP_RECOVERY_HOLDS =
             new TransportFlameLogic.FlameHoldTracker();
@@ -218,7 +221,7 @@ public class TransportFlameBlock extends Block implements EntityBlock {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         double x = pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 0.2;
-        double y = pos.getY() + 0.7 + (random.nextDouble() - 0.5) * 0.2;
+        double y = pos.getY() + 0.9 + (random.nextDouble() - 0.5) * 0.2;
         double z = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 0.2;
 
         level.addParticle(ParticleTypes.SOUL_FIRE_FLAME, x, y, z, 0.0, 0.02, 0.0);

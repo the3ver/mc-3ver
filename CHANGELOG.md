@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.13.4] - 2026-11-26
+
+### 🎨 Geändert
+* **Transportflamme:** Die Flamme steht jetzt auf einer runden Platte aus Bruchstein, im Inventar erscheint sie dreidimensional.
+
 ## [0.13.3] - 2026-11-26
 
 ### 🎨 Geändert
