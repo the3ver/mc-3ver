@@ -74,17 +74,18 @@ public class BakerClientGameTest implements FabricClientGameTest {
             check(!results.isEmpty() && LEVEL_1_RESULTS.containsAll(results), "Falsche Angebote: " + results);
             context.takeScreenshot("baker");
 
-            // 4. Handelsmenü einer Meisterin: Stufenname in weiblicher Form (MerchantScreenMixin)
+            // 4. Handelsmenü Stufe 3: weibliche Form (MerchantScreenMixin); der Testclient ist englisch, Journeywoman
+            // statt Journeyman
             context.setScreen(() -> {
                 var inventory =
                         net.minecraft.client.Minecraft.getInstance().player.getInventory();
                 MerchantMenu menu = new MerchantMenu(0, inventory);
-                menu.setMerchantLevel(5);
+                menu.setMerchantLevel(3);
                 menu.setShowProgressBar(true);
                 return new MerchantScreen(menu, inventory, Component.translatable(BakerTitleLogic.BAKER_NAME_KEY));
             });
             context.waitTicks(5);
-            context.takeScreenshot("baker_master");
+            context.takeScreenshot("baker_journeywoman");
             context.setScreen(() -> null);
         }
     }

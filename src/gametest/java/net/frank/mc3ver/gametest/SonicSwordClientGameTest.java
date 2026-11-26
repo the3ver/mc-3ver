@@ -50,6 +50,8 @@ public class SonicSwordClientGameTest implements FabricClientGameTest {
 
             // 2. Schallstrahl: Schwein in 5 Blöcken fliegt weit weg
             game.getServer().runCommand("summon pig 5.5 " + Y + " 0.5");
+            // Schwein bleibt im Strahl stehen, auch wenn der Server hinterherhinkt; Rückstoß wirkt trotzdem
+            game.getServer().runCommand("effect give @e[type=pig] slowness 60 255 true");
             game.getServer().runCommand("tp @p 0.5 " + Y + " 0.5 -90 12");
             context.waitTicks(5);
             double before = game.getServer()
