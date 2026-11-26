@@ -118,5 +118,10 @@
   "dimension.mc3ver.the_end": "End",
   "block.mc3ver.baking_oven": "Backofen",
   "item.mc3ver.pear_cake": "Birnenkuchen",
-  "entity.mc3ver.villager.baker": "Bäckerin"
+  "entity.mc3ver.villager.baker": "Bäckerin",
+  "mc3ver.merchant.level.female.1": "Neuling",
+  "mc3ver.merchant.level.female.2": "Lehrling",
+  "mc3ver.merchant.level.female.3": "Gesellin",
+  "mc3ver.merchant.level.female.4": "Expertin",
+  "mc3ver.merchant.level.female.5": "Meisterin"
 }

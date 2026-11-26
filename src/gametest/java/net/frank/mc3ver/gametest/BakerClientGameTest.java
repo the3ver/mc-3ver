@@ -5,12 +5,16 @@ import java.util.UUID;
 import net.fabricmc.fabric.api.client.gametest.v1.FabricClientGameTest;
 import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
+import net.frank.mc3ver.village.BakerTitleLogic;
 import net.frank.mc3ver.village.ModVillagers;
+import net.minecraft.client.gui.screens.inventory.MerchantScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.inventory.MerchantMenu;
 import net.minecraft.world.item.trading.MerchantOffer;
 
 // Ein Bewohner neben dem Backofen bleibt arbeitslos, eine Bewohnerin wird Bäckerin und handelt Backwaren.
@@ -69,6 +73,20 @@ public class BakerClientGameTest implements FabricClientGameTest {
             System.out.println("[baker] Angebote: " + results);
             check(!results.isEmpty() && LEVEL_1_RESULTS.containsAll(results), "Falsche Angebote: " + results);
             context.takeScreenshot("baker");
+
+            // 4. Handelsmenü Stufe 3: weibliche Form (MerchantScreenMixin); der Testclient ist englisch, Journeywoman
+            // statt Journeyman
+            context.setScreen(() -> {
+                var inventory =
+                        net.minecraft.client.Minecraft.getInstance().player.getInventory();
+                MerchantMenu menu = new MerchantMenu(0, inventory);
+                menu.setMerchantLevel(3);
+                menu.setShowProgressBar(true);
+                return new MerchantScreen(menu, inventory, Component.translatable(BakerTitleLogic.BAKER_NAME_KEY));
+            });
+            context.waitTicks(5);
+            context.takeScreenshot("baker_journeywoman");
+            context.setScreen(() -> null);
         }
     }
 
