@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.13.1] - 2026-11-26
+
+### 🐛 Behoben
+* Die Kochmütze der Bäckerin hing über Augenbrauen und Augen. Sie sitzt jetzt zwei Pixel höher, die blassgrünen Augen sind zu sehen.
+
 ## [0.13.0] - 2026-11-25
 
 ### ✨ Neu hinzugefügt

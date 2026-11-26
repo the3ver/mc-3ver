@@ -127,6 +127,22 @@ class BakerResourcesTest {
         }
     }
 
+    // Mützenring u 32..63, Kopfseiten ab v 8; Brauen (v 11) und Augen (v 12) der Bewohnerin bleiben frei
+    @Test
+    void hatLeavesBrowsAndEyesVisible() throws Exception {
+        for (String entity : List.of("villager", "zombie_villager")) {
+            BufferedImage img = image("assets/mc3ver/textures/entity/" + entity + "/profession/baker.png");
+            for (int y = 11; y < 18; y++) {
+                for (int x = 32; x < 64; x++) {
+                    assertEquals(0, img.getRGB(x, y) >>> 24, entity + " Mütze verdeckt " + x + "," + y);
+                }
+            }
+            for (int x = 32; x < 64; x++) {
+                assertEquals(255, img.getRGB(x, 10) >>> 24, entity + " Krempe fehlt bei " + x);
+            }
+        }
+    }
+
     @Test
     void ovenAndCakeTexturesAre16x16() throws Exception {
         for (String path : List.of(

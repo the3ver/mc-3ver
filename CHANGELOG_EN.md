@@ -4,6 +4,11 @@ All notable changes to the **WorldExplorerMod (mc-3ver)** project will be docume
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.1] - 2026-11-26
+
+### 🐛 Fixed
+* The baker's chef hat covered her eyebrows and eyes. It now sits two pixels higher, so her pale green eyes show.
+
 ## [0.13.0] - 2026-11-25
 
 ### ✨ Added
