@@ -9,5 +9,6 @@ public class Mc3verDataGenerator implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = generator.createPack();
         pack.addProvider(Mc3verBlockLootProvider::new);
         pack.addProvider(TentAssetProvider::new);
+        pack.addProvider(BakeryStructureProvider::new);
     }
 }

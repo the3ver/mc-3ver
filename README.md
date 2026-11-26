@@ -123,6 +123,7 @@
   * **Handel:** Weizen, Zucker, Eier, Kakaobohnen und Honigflaschen gegen Smaragde; Brot, Birnen, Kekse, Kürbiskuchen, Kuchen, Birnenkuchen und Goldene Birnen gegen Smaragde.
   * **Birnenkuchen:** Füllt 8 Hunger. Crafting: 3 Birnen, 2 Zucker, 1 Ei, 3 Weizen (geformt).
   * **Crafting Backofen:** 5 Ziegelsteine, 1 Ofen, 3 Bruchstein (geformt).
+  * **Bäckerei:** In Dörfern aller fünf Typen (Ebene, Wüste, Savanne, Schnee, Taiga) kann eine Bäckerei stehen: Backofen mit Ziegelschornstein, Theke, Fässer, Heu und eine Truhe mit Brot, Weizen, Keksen, Birnen und manchmal Birnenkuchen.
 * **🌳 Birnbaum & Birnenholz-Set (Pear Tree & Wood Set):**
   * Neuer Baumtyp mit eigenen Holzblöcken, Blättern und optisch unterscheidbaren Setzlingen.
   * Vollwertiges Holz-Bauset im Schweizer Birnbaum-Design: Treppen, Stufen, Zäune, Tore, Türen mit Glaseinsatz, Falltüren, Druckplatten, Knöpfe sowie Birnenholzboote und Birnenholztruhenboote.

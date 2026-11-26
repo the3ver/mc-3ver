@@ -9,9 +9,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### ✨ Added
 * **Village women:** Half of all villagers are women, with their own face, pale green eyes, long hair, a braid and a skirt (details in 0.12.1 to 0.12.4).
 * **Baker:** New profession for village women only, job site **Baking Oven** (5 bricks, furnace, 3 cobblestone). Trades baked goods, pears, golden pears and the new **Pear Cake** (8 hunger).
+* **Bakery:** Villages of all five types can have a bakery with a baking oven, brick chimney and a chest of baked goods (details in 0.12.5).
 
 ### 📚 Documentation
-* README and website describe village women, the baker, the baking oven and pear cake, with recipes.
+* README and website describe village women, the baker, the bakery, the baking oven and pear cake, with recipes.
+
+## [0.12.5] - 2026-11-25
+
+### ✨ Added
+* **Bakery:** Villages of all five types (plains, desert, savanna, snowy, taiga) can now have a bakery, as often as a butcher shop. Inside: baking oven with a brick chimney, counter, barrels, hay bales and a chest with bread, wheat, cookies, pears and sometimes pear cake. An unemployed village woman from the village becomes its baker.
+* To try it: `/place template mc3ver:village/plains/houses/plains_bakery` (or `desert`, `savanna`, `snowy`, `taiga` instead of `plains`).
+
+### 🔧 Internal
+* `BakeryLayoutLogic` describes the floor plan, datagen (`BakeryStructureProvider`) writes the NBT structures.
+* New client game test `BakeryClientGameTest` checks the five house pools and places every bakery.
 
 ## [0.12.4] - 2026-11-25
 
