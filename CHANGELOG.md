@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.13.6] - 2026-11-27
+
+### ✨ Neu hinzugefügt
+* **Bewohnerinnen:** Zwei weitere Aussehen: blonde Zöpfe mit türkisem Kleid und dunkler Haarknoten mit Blume und blauem Kleid. Die UUID wählt das Aussehen.
+
 ## [0.13.5] - 2026-11-27
 
 ### 🐛 Behoben

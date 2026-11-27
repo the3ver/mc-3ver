@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContex
 import net.fabricmc.fabric.api.client.gametest.v1.screenshot.TestScreenshotOptions;
 import net.frank.mc3ver.village.VillagerGenderLogic;
 
-// Alle Aussehen der Bewohnerin nebeneinander, von vorn, von der Seite und schräg von hinten, zum Vergleichen.
+// Alle Aussehen der Bewohnerin nebeneinander, von vorn, schräg von vorn und schräg von hinten, zum Vergleichen.
 // Aufruf: ./gradlew runClientGameTest, Screenshots unter build/run/clientGameTest/screenshots
 public class VillagerWomanLooksClientGameTest implements FabricClientGameTest {
 
@@ -31,8 +31,8 @@ public class VillagerWomanLooksClientGameTest implements FabricClientGameTest {
                 check(VillagerGenderLogic.look(uuid, LOOKS) == look, "UUID wählt falsches Aussehen");
                 summon(X, 1.8 * (look - 1) + 0.5, uuid, game);
             }
-            shot(context, game, "villager_women_front", -0.5, 0.3, 0.5);
-            shot(context, game, "villager_women_side", 3.5, 0.3, -3.8);
+            shot(context, game, "villager_women_front", -1.0, 0.6, 0.5);
+            shot(context, game, "villager_women_diagonal", -0.5, 0.6, -3.5);
             shot(context, game, "villager_women_back", 7.0, 0.6, -2.8);
         }
     }
@@ -40,7 +40,7 @@ public class VillagerWomanLooksClientGameTest implements FabricClientGameTest {
     private static void shot(
             ClientGameTestContext context, TestSingleplayerContext game, String name, double x, double dy, double z) {
         game.getServer()
-                .runCommand("tp @p " + x + " " + (Y + dy) + " " + z + " facing " + X + " " + (Y + 1.4) + " 0.5");
+                .runCommand("tp @p " + x + " " + (Y + dy) + " " + z + " facing " + X + " " + (Y + 1.2) + " 0.5");
         game.getConnection().waitForChunksRender();
         context.waitTicks(20);
         context.takeScreenshot(TestScreenshotOptions.of(name).withSize(1280, 720));
