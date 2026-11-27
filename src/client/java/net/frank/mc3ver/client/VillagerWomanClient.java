@@ -1,6 +1,7 @@
 package net.frank.mc3ver.client;
 
 import java.util.EnumMap;
+import java.util.List;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityRenderLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
@@ -22,13 +23,17 @@ public final class VillagerWomanClient {
         return Boolean.TRUE.equals(state.getData(FEMALE));
     }
 
+    // Reihenfolge fest: der Index kommt aus der UUID, neue Aussehen nur hinten anhängen
+    private static final List<VillagerWomanLook> LOOKS =
+            List.of(VillagerWomanLook.BRAID, VillagerWomanLook.PIGTAILS, VillagerWomanLook.BUN);
+
     public static int lookCount() {
-        return VillagerWomanLook.values().length;
+        return LOOKS.size();
     }
 
     static VillagerWomanLook look(VillagerRenderState state) {
         Integer look = state.getData(LOOK);
-        return VillagerWomanLook.values()[look == null ? 0 : look];
+        return LOOKS.get(look == null ? 0 : look);
     }
 
     public static Identifier texture(VillagerRenderState state) {

@@ -26,7 +26,7 @@ final class VillagerWomanModel extends EntityModel<VillagerRenderState> {
     static LayerDefinition createLayer(VillagerWomanLook look) {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
-        root.addOrReplaceChild("head", look.hair, PartPose.ZERO);
+        root.addOrReplaceChild("head", look.hair(), PartPose.ZERO);
         root.addOrReplaceChild(
                 "skirt",
                 CubeListBuilder.create().texOffs(0, 12).addBox(-5.0f, 12.0f, -4.0f, 10.0f, 8.0f, 8.0f),
