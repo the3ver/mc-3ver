@@ -4,7 +4,9 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
-file=$(python -c "import json,sys; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))" 2>/dev/null)
+# Windows hat python, Debian nur python3
+py=$(command -v python || command -v python3)
+file=$("$py" -c "import json,sys; print(json.load(sys.stdin).get('tool_input',{}).get('file_path',''))" 2>/dev/null)
 case "$file" in
   *.java) ;;
   *) exit 0 ;;

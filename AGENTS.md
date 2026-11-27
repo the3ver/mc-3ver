@@ -9,9 +9,10 @@ Modulare Minecraft Java Edition Modifikation für Minecraft 26.3 basierend auf F
 - **Build-System:** Gradle (Wrapper `gradlew` / `gradlew.bat`)
 
 ## Commands
-- Prüfen (Format, Error Prone, Tests, Architektur- und Ressourcentests, Semgrep, knappe Ausgabe): `bash scripts/check.sh`. Läuft lokal auch als Claude-Stop-Hook.
+- Prüfen (Format, Error Prone, Tests, Architektur- und Ressourcentests, Semgrep, knappe Ausgabe): `bash scripts/check.sh`. Läuft auch als Claude-Stop-Hook.
+- Claude-Hooks stehen in `.claude/settings.json` (Edit/Write formatiert die Java-Datei, Stop läuft `check.sh --hook`). Hooks brauchen `java` im PATH oder `JAVA_HOME`. Tests dazu: `bash tests/hooks.test.sh` (läuft auch in CI).
 - Projektregeln stehen in `.semgrep/rules.yml`. Funde beheben; nur begründete Ausnahmen mit `// nosemgrep: <regel-id> <Grund>`.
-- Formatieren: `./gradlew spotlessApply` (palantir-java-format). Lokal formatiert ein Claude-Hook jede bearbeitete Java-Datei.
+- Formatieren: `./gradlew spotlessApply` (palantir-java-format). Ein Claude-Hook formatiert jede bearbeitete Java-Datei.
 - Teststärke messen: `bash scripts/mutation-report.sh --run` (PIT auf `*Logic`, ca. 1 min). Überlebende Mutanten zeigen Verhalten, das kein Test absichert.
 - Generierte Daten: `./gradlew runDatagen` schreibt nach `src/main/generated` (Provider in `src/datagen/java`). Diese JSONs nie von Hand ändern, sondern den Provider; Ausgabe mitcommitten, CI prüft den Gleichstand.
 - Galerie-Screenshot: `GALLERY_SCREENSHOT_DIR=<ordner> ./gradlew runClientGameTest` startet einen echten Client (Seed `mc3ver`), stellt am alten Birnbaum Zelt, Signalfeuer und Transportflamme auf und speichert `gallery.png`. Ohne die Variable unter `build/run/clientGameTest/screenshots`. Ergebnis liegt als `docs/assets/gallery_scene.{png,jpg}`.
