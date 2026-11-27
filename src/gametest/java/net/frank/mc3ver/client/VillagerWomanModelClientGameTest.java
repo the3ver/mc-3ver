@@ -18,18 +18,26 @@ public class VillagerWomanModelClientGameTest implements FabricClientGameTest {
     public void runTest(ClientGameTestContext context) {
         context.runOnClient(client -> {
             VillagerModel vanilla = new VillagerModel(client.getEntityModels().bakeLayer(ModelLayers.VILLAGER));
-            VillagerWomanModel woman =
-                    new VillagerWomanModel(client.getEntityModels().bakeLayer(VillagerWomanClient.LAYER));
+            for (VillagerWomanLook look : VillagerWomanLook.values()) {
+                VillagerWomanModel woman =
+                        new VillagerWomanModel(client.getEntityModels().bakeLayer(look.layer));
+                checkLook(look.name(), vanilla, woman);
+            }
+        });
+    }
+
+    private static void checkLook(String look, VillagerModel vanilla, VillagerWomanModel woman) {
+        {
             VillagerRenderState state = new VillagerRenderState();
             state.yRot = 50.0f;
             state.xRot = -20.0f;
-            assertSameHead("gedrehter Kopf", vanilla, woman, state);
+            assertSameHead(look + ": gedrehter Kopf", vanilla, woman, state);
 
             // Kopfschütteln beim abgelehnten Handel
             state.isUnhappy = true;
             state.ageInTicks = 3.0f;
-            assertSameHead("Kopfschütteln", vanilla, woman, state);
-        });
+            assertSameHead(look + ": Kopfschütteln", vanilla, woman, state);
+        }
     }
 
     private static void assertSameHead(
