@@ -8,6 +8,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.entity.state.VillagerRenderState;
+import net.minecraft.util.Mth;
 
 /**
  * Zusatzteile der Bewohnerin über dem Vanilla-Villagermodell: langes Haar und Zopf am Hinterkopf, ein Rock über dem
@@ -40,7 +41,16 @@ final class VillagerWomanModel extends EntityModel<VillagerRenderState> {
         return LayerDefinition.create(mesh, 64, 32);
     }
 
-    void followHead(ModelPart parentHead) {
-        head.loadPose(parentHead.storePose());
+    // Gerendert wird verzögert: ModelFeatureRenderer ruft erst beim Zeichnen setupAnim(state), das die Pose
+    // zurücksetzt. Den Kopf deshalb wie VillagerModel aus dem State drehen, eine vorher kopierte Pose ginge verloren.
+    @Override
+    public void setupAnim(VillagerRenderState state) {
+        super.setupAnim(state);
+        head.yRot = state.yRot * Mth.DEG_TO_RAD;
+        head.xRot = state.xRot * Mth.DEG_TO_RAD;
+        if (state.isUnhappy) {
+            head.zRot = 0.3f * Mth.sin(0.45f * state.ageInTicks);
+            head.xRot = 0.4f;
+        }
     }
 }

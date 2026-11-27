@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.13.5] - 2026-11-27
+
+### 🐛 Behoben
+* **Bewohnerinnen:** Langes Haar und Zopf drehen sich wieder mit dem Kopf, statt wie ein Brett hinter dem Kopf stehen zu bleiben.
+
 ## [0.13.4] - 2026-11-26
 
 ### 🎨 Geändert
