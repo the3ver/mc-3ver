@@ -29,7 +29,6 @@ final class VillagerWomanLayer extends RenderLayer<VillagerRenderState, Villager
             float xRot) {
         // Babys haben ein anderes Modell, sie bekommen nur den eigenen Skin
         if (state.isBaby || state.isInvisible || !VillagerWomanClient.isFemale(state)) return;
-        model.followHead(getParentModel().getHead());
         renderColoredCutoutModel(
                 model, VillagerWomanClient.LAYER_TEXTURE, poseStack, collector, lightCoords, state, WHITE, ORDER);
     }

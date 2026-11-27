@@ -23,6 +23,7 @@ public class VillagerWomanClientGameTest implements FabricClientGameTest {
     // Unterstes UUID-Bit gerade: Bewohnerin, ungerade: Bewohner
     private static final UUID WOMAN = new UUID(1L << 32 | 2, 3L << 32 | 4);
     private static final UUID MAN = new UUID(1L << 32 | 2, 3L << 32 | 5);
+    private static final float HEAD_TURN = 60.0f;
     private static final UUID CURED = new UUID(1L << 32 | 2, 3L << 32 | 6);
 
     @Override
@@ -51,6 +52,13 @@ public class VillagerWomanClientGameTest implements FabricClientGameTest {
                 return entity instanceof Villager v && ModVillagers.isFemale(v);
             });
             check(clientSees, "Client kennt das Flag der Bewohnerin nicht");
+
+            // Kopf der Bewohnerin seitlich drehen: Haar und Zopf müssen mitgehen (Screenshot)
+            game.getServer().runOnServer(server -> {
+                Villager woman = (Villager) server.overworld().getEntity(WOMAN);
+                woman.setYHeadRot(90.0f + HEAD_TURN);
+            });
+            context.waitTicks(5);
             context.takeScreenshot("villager_woman");
 
             // 3. Zombifizieren und heilen: Flag bleibt
