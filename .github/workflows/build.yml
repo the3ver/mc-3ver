@@ -33,6 +33,9 @@ jobs:
       - name: Build Mod with Gradle
         run: ./gradlew build
 
+      - name: Test Claude hooks
+        run: bash tests/hooks.test.sh
+
       # Generierte Daten müssen zum Provider-Code passen: wer einen Provider ändert, committet auch die Ausgabe
       - name: Check generated data is up to date
         run: |

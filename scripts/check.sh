@@ -39,6 +39,8 @@ semgrep_status=0
 if command -v uvx >/dev/null; then
   PYTHONUTF8=1 uvx semgrep scan --config .semgrep --error --quiet --metrics=off --disable-version-check --emacs src >"$semgrep_log" 2>&1 &
   semgrep_pid=$!
+else
+  semgrep_note=" (Semgrep lokal übersprungen: uvx fehlt, CI prüft es)"
 fi
 ./gradlew spotlessApply check clientClasses --console=plain -q >"$log" 2>&1
 status=$?
@@ -71,7 +73,7 @@ tests=$(head -1 <<<"$summary" | cut -d' ' -f1)
 failed=$(head -1 <<<"$summary" | cut -d' ' -f2)
 
 if [ $status -eq 0 ] && [ $semgrep_status -eq 0 ]; then
-  echo "CHECK OK: ${tests:-?} Tests, ${secs}s"
+  echo "CHECK OK: ${tests:-?} Tests, ${secs}s${semgrep_note:-}"
   $hook && fingerprint >"$stamp_dir/green"
   exit 0
 fi
