@@ -28,8 +28,19 @@ public final class VillagerWomanFigure {
         HIPS
     }
 
+    /** Vorschlag zur Brust: nur Schattenstrich (Textur), kleine oder runde Wölbung. */
+    public enum BustStyle {
+        NONE,
+        TEXTURE,
+        SMALL,
+        ROUND
+    }
+
     // Vorschau: der Gametest schaltet zwischen den Screenshots um
     public static volatile ArmStyle armStyle = ArmStyle.CROSSED;
+    public static volatile BustStyle bustStyle = BustStyle.NONE;
+    private static final String BUST_SMALL = "mc3ver_woman_bust_small";
+    private static final String BUST_ROUND = "mc3ver_woman_bust_round";
     private static final String BODY = "body";
     private static final String JACKET = "jacket";
 
@@ -62,6 +73,22 @@ public final class VillagerWomanFigure {
                                 .texOffs(0, 49)
                                 .addBox(-4.0f, 11.0f, -3.0f, 8.0f, 9.0f, 6.0f, new CubeDeformation(0.5f)),
                         PartPose.ZERO);
+        // Brust auf dem Gewand, Texturzeilen 46..49 der Gewand-Vorderseite, damit Berufskleidung mitgeht
+        PartDefinition jacket = body.getChild(JACKET);
+        jacket.addOrReplaceChild(
+                BUST_SMALL,
+                CubeListBuilder.create()
+                        .texOffs(6, 46)
+                        .addBox(-3.0f, 3.0f, -4.0f, 6.0f, 2.0f, 1.0f, new CubeDeformation(0.5f)),
+                PartPose.ZERO);
+        jacket.addOrReplaceChild(
+                BUST_ROUND,
+                CubeListBuilder.create()
+                        .texOffs(6, 45)
+                        .addBox(-3.0f, 2.5f, -4.0f, 6.0f, 3.0f, 1.0f, new CubeDeformation(0.5f))
+                        .texOffs(7, 46)
+                        .addBox(-2.0f, 3.0f, -5.0f, 4.0f, 2.0f, 1.0f, new CubeDeformation(0.5f)),
+                PartPose.ZERO);
         addArms(root);
     }
 
@@ -77,7 +104,9 @@ public final class VillagerWomanFigure {
                     CubeListBuilder.create()
                             .texOffs(44, 22)
                             .mirror(side < 0)
-                            .addBox(-1.5f, 0.0f, -1.5f, 3.0f, 8.0f, 3.0f),
+                            .addBox(-1.5f, 0.0f, -1.5f, 3.0f, 8.0f, 3.0f)
+                            .texOffs(0, 12)
+                            .addBox(-1.5f, 8.0f, -1.5f, 3.0f, 2.0f, 3.0f),
                     PartPose.offsetAndRotation(6.0f * side, 0.5f, 0.0f, 0.0f, 0.0f, -0.12f * side));
             // In die Hüften gestemmt: Oberarm schräg nach außen, Unterarm zurück zur Taille
             PartDefinition upper = hips.addOrReplaceChild(
@@ -92,7 +121,9 @@ public final class VillagerWomanFigure {
                     CubeListBuilder.create()
                             .texOffs(44, 22)
                             .mirror(side < 0)
-                            .addBox(-1.5f, 0.0f, -1.5f, 3.0f, 6.0f, 3.0f),
+                            .addBox(-1.5f, 0.0f, -1.5f, 3.0f, 6.0f, 3.0f)
+                            .texOffs(0, 12)
+                            .addBox(-1.5f, 6.0f, -1.5f, 3.0f, 2.0f, 3.0f),
                     PartPose.offsetAndRotation(0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.6f * side));
         }
     }
@@ -118,5 +149,8 @@ public final class VillagerWomanFigure {
         }
         root.getChild(SIDES).visible = style == ArmStyle.SIDES;
         root.getChild(HIPS).visible = style == ArmStyle.HIPS;
+        BustStyle bust = figure ? bustStyle : BustStyle.NONE;
+        jacket.getChild(BUST_SMALL).visible = bust == BustStyle.SMALL;
+        jacket.getChild(BUST_ROUND).visible = bust == BustStyle.ROUND;
     }
 }
