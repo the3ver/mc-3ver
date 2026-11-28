@@ -16,6 +16,20 @@ import net.minecraft.client.renderer.entity.state.VillagerRenderState;
 public final class VillagerWomanFigure {
 
     static final String FIGURE = "mc3ver_woman_figure";
+    private static final String ARMS = "arms";
+    private static final String SIDES = "mc3ver_woman_arms_sides";
+    private static final String HIPS = "mc3ver_woman_arms_hips";
+
+    /** Vorschlag zur Armhaltung, nur zum Vergleichen per Screenshot (Branch explore/villager-woman-arms). */
+    public enum ArmStyle {
+        CROSSED,
+        HIGH,
+        SIDES,
+        HIPS
+    }
+
+    // Vorschau: der Gametest schaltet zwischen den Screenshots um
+    public static volatile ArmStyle armStyle = ArmStyle.CROSSED;
     private static final String BODY = "body";
     private static final String JACKET = "jacket";
 
@@ -48,6 +62,39 @@ public final class VillagerWomanFigure {
                                 .texOffs(0, 49)
                                 .addBox(-4.0f, 11.0f, -3.0f, 8.0f, 9.0f, 6.0f, new CubeDeformation(0.5f)),
                         PartPose.ZERO);
+        addArms(root);
+    }
+
+    // Arm-Texturbereich wie VillagerModel: texOffs(44,22), 4x8x4; hier 3 dick, damit die Figur schmal bleibt
+    private static void addArms(PartDefinition root) {
+        PartDefinition sides = root.addOrReplaceChild(SIDES, CubeListBuilder.create(), PartPose.ZERO);
+        PartDefinition hips = root.addOrReplaceChild(HIPS, CubeListBuilder.create(), PartPose.ZERO);
+        for (int side : new int[] {1, -1}) {
+            String name = side > 0 ? "left" : "right";
+            // Hängend, leicht vom Körper weg
+            sides.addOrReplaceChild(
+                    name,
+                    CubeListBuilder.create()
+                            .texOffs(44, 22)
+                            .mirror(side < 0)
+                            .addBox(-1.5f, 0.0f, -1.5f, 3.0f, 8.0f, 3.0f),
+                    PartPose.offsetAndRotation(6.0f * side, 0.5f, 0.0f, 0.0f, 0.0f, -0.12f * side));
+            // In die Hüften gestemmt: Oberarm schräg nach außen, Unterarm zurück zur Taille
+            PartDefinition upper = hips.addOrReplaceChild(
+                    name,
+                    CubeListBuilder.create()
+                            .texOffs(44, 22)
+                            .mirror(side < 0)
+                            .addBox(-1.5f, 0.0f, -1.5f, 3.0f, 5.0f, 3.0f),
+                    PartPose.offsetAndRotation(5.5f * side, 0.5f, 0.0f, 0.0f, 0.0f, -0.75f * side));
+            upper.addOrReplaceChild(
+                    "forearm",
+                    CubeListBuilder.create()
+                            .texOffs(44, 22)
+                            .mirror(side < 0)
+                            .addBox(-1.5f, 0.0f, -1.5f, 3.0f, 6.0f, 3.0f),
+                    PartPose.offsetAndRotation(0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 1.6f * side));
+        }
     }
 
     /** Schaltet zwischen geradem Körper und Figur um; jedes setupAnim, weil ein Modell alle Dorfbewohner zeichnet. */
@@ -60,5 +107,16 @@ public final class VillagerWomanFigure {
         jacket.skipDraw = figure;
         body.getChild(FIGURE).visible = figure;
         jacket.getChild(FIGURE).visible = figure;
+        ArmStyle style = figure ? armStyle : ArmStyle.CROSSED;
+        ModelPart arms = root.getChild(ARMS);
+        arms.visible = style == ArmStyle.CROSSED || style == ArmStyle.HIGH;
+        if (style == ArmStyle.HIGH) {
+            // Verschränkt, aber höher und schmaler: unter der Brust, Taille darunter frei
+            arms.y -= 1.0f;
+            arms.xRot = -1.05f;
+            arms.xScale = 0.8f;
+        }
+        root.getChild(SIDES).visible = style == ArmStyle.SIDES;
+        root.getChild(HIPS).visible = style == ArmStyle.HIPS;
     }
 }
