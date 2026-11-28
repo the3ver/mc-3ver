@@ -7,6 +7,7 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.npc.VillagerModel;
 import net.minecraft.client.renderer.entity.state.VillagerRenderState;
+import net.minecraft.util.RandomSource;
 
 // Erwachsene Bewohnerinnen zeichnen Figur (Taille, Brust, kurze Nase) und Hände in den Hüften, Bewohner und Babys
 // nicht. Hält sie Ware, bleiben die Arme verschränkt.
@@ -32,8 +33,21 @@ public class VillagerWomanFigureClientGameTest implements FabricClientGameTest {
                 check(layer + ": Bewohnerin mit Ware", root, true, false);
                 model.setupAnim(state(false, false, true));
                 check(layer + ": Bewohner mit Ware", root, false, false);
+                checkBustHeight(layer + ": Brust", root);
             }
         });
+    }
+
+    // Oberkante der Brust bei y 2.5: tiefer wirkt sie wie ein Schild um den Hals
+    private static void checkBustHeight(String label, ModelPart root) {
+        ModelPart bust = root.getChild("body").getChild("jacket").getChild(VillagerWomanFigure.BUST);
+        // Die Cube-Liste ist privat; getRandomCube erreicht bei 64 Zügen sicher beide Stufen
+        RandomSource random = RandomSource.create(1L);
+        float top = Float.MAX_VALUE;
+        for (int i = 0; i < 64; i++) {
+            top = Math.min(top, bust.getRandomCube(random).minY);
+        }
+        if (top != 2.5f) throw new AssertionError(label + ": Oberkante erwartet 2.5, war " + top);
     }
 
     private static VillagerRenderState state(boolean female, boolean baby, boolean holding) {

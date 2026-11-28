@@ -54,14 +54,15 @@ public final class VillagerWomanFigure {
                         .texOffs(0, 49)
                         .addBox(-4.0f, 11.0f, -3.0f, 8.0f, 9.0f, 6.0f, new CubeDeformation(0.5f)),
                 PartPose.ZERO);
-        // Brust: zwei Stufen auf der Gewand-Vorderseite (Zeilen 47..50), damit Berufskleidung mitgeht
+        // Brust: zwei Stufen auf der Gewand-Vorderseite (Zeilen 46..49), damit Berufskleidung mitgeht. Tiefer wirkt
+        // sie wie ein Schild um den Hals
         jacket.addOrReplaceChild(
                 BUST,
                 CubeListBuilder.create()
-                        .texOffs(6, 46)
-                        .addBox(-3.0f, 3.5f, -4.0f, 6.0f, 3.0f, 1.0f, new CubeDeformation(0.5f))
-                        .texOffs(7, 47)
-                        .addBox(-2.0f, 4.0f, -5.0f, 4.0f, 2.0f, 1.0f, new CubeDeformation(0.5f)),
+                        .texOffs(6, 45)
+                        .addBox(-3.0f, 2.5f, -4.0f, 6.0f, 3.0f, 1.0f, new CubeDeformation(0.5f))
+                        .texOffs(7, 46)
+                        .addBox(-2.0f, 3.0f, -5.0f, 4.0f, 2.0f, 1.0f, new CubeDeformation(0.5f)),
                 PartPose.ZERO);
         addHipArms(root);
         // Nase wie VillagerModel (texOffs(24,0), 2x4x2 ab y -3), aber nur 2 Pixel lang: obere Zeilen derselben Textur

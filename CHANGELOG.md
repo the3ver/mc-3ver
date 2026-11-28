@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.13.9] - 2026-11-28
+
+### 🎨 Geändert
+* **Bewohnerinnen:** Die Brust sitzt einen Pixel höher; tiefer wirkte sie wie ein Schild um den Hals.
+
 ## [0.13.8] - 2026-11-28
 
 ### ✨ Neu hinzugefügt
