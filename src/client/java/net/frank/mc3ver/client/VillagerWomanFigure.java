@@ -33,7 +33,9 @@ public final class VillagerWomanFigure {
         NONE,
         TEXTURE,
         SMALL,
-        ROUND
+        ROUND,
+        // Rund, 1 Pixel tiefer, mit Schattenstrich darunter und Ausschnitt oben (Strich im Layer)
+        COMBINED
     }
 
     // Vorschau: der Gametest schaltet zwischen den Screenshots um
@@ -41,6 +43,7 @@ public final class VillagerWomanFigure {
     public static volatile BustStyle bustStyle = BustStyle.NONE;
     private static final String BUST_SMALL = "mc3ver_woman_bust_small";
     private static final String BUST_ROUND = "mc3ver_woman_bust_round";
+    private static final String BUST_LOW = "mc3ver_woman_bust_low";
     private static final String BODY = "body";
     private static final String JACKET = "jacket";
 
@@ -88,6 +91,14 @@ public final class VillagerWomanFigure {
                         .addBox(-3.0f, 2.5f, -4.0f, 6.0f, 3.0f, 1.0f, new CubeDeformation(0.5f))
                         .texOffs(7, 46)
                         .addBox(-2.0f, 3.0f, -5.0f, 4.0f, 2.0f, 1.0f, new CubeDeformation(0.5f)),
+                PartPose.ZERO);
+        jacket.addOrReplaceChild(
+                BUST_LOW,
+                CubeListBuilder.create()
+                        .texOffs(6, 46)
+                        .addBox(-3.0f, 3.5f, -4.0f, 6.0f, 3.0f, 1.0f, new CubeDeformation(0.5f))
+                        .texOffs(7, 47)
+                        .addBox(-2.0f, 4.0f, -5.0f, 4.0f, 2.0f, 1.0f, new CubeDeformation(0.5f)),
                 PartPose.ZERO);
         addArms(root);
     }
@@ -152,5 +163,6 @@ public final class VillagerWomanFigure {
         BustStyle bust = figure ? bustStyle : BustStyle.NONE;
         jacket.getChild(BUST_SMALL).visible = bust == BustStyle.SMALL;
         jacket.getChild(BUST_ROUND).visible = bust == BustStyle.ROUND;
+        jacket.getChild(BUST_LOW).visible = bust == BustStyle.COMBINED;
     }
 }

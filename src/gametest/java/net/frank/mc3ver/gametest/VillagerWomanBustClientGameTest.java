@@ -36,7 +36,7 @@ public class VillagerWomanBustClientGameTest implements FabricClientGameTest {
             summon(PROFILE_Z, 0, new UUID(31L, 4L), FARMER, game);
             summon(PROFILE_Z + 1.6, 0, new UUID(31L, 1L), "", game);
             context.runOnClient(client -> VillagerWomanFigure.armStyle = ArmStyle.HIPS);
-            for (BustStyle style : BustStyle.values()) {
+            for (BustStyle style : new BustStyle[] {BustStyle.NONE, BustStyle.ROUND, BustStyle.COMBINED}) {
                 context.runOnClient(client -> VillagerWomanFigure.bustStyle = style);
                 String name = "bust_" + style.name().toLowerCase(Locale.ROOT);
                 shot(context, game, name + "_diagonal", 0.0, -3.2, 0.0);

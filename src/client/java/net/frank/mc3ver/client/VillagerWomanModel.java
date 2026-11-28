@@ -20,11 +20,15 @@ final class VillagerWomanModel extends EntityModel<VillagerRenderState> {
     private final ModelPart head;
 
     private final ModelPart bustMark;
+    private final ModelPart bustShadow;
+    private final ModelPart neckline;
 
     VillagerWomanModel(ModelPart root) {
         super(root);
         this.head = root.getChild("head");
         this.bustMark = root.getChild("bust_mark");
+        this.bustShadow = root.getChild("bust_shadow");
+        this.neckline = root.getChild("neckline");
     }
 
     static LayerDefinition createLayer(VillagerWomanLook look) {
@@ -44,6 +48,17 @@ final class VillagerWomanModel extends EntityModel<VillagerRenderState> {
                 "bust_mark",
                 CubeListBuilder.create().texOffs(40, 8).addBox(-3.0f, 4.5f, -3.6f, 6.0f, 2.0f, 0.0f),
                 PartPose.ZERO);
+        // Zur runden Brust: Schattenstrich auf der Unterkante der Wölbung (vor deren unterer Stufe) und ein
+        // hautfarbenes
+        // V als Ausschnitt; die Mitte des V verdeckt die Villager-Nase, die Ränder bleiben sichtbar
+        root.addOrReplaceChild(
+                "bust_shadow",
+                CubeListBuilder.create().texOffs(40, 10).addBox(-3.0f, 6.5f, -4.55f, 6.0f, 0.5f, 0.0f),
+                PartPose.ZERO);
+        root.addOrReplaceChild(
+                "neckline",
+                CubeListBuilder.create().texOffs(48, 8).addBox(-3.0f, 0.0f, -3.6f, 6.0f, 3.0f, 0.0f),
+                PartPose.ZERO);
         return LayerDefinition.create(mesh, 64, 32);
     }
 
@@ -55,6 +70,8 @@ final class VillagerWomanModel extends EntityModel<VillagerRenderState> {
         head.yRot = state.yRot * Mth.DEG_TO_RAD;
         head.xRot = state.xRot * Mth.DEG_TO_RAD;
         bustMark.visible = VillagerWomanFigure.bustStyle == VillagerWomanFigure.BustStyle.TEXTURE;
+        bustShadow.visible = VillagerWomanFigure.bustStyle == VillagerWomanFigure.BustStyle.COMBINED;
+        neckline.visible = VillagerWomanFigure.bustStyle == VillagerWomanFigure.BustStyle.COMBINED;
         if (state.isUnhappy) {
             head.zRot = 0.3f * Mth.sin(0.45f * state.ageInTicks);
             head.xRot = 0.4f;
