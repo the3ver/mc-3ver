@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.gametest.v1.screenshot.TestScreenshotOptio
 import net.frank.mc3ver.client.VillagerWomanFigure;
 import net.frank.mc3ver.client.VillagerWomanFigure.ArmStyle;
 import net.frank.mc3ver.client.VillagerWomanFigure.BustStyle;
+import net.frank.mc3ver.client.VillagerWomanFigure.NoseStyle;
 
 // Vorschläge zur Brust der Bewohnerin, alle mit Händen in den Hüften: je Vorschlag schräg von vorn und im Profil.
 // Von vorn: Bewohner, Bewohnerin, Bäuerin. Im Profil: Bewohnerin, Bäuerin, Bewohner.
@@ -42,7 +43,17 @@ public class VillagerWomanBustClientGameTest implements FabricClientGameTest {
                 shot(context, game, name + "_diagonal", 0.0, -3.2, 0.0);
                 shot(context, game, name + "_profile", -0.5, PROFILE_Z, PROFILE_Z);
             }
+            // Nase: mit tiefer Wölbung ohne Striche, schräg, im Profil und frontal nah am Gesicht
+            context.runOnClient(client -> VillagerWomanFigure.bustStyle = BustStyle.LOW);
+            for (NoseStyle nose : NoseStyle.values()) {
+                context.runOnClient(client -> VillagerWomanFigure.noseStyle = nose);
+                String name = "nose_" + nose.name().toLowerCase(Locale.ROOT);
+                shot(context, game, name + "_diagonal", 0.0, -3.2, 0.0);
+                shot(context, game, name + "_profile", -0.5, PROFILE_Z, PROFILE_Z);
+                shot(context, game, name + "_face", 1.2, 0.0, 0.0);
+            }
             context.runOnClient(client -> {
+                VillagerWomanFigure.noseStyle = NoseStyle.VANILLA;
                 VillagerWomanFigure.armStyle = ArmStyle.CROSSED;
                 VillagerWomanFigure.bustStyle = BustStyle.NONE;
             });

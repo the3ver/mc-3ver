@@ -35,8 +35,23 @@ public final class VillagerWomanFigure {
         SMALL,
         ROUND,
         // Rund, 1 Pixel tiefer, mit Schattenstrich darunter und Ausschnitt oben (Strich im Layer)
-        COMBINED
+        COMBINED,
+        // Rund, 1 Pixel tiefer, ohne Striche
+        LOW
     }
+
+    /** Vorschlag zur Nase: Vanilla 4 Pixel lang, gekürzt auf 3 oder 2. */
+    public enum NoseStyle {
+        VANILLA,
+        THREE,
+        TWO
+    }
+
+    public static volatile NoseStyle noseStyle = NoseStyle.VANILLA;
+    private static final String HEAD = "head";
+    private static final String NOSE = "nose";
+    private static final String NOSE_THREE = "mc3ver_woman_nose_three";
+    private static final String NOSE_TWO = "mc3ver_woman_nose_two";
 
     // Vorschau: der Gametest schaltet zwischen den Screenshots um
     public static volatile ArmStyle armStyle = ArmStyle.CROSSED;
@@ -101,6 +116,16 @@ public final class VillagerWomanFigure {
                         .addBox(-2.0f, 4.0f, -5.0f, 4.0f, 2.0f, 1.0f, new CubeDeformation(0.5f)),
                 PartPose.ZERO);
         addArms(root);
+        // Nase wie VillagerModel: texOffs(24,0), 2x4x2 ab y -3; kürzer = obere Zeilen derselben Textur
+        PartDefinition head = root.getChild(HEAD);
+        head.addOrReplaceChild(
+                NOSE_THREE,
+                CubeListBuilder.create().texOffs(24, 0).addBox(-1.0f, -1.0f, -6.0f, 2.0f, 3.0f, 2.0f),
+                PartPose.offset(0.0f, -2.0f, 0.0f));
+        head.addOrReplaceChild(
+                NOSE_TWO,
+                CubeListBuilder.create().texOffs(24, 0).addBox(-1.0f, -1.0f, -6.0f, 2.0f, 2.0f, 2.0f),
+                PartPose.offset(0.0f, -2.0f, 0.0f));
     }
 
     // Arm-Texturbereich wie VillagerModel: texOffs(44,22), 4x8x4; hier 3 dick, damit die Figur schmal bleibt
@@ -163,6 +188,11 @@ public final class VillagerWomanFigure {
         BustStyle bust = figure ? bustStyle : BustStyle.NONE;
         jacket.getChild(BUST_SMALL).visible = bust == BustStyle.SMALL;
         jacket.getChild(BUST_ROUND).visible = bust == BustStyle.ROUND;
-        jacket.getChild(BUST_LOW).visible = bust == BustStyle.COMBINED;
+        jacket.getChild(BUST_LOW).visible = bust == BustStyle.COMBINED || bust == BustStyle.LOW;
+        NoseStyle nose = figure ? noseStyle : NoseStyle.VANILLA;
+        ModelPart head = root.getChild(HEAD);
+        head.getChild(NOSE).visible = nose == NoseStyle.VANILLA;
+        head.getChild(NOSE_THREE).visible = nose == NoseStyle.THREE;
+        head.getChild(NOSE_TWO).visible = nose == NoseStyle.TWO;
     }
 }
