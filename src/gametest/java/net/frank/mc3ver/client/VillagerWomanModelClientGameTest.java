@@ -18,9 +18,9 @@ public class VillagerWomanModelClientGameTest implements FabricClientGameTest {
     public void runTest(ClientGameTestContext context) {
         context.runOnClient(client -> {
             VillagerModel vanilla = new VillagerModel(client.getEntityModels().bakeLayer(ModelLayers.VILLAGER));
-            for (VillagerWomanLook look : VillagerWomanLook.values()) {
+            for (VillagerWomanLook look : VillagerWomanLook.ALL) {
                 VillagerWomanModel woman =
-                        new VillagerWomanModel(client.getEntityModels().bakeLayer(look.layer));
+                        new VillagerWomanModel(client.getEntityModels().bakeLayer(look.layer()));
                 checkLook(look.name(), vanilla, woman);
             }
         });

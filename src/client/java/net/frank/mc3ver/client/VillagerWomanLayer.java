@@ -34,6 +34,6 @@ final class VillagerWomanLayer extends RenderLayer<VillagerRenderState, Villager
         if (state.isBaby || state.isInvisible || !VillagerWomanClient.isFemale(state)) return;
         VillagerWomanLook look = VillagerWomanClient.look(state);
         renderColoredCutoutModel(
-                models.get(look), look.layerTexture, poseStack, collector, lightCoords, state, WHITE, ORDER);
+                models.get(look), look.layerTexture(), poseStack, collector, lightCoords, state, WHITE, ORDER);
     }
 }
