@@ -3,6 +3,7 @@ package net.frank.mc3ver.client;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
@@ -27,9 +28,12 @@ final class VillagerWomanModel extends EntityModel<VillagerRenderState> {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
         root.addOrReplaceChild("head", look.hair(), PartPose.ZERO);
+        // Etwas Aufschlag, sonst liegt der Rock genau auf der Hüfte der Figur (VillagerWomanFigure) und flimmert
         root.addOrReplaceChild(
                 "skirt",
-                CubeListBuilder.create().texOffs(0, 12).addBox(-5.0f, 12.0f, -4.0f, 10.0f, 8.0f, 8.0f),
+                CubeListBuilder.create()
+                        .texOffs(0, 12)
+                        .addBox(-5.0f, 12.0f, -4.0f, 10.0f, 8.0f, 8.0f, new CubeDeformation(0.3f)),
                 PartPose.ZERO);
         return LayerDefinition.create(mesh, 64, 32);
     }
