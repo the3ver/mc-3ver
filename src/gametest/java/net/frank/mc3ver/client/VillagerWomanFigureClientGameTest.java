@@ -8,7 +8,8 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.npc.VillagerModel;
 import net.minecraft.client.renderer.entity.state.VillagerRenderState;
 
-// Erwachsene Bewohnerinnen zeichnen die Figur mit Taille statt der geraden Quader, Bewohner und Babys nicht.
+// Erwachsene Bewohnerinnen zeichnen Figur (Taille, Brust, kurze Nase) und Hände in den Hüften, Bewohner und Babys
+// nicht. Hält sie Ware, bleiben die Arme verschränkt.
 // Ein Modell zeichnet alle Dorfbewohner nacheinander, das Umschalten muss deshalb in beide Richtungen greifen.
 public class VillagerWomanFigureClientGameTest implements FabricClientGameTest {
 
@@ -18,31 +19,45 @@ public class VillagerWomanFigureClientGameTest implements FabricClientGameTest {
             for (ModelLayerLocation layer :
                     new ModelLayerLocation[] {ModelLayers.VILLAGER, ModelLayers.VILLAGER_NO_HAT}) {
                 VillagerModel model = new VillagerModel(client.getEntityModels().bakeLayer(layer));
-                ModelPart body = model.root().getChild("body");
-                ModelPart jacket = body.getChild("jacket");
+                ModelPart root = model.root();
 
-                model.setupAnim(state(true, false));
-                check(layer + ": Bewohnerin", body, jacket, true);
-                model.setupAnim(state(false, false));
-                check(layer + ": Bewohner", body, jacket, false);
-                model.setupAnim(state(true, true));
-                check(layer + ": Baby", body, jacket, false);
+                model.setupAnim(state(true, false, false));
+                check(layer + ": Bewohnerin", root, true, true);
+                model.setupAnim(state(false, false, false));
+                check(layer + ": Bewohner", root, false, false);
+                model.setupAnim(state(true, true, false));
+                check(layer + ": Baby", root, false, false);
+                // Mit Ware in der Hand: Figur bleibt, Arme verschränkt
+                model.setupAnim(state(true, false, true));
+                check(layer + ": Bewohnerin mit Ware", root, true, false);
+                model.setupAnim(state(false, false, true));
+                check(layer + ": Bewohner mit Ware", root, false, false);
             }
         });
     }
 
-    private static VillagerRenderState state(boolean female, boolean baby) {
+    private static VillagerRenderState state(boolean female, boolean baby, boolean holding) {
         VillagerRenderState state = new VillagerRenderState();
         state.setData(VillagerWomanClient.FEMALE, female);
         state.isBaby = baby;
+        if (holding) state.heldItem.newLayer();
         return state;
     }
 
-    private static void check(String label, ModelPart body, ModelPart jacket, boolean figure) {
-        boolean ok = body.skipDraw == figure
+    private static void check(String label, ModelPart root, boolean figure, boolean hipArms) {
+        ModelPart body = root.getChild("body");
+        ModelPart jacket = body.getChild("jacket");
+        ModelPart head = root.getChild("head");
+        boolean figureOk = body.skipDraw == figure
                 && jacket.skipDraw == figure
                 && body.getChild(VillagerWomanFigure.FIGURE).visible == figure
-                && jacket.getChild(VillagerWomanFigure.FIGURE).visible == figure;
-        if (!ok) throw new AssertionError(label + ": Figur erwartet " + figure);
+                && jacket.getChild(VillagerWomanFigure.FIGURE).visible == figure
+                && jacket.getChild(VillagerWomanFigure.BUST).visible == figure
+                && head.getChild("nose").visible != figure
+                && head.getChild(VillagerWomanFigure.NOSE).visible == figure;
+        if (!figureOk) throw new AssertionError(label + ": Figur erwartet " + figure);
+        boolean armsOk = root.getChild("arms").visible != hipArms
+                && root.getChild(VillagerWomanFigure.HIP_ARMS).visible == hipArms;
+        if (!armsOk) throw new AssertionError(label + ": Hände in den Hüften erwartet " + hipArms);
     }
 }

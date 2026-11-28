@@ -4,6 +4,11 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.13.8] - 2026-11-28
+
+### ✨ Neu hinzugefügt
+* **Bewohnerinnen:** Hände in die Hüften gestemmt, eine angedeutete Brust und eine kürzere Nase. Hält eine Bewohnerin Ware, verschränkt sie die Arme wie bisher.
+
 ## [0.13.7] - 2026-11-28
 
 ### ✨ Neu hinzugefügt

@@ -6,9 +6,14 @@ import net.fabricmc.fabric.api.client.gametest.v1.context.ClientGameTestContext;
 import net.fabricmc.fabric.api.client.gametest.v1.context.TestSingleplayerContext;
 import net.fabricmc.fabric.api.client.gametest.v1.screenshot.TestScreenshotOptions;
 import net.frank.mc3ver.village.VillagerGenderLogic;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 // Alle Aussehen der Bewohnerin nebeneinander, von vorn, schräg von vorn und schräg von hinten, zum Vergleichen.
-// Dazu Figur mit Taille und Hüfte neben einem Bewohner, ohne und mit Beruf.
+// Dazu die Figur neben einem Bewohner: ohne Beruf, mit Beruf, Bäuerin mit Ware (Arme verschränkt).
 // Aufruf: ./gradlew runClientGameTest, Screenshots unter build/run/clientGameTest/screenshots
 public class VillagerWomanLooksClientGameTest implements FabricClientGameTest {
 
@@ -41,6 +46,11 @@ public class VillagerWomanLooksClientGameTest implements FabricClientGameTest {
             summon(X, FIGURES_Z - 0.8, new UUID(10L, 0L), 90, "", game);
             summon(X, FIGURES_Z + 0.8, new UUID(10L, 3L), 90, FARMER, game);
             summon(X, FIGURES_Z + 2.4, new UUID(10L, 4L), 90, FARMER, game);
+            // Bäuerin mit Ware: Arme bleiben verschränkt
+            game.getServer().runOnServer(server -> {
+                Entity farmer = server.overworld().getEntity(new UUID(10L, 4L));
+                ((Villager) farmer).setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.EMERALD));
+            });
             summon(X, PROFILE_Z - 1.0, new UUID(11L, 1L), 0, "", game);
             summon(X, PROFILE_Z + 1.0, new UUID(11L, 0L), 0, "", game);
 
