@@ -2,6 +2,7 @@ package net.frank.mc3ver.client.mixin;
 
 import net.frank.mc3ver.client.VillagerWomanClient;
 import net.frank.mc3ver.village.ModVillagers;
+import net.frank.mc3ver.village.VillagerGenderLogic;
 import net.minecraft.client.renderer.entity.VillagerRenderer;
 import net.minecraft.client.renderer.entity.state.VillagerRenderState;
 import net.minecraft.resources.Identifier;
@@ -23,6 +24,9 @@ abstract class VillagerRendererMixin {
     private void mc3ver$extractFemale(
             Villager villager, VillagerRenderState state, float unusedPartialTick, CallbackInfo unusedCi) {
         state.setData(VillagerWomanClient.FEMALE, ModVillagers.isFemale(villager));
+        state.setData(
+                VillagerWomanClient.LOOK,
+                VillagerGenderLogic.look(villager.getUUID(), VillagerWomanClient.lookCount()));
     }
 
     @Inject(

@@ -33,4 +33,24 @@ class VillagerGenderLogicTest {
         }
         assertTrue(female > total * 0.45 && female < total * 0.55, "Anteil weiblich: " + female + "/" + total);
     }
+
+    @Test
+    void lookUsesTheBitsAboveTheGenderBit() {
+        assertEquals(0, VillagerGenderLogic.look(new UUID(7L, 0L), 3));
+        assertEquals(1, VillagerGenderLogic.look(new UUID(7L, 2L), 3));
+        assertEquals(2, VillagerGenderLogic.look(new UUID(7L, 4L), 3));
+        assertEquals(0, VillagerGenderLogic.look(new UUID(7L, 6L), 3));
+        assertEquals(1, VillagerGenderLogic.look(new UUID(7L, -2L), 3));
+    }
+
+    @Test
+    void looksAreSpreadEvenlyAmongWomen() {
+        Random random = new Random(7);
+        int[] counts = new int[3];
+        for (int i = 0; i < 9_000; i++) {
+            UUID uuid = new UUID(random.nextLong(), random.nextLong() & ~1L);
+            counts[VillagerGenderLogic.look(uuid, 3)]++;
+        }
+        for (int count : counts) assertTrue(count > 2_700 && count < 3_300, "Verteilung: " + count);
+    }
 }

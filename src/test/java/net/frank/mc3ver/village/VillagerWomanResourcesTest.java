@@ -23,6 +23,8 @@ class VillagerWomanResourcesTest {
     void skinsMatchTheVanillaVillagerLayout() throws Exception {
         assertSize("villager_woman.png", 64, 64);
         assertSize("villager_woman_baby.png", 64, 64);
+        assertSize("villager_woman_pigtails.png", 64, 64);
+        assertSize("villager_woman_bun.png", 64, 64);
     }
 
     // Augen der Bewohnerin (und damit der Bäckerin): je ein Pixel in Zeile 4 der Gesichtsvorderseite
@@ -47,5 +49,7 @@ class VillagerWomanResourcesTest {
     @Test
     void braidAndSkirtLayerMatchesItsModel() throws Exception {
         assertSize("villager_woman_layer.png", 64, 32);
+        assertSize("villager_woman_pigtails_layer.png", 64, 32);
+        assertSize("villager_woman_bun_layer.png", 64, 32);
     }
 }

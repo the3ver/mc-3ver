@@ -4,6 +4,26 @@ Alle wichtigen Änderungen am Projekt **WorldExplorerMod (mc-3ver)** werden in d
 
 Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/) und das Projekt hält sich an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [0.13.9] - 2026-11-28
+
+### 🎨 Geändert
+* **Bewohnerinnen:** Die Brust sitzt einen Pixel höher; tiefer wirkte sie wie ein Schild um den Hals.
+
+## [0.13.8] - 2026-11-28
+
+### ✨ Neu hinzugefügt
+* **Bewohnerinnen:** Hände in die Hüften gestemmt, eine angedeutete Brust und eine kürzere Nase. Hält eine Bewohnerin Ware, verschränkt sie die Arme wie bisher.
+
+## [0.13.7] - 2026-11-28
+
+### ✨ Neu hinzugefügt
+* **Bewohnerinnen:** Schmalere Taille und ein Rock, der als Hüfte ansetzt. Grundskin, Biom- und Berufskleidung liegen weiter auf der Figur.
+
+## [0.13.6] - 2026-11-27
+
+### ✨ Neu hinzugefügt
+* **Bewohnerinnen:** Zwei weitere Aussehen: blonde Zöpfe mit türkisem Kleid und dunkler Haarknoten mit Blume und blauem Kleid. Die UUID wählt das Aussehen.
+
 ## [0.13.5] - 2026-11-27
 
 ### 🐛 Behoben

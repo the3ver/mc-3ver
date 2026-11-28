@@ -11,4 +11,9 @@ public final class VillagerGenderLogic {
     public static boolean isFemale(UUID uuid) {
         return (uuid.getLeastSignificantBits() & 1L) == 0L;
     }
+
+    // Aussehen der Bewohnerin: die Bits über dem Geschlechtsbit, damit jede Variante etwa gleich oft vorkommt
+    public static int look(UUID uuid, int looks) {
+        return (int) ((uuid.getLeastSignificantBits() >>> 1) % looks);
+    }
 }
